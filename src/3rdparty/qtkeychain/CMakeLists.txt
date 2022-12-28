@@ -3,8 +3,8 @@ set(LIB_NAME keychain)
 set(LIB_SOURCES
     qtkeychain/keychain.cpp
     qtkeychain/keychain.h
-    keychainclass.cpp
-    keychainclass.h
+    keychainservice.cpp
+    keychainservice.h
 )
 
 if(APPLE)
@@ -20,6 +20,10 @@ qt_add_library(${LIB_NAME} STATIC
 target_link_libraries(${LIB_NAME} PUBLIC
     Qt6::Core
     ${LIB_LIBRARIES}
+)
+
+target_compile_definitions(${LIB_NAME} PRIVATE
+    QTKEYCHAIN_NO_EXPORT
 )
 
 target_include_directories(${LIB_NAME} PUBLIC

@@ -1,18 +1,16 @@
-#include "keychainclass.h"
+#include "keychainservice.h"
 
 #include "keychain.h"
 
-#include <QDebug>
-
-KeyChainClass::KeyChainClass(const QString &service, QObject* parent)
+KeyChainService::KeyChainService(const QString &name, QObject* parent)
     : QObject(parent)
-    , m_service(service)
+    , m_name(name)
 {
 }
 
-void KeyChainClass::readKey(const QString &key)
+void KeyChainService::readKey(const QString &key)
 {
-    auto read_job = new QKeychain::ReadPasswordJob(m_service);
+    auto read_job = new QKeychain::ReadPasswordJob(m_name);
     read_job->setKey(key);
 
     connect(read_job, &QKeychain::ReadPasswordJob::finished, this, [=]() {
@@ -26,9 +24,9 @@ void KeyChainClass::readKey(const QString &key)
     read_job->start();
 }
 
-void KeyChainClass::writeKey(const QString &key, const QString &value)
+void KeyChainService::writeKey(const QString &key, const QString &value)
 {
-    auto write_job = new QKeychain::WritePasswordJob(m_service);
+    auto write_job = new QKeychain::WritePasswordJob(m_name);
     write_job->setKey(key);
 
     connect(write_job, &QKeychain::WritePasswordJob::finished, this, [=](){
@@ -43,9 +41,9 @@ void KeyChainClass::writeKey(const QString &key, const QString &value)
     write_job->start();
 }
 
-void KeyChainClass::deleteKey(const QString &key)
+void KeyChainService::deleteKey(const QString &key)
 {
-    auto delete_job = new QKeychain::DeletePasswordJob(m_service);
+    auto delete_job = new QKeychain::DeletePasswordJob(m_name);
     delete_job->setKey(key);
 
     connect(delete_job, &QKeychain::DeletePasswordJob::finished, this, [=]() {

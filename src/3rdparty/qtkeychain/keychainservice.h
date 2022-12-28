@@ -6,11 +6,11 @@ namespace QKeychain {
 class Job;
 }
 
-class KeyChainClass: public QObject
+class KeyChainService: public QObject
 {
     Q_OBJECT
 public:
-    explicit KeyChainClass(const QString& service, QObject* parent = nullptr);
+    explicit KeyChainService(const QString& name, QObject* parent = nullptr);
 
     Q_INVOKABLE void readKey(const QString& key);
     Q_INVOKABLE void writeKey(const QString& key, const QString& value);
@@ -23,5 +23,5 @@ Q_SIGNALS:
     void error(const QString& errorText);
 
 private:
-    QString m_service;
+    QString m_name;
 };
