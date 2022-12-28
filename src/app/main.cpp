@@ -1,9 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
+#include "keychainclass.h"
 
 int main(int argc, char *argv[])
 {
+    KeyChainClass keyChainClass("toggltracktasks.app");
+
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -13,6 +17,7 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+    engine.rootContext()->setContextProperty("KeyChain", &keyChainClass);
     engine.load(url);
 
     return app.exec();

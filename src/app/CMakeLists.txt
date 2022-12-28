@@ -31,11 +31,12 @@ set_target_properties(${APP_NAME} PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(${APP_NAME}
-    PRIVATE Qt6::Quick
+target_link_libraries(${APP_NAME} PRIVATE
+    Qt6::Quick
+    keychain
 )
 
-install(TARGETS ${APP_NAME}
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
+# install(TARGETS ${APP_NAME}
+#     BUNDLE DESTINATION .
+#     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+# )
