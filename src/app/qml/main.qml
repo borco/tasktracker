@@ -1,53 +1,83 @@
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Window {
     id: root
+
+    readonly property string usernameKey: 'user'
+    readonly property string passwordKey: 'password'
 
     width: 640
     height: 480
     visible: true
 
-    Column {
-        anchors {
-            fill: parent
-            margins: 50
-        }
-        spacing: 20
+    GridLayout {
+        anchors.fill: parent
+        anchors.margins: 20
+
+        columns: 2
+        columnSpacing: 20
 
         Label {
-            text: 'Key name:'
-            font.pixelSize: 20
+            text: qsTr('Username:')
         }
 
         TextField {
-            id: keyNameTextField
-
-            width: parent.width
-            height: 50
-
-            text: 'default key name'
+            id: usernameInput
+            Layout.fillWidth: true
         }
 
         Label {
-            text: 'Key value:'
-            font.pixelSize: 20
+            text: qsTr('Password:')
         }
 
         TextField {
-            id: keyValueTextField
+            id: passwordInput
+            Layout.fillWidth: true
+        }
 
-            width: parent.width
-            height: 50
+        RowLayout {
+            GridLayout.columnSpan: 2
 
-            text: 'some value'
+            Button {
+                Layout.preferredWidth: 80
+                text: qsTr('Store')
+
+                onClicked: {
+                    KeyChain.writeKey(usernameKey, usernameInput.text.trim())
+                    KeyChain.writeKey(passwordKey, passwordInput.text.trim())
+                }
+            }
+
+            Button {
+                Layout.preferredWidth: 80
+                text: qsTr('Restore')
+
+                onClicked: {
+                    KeyChain.readKey(usernameKey)
+                    KeyChain.readKey(passwordKey)
+                }
+            }
+
+            Button {
+                Layout.preferredWidth: 80
+                text: qsTr('Delete')
+
+                onClicked: {
+                    KeyChain.deleteKey(usernameKey)
+                    KeyChain.deleteKey(passwordKey)
+                }
+            }
         }
 
         Label {
             id: infoLabel
 
-            width: parent.width
+            Layout.fillWidth: true
+            GridLayout.columnSpan: 2
+
             wrapMode: Text.Wrap
             visible: false
 
@@ -64,68 +94,47 @@ Window {
                     script: infoLabel.visible = false
                 }
             }
+        }
 
-            Component.onCompleted: {
-                KeyChain.keyStored.connect((key) => {
-                                               infoLabel.text = String("Key '%1' successfully stored").arg(key)
-                                               infoLabel.color = 'green'
-                                               infoLabel.visible = true
-                                           })
+        Item {
+            Layout.fillHeight: true
+            GridLayout.columnSpan: 2
+        }
+    }
 
-                KeyChain.keyRestored.connect((key, value) => {
-                                               infoLabel.text = String("Key '%1' successfully restored with data '%2'").arg(key).arg(value)
-                                               infoLabel.color = 'green'
-                                               infoLabel.visible = true
-                                           })
+    Connections {
+        target: KeyChain
 
-                KeyChain.keyDeleted.connect((key) => {
-                                               infoLabel.text = String("Key '%1' successfully deleted").arg(key)
-                                               infoLabel.color = 'green'
-                                               infoLabel.visible = true
-                                           })
+        function onKeyStored(key) {
+            infoLabel.text = String("Key '%1' successfully stored").arg(key)
+            infoLabel.color = 'green'
+            infoLabel.visible = true
+        }
 
-                KeyChain.error.connect((errorText) => {
-                                               infoLabel.text = errorText
-                                               infoLabel.color = 'red'
-                                               infoLabel.visible = true
-                                           })
+        function onKeyDeleted(key) {
+            infoLabel.text = String("Key '%1' successfully deleted").arg(key)
+            infoLabel.color = 'green'
+            infoLabel.visible = true
+        }
+
+        function onKeyRestored(key, value) {
+            infoLabel.text = String("Key '%1' successfully restored with data '%2'").arg(key).arg(value)
+            infoLabel.color = 'green'
+            infoLabel.visible = true
+            switch (key) {
+            case usernameKey:
+                usernameInput.text = value
+                break
+            case passwordKey:
+                passwordInput.text = value
+                break
             }
         }
 
-        Row {
-            width: parent.width
-            height: 50
-            spacing: 20
-
-            Button {
-                width: 80
-                height: parent.height
-                text: 'Store'
-
-                onClicked: {
-                    KeyChain.writeKey(keyNameTextField.text.trim(), keyValueTextField.text.trim())
-                }
-            }
-
-            Button {
-                width: 80
-                height: parent.height
-                text: 'Restore'
-
-                onClicked: {
-                    KeyChain.readKey(keyNameTextField.text.trim())
-                }
-            }
-
-            Button {
-                width: 80
-                height: parent.height
-                text: 'Delete'
-                onClicked: {
-                    KeyChain.deleteKey(keyNameTextField.text.trim())
-                }
-            }
+        function onError(errorText) {
+            infoLabel.text = errorText
+            infoLabel.color = 'red'
+            infoLabel.visible = true
         }
-
     }
 }

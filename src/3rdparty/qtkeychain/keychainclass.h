@@ -1,9 +1,10 @@
-#ifndef KEYCHAINCLASS_H
-#define KEYCHAINCLASS_H
+#pragma once
 
 #include <QObject>
 
-#include <keychain.h>
+namespace QKeychain {
+class Job;
+}
 
 class KeyChainClass: public QObject
 {
@@ -22,9 +23,5 @@ Q_SIGNALS:
     void error(const QString& errorText);
 
 private:
-    QKeychain::ReadPasswordJob   m_readCredentialJob;
-    QKeychain::WritePasswordJob  m_writeCredentialJob;
-    QKeychain::DeletePasswordJob m_deleteCredentialJob;
+    QString m_service;
 };
-
-#endif // KEYCHAINCLASS_H
