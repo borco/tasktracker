@@ -21,6 +21,8 @@ qt_add_qml_module(${APP_NAME}
     qml/main.qml
     RESOURCES
     icons/app.svg
+    icons/password_visible.svg
+    icons/password_hidden.svg
 )
 
 set_target_properties(${APP_NAME} PROPERTIES

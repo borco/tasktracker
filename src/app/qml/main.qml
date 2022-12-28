@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import Qt.labs.settings
 
 Window {
     id: root
@@ -48,10 +49,22 @@ Window {
             text: qsTr('Password:')
         }
 
-        TextField {
-            id: passwordInput
-            echoMode: TextInput.PasswordEchoOnEdit
+        RowLayout {
             Layout.fillWidth: true
+            TextField {
+                id: passwordInput
+                echoMode: TextInput.PasswordEchoOnEdit
+                Layout.fillWidth: true
+            }
+
+            ToolButton {
+                icon.source: passwordInput.echoMode === TextInput.PasswordEchoOnEdit
+                             ? "../icons/password_hidden.svg"
+                             : "../icons/password_visible.svg"
+                onClicked: passwordInput.echoMode === TextInput.PasswordEchoOnEdit
+                           ? passwordInput.echoMode = TextInput.Normal
+                           : passwordInput.echoMode = TextInput.PasswordEchoOnEdit
+            }
         }
 
         RowLayout {
@@ -143,6 +156,10 @@ Window {
             infoLabel.color = 'red'
             infoLabel.visible = true
         }
+    }
+
+    Settings {
+        property alias passwordEchoMode: passwordInput.echoMode
     }
 
     Component.onCompleted: {
