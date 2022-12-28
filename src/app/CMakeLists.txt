@@ -6,7 +6,7 @@ set(APP_NAME toggltracktasks)
 set(MACOSX_BUNDLE_ICON_FILE icon.icns)
 
 # And the following tells CMake where to find and install the file itself.
-set(APP_ICON_MACOS "${CMAKE_SOURCE_DIR}/src/resources/icons/${MACOSX_BUNDLE_ICON_FILE}")
+set(APP_ICON_MACOS "icons/${MACOSX_BUNDLE_ICON_FILE}")
 set_source_files_properties(${APP_ICON_MACOS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 
 qt_add_executable(${APP_NAME}
@@ -18,7 +18,9 @@ qt_add_qml_module(${APP_NAME}
     URI TogglTrackTasks
     VERSION 1.0
     QML_FILES
-    main.qml
+    qml/main.qml
+    RESOURCES
+    icons/app.svg
 )
 
 set_target_properties(${APP_NAME} PROPERTIES
