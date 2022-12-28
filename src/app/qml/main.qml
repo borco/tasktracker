@@ -9,6 +9,21 @@ Window {
     readonly property string usernameKey: 'user'
     readonly property string passwordKey: 'password'
 
+    function readCredentials() {
+        KeyChain.readKey(usernameKey)
+        KeyChain.readKey(passwordKey)
+    }
+
+    function writeCredentials() {
+        KeyChain.writeKey(usernameKey, usernameInput.text.trim())
+        KeyChain.writeKey(passwordKey, passwordInput.text.trim())
+    }
+
+    function deleteCredentials() {
+        KeyChain.deleteKey(usernameKey)
+        KeyChain.deleteKey(passwordKey)
+    }
+
     width: 640
     height: 480
     visible: true
@@ -35,6 +50,7 @@ Window {
 
         TextField {
             id: passwordInput
+            echoMode: TextInput.PasswordEchoOnEdit
             Layout.fillWidth: true
         }
 
@@ -43,32 +59,20 @@ Window {
 
             Button {
                 Layout.preferredWidth: 80
-                text: qsTr('Store')
-
-                onClicked: {
-                    KeyChain.writeKey(usernameKey, usernameInput.text.trim())
-                    KeyChain.writeKey(passwordKey, passwordInput.text.trim())
-                }
+                text: qsTr('Write')
+                onClicked: writeCredentials()
             }
 
             Button {
                 Layout.preferredWidth: 80
-                text: qsTr('Restore')
-
-                onClicked: {
-                    KeyChain.readKey(usernameKey)
-                    KeyChain.readKey(passwordKey)
-                }
+                text: qsTr('Read')
+                onClicked: readCredentials()
             }
 
             Button {
                 Layout.preferredWidth: 80
                 text: qsTr('Delete')
-
-                onClicked: {
-                    KeyChain.deleteKey(usernameKey)
-                    KeyChain.deleteKey(passwordKey)
-                }
+                onClicked: deleteCredentials()
             }
         }
 
@@ -91,7 +95,10 @@ Window {
                 }
 
                 ScriptAction {
-                    script: infoLabel.visible = false
+                    script: {
+                        infoLabel.visible = false
+                        infoLabel.text = ''
+                    }
                 }
             }
         }
@@ -106,19 +113,19 @@ Window {
         target: KeyChain
 
         function onKeyStored(key) {
-            infoLabel.text = String("Key '%1' successfully stored").arg(key)
+            infoLabel.text += String("Key '%1' successfully stored\n").arg(key)
             infoLabel.color = 'green'
             infoLabel.visible = true
         }
 
         function onKeyDeleted(key) {
-            infoLabel.text = String("Key '%1' successfully deleted").arg(key)
+            infoLabel.text += String("Key '%1' successfully deleted\n").arg(key)
             infoLabel.color = 'green'
             infoLabel.visible = true
         }
 
         function onKeyRestored(key, value) {
-            infoLabel.text = String("Key '%1' successfully restored with data '%2'").arg(key).arg(value)
+            infoLabel.text += String("Key '%1' successfully restored\n").arg(key)
             infoLabel.color = 'green'
             infoLabel.visible = true
             switch (key) {
@@ -136,5 +143,9 @@ Window {
             infoLabel.color = 'red'
             infoLabel.visible = true
         }
+    }
+
+    Component.onCompleted: {
+        readCredentials()
     }
 }
