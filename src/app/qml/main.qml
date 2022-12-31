@@ -7,22 +7,16 @@ import Qt.labs.settings
 Window {
     id: root
 
-    readonly property string usernameKey: 'user'
-    readonly property string passwordKey: 'password'
-
-    function readCredentials() {
-        KeyChain.readKey(usernameKey)
-        KeyChain.readKey(passwordKey)
+    function readCredentials(username) {
+        KeyChain.readKey(username)
     }
 
-    function writeCredentials() {
-        KeyChain.writeKey(usernameKey, usernameInput.text.trim())
-        KeyChain.writeKey(passwordKey, passwordInput.text.trim())
+    function writeCredentials(username, password) {
+        KeyChain.writeKey(username, password)
     }
 
-    function deleteCredentials() {
-        KeyChain.deleteKey(usernameKey)
-        KeyChain.deleteKey(passwordKey)
+    function deleteCredentials(username) {
+        KeyChain.deleteKey(username)
     }
 
     width: 640
@@ -73,19 +67,19 @@ Window {
             Button {
                 Layout.preferredWidth: 80
                 text: qsTr('Write')
-                onClicked: writeCredentials()
+                onClicked: writeCredentials(usernameInput.text.trim())
             }
 
             Button {
                 Layout.preferredWidth: 80
                 text: qsTr('Read')
-                onClicked: readCredentials()
+                onClicked: readCredentials(usernameInput.text.trim())
             }
 
             Button {
                 Layout.preferredWidth: 80
                 text: qsTr('Delete')
-                onClicked: deleteCredentials()
+                onClicked: deleteCredentials(usernameInput.text.trim())
             }
         }
 
@@ -141,13 +135,8 @@ Window {
             infoLabel.text += String("Key '%1' successfully restored\n").arg(key)
             infoLabel.color = 'green'
             infoLabel.visible = true
-            switch (key) {
-            case usernameKey:
-                usernameInput.text = value
-                break
-            case passwordKey:
+            if (key === usernameInput.text.trim()) {
                 passwordInput.text = value
-                break
             }
         }
 
@@ -159,10 +148,11 @@ Window {
     }
 
     Settings {
+        property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
     }
 
     Component.onCompleted: {
-        readCredentials()
+//        readCredentials()
     }
 }
