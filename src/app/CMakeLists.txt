@@ -43,3 +43,27 @@ target_link_libraries(${APP_NAME} PRIVATE
 #     BUNDLE DESTINATION .
 #     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 # )
+
+add_custom_target(${APP_NAME}_mac_deploy_qt
+    DEPENDS ${APP_NAME}
+    COMMAND
+    "${MACDEPLOYQT_EXECUTABLE}"
+    "${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.app"
+    -qmldir="${CMAKE_CURRENT_SOURCE_DIR}/qml"
+)
+
+add_custom_target(${APP_NAME}_mac_dmg_installer
+    DEPENDS ${APP_NAME}_mac_deploy_qt
+    COMMAND
+    "${CREATE_DMG_EXECUTABLE}"
+    --volname "${APP_NAME} Installer"
+    --volicon "${CMAKE_CURRENT_SOURCE_DIR}/${APP_ICON_MACOS}"
+    --window-pos 200 120
+    --background "${CMAKE_CURRENT_SOURCE_DIR}/macos/background.png"
+    --window-size 800 400
+    --icon-size 100
+    --icon "${APP_NAME}.app" 200 190
+    --app-drop-link 600 190
+    "${APP_NAME}-Installer.dmg"
+    "${CMAKE_CURRENT_BINARY_DIR}/${APP_NAME}.app"
+)

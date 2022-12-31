@@ -14,6 +14,15 @@ find_package(Qt6 6.2 COMPONENTS
     REQUIRED
 )
 
+set(QTIFW_VERSION "4.5") # Qt Installer Framework version
+get_target_property(QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
+get_filename_component(_QT_BIN_DIR_ "${QMAKE_EXECUTABLE}" DIRECTORY)
+find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_QT_BIN_DIR_}")
+find_program(LINUXDEPLOY_EXECUTABLE linuxdeploy linuxdeploy-x86_64.AppImage HINTS "${_QT_BIN_DIR_}")
+find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR_}")
+find_program(CREATE_DMG_EXECUTABLE create-dmg)
+find_program(BINARYCREATOR_EXECUTABLE binarycreator HINTS "${_QT_BIN_DIR_}/../../../Tools/QtInstallerFramework/${QTIFW_VERSION}/bin")
+
 add_subdirectory(src/3rdparty/qtkeychain)
 add_subdirectory(src/lib)
 add_subdirectory(src/app)
