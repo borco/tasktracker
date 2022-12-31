@@ -18,7 +18,6 @@ add_subdirectory(src/3rdparty/qtkeychain)
 add_subdirectory(src/lib)
 add_subdirectory(src/app)
 
-
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
 list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/lib")
