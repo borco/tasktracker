@@ -1,14 +1,29 @@
+/*
+    Copyright 2022 by Ioan Calin Borcoman <iborco@gmail.com>
+*/
+
+#include "keychainservice.h"
+#include "messagehandler.h"
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-#include "keychainservice.h"
+#include <QSettings>
 
 int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(message_handler);
+
     KeyChainService keychain_service("toggltracktasks.app");
 
+    QGuiApplication::setOrganizationName("Ioan Calin");
+    QGuiApplication::setOrganizationDomain("com.github.borco");
+    QGuiApplication::setApplicationName("toggltracktasks");
+
     QGuiApplication app(argc, argv);
+
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    qInfo() << "Settings file:" << QSettings().fileName();
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/TogglTrackTasks/qml/main.qml"_qs);

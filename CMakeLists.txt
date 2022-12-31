@@ -13,4 +13,5 @@ find_package(Qt6 6.2 COMPONENTS
 )
 
 add_subdirectory(src/3rdparty/qtkeychain)
+add_subdirectory(src/lib)
 add_subdirectory(src/app)

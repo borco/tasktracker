@@ -36,6 +36,8 @@ set_target_properties(${APP_NAME} PROPERTIES
 target_link_libraries(${APP_NAME} PRIVATE
     Qt6::Quick
     keychain
+    TogglTrackTasksLib
+#    TogglTrackTasksLibplugin
 )
 
 # install(TARGETS ${APP_NAME}
