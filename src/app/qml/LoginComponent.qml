@@ -9,6 +9,8 @@ import TaskTrackerLib
 ColumnLayout {
     id: control
 
+    property int maximumWidth: 400
+
     function readCredentials() {
         KeyChain.readKey(usernameInput.text.trim())
     }
@@ -21,73 +23,108 @@ ColumnLayout {
         KeyChain.deleteKey(usernameInput.text.trim())
     }
 
-    GridLayout {
-        Layout.fillWidth: true
+    function showErrorMessage(message) {
+        infoLabel.text = message
+        infoLabel.color = 'red'
+        infoLabel.visible = true
+    }
 
-        columns: 2
-        columnSpacing: 20
+    Item { Layout.fillHeight: true }
 
-        Label {
-            text: qsTr('Username:')
-        }
+    RowLayout {
 
-        TextField {
-            id: usernameInput
-            Layout.fillWidth: true
-        }
+        Item { Layout.fillWidth: true }
 
-        Label {
-            text: qsTr('Password:')
-        }
+        ColumnLayout {
+            Layout.maximumWidth: control.maximumWidth
 
-        Label {
-            id: infoLabel
+            SmallLabel {
+                text: qsTr('Username:')
+            }
 
-            Layout.fillWidth: true
-            GridLayout.columnSpan: 2
+            TextField {
+                id: usernameInput
+                Layout.fillWidth: true
+            }
 
-            wrapMode: Text.Wrap
-            visible: false
+            SmallLabel {
+                text: qsTr('Password:')
+            }
 
-            onVisibleChanged: if (visible) hideAnimation.start();
+            PasswordTextField {
+                id: passwordInput
+                Layout.fillWidth: true
+            }
 
-            SequentialAnimation {
-                id: hideAnimation
+            SmallLabel {
+                id: infoLabel
 
-                PauseAnimation {
-                    duration: 10000
+                Layout.fillWidth: true
+                GridLayout.columnSpan: 2
+
+                wrapMode: Text.Wrap
+                visible: false
+
+                onVisibleChanged: if (visible) hideAnimation.start();
+
+                SequentialAnimation {
+                    id: hideAnimation
+
+                    PauseAnimation {
+                        duration: 10000
+                    }
+
+                    ScriptAction {
+                        script: {
+                            infoLabel.visible = false
+                            infoLabel.text = ''
+                        }
+                    }
                 }
+            }
 
-                ScriptAction {
-                    script: {
-                        infoLabel.visible = false
-                        infoLabel.text = ''
+            Button {
+                id: loginButton
+                text: qsTr("Login")
+                highlighted: true
+                GridLayout.columnSpan: 2
+                Layout.fillWidth: true
+                onClicked: {
+                    if (settings.storePasswordInKeyChain) {
+                        writeCredentials()
+                    }
+
+                    Config.login(usernameInput.text.trim(), passwordInput.text)
+                }
+            }
+
+            CheckBox {
+                id: storePasswordInKeyChain
+                GridLayout.columnSpan: 2
+                Layout.topMargin: 24
+                text: qsTr('Store password in key chain')
+                checked: Config.storePasswordInKeyChain
+                onCheckedChanged: {
+                    if (checked) {
+                        readCredentials()
                     }
                 }
             }
         }
 
-        PasswordTextField {
-            id: passwordInput
-            Layout.fillWidth: true
-        }
+        Item { Layout.fillWidth: true }
     }
 
-    CheckBox {
-        id: storePasswordInKeyChain
-        Layout.topMargin: 12
-        text: qsTr('Store password in key chain')
-        checked: Config.storePasswordInKeyChain
-    }
+    Item { Layout.fillHeight: true }
 
     Connections {
         target: KeyChain
 
-        function onKeyStored(key) {
-            infoLabel.text += String("Key '%1' successfully stored\n").arg(key)
-            infoLabel.color = 'green'
-            infoLabel.visible = true
-        }
+//        function onKeyStored(key) {
+//            infoLabel.text += String("Key '%1' successfully stored\n").arg(key)
+//            infoLabel.color = 'green'
+//            infoLabel.visible = true
+//        }
 
         function onKeyDeleted(key) {
             infoLabel.text += String("Key '%1' successfully deleted\n").arg(key)
@@ -96,25 +133,30 @@ ColumnLayout {
         }
 
         function onKeyRestored(key, value) {
-            infoLabel.text += String("Key '%1' successfully restored\n").arg(key)
-            infoLabel.color = 'green'
-            infoLabel.visible = true
+//            infoLabel.text += String("Key '%1' successfully restored\n").arg(key)
+//            infoLabel.color = 'green'
+//            infoLabel.visible = true
             if (key === usernameInput.text.trim()) {
                 passwordInput.text = value
             }
         }
 
         function onError(errorText) {
-            infoLabel.text = errorText
-            infoLabel.color = 'red'
-            infoLabel.visible = true
+            showErrorMessage(errorText)
         }
     }
 
     Settings {
+        id: settings
         category: "Login"
         property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
         property alias storePasswordInKeyChain: storePasswordInKeyChain.checked
+    }
+
+    Component.onCompleted: {
+        if (settings.storePasswordInKeyChain) {
+            readCredentials()
+        }
     }
 }
