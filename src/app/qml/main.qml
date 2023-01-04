@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import Qt.labs.settings
 
 import QtPlogAdapter
 
@@ -15,6 +16,8 @@ Window {
     title: qsTr("Task Tracker")
 
     SplitView {
+        id: splitView
+
         anchors.fill: parent
         orientation: Qt.Vertical
 
@@ -92,7 +95,14 @@ Window {
         }
     }
 
+    Settings {
+        id: settings
+        category: "main.qml"
+        property var splitView
+    }
+
     Component.onCompleted: {
+        splitView.restoreState(settings.splitView)
 //        readCredentials()
 
 //        console.debug("debug message")
@@ -104,5 +114,9 @@ Window {
 //        console.info("info message")
 //        console.warn("warn message")
 //        console.error("error message")
+    }
+
+    Component.onDestruction: {
+        settings.splitView = splitView.saveState()
     }
 }
