@@ -17,6 +17,7 @@ git clone https://github.com/juhosa/icns-creator
 
 ### convert SVG to 1024x1024 images
 bash icns-creator/script.sh app.png
+mv icon.icns app.icns
 ```
 
 ## Windows
