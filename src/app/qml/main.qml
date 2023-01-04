@@ -14,37 +14,25 @@ Window {
 
     title: qsTr("Task Tracker")
 
-    ColumnLayout {
+    SplitView {
         anchors.fill: parent
-        anchors.margins: 20
+        orientation: Qt.Vertical
 
-        GroupBox {
-            title: qsTr("Config")
-            Layout.fillWidth: true
-
-            Login {}
+        handle: Rectangle {
+            implicitWidth: 6
+            implicitHeight: 6
+            color: SplitHandle.pressed ? palette.dark
+                                       : (SplitHandle.hovered
+                                          ? palette.highlight
+                                          : palette.window)
         }
 
-        RowLayout {
-            Button {
-                text: "Debug"
-                onClicked: console.debug("xxx")
-            }
+        StackView {
+            id: stackView
 
-            Button {
-                text: "Info"
-                onClicked: console.info("xxx")
-            }
-
-            Button {
-                text: "Warn"
-                onClicked: console.warn("xxx")
-            }
-
-            Button {
-                text: "Error"
-                onClicked: console.error("xxx")
-            }
+            SplitView.minimumHeight: 200
+            Layout.fillWidth: true
+            initialItem: loginComponent
         }
 
         Pane {
@@ -64,7 +52,7 @@ Window {
                         anchors.fill: parent
                         Label {
                             text: qsTr("Logs")
-                            font.weight: 400
+                            font.weight: 600
                         }
 
                         ToolSeparator {}
@@ -86,16 +74,35 @@ Window {
         }
     }
 
-    Component.onCompleted: {
-        //        readCredentials()
-        console.debug("debug message")
-        console.info("info message")
-        console.warn("warn message")
-        console.error("error message")
+    Component {
+        id: loginComponent
 
-        console.debug("debug message")
-        console.info("info message")
-        console.warn("warn message")
-        console.error("error message")
+        Pane {
+            ColumnLayout {
+                anchors.fill: parent
+
+                Item { Layout.fillHeight: true }
+
+                Login {
+                    Layout.fillWidth: true
+                }
+
+                Item { Layout.fillHeight: true }
+            }
+        }
+    }
+
+    Component.onCompleted: {
+//        readCredentials()
+
+//        console.debug("debug message")
+//        console.info("info message")
+//        console.warn("warn message")
+//        console.error("error message")
+
+//        console.debug("debug message")
+//        console.info("info message")
+//        console.warn("warn message")
+//        console.error("error message")
     }
 }
