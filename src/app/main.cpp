@@ -10,7 +10,45 @@
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
 #include <QSettings>
+
+namespace {
+static const char* DefaultSettingsGroupKey {"main.qml"};
+static const char* WindowGeometryKey {"windowGeometry"};
+
+QQuickWindow* main_window(QQmlApplicationEngine& engine)
+{
+    if(engine.rootObjects().size() > 0) {
+        return qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
+    }
+
+    return nullptr;
+}
+
+void save_window_settings(QQmlApplicationEngine& engine)
+{
+    auto window = main_window(engine);
+    if (!window) return;
+
+    QSettings settings;
+    settings.beginGroup(DefaultSettingsGroupKey);
+    settings.setValue(WindowGeometryKey, window->geometry());
+    settings.endGroup();
+}
+
+void load_window_settings(QQmlApplicationEngine& engine)
+{
+    auto window = main_window(engine);
+    if (!window) return;
+
+    QSettings settings;
+    settings.beginGroup(DefaultSettingsGroupKey);
+    window->setGeometry(settings.value(WindowGeometryKey, QRect(100, 100, 800, 480)).toRect());
+    settings.endGroup();
+}
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -43,5 +81,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("KeyChain", &keychain_service);
     engine.load(url);
 
-    return app.exec();
+    load_window_settings(engine);
+    int ret = app.exec();
+    save_window_settings(engine);
+
+    return ret;
 }
