@@ -22,6 +22,7 @@ qt_add_qml_module(${APP_NAME}
         qml/LogsComponent.qml
         qml/MainToolBar.qml
         qml/PasswordTextField.qml
+        qml/SmallLabel.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
