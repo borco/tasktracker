@@ -1,4 +1,4 @@
-set(LIB_NAME TogglTrackTasksLib)
+set(LIB_NAME TaskTrackerLib)
 
 qt_add_library(${LIB_NAME}
     STATIC

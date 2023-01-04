@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 import Qt.labs.settings
 
-import TogglTrackTasksLib
+import TaskTrackerLib
 
 ColumnLayout {
     id: control

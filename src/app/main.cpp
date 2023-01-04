@@ -15,11 +15,11 @@ int main(int argc, char *argv[])
 {
     qInstallMessageHandler(message_handler);
 
-    KeyChainService keychain_service("toggltracktasks.app");
+    KeyChainService keychain_service("tasktracker.app");
 
     QGuiApplication::setOrganizationName("Ioan Calin");
     QGuiApplication::setOrganizationDomain("com.github.borco");
-    QGuiApplication::setApplicationName("toggltracktasks");
+    QGuiApplication::setApplicationName("tasktracker");
 
     QGuiApplication app(argc, argv);
 
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     Config::get()->load();
 
     QQmlApplicationEngine engine;
-    const QUrl url(u"qrc:/TogglTrackTasks/qml/main.qml"_qs);
+    const QUrl url(u"qrc:/TaskTracker/qml/main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
