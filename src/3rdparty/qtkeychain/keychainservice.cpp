@@ -2,6 +2,8 @@
 
 #include "keychain.h"
 
+#include <QDebug>
+
 KeyChainService::KeyChainService(const QString &name, QObject* parent)
     : QObject(parent)
     , m_name(name)
@@ -34,6 +36,7 @@ void KeyChainService::writeKey(const QString &key, const QString &value)
             emit error(tr("Write key failed: %1").arg(qPrintable(write_job->errorString())));
             return;
         }
+        qDebug().nospace() << this << "::writeKey: key " << key << " written";
         emit keyStored(key);
     });
 
