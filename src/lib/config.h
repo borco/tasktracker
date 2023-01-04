@@ -29,6 +29,8 @@ public:
     bool storePasswordInKeyChain() const { return m_storePasswordInKeyChain; }
     void setStorePasswordInKeyChain(bool value);
 
+    Q_INVOKABLE void login(QString username, QString password);
+
 signals:
     void storePasswordInKeyChainChanged();
 

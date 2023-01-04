@@ -41,3 +41,8 @@ void Config::setStorePasswordInKeyChain(bool value)
     m_storePasswordInKeyChain = value;
     emit storePasswordInKeyChainChanged();
 }
+
+void Config::login(QString username, QString password)
+{
+    qDebug().nospace() << this << "::login: username: " << username << ", password: " << password;
+}
