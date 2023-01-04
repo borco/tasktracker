@@ -73,9 +73,10 @@ ColumnLayout {
         }
     }
 
-    Switch {
-        Layout.alignment: Qt.AlignRight
-        text: qsTr('Keep password in key chain')
+    CheckBox {
+        id: storePasswordInKeyChain
+        Layout.topMargin: 12
+        text: qsTr('Store password in key chain')
         checked: Config.storePasswordInKeyChain
     }
 
@@ -114,5 +115,6 @@ ColumnLayout {
         category: "Login"
         property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
+        property alias storePasswordInKeyChain: storePasswordInKeyChain.checked
     }
 }
