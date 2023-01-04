@@ -2,8 +2,6 @@ set(LIB_NAME TaskTrackerLib)
 
 qt_add_library(${LIB_NAME}
     STATIC
-    messagehandler.cpp
-    messagehandler.h
 )
 
 qt_add_qml_module(${LIB_NAME}
