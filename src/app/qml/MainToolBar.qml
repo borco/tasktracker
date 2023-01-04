@@ -5,6 +5,7 @@ ToolBar {
     id: control
 
     property alias logs: logsToolButton
+    property alias logsVisible: logsToolButton.checked
 
     ToolButton {
         id: logsToolButton
