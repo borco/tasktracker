@@ -2,6 +2,7 @@
     Copyright 2022 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
+#include "config.h"
 #include "keychainservice.h"
 #include "messagehandler.h"
 
@@ -24,6 +25,8 @@ int main(int argc, char *argv[])
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
     qInfo() << "Settings file:" << QSettings().fileName();
+
+    Config::get()->load();
 
     QQmlApplicationEngine engine;
     const QUrl url(u"qrc:/TogglTrackTasks/qml/main.qml"_qs);
