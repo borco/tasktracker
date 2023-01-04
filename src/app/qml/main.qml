@@ -80,23 +80,11 @@ Window {
         id: settings
         category: "Main"
         property var splitView
-        property bool logsVisible: mainToolBar.logs.checked
+        property alias logsVisible: mainToolBar.logsVisible
     }
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
-        mainToolBar.logs.checked = settings.logsVisible
-//        readCredentials()
-
-//        console.debug("debug message")
-//        console.info("info message")
-//        console.warn("warn message")
-//        console.error("error message")
-
-//        console.debug("debug message")
-//        console.info("info message")
-//        console.warn("warn message")
-//        console.error("error message")
     }
 
     Component.onDestruction: {
