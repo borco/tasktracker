@@ -35,8 +35,7 @@ public slots:
 private:
     explicit TogglProxy(QObject *parent = nullptr);
 
-    void tokenLogin(QString token);
-    void sessionLogin(QString session);
+    void webSocketLogin(QString token);
 
     inline static bool m_deleteInstanceOnCleanup = true;
     inline static TogglProxy* m_instance = nullptr;
@@ -44,4 +43,3 @@ private:
     QWebSocket* m_webSocket = nullptr;
     QNetworkAccessManager* m_networkAccessManager = nullptr;
 };
-

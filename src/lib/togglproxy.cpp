@@ -1,6 +1,8 @@
 #include "togglproxy.h"
 
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QSslError>
@@ -16,7 +18,8 @@ TogglProxy::TogglProxy(QObject *parent)
     , m_webSocket(new QWebSocket(TogglWebSocketOrigin, QWebSocketProtocol::VersionLatest, this))
     , m_networkAccessManager(new QNetworkAccessManager(this))
 {
-    qDebug().nospace() << this;
+    qDebug() << this;
+
     connect(m_webSocket, &QWebSocket::connected, this, [=]() {
        qDebug() << this << "web socket connected";
        m_webSocket->ping();
@@ -27,7 +30,7 @@ TogglProxy::TogglProxy(QObject *parent)
     });
 
     connect(m_webSocket, &QWebSocket::pong, this, [=](quint64 elapsedTime, const QByteArray &payload) {
-        qDebug() << this << "pong:" << elapsedTime << payload;
+        qDebug().nospace() << this << " pong: " << elapsedTime << "ms";
     });
 
     connect(m_webSocket, &QWebSocket::textMessageReceived, this, [=](QString message) {
@@ -45,8 +48,6 @@ TogglProxy::TogglProxy(QObject *parent)
 
     m_networkAccessManager->setProxy(QNetworkProxy::applicationProxy());
     m_networkAccessManager->connectToHostEncrypted("toggl.com");
-
-//    m_webSocket->open(QUrl(TogglWebSocketUrl));
 }
 
 TogglProxy::~TogglProxy()
@@ -70,14 +71,12 @@ void TogglProxy::cleanup()
 
 void TogglProxy::login(QString username, QString password)
 {
-    QString authorization = QString("%1:xxx").arg(username, password);
+    QString authorization = QString("%1:%2").arg(username, password);
 
     QNetworkRequest request;
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Authorization", QByteArray("Basic ") + authorization.toUtf8().toBase64());
     request.setUrl(QUrl("https://api.track.toggl.com/api/v9/me"));
-
-    qDebug() << request.rawHeaderList();
 
     auto reply = m_networkAccessManager->get(request);
 
@@ -86,11 +85,25 @@ void TogglProxy::login(QString username, QString password)
     });
 
     connect(reply, &QNetworkReply::finished, this, [=]() {
-        qDebug().nospace().noquote() << this << "::login: response: " << reply->readAll() << ", error: " << reply->errorString();
+        auto response_data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            auto doc = QJsonDocument::fromJson(response_data);
+            auto json = doc.object();
+
+            qDebug().nospace().noquote() << this << "::login: response: " << doc.toJson();
+
+            if (json.contains("api_token")) {
+                auto api_token = json["api_token"].toString();
+                m_webSocket->open(QUrl(TogglWebSocketUrl));
+                webSocketLogin(api_token);
+            }
+        } else {
+            qDebug().nospace().noquote() << this << "::login: response: " << response_data;
+        }
     });
 }
 
-void TogglProxy::tokenLogin(QString token)
+void TogglProxy::webSocketLogin(QString token)
 {
     QString message = QString(R"""(
 {
@@ -98,20 +111,7 @@ void TogglProxy::tokenLogin(QString token)
     "api_token": "%1"
 }
 )""").arg(token);
-    qDebug().nospace().noquote() << this << "::tokenLogin: message: " << message;
-
-    m_webSocket->sendTextMessage(message);
-}
-
-void TogglProxy::sessionLogin(QString session)
-{
-    QString message = QString(R"""(
-{
-    "type": "authenticate",
-    "session": "%1"
-}
-)""").arg(session);
-    qDebug().nospace().noquote() << this << "::sessionLogin: message: " << message;
+//    qDebug().nospace().noquote() << this << "::tokenLogin: message: " << message;
 
     m_webSocket->sendTextMessage(message);
 }
