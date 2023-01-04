@@ -5,6 +5,12 @@
 #include "config.h"
 
 #include <QDebug>
+#include <QSettings>
+
+namespace {
+static const char* DefaultSettingsArrayKey {"Config"};
+static const char* StorePasswordInKeyChainKey {"storePasswordInKeyChain"};
+}
 
 Config::Config()
 {
@@ -13,13 +19,25 @@ Config::Config()
 
 Config::~Config()
 {
+    save();
     qDebug().nospace() << "~" << this;
 }
 
-void Config::setUseKeyChain(bool newUseKeyChain)
+void Config::load()
 {
-    if (m_useKeyChain == newUseKeyChain)
+    QSettings settings;
+    qDebug().nospace() << this << "::load";
+}
+
+void Config::save()
+{
+    qDebug().nospace() << this << "::save";
+}
+
+void Config::setStorePasswordInKeyChain(bool value)
+{
+    if (m_storePasswordInKeyChain == value)
         return;
-    m_useKeyChain = newUseKeyChain;
-    emit useKeyChainChanged();
+    m_storePasswordInKeyChain = value;
+    emit storePasswordInKeyChainChanged();
 }

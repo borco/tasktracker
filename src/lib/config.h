@@ -10,28 +10,32 @@ class Config: public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(bool useKeyChain READ useKeyChain WRITE setUseKeyChain NOTIFY useKeyChainChanged)
+    Q_PROPERTY(bool storePasswordInKeyChain READ storePasswordInKeyChain WRITE setStorePasswordInKeyChain NOTIFY storePasswordInKeyChainChanged)
 
 public:
     ~Config();
 
-    static Config *create(QQmlEngine *, QJSEngine *) {
+    static Config* get() {
         if (!m_instance) {
             m_instance = new Config();
         }
         return m_instance;
     }
+    static Config *create(QQmlEngine *, QJSEngine *) { return get(); }
 
-    bool useKeyChain() const { return m_useKeyChain; }
-    void setUseKeyChain(bool newUseKeyChain);
+    void load();
+    void save();
+
+    bool storePasswordInKeyChain() const { return m_storePasswordInKeyChain; }
+    void setStorePasswordInKeyChain(bool value);
 
 signals:
-    void useKeyChainChanged();
+    void storePasswordInKeyChainChanged();
 
 private:
     Config();
 
     inline static Config* m_instance {nullptr};
 
-    bool m_useKeyChain {false};
+    bool m_storePasswordInKeyChain {false};
 };
