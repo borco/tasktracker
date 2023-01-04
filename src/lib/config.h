@@ -2,6 +2,8 @@
     Copyright 2022 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
+#pragma once
+
 #include <QQmlEngine>
 
 class Config: public QObject
