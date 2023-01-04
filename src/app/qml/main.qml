@@ -10,6 +10,8 @@ Window {
     height: 480
     visible: true
 
+    title: qsTr("Task Tracker")
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 20
