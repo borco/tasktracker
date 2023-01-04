@@ -11,6 +11,7 @@ find_package(Qt6 6.2 COMPONENTS
     Core
     Quick
     Qml
+    WebSockets
     REQUIRED
 )
 

@@ -94,7 +94,7 @@ ColumnLayout {
                         writeCredentials()
                     }
 
-                    Config.login(usernameInput.text.trim(), passwordInput.text)
+                    TogglProxy.login(usernameInput.text.trim(), passwordInput.text)
                 }
             }
 

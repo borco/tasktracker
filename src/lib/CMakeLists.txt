@@ -11,12 +11,15 @@ qt_add_qml_module(${LIB_NAME}
     SOURCES
         config.cpp
         config.h
+        togglproxy.cpp
+        togglproxy.h
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC
     Qt6::Core
     Qt6::Qml
     Qt6::Quick
+    Qt6::WebSockets
 )
 
 target_include_directories(${LIB_NAME} PUBLIC

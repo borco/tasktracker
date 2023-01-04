@@ -5,9 +5,12 @@
 #include "config.h"
 #include "keychainservice.h"
 #include "qtplogadapter/setup.h"
+#include "togglproxy.h"
 
+#include <QCommandLineParser>
 #include <QGuiApplication>
 #include <QIcon>
+#include <QNetworkProxy>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickWindow>
@@ -53,7 +56,6 @@ void load_window_settings(QQmlApplicationEngine& engine)
 int main(int argc, char *argv[])
 {
     qtplogadapter::init("/tmp/tasktracker.log");
-    qDebug() << "----------- Started Task Tracker -----------";
 
     KeyChainService keychain_service("tasktracker.app");
 
@@ -63,6 +65,52 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/TaskTracker/icons/app.svg"));
+
+    static const char* UseProxyCommandLineOption = "use-proxy";
+    static const char* ProxyHostCommandLineOption = "proxy-host";
+    static const char* ProxyPortCommandLineOption = "proxy-port";
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("Simple task tracker.");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addOptions({
+                          {
+                              UseProxyCommandLineOption,
+                              QCoreApplication::translate("main", "Use a proxy for HTTPS connections."),
+                          },
+                          {
+                              ProxyHostCommandLineOption,
+                              QCoreApplication::translate("main", "Proxy <IP> address (default: 127.0.0.1)."),
+                              QCoreApplication::translate("main", "IP"),
+                              "127.0.0.1"
+                          },
+                          {
+                              ProxyPortCommandLineOption,
+                              QCoreApplication::translate("main", "Proxy <PORT> number (default: 8080)."),
+                              QCoreApplication::translate("main", "PORT"),
+                              "8080"
+                          },
+                      });
+    parser.process(app);
+
+    qDebug() << "----------- Started Task Tracker -----------";
+
+    QNetworkProxy network_proxy;
+
+    if (parser.isSet(UseProxyCommandLineOption)) {
+        auto proxy_host = parser.value(ProxyHostCommandLineOption);
+        auto proxy_port = parser.value(ProxyPortCommandLineOption).toUShort();
+
+        qWarning().nospace().noquote() << "Using custom network proxy: " << proxy_host << ":" << proxy_port;
+
+        network_proxy.setType(QNetworkProxy::HttpProxy);
+        network_proxy.setHostName(proxy_host);
+        network_proxy.setPort(proxy_port);
+        QNetworkProxy::setApplicationProxy(network_proxy);
+    } else {
+        qInfo() << "Not using custom network proxy";
+    }
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
     qInfo() << "Settings file:" << QSettings().fileName();
@@ -84,6 +132,8 @@ int main(int argc, char *argv[])
     load_window_settings(engine);
     int ret = app.exec();
     save_window_settings(engine);
+
+    TogglProxy::cleanup();
 
     return ret;
 }
