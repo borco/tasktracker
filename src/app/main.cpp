@@ -32,6 +32,8 @@ int main(int argc, char *argv[])
     Config::get()->load();
 
     QQmlApplicationEngine engine;
+    engine.addImportPath("qrc:/");
+
     const QUrl url(u"qrc:/TaskTracker/qml/main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

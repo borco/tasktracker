@@ -31,6 +31,7 @@ add_subdirectory(src/app)
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
 list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/lib")
+list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/qtplogadapter")
 
 # Prevent adding duplicate values at each run of CMake.
 list(REMOVE_DUPLICATES QML_IMPORT_PATH)
