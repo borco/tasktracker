@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import Qt.labs.settings
+
 import QtPlogAdapter
 
 ColumnLayout {
@@ -23,8 +25,14 @@ ColumnLayout {
             ToolSeparator {}
 
             ToolButton {
-                text: qsTr("Clear")
+                icon.source: "../icons/clear.svg"
                 onClicked: PlogMessageModel.clear()
+            }
+
+            ToolButton {
+                id: wrapTextToolButton
+                icon.source: "../icons/wrap_text.svg"
+                checkable: true
             }
 
             Item { Layout.fillWidth: true }
@@ -32,7 +40,14 @@ ColumnLayout {
     }
 
     PlogMessageView {
+        wrapMessages: wrapTextToolButton.checked
         Layout.fillWidth: true
         Layout.fillHeight: true
+    }
+
+    Settings {
+        id: settings
+        category: "Logs"
+        property alias wrapMessages: wrapTextToolButton.checked
     }
 }
