@@ -12,7 +12,7 @@
 brew install imagemagick
 
 # create catalog .icns
-cd src/resources/icons
+cd src/app/icons
 git clone https://github.com/juhosa/icns-creator
 
 ### convert SVG to 1024x1024 images
