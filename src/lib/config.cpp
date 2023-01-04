@@ -8,7 +8,7 @@
 #include <QSettings>
 
 namespace {
-static const char* DefaultSettingsArrayKey {"Config"};
+static const char* DefaultSettingsGroupKey {"Config"};
 static const char* StorePasswordInKeyChainKey {"storePasswordInKeyChain"};
 }
 
