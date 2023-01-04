@@ -7,6 +7,7 @@
 #include "messagehandler.h"
 
 #include <QGuiApplication>
+#include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QSettings>
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     QGuiApplication::setApplicationName("tasktracker");
 
     QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/TaskTracker/icons/app.svg"));
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
     qInfo() << "Settings file:" << QSettings().fileName();
