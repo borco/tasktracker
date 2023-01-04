@@ -4,8 +4,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt.labs.settings
 
-import QtPlogAdapter
-
 Window {
     id: root
 
@@ -15,66 +13,49 @@ Window {
 
     title: qsTr("Task Tracker")
 
-    SplitView {
-        id: splitView
-
+    ColumnLayout {
         anchors.fill: parent
-        orientation: Qt.Vertical
+        spacing: 0
 
-        handle: Rectangle {
-            implicitWidth: 6
-            implicitHeight: 6
-            color: SplitHandle.pressed ? palette.dark
-                                       : (SplitHandle.hovered
-                                          ? palette.highlight
-                                          : palette.window)
+        MainToolBar {
+            id: mainToolBar
+            Layout.fillWidth: true
         }
 
-        StackView {
-            id: stackView
+        SplitView {
+            id: splitView
 
-            SplitView.minimumHeight: 200
-            Layout.fillWidth: true
-            initialItem: loginComponent
-        }
-
-        Pane {
-            Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.fillWidth: true
 
-            padding: 0
+            orientation: Qt.Vertical
 
-            ColumnLayout {
-                anchors.fill: parent
-                spacing: 0
+            handle: Rectangle {
+                implicitWidth: 6
+                implicitHeight: 6
+                color: SplitHandle.pressed ? palette.dark
+                                           : (SplitHandle.hovered
+                                              ? palette.highlight
+                                              : palette.window)
+            }
 
-                ToolBar {
-                    Layout.fillWidth: true
+            StackView {
+                id: stackView
 
-                    RowLayout {
-                        anchors.fill: parent
-                        Label {
-                            text: qsTr("Logs")
-                            font.weight: 600
-                        }
+                SplitView.minimumHeight: 200
+                initialItem: loginComponent
+            }
 
-                        ToolSeparator {}
+            Pane {
+                visible: mainToolBar.logs.checked
+                padding: 0
 
-                        ToolButton {
-                            text: qsTr("Clear")
-                            onClicked: PlogMessageModel.clear()
-                        }
-
-                        Item { Layout.fillWidth: true }
-                    }
-                }
-
-                PlogMessageView {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                LogsComponent {
+                    anchors.fill: parent
                 }
             }
         }
+
     }
 
     Component {
@@ -86,7 +67,7 @@ Window {
 
                 Item { Layout.fillHeight: true }
 
-                Login {
+                LoginComponent {
                     Layout.fillWidth: true
                 }
 
@@ -97,12 +78,14 @@ Window {
 
     Settings {
         id: settings
-        category: "main.qml"
+        category: "Main"
         property var splitView
+        property bool logsVisible: mainToolBar.logs.checked
     }
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
+        mainToolBar.logs.checked = settings.logsVisible
 //        readCredentials()
 
 //        console.debug("debug message")

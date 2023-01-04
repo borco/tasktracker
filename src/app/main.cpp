@@ -14,7 +14,7 @@
 #include <QSettings>
 
 namespace {
-static const char* DefaultSettingsGroupKey {"main.qml"};
+static const char* DefaultSettingsGroupKey {"Main"};
 static const char* WindowGeometryKey {"windowGeometry"};
 
 QQuickWindow* main_window(QQmlApplicationEngine& engine)

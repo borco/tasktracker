@@ -18,13 +18,18 @@ qt_add_qml_module(${APP_NAME}
     URI ${APP_NAME}
     VERSION 1.0
     QML_FILES
-        qml/Login.qml
+        qml/LoginComponent.qml
+        qml/LogsComponent.qml
+        qml/MainToolBar.qml
         qml/PasswordTextField.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
+        icons/clear.svg
+        icons/logs.svg
         icons/password_hidden.svg
         icons/password_visible.svg
+        icons/wrap_text.svg
 )
 
 set_target_properties(${APP_NAME} PROPERTIES

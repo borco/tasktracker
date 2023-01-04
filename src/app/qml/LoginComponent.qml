@@ -111,7 +111,7 @@ ColumnLayout {
     }
 
     Settings {
-        category: "Login.qml"
+        category: "Login"
         property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
     }
