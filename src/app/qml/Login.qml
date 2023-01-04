@@ -21,8 +21,6 @@ ColumnLayout {
         KeyChain.deleteKey(usernameInput.text.trim())
     }
 
-    anchors.fill: parent
-
     GridLayout {
         Layout.fillWidth: true
 
