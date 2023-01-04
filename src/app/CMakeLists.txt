@@ -37,6 +37,7 @@ set_target_properties(${APP_NAME} PROPERTIES
 
 target_link_libraries(${APP_NAME} PRIVATE
     keychain
+    QtPlogAdapter
     TaskTrackerLib
     TaskTrackerLibPlugin
 )

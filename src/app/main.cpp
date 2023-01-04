@@ -4,7 +4,7 @@
 
 #include "config.h"
 #include "keychainservice.h"
-#include "messagehandler.h"
+#include "qtplogadapter/setup.h"
 
 #include <QGuiApplication>
 #include <QIcon>
@@ -14,7 +14,8 @@
 
 int main(int argc, char *argv[])
 {
-    qInstallMessageHandler(message_handler);
+    qtplogadapter::init("/tmp/tasktracker.log");
+    qDebug() << "----------- Started Task Tracker -----------";
 
     KeyChainService keychain_service("tasktracker.app");
 
