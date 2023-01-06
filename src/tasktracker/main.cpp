@@ -2,10 +2,10 @@
     Copyright 2022 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "config.h"
-#include "keychainservice.h"
+#include "qtkeychainadapter/keychainservice.h"
 #include "qtplogadapter/setup.h"
-#include "togglproxy.h"
+#include "tasktrackerlib/config.h"
+#include "tasktrackerlib/togglproxy.h"
 
 #include <QCommandLineParser>
 #include <QGuiApplication>
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 {
     qtplogadapter::init("/tmp/tasktracker.log");
 
-    KeyChainService keychain_service("tasktracker.app");
+    qtkeychainadapter::KeyChainService keychain_service("tasktracker.app");
 
     QGuiApplication::setOrganizationName("Ioan Calin");
     QGuiApplication::setOrganizationDomain("com.github.borco");
