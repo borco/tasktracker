@@ -26,8 +26,8 @@ find_program(BINARYCREATOR_EXECUTABLE binarycreator HINTS "${_QT_BIN_DIR_}/../..
 
 add_subdirectory(src/3rdparty/qtkeychain)
 add_subdirectory(src/qtplogadapter)
-add_subdirectory(src/lib)
-add_subdirectory(src/app)
+add_subdirectory(src/tasktrackerlib)
+add_subdirectory(src/tasktracker)
 
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
