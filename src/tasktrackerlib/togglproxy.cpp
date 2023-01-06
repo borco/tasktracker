@@ -1,3 +1,7 @@
+/*
+    Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
+*/
+
 #include "togglproxy.h"
 
 #include <QDebug>
@@ -12,6 +16,8 @@ namespace {
 static const char* TogglWebSocketOrigin = "https://toggl.com";
 static const char* TogglWebSocketUrl = "wss://stream.toggl.com/ws";
 }
+
+using namespace tasktrackerlib;
 
 TogglProxy::TogglProxy(QObject *parent)
     : QObject{parent}

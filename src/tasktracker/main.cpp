@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     QSettings::setDefaultFormat(QSettings::IniFormat);
     qInfo() << "Settings file:" << QSettings().fileName();
 
-    Config::get()->load();
+    tasktrackerlib::Config::get()->load();
 
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
     int ret = app.exec();
     save_window_settings(engine);
 
-    TogglProxy::cleanup();
+    tasktrackerlib::TogglProxy::cleanup();
 
     return ret;
 }

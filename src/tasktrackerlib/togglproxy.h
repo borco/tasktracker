@@ -9,6 +9,8 @@
 class QWebSocket;
 class QNetworkAccessManager;
 
+namespace tasktrackerlib {
+
 class TogglProxy : public QObject
 {
     Q_OBJECT
@@ -43,3 +45,5 @@ private:
     QWebSocket* m_webSocket = nullptr;
     QNetworkAccessManager* m_networkAccessManager = nullptr;
 };
+
+}

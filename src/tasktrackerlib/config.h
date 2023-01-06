@@ -6,6 +6,8 @@
 
 #include <QQmlEngine>
 
+namespace tasktrackerlib {
+
 class Config: public QObject
 {
     Q_OBJECT
@@ -43,3 +45,5 @@ private:
 
     bool m_storePasswordInKeyChain {false};
 };
+
+}

@@ -12,6 +12,8 @@ static const char* DefaultSettingsGroupKey {"Config"};
 static const char* StorePasswordInKeyChainKey {"storePasswordInKeyChain"};
 }
 
+using namespace tasktrackerlib;
+
 Config::Config()
 {
     qDebug() << this;
