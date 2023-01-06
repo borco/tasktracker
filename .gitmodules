@@ -1,3 +1,6 @@
 [submodule "src/qtplogadapter"]
 	path = src/qtplogadapter
 	url = git@github.com:borco/qtplogadapter.git
+[submodule "src/qtkeychainadapter"]
+	path = src/qtkeychainadapter
+	url = git@github.com:borco/qtkeychainadapter.git
