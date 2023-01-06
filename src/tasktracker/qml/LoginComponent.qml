@@ -38,22 +38,38 @@ ColumnLayout {
         ColumnLayout {
             Layout.maximumWidth: control.maximumWidth
 
-            SmallLabel {
-                text: qsTr('Username:')
-            }
+            GroupBox {
+                title: qsTr("Toggl Login Info")
 
-            TextField {
-                id: usernameInput
                 Layout.fillWidth: true
-            }
+                contentHeight: togglLoginInfoLayout.implicitHeight
+                               + togglLoginInfoLayout.anchors.topMargin
+                               + togglLoginInfoLayout.anchors.bottomMargin
 
-            SmallLabel {
-                text: qsTr('Password:')
-            }
+                ColumnLayout {
+                    id: togglLoginInfoLayout
 
-            PasswordTextField {
-                id: passwordInput
-                Layout.fillWidth: true
+                    anchors.fill: parent
+                    anchors.margins: 6
+
+                    SmallLabel {
+                        text: qsTr('Username:')
+                    }
+
+                    TextField {
+                        id: usernameInput
+                        Layout.fillWidth: true
+                    }
+
+                    SmallLabel {
+                        text: qsTr('Password:')
+                    }
+
+                    PasswordTextField {
+                        id: passwordInput
+                        Layout.fillWidth: true
+                    }
+                }
             }
 
             SmallLabel {
