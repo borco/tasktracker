@@ -20,16 +20,16 @@ qt_add_qml_module(${APP_NAME}
     QML_FILES
         qml/LoginComponent.qml
         qml/LogsComponent.qml
-        qml/MainToolBar.qml
         qml/PasswordTextField.qml
         qml/SmallLabel.qml
+        qml/SettingsPopup.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
         icons/clear.svg
-        icons/logs.svg
         icons/password_hidden.svg
         icons/password_visible.svg
+        icons/settings.svg
         icons/wrap_text.svg
 )
 

@@ -113,25 +113,22 @@ ColumnLayout {
                     TogglProxy.login(usernameInput.text.trim(), passwordInput.text)
                 }
             }
-
-            CheckBox {
-                id: storePasswordInKeyChain
-                GridLayout.columnSpan: 2
-                Layout.topMargin: 24
-                text: qsTr('Store password in key chain')
-                checked: Config.storePasswordInKeyChain
-                onCheckedChanged: {
-                    if (checked) {
-                        readCredentials()
-                    }
-                }
-            }
         }
 
         Item { Layout.fillWidth: true }
     }
 
     Item { Layout.fillHeight: true }
+
+    Connections {
+        target: Config
+
+        function onStorePasswordInKeyChainChanged() {
+            if (Config.storePasswordInKeyChain) {
+                readCredentials()
+            }
+        }
+    }
 
     Connections {
         target: KeyChain
@@ -167,7 +164,6 @@ ColumnLayout {
         category: "Login"
         property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
-        property alias storePasswordInKeyChain: storePasswordInKeyChain.checked
     }
 
     Component.onCompleted: {

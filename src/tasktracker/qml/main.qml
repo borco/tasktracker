@@ -17,11 +17,6 @@ Window {
         anchors.fill: parent
         spacing: 0
 
-        MainToolBar {
-            id: mainToolBar
-            Layout.fillWidth: true
-        }
-
         SplitView {
             id: splitView
 
@@ -47,7 +42,7 @@ Window {
             }
 
             Pane {
-                visible: mainToolBar.logs.checked
+                visible: settingsPopup.logsVisible
                 padding: 0
 
                 LogsComponent {
@@ -55,7 +50,22 @@ Window {
                 }
             }
         }
+    }
 
+    ToolButton {
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: 6
+        icon.source: "../icons/settings.svg"
+        flat: true
+        onClicked: settingsPopup.open()
+    }
+
+    SettingsPopup {
+        id: settingsPopup
+        anchors.centerIn: Overlay.overlay
+        width: Math.min(600, parent.width)
+        height: Math.min(parent.height - 100, 600)
     }
 
     Component {
@@ -80,11 +90,11 @@ Window {
         id: settings
         category: "Main"
         property var splitView
-        property alias logsVisible: mainToolBar.logsVisible
     }
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
+//        settingsPopup.open()
     }
 
     Component.onDestruction: {
