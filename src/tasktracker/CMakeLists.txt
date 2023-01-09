@@ -22,11 +22,12 @@ qt_add_qml_module(${APP_NAME}
         qml/LoginComponent.qml
         qml/LoginPage.qml
         qml/LogsComponent.qml
-        qml/main.qml
+        qml/MainPage.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
         qml/SmallLabel.qml
         qml/Theme.js
+        qml/main.qml
     RESOURCES
         icons/app.svg
         icons/clear.svg

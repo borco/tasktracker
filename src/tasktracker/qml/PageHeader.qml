@@ -7,10 +7,9 @@ import "Theme.js" as Theme
 Item {
     id: root
 
-    property alias settingsButtonVisible: settingsButton.visible
     property alias rightLayout: rightLayout
 
-    signal showSettings()
+    signal showConfig()
 
     implicitHeight: Theme.PageHeaderHeight
 
@@ -26,10 +25,10 @@ Item {
         }
 
         ToolButton {
-            id: settingsButton
+            id: configButton
             icon.source: "../icons/settings.svg"
             flat: true
-            onClicked: root.showSettings()
+            onClicked: root.showConfig()
         }
     }
 }

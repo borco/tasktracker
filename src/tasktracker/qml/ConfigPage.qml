@@ -24,6 +24,25 @@ Page {
         anchors.bottom: parent.bottom
     }
 
+    component FlatButton: Button {
+        id: flatButton
+
+        leftPadding: 4
+        rightPadding: 4
+
+        contentItem: Label {
+            text: flatButton.text
+            font.bold: true
+            opacity: enabled ? 1.0 : 0.3
+            color: flatButton.down ? Qt.darker(palette.link) : palette.link
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
+
+        background: Item {}
+    }
+
     component ItemBackground: Rectangle {
         anchors.fill: parent
         color: palette.light
@@ -82,23 +101,23 @@ Page {
         }
     }
 
-    component FlatButton: Button {
-        id: flatButton
+    component ButtonItem: Item {
+        id: buttonItem
 
-        leftPadding: 4
-        rightPadding: 4
+        property string text: ""
+        signal clicked()
 
-        contentItem: Label {
-            text: flatButton.text
-            font.bold: true
-            opacity: enabled ? 1.0 : 0.3
-            color: flatButton.down ? Qt.darker(palette.link) : palette.link
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
+        implicitHeight: buttonItemButton.implicitHeight
+        Layout.fillWidth: true
+
+        ItemBackground {}
+
+        FlatButton {
+            id: buttonItemButton
+            anchors.centerIn: parent
+            text: buttonItem.text
+            onClicked: buttonItem.clicked()
         }
-
-        background: Item {}
     }
 
     title: qsTr("Settings")
@@ -163,6 +182,16 @@ Page {
                 text: qsTr('Show logs')
                 checked: Config.logsVisible
                 onCheckedChanged: Config.logsVisible = checked
+            }
+
+            GroupTitle {
+                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
+            }
+
+            ButtonItem {
+                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
+                text: qsTr("Log Out")
+                onClicked: TogglProxy.logOut()
             }
         }
     }

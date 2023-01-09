@@ -16,11 +16,19 @@ class TogglProxy : public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(bool isLoggedIn READ isLoggedIn WRITE setIsLoggedIn NOTIFY isLoggedInChanged)
+    Q_PROPERTY(LoggedStatus loggedStatus READ loggedStatus WRITE setLoggedStatus NOTIFY loggedStatusChanged)
     Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
 
 public:
+    enum LoggedStatus {
+        LoggedUnknown = 0,
+        LoggedIn,
+        LoggedOut,
+    };
+
+    Q_ENUM(LoggedStatus);
+
     ~TogglProxy();
 
     static TogglProxy* get() {
@@ -35,8 +43,8 @@ public:
     void load();
     void save();
 
-    bool isLoggedIn() const { return m_isLoggedIn; }
-    void setIsLoggedIn(bool newIsLoggedIn);
+    LoggedStatus loggedStatus() const { return m_loggedStatus; }
+    void setLoggedStatus(const LoggedStatus &newLoggedStatus);
 
     QString username() const { return m_username; }
     void setUsername(const QString &newUsername);
@@ -45,14 +53,14 @@ public:
     void setPassword(const QString &newPassword);
 
 signals:
-    void isLoggedInChanged();
-    void logInOk();
-    void logInFailed();
+    void loggedStatusChanged();
+    void loggedWithUserAndPassword();
     void usernameChanged();
     void passwordChanged();
 
 public slots:
     void logIn();
+    void logOut();
 
 private:
     explicit TogglProxy(QObject *parent = nullptr);
@@ -60,7 +68,7 @@ private:
     QByteArray sessionFromCookieJar() const;
     void updateCookieJar();
 
-    void getMe();
+    void getMe(bool updateIsLoggedIn=false);
     void getOrganizations();
 
     inline static bool m_deleteInstanceOnCleanup = true;
@@ -68,7 +76,7 @@ private:
 
     QNetworkAccessManager* m_networkAccessManager = nullptr;
 
-    bool m_isLoggedIn = false;
+    LoggedStatus m_loggedStatus = LoggedUnknown;
     QByteArray m_session;
     QString m_username;
     QString m_password;

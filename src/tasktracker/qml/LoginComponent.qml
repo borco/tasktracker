@@ -113,7 +113,7 @@ ColumnLayout {
     Connections {
         target: TogglProxy
 
-        function onLogInOk() {
+        function onLoggedWithUserAndPassword() {
             if (Config.storeSecretsInKeychain) {
                 KeyChain.writeKey(TogglProxy.username, TogglProxy.password)
             }

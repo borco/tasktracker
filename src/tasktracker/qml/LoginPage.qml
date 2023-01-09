@@ -5,10 +5,12 @@ import QtQuick.Layouts
 Page {
     id: root
 
-    signal showSettings()
+    property bool isBusy: false
+
+    signal showConfig()
 
     header: PageHeader {
-        onShowSettings: root.showSettings()
+        onShowConfig: root.showConfig()
     }
 
     ColumnLayout {
@@ -17,9 +19,16 @@ Page {
         Item { Layout.fillHeight: true }
 
         LoginComponent {
+            enabled: !root.isBusy
             Layout.fillWidth: true
         }
 
         Item { Layout.fillHeight: true }
+    }
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        visible: root.isBusy
+        running: visible
     }
 }

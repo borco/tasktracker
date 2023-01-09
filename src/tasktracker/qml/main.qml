@@ -20,6 +20,16 @@ Window {
     title: qsTr("Task Tracker")
 
     Component {
+        id: starPageComponent
+        Page {
+            BusyIndicator {
+                anchors.centerIn: parent
+                running: true
+            }
+        }
+    }
+
+    Component {
         id: configPageComponent
         ConfigPage {
             onDone: stackView.pop()
@@ -27,9 +37,17 @@ Window {
     }
 
     Component {
-        id: loginComponent
+        id: loginPageComponent
         LoginPage {
-            onShowSettings: showConfigPage()
+            isBusy: TogglProxy.loggedStatus === TogglProxy.LoggedUnknown
+            onShowConfig: showConfigPage()
+        }
+    }
+
+    Component {
+        id: mainPageComponent
+        MainPage {
+            onShowConfig: showConfigPage()
         }
     }
 
@@ -58,7 +76,6 @@ Window {
                 id: stackView
 
                 SplitView.minimumHeight: 200
-                initialItem: loginComponent
             }
 
             Pane {
@@ -72,6 +89,18 @@ Window {
         }
     }
 
+    Connections {
+        target: TogglProxy
+
+        function onLoggedStatusChanged() {
+            if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
+                stackView.replace(null, mainPageComponent, StackView.Immediate)
+            } else if (TogglProxy.loggedStatus === TogglProxy.LoggedOut) {
+                stackView.replace(null, loginPageComponent, StackView.Immediate)
+            }
+        }
+    }
+
     Settings {
         id: settings
         category: "Main"
@@ -80,6 +109,19 @@ Window {
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
+
+        switch(TogglProxy.loggedStatus) {
+        case TogglProxy.LoggedIn:
+            stackView.replace(null, mainPageComponent, StackView.Immediate)
+            break
+        case TogglProxy.LoggedUnknown:
+            stackView.replace(null, starPageComponent, StackView.Immediate)
+            break
+        default:
+            stackView.replace(null, loginPageComponent, StackView.Immediate)
+            break
+        }
+
 //        showConfigPage()
     }
 

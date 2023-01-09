@@ -73,9 +73,12 @@ void TogglProxy::load()
 
     qDebug() << "TogglProxy: loaded";
 
-    updateCookieJar();
-
-    getMe();
+    if (!m_session.isEmpty()) {
+        updateCookieJar();
+        getMe(true);
+    } else {
+        setLoggedStatus(LoggedOut);
+    }
 }
 
 void TogglProxy::save()
@@ -91,10 +94,12 @@ void TogglProxy::save()
 void TogglProxy::logIn()
 {
     if (m_username.isEmpty() || m_password.isEmpty()) {
-        qWarning() << "TogglProxy: can't login because user or password is empty";
-        emit logInFailed();
+        qWarning() << "TogglProxy: can't login without an username and a password";
+        setLoggedStatus(LoggedOut);
         return;
     }
+
+    setLoggedStatus(LoggedUnknown);
 
     QString authorization = QString("%1:%2").arg(m_username, m_password);
 
@@ -107,7 +112,7 @@ void TogglProxy::logIn()
 
     connect(reply, &QNetworkReply::errorOccurred, this, [=](QNetworkReply::NetworkError code){
         qCritical().noquote() << "TogglProxy: error during login:" << code;
-        setIsLoggedIn(false);
+        setLoggedStatus(LoggedOut);
     });
 
     connect(reply, &QNetworkReply::finished, this, [=]() {
@@ -120,24 +125,37 @@ void TogglProxy::logIn()
 
             m_session = sessionFromCookieJar();
 
-            getOrganizations();
-
-            setIsLoggedIn(true);
-            emit logInOk();
+            setLoggedStatus(LoggedIn);
+            emit loggedWithUserAndPassword();
         } else {
             qDebug().noquote() << "TogglProxy: login failed:" << response_data;
             m_session.clear();
             updateCookieJar();
-            setIsLoggedIn(false);
-            emit logInFailed();
+            setLoggedStatus(LoggedOut);
         }
     });
 }
 
-void TogglProxy::getMe()
+void TogglProxy::logOut()
+{
+    if (m_loggedStatus != LoggedIn) {
+        return;
+    }
+
+    qDebug() << "TogglProxy: logged out";
+
+    m_session.clear();
+    updateCookieJar();
+    setLoggedStatus(LoggedOut);
+}
+
+void TogglProxy::getMe(bool updateIsLoggedIn)
 {
     if (m_session.isEmpty()) {
         qCritical() << "TogglProxy: can't get user info before logging in";
+        if (updateIsLoggedIn) {
+            setLoggedStatus(LoggedOut);
+        }
         return;
     }
 
@@ -151,10 +169,18 @@ void TogglProxy::getMe()
     connect(reply, &QNetworkReply::finished, this, [=]() {
         auto response_data = reply->readAll();
         if (reply->error() == QNetworkReply::NoError) {
+            if (updateIsLoggedIn) {
+                setLoggedStatus(LoggedIn);
+                qDebug() << "TogglProxy: loggin in with session works";
+            }
             auto doc = QJsonDocument::fromJson(response_data);
             auto json = doc.object();
             qDebug().noquote() << "TogglProxy: getMe response:" << doc.toJson();
         } else {
+            if (updateIsLoggedIn) {
+                setLoggedStatus(LoggedOut);
+                qDebug() << "TogglProxy: loggin in with session failed";
+            }
             qDebug().noquote() << "TogglProxy: getMe failed:" << response_data;
         }
     });
@@ -224,10 +250,10 @@ void TogglProxy::setPassword(const QString &newPassword)
     emit passwordChanged();
 }
 
-void TogglProxy::setIsLoggedIn(bool newIsLoggedIn)
+void TogglProxy::setLoggedStatus(const LoggedStatus &newLoggedStatus)
 {
-    if (m_isLoggedIn == newIsLoggedIn)
+    if (m_loggedStatus == newLoggedStatus)
         return;
-    m_isLoggedIn = newIsLoggedIn;
-    emit isLoggedInChanged();
+    m_loggedStatus = newLoggedStatus;
+    emit loggedStatusChanged();
 }
