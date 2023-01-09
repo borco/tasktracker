@@ -7,11 +7,28 @@ import Qt.labs.settings
 Window {
     id: root
 
+    function showSettingsPage() {
+        settingsPage.visible = true
+        stackView.push(settingsPage)
+    }
+
     width: 640
     height: 480
     visible: true
 
     title: qsTr("Task Tracker")
+
+    SettingsPage {
+        id: settingsPage
+        onDone: stackView.pop()
+    }
+
+    Component {
+        id: loginComponent
+        LoginPage {
+            onShowSettings: showSettingsPage()
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -42,46 +59,12 @@ Window {
             }
 
             Pane {
-                visible: settingsPopup.logsVisible
+                visible: settingsPage.logsVisible
                 padding: 0
 
                 LogsComponent {
                     anchors.fill: parent
                 }
-            }
-        }
-    }
-
-    ToolButton {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: 6
-        icon.source: "../icons/settings.svg"
-        flat: true
-        onClicked: settingsPopup.open()
-    }
-
-    SettingsPopup {
-        id: settingsPopup
-        anchors.centerIn: Overlay.overlay
-        width: Math.min(600, parent.width)
-        height: Math.min(parent.height - 100, 600)
-    }
-
-    Component {
-        id: loginComponent
-
-        Pane {
-            ColumnLayout {
-                anchors.fill: parent
-
-                Item { Layout.fillHeight: true }
-
-                LoginComponent {
-                    Layout.fillWidth: true
-                }
-
-                Item { Layout.fillHeight: true }
             }
         }
     }
@@ -94,7 +77,7 @@ Window {
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
-//        settingsPopup.open()
+//        showSettingsPage()
     }
 
     Component.onDestruction: {

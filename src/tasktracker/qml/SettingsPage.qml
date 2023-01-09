@@ -4,9 +4,11 @@ import QtQuick.Layouts
 
 import Qt.labs.settings
 
+import "Theme.js" as Theme
+
 import TaskTrackerLib
 
-Dialog {
+Page {
     id: root
 
     property alias logsVisible: logsVisibleSwitch.checked
@@ -14,6 +16,8 @@ Dialog {
     property int leftContentMargin: 20
     property int groupTitleHeight: 40
     property int groupTitleBottomMargin: 4
+
+    signal done()
 
     component Separator: Rectangle {
         height: 1
@@ -101,7 +105,6 @@ Dialog {
 
     title: qsTr("Settings")
 
-    modal: true
     padding: 0
 
     background: Rectangle {
@@ -112,7 +115,7 @@ Dialog {
     }
 
     header: Item {
-        implicitHeight: 30
+        implicitHeight: Theme.PageHeaderHeight
 
         Label {
             text: root.title
@@ -125,7 +128,7 @@ Dialog {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: 6
-            onClicked: accept()
+            onClicked: root.done()
         }
 
         Separator {}
