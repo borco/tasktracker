@@ -29,7 +29,7 @@ TogglProxy::TogglProxy(QObject *parent)
     connect(m_webSocket, qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, [=](QAbstractSocket::SocketError error) {
         if (error == QAbstractSocket::RemoteHostClosedError) {
             qDebug() << "TogglProxy: remote host closed connection; reconecting...";
-            webSocketRelogin();
+            webSocketReconnect();
         } else {
             qWarning() << "TogglProxy: web socket error:" << error;
         }
@@ -110,15 +110,15 @@ void TogglProxy::login(QString username, QString password)
     });
 }
 
-void TogglProxy::webSocketRelogin()
+void TogglProxy::webSocketReconnect()
 {
     if (m_apiToken.isEmpty()) {
-        qWarning() << "TogglProxy: can't relogin (no api token)";
+        qWarning() << "TogglProxy: can't reconnect (no api token)";
         return;
     }
 
     if (m_webSocket->isValid()) {
-        qWarning() << "TogglProxy: no need to relogin (web socket is valid)";
+        qWarning() << "TogglProxy: no need to reconnect (web socket is valid)";
         return;
     }
 

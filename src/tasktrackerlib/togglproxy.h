@@ -37,7 +37,7 @@ public slots:
 private:
     explicit TogglProxy(QObject *parent = nullptr);
 
-    void webSocketRelogin();
+    void webSocketReconnect();
     void webSocketLogin(QString token);
 
     inline static bool m_deleteInstanceOnCleanup = true;
