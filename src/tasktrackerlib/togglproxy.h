@@ -20,6 +20,9 @@ class TogglProxy : public QObject
     Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
 
+    Q_PROPERTY(QString fullname READ fullname NOTIFY fullnameChanged)
+    Q_PROPERTY(QString imageUrl READ imageUrl NOTIFY imageUrlChanged)
+
 public:
     enum LoggedStatus {
         LoggedUnknown = 0,
@@ -52,11 +55,17 @@ public:
     QString password() const { return m_password; }
     void setPassword(const QString &newPassword);
 
+    QString fullname() const { return m_fullname; }
+
+    QString imageUrl() const { return m_imageUrl; }
+
 signals:
     void loggedStatusChanged();
     void loggedWithUserAndPassword();
     void usernameChanged();
     void passwordChanged();
+    void fullnameChanged();
+    void imageUrlChanged();
 
 public slots:
     void logIn();
@@ -64,6 +73,9 @@ public slots:
 
 private:
     explicit TogglProxy(QObject *parent = nullptr);
+
+    void setFullname(const QString &newFullname);
+    void setImageUrl(const QString &newImageUrl);
 
     QByteArray sessionFromCookieJar() const;
     void updateCookieJar();
@@ -80,6 +92,8 @@ private:
     QByteArray m_session;
     QString m_username;
     QString m_password;
+    QString m_fullname;
+    QString m_imageUrl;
 };
 
 }

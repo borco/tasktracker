@@ -19,7 +19,7 @@ Page {
 
     component Separator: Rectangle {
         height: 1
-        color: "#404040A0"
+        color: palette.dark
         width: parent.width
         anchors.bottom: parent.bottom
     }
@@ -123,13 +123,6 @@ Page {
     title: qsTr("Settings")
 
     padding: 0
-
-    background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: 200
-        color: palette.alternateBase
-        radius: 6
-    }
 
     header: Item {
         implicitHeight: Theme.PageHeaderHeight

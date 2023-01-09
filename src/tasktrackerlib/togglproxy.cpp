@@ -125,6 +125,7 @@ void TogglProxy::logIn()
 
             m_session = sessionFromCookieJar();
 
+            getMe(true);
             setLoggedStatus(LoggedIn);
             emit loggedWithUserAndPassword();
         } else {
@@ -146,6 +147,8 @@ void TogglProxy::logOut()
 
     m_session.clear();
     updateCookieJar();
+    setFullname("");
+    setImageUrl("");
     setLoggedStatus(LoggedOut);
 }
 
@@ -171,17 +174,31 @@ void TogglProxy::getMe(bool updateIsLoggedIn)
         if (reply->error() == QNetworkReply::NoError) {
             if (updateIsLoggedIn) {
                 setLoggedStatus(LoggedIn);
-                qDebug() << "TogglProxy: loggin in with session works";
+                qDebug() << "TogglProxy: logged in using old session";
             }
             auto doc = QJsonDocument::fromJson(response_data);
             auto json = doc.object();
-            qDebug().noquote() << "TogglProxy: getMe response:" << doc.toJson();
+
+            static const char* FullnameKey = "fullname";
+            static const char* ImageUrlKey = "image_url";
+
+            if (json.contains(FullnameKey)) {
+                setFullname(json[FullnameKey].toString());
+            }
+
+            if (json.contains(ImageUrlKey)) {
+                setImageUrl(json[ImageUrlKey].toString());
+            }
+
+//            qDebug().noquote() << "TogglProxy: getMe response:" << doc.toJson();
         } else {
+            setImageUrl("");
+            setFullname("");
             if (updateIsLoggedIn) {
                 setLoggedStatus(LoggedOut);
-                qDebug() << "TogglProxy: loggin in with session failed";
+                qDebug() << "TogglProxy: failed to log in using old session";
             }
-            qDebug().noquote() << "TogglProxy: getMe failed:" << response_data;
+            qDebug().noquote() << "TogglProxy: failed to get user info:" << response_data;
         }
     });
 }
@@ -256,4 +273,20 @@ void TogglProxy::setLoggedStatus(const LoggedStatus &newLoggedStatus)
         return;
     m_loggedStatus = newLoggedStatus;
     emit loggedStatusChanged();
+}
+
+void TogglProxy::setFullname(const QString &newFullname)
+{
+    if (m_fullname == newFullname)
+        return;
+    m_fullname = newFullname;
+    emit fullnameChanged();
+}
+
+void TogglProxy::setImageUrl(const QString &newImageUrl)
+{
+    if (m_imageUrl == newImageUrl)
+        return;
+    m_imageUrl = newImageUrl;
+    emit imageUrlChanged();
 }
