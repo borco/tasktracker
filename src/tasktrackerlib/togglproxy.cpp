@@ -1,5 +1,5 @@
 /*
-    Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
+    Copyright (C) 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
 #include "togglproxy.h"
