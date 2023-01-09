@@ -26,34 +26,37 @@ TogglProxy::TogglProxy(QObject *parent)
 {
     qDebug() << this;
 
-    connect(m_webSocket, &QWebSocket::connected, this, [=]() {
-       qDebug() << this << "web socket connected";
-       m_webSocket->ping();
-    });
-
     connect(m_webSocket, qOverload<QAbstractSocket::SocketError>(&QWebSocket::error), this, [=](QAbstractSocket::SocketError error) {
-        qDebug() << this << "web socket error:" << error;
-    });
-
-    connect(m_webSocket, &QWebSocket::pong, this, [=](quint64 elapsedTime, const QByteArray &payload) {
-        qDebug().nospace() << this << " pong: " << elapsedTime << "ms";
-    });
-
-    connect(m_webSocket, &QWebSocket::textMessageReceived, this, [=](QString message) {
-        qDebug().noquote() << this << "text message received:" << message;
-    });
-
-    connect(m_networkAccessManager, &QNetworkAccessManager::sslErrors, this, [=](QNetworkReply *reply, const QList<QSslError> &errors){
-        qDebug().noquote() << this
-                           << "ssl errors when accessing:" << reply->url() << "\n"
-                           << "errors:\n";
-        for (const auto& error: errors) {
-            qCritical().noquote() << "  " << error.errorString();
+        if (error == QAbstractSocket::RemoteHostClosedError) {
+            qDebug() << "TogglProxy: remote host closed connection; reconecting...";
+            webSocketRelogin();
+        } else {
+            qWarning() << "TogglProxy: web socket error:" << error;
         }
     });
 
+    connect(m_webSocket, &QWebSocket::sslErrors, this, [=](const QList<QSslError> &errors) {
+        QStringList messages;
+        for (const auto& error: errors) {
+            messages << ("   " + error.errorString());
+        }
+        qWarning().noquote() << "TogglProxy: websocket ssl errors:\n" << messages.join("\n");
+    });
+
+    connect(m_networkAccessManager, &QNetworkAccessManager::sslErrors, this, [=](QNetworkReply *reply, const QList<QSslError> &errors){
+        QStringList messages;
+        for (const auto& error: errors) {
+            messages << ("   " + error.errorString());
+        }
+        qWarning().noquote() << "TogglProxy: ssl errors when accessing:" << reply->url() << ":\n" << messages.join("\n");
+    });
+
+    connect(m_webSocket, &QWebSocket::textMessageReceived, this, [=](QString message) {
+        qDebug().noquote() << "TogglProxy: text message received:" << message;
+    });
+
     m_networkAccessManager->setProxy(QNetworkProxy::applicationProxy());
-    m_networkAccessManager->connectToHostEncrypted("toggl.com");
+    //    m_networkAccessManager->connectToHostEncrypted("toggl.com");
 }
 
 TogglProxy::~TogglProxy()
@@ -87,7 +90,7 @@ void TogglProxy::login(QString username, QString password)
     auto reply = m_networkAccessManager->get(request);
 
     connect(reply, &QNetworkReply::errorOccurred, this, [=](QNetworkReply::NetworkError code){
-        qCritical().nospace().noquote() << this << "::login: error occured: " << code;
+        qCritical().nospace().noquote() << "TogglProxy: error during login: " << code;
     });
 
     connect(reply, &QNetworkReply::finished, this, [=]() {
@@ -96,28 +99,42 @@ void TogglProxy::login(QString username, QString password)
             auto doc = QJsonDocument::fromJson(response_data);
             auto json = doc.object();
 
-            qDebug().nospace().noquote() << this << "::login: response: " << doc.toJson();
+            qDebug().nospace().noquote() << "TogglProxy: login response: " << doc.toJson();
 
             if (json.contains("api_token")) {
-                auto api_token = json["api_token"].toString();
-                m_webSocket->open(QUrl(TogglWebSocketUrl));
-                webSocketLogin(api_token);
+                webSocketLogin(json["api_token"].toString());
             }
         } else {
-            qDebug().nospace().noquote() << this << "::login: response: " << response_data;
+            qDebug().nospace().noquote() << "TogglProxy: login failed: " << response_data;
         }
     });
 }
 
+void TogglProxy::webSocketRelogin()
+{
+    if (m_apiToken.isEmpty()) {
+        qWarning() << "TogglProxy: can't relogin (no api token)";
+        return;
+    }
+
+    if (m_webSocket->isValid()) {
+        qWarning() << "TogglProxy: no need to relogin (web socket is valid)";
+        return;
+    }
+
+    webSocketLogin(m_apiToken);
+}
+
 void TogglProxy::webSocketLogin(QString token)
 {
+    m_apiToken = token;
     QString message = QString(R"""(
 {
     "type": "authenticate",
     "api_token": "%1"
 }
 )""").arg(token);
-//    qDebug().nospace().noquote() << this << "::tokenLogin: message: " << message;
 
+    m_webSocket->open(QUrl(TogglWebSocketUrl));
     m_webSocket->sendTextMessage(message);
 }
