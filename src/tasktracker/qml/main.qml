@@ -4,12 +4,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt.labs.settings
 
+import TaskTrackerLib
+
 Window {
     id: root
 
-    function showSettingsPage() {
-        settingsPage.visible = true
-        stackView.push(settingsPage)
+    function showConfigPage() {
+        stackView.push(configPageComponent)
     }
 
     width: 640
@@ -18,15 +19,17 @@ Window {
 
     title: qsTr("Task Tracker")
 
-    SettingsPage {
-        id: settingsPage
-        onDone: stackView.pop()
+    Component {
+        id: configPageComponent
+        ConfigPage {
+            onDone: stackView.pop()
+        }
     }
 
     Component {
         id: loginComponent
         LoginPage {
-            onShowSettings: showSettingsPage()
+            onShowSettings: showConfigPage()
         }
     }
 
@@ -59,7 +62,7 @@ Window {
             }
 
             Pane {
-                visible: settingsPage.logsVisible
+                visible: Config.logsVisible
                 padding: 0
 
                 LogsComponent {
@@ -77,7 +80,7 @@ Window {
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
-//        showSettingsPage()
+//        showConfigPage()
     }
 
     Component.onDestruction: {

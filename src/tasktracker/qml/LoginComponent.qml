@@ -15,14 +15,6 @@ ColumnLayout {
         KeyChain.readKey(usernameInput.text.trim())
     }
 
-    function writeCredentials() {
-        KeyChain.writeKey(usernameInput.text.trim(), passwordInput.text.trim())
-    }
-
-    function deleteCredentials() {
-        KeyChain.deleteKey(usernameInput.text.trim())
-    }
-
     function showErrorMessage(message) {
         infoLabel.text = message
         infoLabel.color = 'red'
@@ -106,11 +98,9 @@ ColumnLayout {
                 GridLayout.columnSpan: 2
                 Layout.fillWidth: true
                 onClicked: {
-                    if (settings.storePasswordInKeyChain) {
-                        writeCredentials()
-                    }
-
-                    TogglProxy.login(usernameInput.text.trim(), passwordInput.text)
+                    TogglProxy.username = usernameInput.text.trim()
+                    TogglProxy.password = passwordInput.text
+                    TogglProxy.logIn()
                 }
             }
         }
@@ -121,10 +111,20 @@ ColumnLayout {
     Item { Layout.fillHeight: true }
 
     Connections {
+        target: TogglProxy
+
+        function onLogInOk() {
+            if (Config.storeSecretsInKeychain) {
+                KeyChain.writeKey(TogglProxy.username, TogglProxy.password)
+            }
+        }
+    }
+
+    Connections {
         target: Config
 
-        function onStorePasswordInKeyChainChanged() {
-            if (Config.storePasswordInKeyChain) {
+        function onStoreSecretsInKeychainChanged() {
+            if (Config.storeSecretsInKeychain) {
                 readCredentials()
             }
         }
@@ -167,7 +167,7 @@ ColumnLayout {
     }
 
     Component.onCompleted: {
-        if (settings.storePasswordInKeyChain) {
+        if (settings.storeSecretsInKeychain) {
             readCredentials()
         }
     }

@@ -2,8 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import Qt.labs.settings
-
 import "Theme.js" as Theme
 
 import TaskTrackerLib
@@ -150,10 +148,10 @@ Page {
             }
 
             SwitchItem {
-                id: storePasswordInKeyChain
+                id: storeSecretsInKeychain
                 text: qsTr('Store sensitive data in key-chain')
-                checked: Config.storePasswordInKeyChain
-                onCheckedChanged: Config.storePasswordInKeyChain = checked
+                checked: Config.storeSecretsInKeychain
+                onCheckedChanged: Config.storeSecretsInKeychain = checked
             }
 
             GroupTitle {
@@ -163,14 +161,9 @@ Page {
             SwitchItem {
                 id: logsVisibleSwitch
                 text: qsTr('Show logs')
+                checked: Config.logsVisible
+                onCheckedChanged: Config.logsVisible = checked
             }
         }
-    }
-
-    Settings {
-        id: settings
-        category: "SettingsPopup"
-        property alias storePasswordInKeyChain: storePasswordInKeyChain.checked
-        property alias logsVisible: logsVisibleSwitch.checked
     }
 }

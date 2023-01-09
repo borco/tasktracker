@@ -8,43 +8,58 @@
 #include <QSettings>
 
 namespace {
-static const char* DefaultSettingsGroupKey {"Config"};
-static const char* StorePasswordInKeyChainKey {"storePasswordInKeyChain"};
+static const char* SettingsGroupKey = "Config";
+static const char* StorePasswordInKeyChainSettingsKey = "storeSecretsInKeychain";
+static const char* LogsVisibleSettingsKey = "logsVisible";
 }
 
 using namespace tasktrackerlib;
 
 Config::Config()
 {
-    qDebug() << this;
+    qDebug().nospace() << "Config: instance created (" << static_cast<void*>(this) << ")";
 }
 
 Config::~Config()
 {
     save();
-    qDebug().nospace() << "~" << this;
+    qDebug().nospace() << "Config: instance deleted (" << static_cast<void*>(this) << ")";
 }
 
 void Config::load()
 {
     QSettings settings;
-    qDebug().nospace() << this << "::load";
+    settings.beginGroup(SettingsGroupKey);
+    setStoreSecretsInKeychain(settings.value(StorePasswordInKeyChainSettingsKey, false).toBool());
+    setLogsVisible(settings.value(LogsVisibleSettingsKey, false).toBool());
+    settings.endGroup();
+
+    qDebug() << "Config: loaded";
 }
 
 void Config::save()
 {
-    qDebug().nospace() << this << "::save";
+    QSettings settings;
+    settings.beginGroup(SettingsGroupKey);
+    settings.setValue(StorePasswordInKeyChainSettingsKey, m_storeSecretsInKeychain);
+    settings.setValue(LogsVisibleSettingsKey, m_logsVisible);
+    settings.endGroup();
+
+    qDebug() << "Config: saved";
 }
 
-void Config::setStorePasswordInKeyChain(bool value)
+void Config::setStoreSecretsInKeychain(bool value)
 {
-    if (m_storePasswordInKeyChain == value)
+    if (m_storeSecretsInKeychain == value)
         return;
-    m_storePasswordInKeyChain = value;
-    emit storePasswordInKeyChainChanged();
+    m_storeSecretsInKeychain = value;
+    emit storeSecretsInKeychainChanged();
 }
 
-void Config::login(QString username, QString password)
+void Config::setLogsVisible(bool newLogsVisible)
 {
-    qDebug().nospace() << this << "::login: username: " << username << ", password: " << password;
+    if (m_logsVisible == newLogsVisible)
+        return;
+    m_logsVisible = newLogsVisible;
+    emit logsVisibleChanged();
 }

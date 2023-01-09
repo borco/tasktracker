@@ -18,15 +18,15 @@ qt_add_qml_module(${APP_NAME}
     URI ${APP_NAME}
     VERSION 1.0
     QML_FILES
+        qml/ConfigPage.qml
         qml/LoginComponent.qml
         qml/LoginPage.qml
         qml/LogsComponent.qml
+        qml/main.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
         qml/SmallLabel.qml
-        qml/SettingsPage.qml
         qml/Theme.js
-        qml/main.qml
     RESOURCES
         icons/app.svg
         icons/clear.svg

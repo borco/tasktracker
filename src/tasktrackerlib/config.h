@@ -14,7 +14,8 @@ class Config: public QObject
     QML_ELEMENT
     QML_SINGLETON
 
-    Q_PROPERTY(bool storePasswordInKeyChain READ storePasswordInKeyChain WRITE setStorePasswordInKeyChain NOTIFY storePasswordInKeyChainChanged)
+    Q_PROPERTY(bool storeSecretsInKeychain READ storeSecretsInKeychain WRITE setStoreSecretsInKeychain NOTIFY storeSecretsInKeychainChanged)
+    Q_PROPERTY(bool logsVisible READ logsVisible WRITE setLogsVisible NOTIFY logsVisibleChanged)
 
 public:
     ~Config();
@@ -30,20 +31,23 @@ public:
     void load();
     void save();
 
-    bool storePasswordInKeyChain() const { return m_storePasswordInKeyChain; }
-    void setStorePasswordInKeyChain(bool value);
+    bool storeSecretsInKeychain() const { return m_storeSecretsInKeychain; }
+    void setStoreSecretsInKeychain(bool value);
 
-    Q_INVOKABLE void login(QString username, QString password);
+    bool logsVisible() const { return m_logsVisible; }
+    void setLogsVisible(bool newLogsVisible);
 
 signals:
-    void storePasswordInKeyChainChanged();
+    void storeSecretsInKeychainChanged();
+    void logsVisibleChanged();
 
 private:
     Config();
 
     inline static Config* m_instance {nullptr};
 
-    bool m_storePasswordInKeyChain {false};
+    bool m_storeSecretsInKeychain = false;
+    bool m_logsVisible = false;
 };
 
 }

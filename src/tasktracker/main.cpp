@@ -102,20 +102,19 @@ int main(int argc, char *argv[])
         auto proxy_host = parser.value(ProxyHostCommandLineOption);
         auto proxy_port = parser.value(ProxyPortCommandLineOption).toUShort();
 
-        qWarning().nospace().noquote() << "Using custom network proxy: " << proxy_host << ":" << proxy_port;
+        qWarning().nospace().noquote() << "Main: using custom network proxy: " << proxy_host << ":" << proxy_port;
 
         network_proxy.setType(QNetworkProxy::HttpProxy);
         network_proxy.setHostName(proxy_host);
         network_proxy.setPort(proxy_port);
         QNetworkProxy::setApplicationProxy(network_proxy);
-    } else {
-        qInfo() << "Not using custom network proxy";
     }
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
-    qInfo() << "Settings file:" << QSettings().fileName();
+    qInfo() << "Main: settings file:" << QSettings().fileName();
 
     tasktrackerlib::Config::get()->load();
+    tasktrackerlib::TogglProxy::get()->load();
 
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
