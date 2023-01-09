@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <QNetworkReply>
 #include <QQmlEngine>
 
 class QNetworkAccessManager;
@@ -58,13 +57,11 @@ public slots:
 private:
     explicit TogglProxy(QObject *parent = nullptr);
 
-    void logIn(const QString& username, const QString& password);
-    void apiTokenLogIn();
+    QByteArray sessionFromCookieJar() const;
+    void updateCookieJar();
 
-    void onLogInNetworkError(QNetworkReply::NetworkError code);
-    void onLogInNetworkFinished(QNetworkReply* reply);
-    void finishOkLogIn();
-    void finishFailedLogIn();
+    void getMe();
+    void getOrganizations();
 
     inline static bool m_deleteInstanceOnCleanup = true;
     inline static TogglProxy* m_instance = nullptr;
@@ -72,8 +69,7 @@ private:
     QNetworkAccessManager* m_networkAccessManager = nullptr;
 
     bool m_isLoggedIn = false;
-    QString m_apiToken;
-    QString m_session;
+    QByteArray m_session;
     QString m_username;
     QString m_password;
 };

@@ -8,6 +8,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
+#include <QNetworkCookie>
+#include <QNetworkCookieJar>
 #include <QNetworkProxy>
 #include <QNetworkReply>
 #include <QSettings>
@@ -16,6 +18,9 @@
 namespace {
 static const char* SettingsGroupKey = "TogglProxy";
 static const char* SessionSettingsKey = "session";
+
+static const char* TogglApiUrl = "https://api.track.toggl.com/";
+static const char* SessionCookieName = "__Host-timer-session";
 }
 
 using namespace tasktrackerlib;
@@ -35,6 +40,7 @@ TogglProxy::TogglProxy(QObject *parent)
     });
 
     m_networkAccessManager->setProxy(QNetworkProxy::applicationProxy());
+    m_networkAccessManager->setCookieJar(new QNetworkCookieJar());
     m_networkAccessManager->connectToHostEncrypted("toggl.com");
 }
 
@@ -62,10 +68,14 @@ void TogglProxy::load()
 {
     QSettings settings;
     settings.beginGroup(SettingsGroupKey);
-    m_session = settings.value(SessionSettingsKey).toString();
+    m_session = settings.value(SessionSettingsKey).toByteArray();
     settings.endGroup();
 
     qDebug() << "TogglProxy: loaded";
+
+    updateCookieJar();
+
+    getMe();
 }
 
 void TogglProxy::save()
@@ -78,81 +88,124 @@ void TogglProxy::save()
     qDebug() << "TogglProxy: saved";
 }
 
-void TogglProxy::onLogInNetworkError(QNetworkReply::NetworkError code)
+void TogglProxy::logIn()
 {
-    qCritical().nospace().noquote() << "TogglProxy: error during login: " << code;
-    setIsLoggedIn(false);
-    m_apiToken.clear();
-}
-
-void TogglProxy::onLogInNetworkFinished(QNetworkReply *reply)
-{
-    auto response_data = reply->readAll();
-    if (reply->error() == QNetworkReply::NoError) {
-        auto doc = QJsonDocument::fromJson(response_data);
-        auto json = doc.object();
-
-        qDebug().nospace().noquote() << "TogglProxy: login response: " << doc.toJson();
-
-        if (json.contains("api_token")) {
-            m_apiToken = json["api_token"].toString();
-        }
-
-        finishOkLogIn();
-    } else {
-        qDebug().nospace().noquote() << "TogglProxy: login failed: " << response_data;
-        finishFailedLogIn();
-    }
-}
-
-void TogglProxy::logIn(const QString &username, const QString &password)
-{
-    if (username.isEmpty() || password.isEmpty()) {
+    if (m_username.isEmpty() || m_password.isEmpty()) {
         qWarning() << "TogglProxy: can't login because user or password is empty";
         emit logInFailed();
         return;
     }
 
-    QString authorization = QString("%1:%2").arg(username, password);
+    QString authorization = QString("%1:%2").arg(m_username, m_password);
 
     QNetworkRequest request;
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Authorization", QByteArray("Basic ") + authorization.toUtf8().toBase64());
-    request.setUrl(QUrl("https://api.track.toggl.com/api/v9/me"));
+    request.setUrl(QUrl("https://api.track.toggl.com/api/v9/me/sessions"));
 
-    auto reply = m_networkAccessManager->get(request);
+    auto reply = m_networkAccessManager->post(request, QByteArray());
 
-    connect(reply, &QNetworkReply::errorOccurred, this, &TogglProxy::onLogInNetworkError);
-    connect(reply, &QNetworkReply::finished, this, [=]() { onLogInNetworkFinished(reply); });
+    connect(reply, &QNetworkReply::errorOccurred, this, [=](QNetworkReply::NetworkError code){
+        qCritical().noquote() << "TogglProxy: error during login:" << code;
+        setIsLoggedIn(false);
+    });
+
+    connect(reply, &QNetworkReply::finished, this, [=]() {
+        auto response_data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            auto doc = QJsonDocument::fromJson(response_data);
+            auto json = doc.object();
+
+            qDebug().noquote() << "TogglProxy: session login response:" << doc.toJson();
+
+            m_session = sessionFromCookieJar();
+
+            getOrganizations();
+
+            setIsLoggedIn(true);
+            emit logInOk();
+        } else {
+            qDebug().noquote() << "TogglProxy: login failed:" << response_data;
+            m_session.clear();
+            updateCookieJar();
+            setIsLoggedIn(false);
+            emit logInFailed();
+        }
+    });
 }
 
-void TogglProxy::finishOkLogIn()
+void TogglProxy::getMe()
 {
-    setIsLoggedIn(true);
-    emit logInOk();
-}
-
-void TogglProxy::finishFailedLogIn()
-{
-    setIsLoggedIn(false);
-    m_session.clear();
-    m_apiToken.clear();
-    emit logInFailed();
-}
-
-void TogglProxy::apiTokenLogIn()
-{
-    if (m_apiToken.isEmpty()) {
-        qDebug() << "TogglProxy: api token not available";
+    if (m_session.isEmpty()) {
+        qCritical() << "TogglProxy: can't get user info before logging in";
         return;
     }
 
-    logIn(m_apiToken, "api_token");
+    auto url = QUrl("https://api.track.toggl.com/api/v9/me");
+    QNetworkRequest request;
+    request.setRawHeader("Content-Type", "application/json");
+    request.setUrl(url);
+
+    auto reply = m_networkAccessManager->get(request);
+
+    connect(reply, &QNetworkReply::finished, this, [=]() {
+        auto response_data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            auto doc = QJsonDocument::fromJson(response_data);
+            auto json = doc.object();
+            qDebug().noquote() << "TogglProxy: getMe response:" << doc.toJson();
+        } else {
+            qDebug().noquote() << "TogglProxy: getMe failed:" << response_data;
+        }
+    });
 }
 
-void TogglProxy::logIn()
+void TogglProxy::getOrganizations()
 {
-    logIn(m_username, m_password);
+    if (m_session.isEmpty()) {
+        qCritical() << "TogglProxy: can't get organizations before logging in";
+        return;
+    }
+
+    auto url = QUrl("https://api.track.toggl.com/api/v9/me/organizations");
+    QNetworkRequest request;
+    request.setRawHeader("Content-Type", "application/json");
+    request.setUrl(url);
+
+    auto reply = m_networkAccessManager->get(request);
+
+    connect(reply, &QNetworkReply::finished, this, [=]() {
+        auto response_data = reply->readAll();
+        if (reply->error() == QNetworkReply::NoError) {
+            auto doc = QJsonDocument::fromJson(response_data);
+            auto json = doc.object();
+            qDebug().noquote() << "TogglProxy: getClients response:" << doc.toJson();
+        } else {
+            qDebug().noquote() << "TogglProxy: getClients failed:" << response_data;
+        }
+    });
+}
+
+QByteArray TogglProxy::sessionFromCookieJar() const
+{
+    for(const auto& cookie: m_networkAccessManager->cookieJar()->cookiesForUrl(QUrl(TogglApiUrl))) {
+        if (cookie.name() == SessionCookieName) {
+            return cookie.value();
+        }
+    }
+
+    return QByteArray();
+}
+
+void TogglProxy::updateCookieJar()
+{
+    auto cookie_jar = m_networkAccessManager->cookieJar();
+    QList<QNetworkCookie> cookies;
+
+    if (!m_session.isEmpty()) {
+        cookies << QNetworkCookie(SessionCookieName, m_session);
+    }
+    cookie_jar->setCookiesFromUrl(cookies, QUrl(TogglApiUrl));
 }
 
 void TogglProxy::setUsername(const QString &newUsername)
