@@ -2,52 +2,71 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "Theme.js" as Theme
+
 import TaskTrackerLib
 
-Flickable {
+Page {
     id: root
 
-    contentHeight: layout.implicitHeight
-    clip: true
+    signal done()
+    signal selectDataFolderLocation()
 
-    ColumnLayout {
-        id: layout
+    title: qsTr("Settings")
 
-        width: parent.width
-        spacing: 0
+    header: ConfigPageHeader {
+        title: root.title
+        leftButtonVisible: false
+        rightButtonEnabled: true
+        rightButtonText: qsTr("Done")
+        onRightButtonClicked: root.done()
+    }
 
-        ConfigGroupTitle { text: qsTr("Security and Privacy") }
+    Flickable {
+        anchors.fill: parent
 
-        ConfigSwitchItem {
-            id: storeSecretsInKeychain
-            text: qsTr('Store sensitive data in key-chain')
-            checked: Config.storeSecretsInKeychain
-            onCheckedChanged: Config.storeSecretsInKeychain = checked
-        }
+        contentHeight: layout.implicitHeight
+        clip: true
 
-        ConfigOptionButton {
-            text: qsTr("Data folder location")
-            value: Config.dataFolderLocation
-            onClicked: console.log("select data location")
-        }
+        ColumnLayout {
+            id: layout
 
-        ConfigGroupTitle { text: qsTr("Misc") }
+            width: parent.width
+            spacing: 0
 
-        ConfigSwitchItem {
-            id: logsVisibleSwitch
-            text: qsTr('Show logs')
-            checked: Config.logsVisible
-            onCheckedChanged: Config.logsVisible = checked
-        }
+            ConfigGroupTitle { text: qsTr("Security and Privacy") }
 
-        ConfigGroupTitle {
-            visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
-        }
+            ConfigSwitchItem {
+                id: storeSecretsInKeychain
+                text: qsTr('Store sensitive data in key-chain')
+                checked: Config.storeSecretsInKeychain
+                onCheckedChanged: Config.storeSecretsInKeychain = checked
+            }
 
-        ConfigButtonItem {
-            visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
-            text: qsTr("Log Out")
-            onClicked: TogglProxy.logOut()
+            ConfigOptionButton {
+                text: qsTr("Data folder location")
+                value: Config.dataFolderLocation
+                onClicked: root.selectDataFolderLocation()
+            }
+
+            ConfigGroupTitle { text: qsTr("Misc") }
+
+            ConfigSwitchItem {
+                id: logsVisibleSwitch
+                text: qsTr('Show logs')
+                checked: Config.logsVisible
+                onCheckedChanged: Config.logsVisible = checked
+            }
+
+            ConfigGroupTitle {
+                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
+            }
+
+            ConfigButtonItem {
+                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
+                text: qsTr("Log Out")
+                onClicked: TogglProxy.logOut()
+            }
         }
     }
 }

@@ -19,12 +19,14 @@ qt_add_qml_module(${APP_NAME}
     VERSION 1.0
     QML_FILES
         qml/ConfigButtonItem.qml
+        qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
         qml/ConfigHorizontalSeparator.qml
         qml/ConfigItemBackground.qml
         qml/ConfigMainPage.qml
         qml/ConfigOptionButton.qml
         qml/ConfigPage.qml
+        qml/ConfigPageHeader.qml
         qml/ConfigSwitchItem.qml
         qml/FlatButton.qml
         qml/LoginComponent.qml

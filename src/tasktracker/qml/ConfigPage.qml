@@ -1,8 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
-
-import "Theme.js" as Theme
 
 import TaskTrackerLib
 
@@ -11,35 +8,30 @@ Page {
 
     signal done()
 
-    title: qsTr("Settings")
     padding: 0
 
-    header: Item {
-        implicitHeight: Theme.PageHeaderHeight
-
-        Label {
-            text: root.title
-            anchors.centerIn: parent
-            font.bold: true
-        }
-
-        FlatButton {
-            text: qsTr("Done")
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: Theme.ConfigRightContentMargin
-            onClicked: root.done()
-        }
-
-        ConfigHorizontalSeparator {}
-    }
-
     contentItem: StackView {
+        id: stackView
         initialItem: configMainPageComponent
     }
 
     Component {
         id: configMainPageComponent
-        ConfigMainPage {}
+        ConfigMainPage {
+            onDone: root.done()
+            onSelectDataFolderLocation: stackView.push(configDataFolderLocationSelectionPageComponent)
+        }
+    }
+
+    Component {
+        id: configDataFolderLocationSelectionPageComponent
+        ConfigDataFolderLocationSelectionPage {
+            originalDataFolderLocation: Config.dataFolderLocation
+            onRejected: stackView.pop()
+            onAccepted: {
+                Config.dataFolderLocation = dataFolderLocation
+                stackView.pop()
+            }
+        }
     }
 }
