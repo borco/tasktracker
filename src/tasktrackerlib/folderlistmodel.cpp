@@ -9,12 +9,12 @@
 FolderListModel::FolderListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    qDebug().nospace() << "FolderListModel: instance created (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "FolderListModel: instance created (" << static_cast<void*>(this) << ")";
 }
 
 FolderListModel::~FolderListModel()
 {
-    qDebug().nospace() << "FolderListModel: instance deleted (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "FolderListModel: instance deleted (" << static_cast<void*>(this) << ")";
 }
 
 QHash<int, QByteArray> FolderListModel::roleNames() const
@@ -40,7 +40,6 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
 void FolderListModel::setFolder(const QString &newFolder)
 {
     auto clean_path = QDir::cleanPath(newFolder);
-    qDebug() << "FolderListModel: set folder:" << clean_path;
 
     if (m_folder == clean_path)
         return;
@@ -53,6 +52,7 @@ void FolderListModel::setFolder(const QString &newFolder)
 
 void FolderListModel::refresh()
 {
+//    qDebug() << "FolderListModel: refresh";
     updateModel();
 }
 

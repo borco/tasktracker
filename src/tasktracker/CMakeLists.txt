@@ -28,7 +28,9 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigPage.qml
         qml/ConfigPageHeader.qml
         qml/ConfigSwitchItem.qml
+        qml/DialogWithButtons.qml
         qml/FlatButton.qml
+        qml/InputDialog.qml
         qml/LoginComponent.qml
         qml/LoginPage.qml
         qml/LogsComponent.qml
@@ -42,8 +44,10 @@ qt_add_qml_module(${APP_NAME}
     RESOURCES
         icons/app.svg
         icons/clear.svg
+        icons/create_new_folder.svg
         icons/password_hidden.svg
         icons/password_visible.svg
+        icons/refresh.svg
         icons/settings.svg
         icons/wrap_text.svg
 )

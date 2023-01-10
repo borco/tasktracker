@@ -30,9 +30,44 @@ Page {
 
     header: ConfigPageHeader {
         title: root.title
-        rightButtonEnabled: root.isModified
-        onLeftButtonClicked: root.rejected()
-        onRightButtonClicked: root.accepted()
+        leftButton.onClicked: root.rejected()
+        rightButton.enabled: root.isModified
+        rightButton.highlighted: true
+        rightButton.onClicked: root.accepted()
+    }
+
+    FolderCreator {
+        id: folderCreator
+        path: folderListModel.folder
+    }
+
+    InputDialog {
+        id: newFolderNameDialog
+
+        modal: true
+        width: Math.min(300, root.width - 100)
+        anchors.centerIn: Overlay.overlay
+
+        title: qsTr("New folder")
+
+        errorLabel.text: folderCreator.error
+
+        leftButton.text: qsTr("Cancel")
+        leftButton.highlighted: true
+        leftButton.onClicked: {
+            reject()
+            textField.text = ""
+        }
+
+        rightButton.text: qsTr("Ok")
+        rightButton.enabled: folderCreator.isValidDir(textField.text)
+        rightButton.onClicked: {
+            accept()
+            if (folderCreator.makeDir(textField.text)) {
+                textField.text = ""
+                folderListModel.refresh()
+            }
+        }
     }
 
     ColumnLayout {
@@ -43,13 +78,32 @@ Page {
             Layout.preferredHeight: Theme.ConfigGroupTitleHeight
             Layout.fillWidth: true
 
-            Label {
-                text: root.dataFolderLocation
-                font.weight: Theme.ConfigGroupTitleFontWeight
+            RowLayout {
+                anchors.verticalCenter: parent.verticalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
                 anchors.left: parent.left
                 anchors.leftMargin: Theme.ConfigLeftContentMargin
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.ConfigRightContentMargin
+
+                Label {
+                    text: root.dataFolderLocation
+                    font.weight: Theme.ConfigGroupTitleFontWeight
+                    Layout.fillWidth: true
+                }
+
+                ToolButton {
+                    icon.source: "../icons/create_new_folder.svg"
+                    flat: true
+                    onClicked: newFolderNameDialog.open()
+                }
+
+                ToolButton {
+                    icon.source: "../icons/refresh.svg"
+                    flat: true
+                    onClicked: folderListModel.refresh()
+                }
             }
 
             ConfigHorizontalSeparator {}
@@ -76,5 +130,9 @@ Page {
         id: folderListModel
         folder: root.dataFolderLocation
         onFolderChanged: root.dataFolderLocation = folder
+    }
+
+    Component.onCompleted: {
+        newFolderNameDialog.open()
     }
 }

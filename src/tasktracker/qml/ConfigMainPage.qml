@@ -16,10 +16,11 @@ Page {
 
     header: ConfigPageHeader {
         title: root.title
-        leftButtonVisible: false
-        rightButtonEnabled: true
-        rightButtonText: qsTr("Done")
-        onRightButtonClicked: root.done()
+        leftButton.visible: false
+        rightButton.enabled: true
+        rightButton.highlighted: true
+        rightButton.text: qsTr("Done")
+        rightButton.onClicked: root.done()
     }
 
     Flickable {
@@ -68,5 +69,9 @@ Page {
                 onClicked: TogglProxy.logOut()
             }
         }
+    }
+
+    Component.onCompleted: {
+        selectDataFolderLocation()
     }
 }

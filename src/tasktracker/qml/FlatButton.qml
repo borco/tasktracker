@@ -5,8 +5,8 @@ Button {
     id: root
 
     property bool boldFont: true
-    property color normalColor: palette.link
-    property color downColor: Qt.darker(palette.link)
+    property color normalColor: highlighted ? palette.link : palette.text
+    property color downColor: highlighted ? Qt.darker(palette.link) : palette.text
 
     leftPadding: 4
     rightPadding: 4

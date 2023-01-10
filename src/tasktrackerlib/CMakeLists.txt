@@ -11,6 +11,8 @@ qt_add_qml_module(${LIB_NAME}
     SOURCES
         config.cpp
         config.h
+        foldercreator.cpp
+        foldercreator.h
         folderlistmodel.cpp
         folderlistmodel.h
         togglproxy.cpp
