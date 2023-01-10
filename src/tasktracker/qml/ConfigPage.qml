@@ -211,11 +211,9 @@ Page {
                 onCheckedChanged: Config.storeSecretsInKeychain = checked
             }
 
-            GroupTitle { text: qsTr("Data") }
-
             OptionButton {
-                text: qsTr("Data location")
-                value: "xxx"
+                text: qsTr("Data folder location")
+                value: Config.dataFolderLocation
                 onClicked: console.log("select data location")
             }
 

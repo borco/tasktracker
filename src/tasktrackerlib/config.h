@@ -16,6 +16,8 @@ class Config: public QObject
 
     Q_PROPERTY(bool storeSecretsInKeychain READ storeSecretsInKeychain WRITE setStoreSecretsInKeychain NOTIFY storeSecretsInKeychainChanged)
     Q_PROPERTY(bool logsVisible READ logsVisible WRITE setLogsVisible NOTIFY logsVisibleChanged)
+    Q_PROPERTY(QString dataFolderLocation READ dataFolderLocation WRITE setDataFolderLocation NOTIFY dataFolderLocationChanged)
+    Q_PROPERTY(QString defaultDataFolderLocation READ defaultDataFolderLocation CONSTANT)
 
 public:
     ~Config();
@@ -37,9 +39,15 @@ public:
     bool logsVisible() const { return m_logsVisible; }
     void setLogsVisible(bool newLogsVisible);
 
+    QString dataFolderLocation() const { return m_dataFolderLocation; }
+    void setDataFolderLocation(const QString &newDataFolderLocation);
+
+    QString defaultDataFolderLocation() const { return m_defaultDataFolderLocation; }
+
 signals:
     void storeSecretsInKeychainChanged();
     void logsVisibleChanged();
+    void dataFolderLocationChanged();
 
 private:
     Config();
@@ -48,6 +56,8 @@ private:
 
     bool m_storeSecretsInKeychain = false;
     bool m_logsVisible = false;
+    QString m_dataFolderLocation;
+    QString m_defaultDataFolderLocation;
 };
 
 }

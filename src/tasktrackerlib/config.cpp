@@ -6,11 +6,13 @@
 
 #include <QDebug>
 #include <QSettings>
+#include <QStandardPaths>
 
 namespace {
 static const char* SettingsGroupKey = "Config";
 static const char* StorePasswordInKeyChainSettingsKey = "storeSecretsInKeychain";
 static const char* LogsVisibleSettingsKey = "logsVisible";
+static const char* DataFolderLocationSettingsKey = "dataFolderLocation";
 }
 
 using namespace tasktrackerlib;
@@ -18,6 +20,8 @@ using namespace tasktrackerlib;
 Config::Config()
 {
     qDebug().nospace() << "Config: instance created (" << static_cast<void*>(this) << ")";
+    m_defaultDataFolderLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    m_dataFolderLocation = m_defaultDataFolderLocation;
 }
 
 Config::~Config()
@@ -32,6 +36,7 @@ void Config::load()
     settings.beginGroup(SettingsGroupKey);
     setStoreSecretsInKeychain(settings.value(StorePasswordInKeyChainSettingsKey, false).toBool());
     setLogsVisible(settings.value(LogsVisibleSettingsKey, false).toBool());
+    setDataFolderLocation(settings.value(DataFolderLocationSettingsKey, m_defaultDataFolderLocation).toString());
     settings.endGroup();
 
     qDebug() << "Config: loaded";
@@ -43,6 +48,7 @@ void Config::save()
     settings.beginGroup(SettingsGroupKey);
     settings.setValue(StorePasswordInKeyChainSettingsKey, m_storeSecretsInKeychain);
     settings.setValue(LogsVisibleSettingsKey, m_logsVisible);
+    settings.setValue(DataFolderLocationSettingsKey, m_dataFolderLocation);
     settings.endGroup();
 
     qDebug() << "Config: saved";
@@ -62,4 +68,12 @@ void Config::setLogsVisible(bool newLogsVisible)
         return;
     m_logsVisible = newLogsVisible;
     emit logsVisibleChanged();
+}
+
+void Config::setDataFolderLocation(const QString &newDataFolderLocation)
+{
+    if (m_dataFolderLocation == newDataFolderLocation)
+        return;
+    m_dataFolderLocation = newDataFolderLocation;
+    emit dataFolderLocationChanged();
 }
