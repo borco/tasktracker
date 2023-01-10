@@ -12,6 +12,8 @@ Page {
     property alias logsVisible: logsVisibleSwitch.checked
 
     property int leftContentMargin: 20
+    property int rightContentMargin: 8
+    property int itemHeight: 28
     property int groupTitleHeight: 40
     property int groupTitleBottomMargin: 4
 
@@ -27,14 +29,18 @@ Page {
     component FlatButton: Button {
         id: flatButton
 
+        property bool boldFont: true
+        property color normalColor: palette.link
+        property color downColor: Qt.darker(palette.link)
+
         leftPadding: 4
         rightPadding: 4
 
         contentItem: Label {
             text: flatButton.text
-            font.bold: true
+            font.bold: flatButton.boldFont
             opacity: enabled ? 1.0 : 0.3
-            color: flatButton.down ? Qt.darker(palette.link) : palette.link
+            color: flatButton.down ? flatButton.downColor : flatButton.normalColor
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
@@ -77,7 +83,7 @@ Page {
         property string text: ""
         property alias checked: switchItemSwitch.checked
 
-        implicitHeight: switchItemLayout.implicitHeight
+        implicitHeight: root.itemHeight
         Layout.fillWidth: true
 
         ItemBackground {}
@@ -85,9 +91,11 @@ Page {
         RowLayout {
             id: switchItemLayout
 
+            anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: root.leftContentMargin
             anchors.right: parent.right
+            anchors.rightMargin: root.rightContentMargin
 
             Label {
                 text: switchItem.text
@@ -97,6 +105,7 @@ Page {
 
             Switch {
                 id: switchItemSwitch
+                rightPadding: 0
             }
         }
     }
@@ -114,9 +123,47 @@ Page {
 
         FlatButton {
             id: buttonItemButton
-            anchors.centerIn: parent
+            width: parent.width
             text: buttonItem.text
             onClicked: buttonItem.clicked()
+        }
+    }
+
+    component OptionButton: Button {
+        id: optionButton
+
+        property string value: ""
+
+        implicitHeight: root.itemHeight
+
+        Layout.fillWidth: true
+
+        background: ItemBackground {}
+
+        leftPadding: 0
+        rightPadding: 0
+
+        contentItem: Item {
+
+            RowLayout {
+                id: optionItemLayout
+
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: root.leftContentMargin
+                anchors.right: parent.right
+                anchors.rightMargin: root.rightContentMargin
+
+                Label {
+                    text: optionButton.text
+                    Layout.fillWidth: true
+                    elide: Text.ElideRight
+                }
+
+                Label {
+                    text: optionButton.value + " ❯"
+                }
+            }
         }
     }
 
@@ -137,7 +184,7 @@ Page {
             text: qsTr("Done")
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 6
+            anchors.rightMargin: root.rightContentMargin
             onClicked: root.done()
         }
 
@@ -155,9 +202,7 @@ Page {
             width: parent.width
             spacing: 0
 
-            GroupTitle {
-                text: qsTr("Security and Privacy")
-            }
+            GroupTitle { text: qsTr("Security and Privacy") }
 
             SwitchItem {
                 id: storeSecretsInKeychain
@@ -166,9 +211,15 @@ Page {
                 onCheckedChanged: Config.storeSecretsInKeychain = checked
             }
 
-            GroupTitle {
-                text: qsTr("Misc")
+            GroupTitle { text: qsTr("Data") }
+
+            OptionButton {
+                text: qsTr("Data location")
+                value: "xxx"
+                onClicked: console.log("select data location")
             }
+
+            GroupTitle { text: qsTr("Misc") }
 
             SwitchItem {
                 id: logsVisibleSwitch
