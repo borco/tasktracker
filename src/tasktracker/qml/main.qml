@@ -95,6 +95,7 @@ Window {
         function onLoggedStatusChanged() {
             if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
                 stackView.replace(null, mainPageComponent, StackView.Immediate)
+                showConfigPage()
             } else if (TogglProxy.loggedStatus === TogglProxy.LoggedOut) {
                 stackView.replace(null, loginPageComponent, StackView.Immediate)
             }
@@ -121,8 +122,6 @@ Window {
             stackView.replace(null, loginPageComponent, StackView.Immediate)
             break
         }
-
-//        showConfigPage()
     }
 
     Component.onDestruction: {

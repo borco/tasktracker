@@ -18,7 +18,15 @@ qt_add_qml_module(${APP_NAME}
     URI ${APP_NAME}
     VERSION 1.0
     QML_FILES
+        qml/ConfigButtonItem.qml
+        qml/ConfigGroupTitle.qml
+        qml/ConfigHorizontalSeparator.qml
+        qml/ConfigItemBackground.qml
+        qml/ConfigMainPage.qml
+        qml/ConfigOptionButton.qml
         qml/ConfigPage.qml
+        qml/ConfigSwitchItem.qml
+        qml/FlatButton.qml
         qml/LoginComponent.qml
         qml/LoginPage.qml
         qml/LogsComponent.qml
