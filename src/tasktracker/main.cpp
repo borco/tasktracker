@@ -60,7 +60,7 @@ void load_window_settings(QQmlApplicationEngine& engine)
 int main(int argc, char *argv[])
 {
     qtplogadapter::init("/tmp/tasktracker.log");
-    qDebug() << "----------- Started Task Tracker -----------";
+//    qDebug() << "----------- Started Task Tracker -----------";
 
     QStringList raw_arguments;
     for (int i = 0; i < argc; ++i) {

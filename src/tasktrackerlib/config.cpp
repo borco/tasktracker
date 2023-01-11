@@ -19,7 +19,7 @@ using namespace tasktrackerlib;
 
 Config::Config()
 {
-    qDebug().nospace() << "Config: instance created (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "Config: instance created (" << static_cast<void*>(this) << ")";
     m_defaultDataFolderLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     m_dataFolderLocation = m_defaultDataFolderLocation;
 }
@@ -27,7 +27,7 @@ Config::Config()
 Config::~Config()
 {
     save();
-    qDebug().nospace() << "Config: instance deleted (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "Config: instance deleted (" << static_cast<void*>(this) << ")";
 }
 
 void Config::load()
@@ -39,7 +39,7 @@ void Config::load()
     setDataFolderLocation(settings.value(DataFolderLocationSettingsKey, m_defaultDataFolderLocation).toString());
     settings.endGroup();
 
-    qDebug() << "Config: loaded";
+//    qDebug() << "Config: loaded";
 }
 
 void Config::save()
@@ -51,7 +51,7 @@ void Config::save()
     settings.setValue(DataFolderLocationSettingsKey, m_dataFolderLocation);
     settings.endGroup();
 
-    qDebug() << "Config: saved";
+//    qDebug() << "Config: saved";
 }
 
 void Config::setStoreSecretsInKeychain(bool value)

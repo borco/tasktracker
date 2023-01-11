@@ -29,7 +29,7 @@ TogglProxy::TogglProxy(QObject *parent)
     : QObject{parent}
     , m_networkAccessManager(new QNetworkAccessManager(this))
 {
-    qDebug().nospace() << "TogglProxy: instance created (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "TogglProxy: instance created (" << static_cast<void*>(this) << ")";
 
     connect(m_networkAccessManager, &QNetworkAccessManager::sslErrors, this, [=](QNetworkReply *reply, const QList<QSslError> &errors){
         QStringList messages;
@@ -47,7 +47,7 @@ TogglProxy::TogglProxy(QObject *parent)
 TogglProxy::~TogglProxy()
 {
     save();
-    qDebug().nospace() << "TogglProxy: instance deleted (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "TogglProxy: instance deleted (" << static_cast<void*>(this) << ")";
 }
 
 TogglProxy *TogglProxy::create(QQmlEngine *, QJSEngine *)
@@ -71,7 +71,7 @@ void TogglProxy::load()
     m_session = settings.value(SessionSettingsKey).toByteArray();
     settings.endGroup();
 
-    qDebug() << "TogglProxy: loaded";
+//    qDebug() << "TogglProxy: loaded";
 
     if (!m_session.isEmpty()) {
         updateCookieJar();
@@ -88,7 +88,7 @@ void TogglProxy::save()
     settings.setValue(SessionSettingsKey, m_session);
     settings.endGroup();
 
-    qDebug() << "TogglProxy: saved";
+//    qDebug() << "TogglProxy: saved";
 }
 
 void TogglProxy::logIn()
