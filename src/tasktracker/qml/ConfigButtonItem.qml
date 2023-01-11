@@ -4,10 +4,26 @@ import QtQuick.Layouts
 
 import "Theme.js" as Theme
 
-FlatButton {
+ItemDelegate {
     id: root
 
     Layout.fillWidth: true
 
-    background: ConfigItemBackground {}
+    contentItem: Label {
+        rightPadding: root.spacing
+        text: root.text
+        font: root.font
+        color: root.enabled
+               ? (
+                     root.down
+                     ? Qt.darker(root.palette.button)
+                     : root.palette.button
+                  )
+               : Qt.lighter(root.palette.button)
+        elide: Text.ElideRight
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+    }
+
+    ConfigHorizontalSeparator {}
 }
