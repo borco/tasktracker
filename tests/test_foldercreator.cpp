@@ -27,6 +27,25 @@ private slots:
         QTest::newRow("xxx..") << "xxx.." << false;
         QTest::newRow(",xxx") << ",xxx" << false;
         QTest::newRow("xxx,") << "xxx," << false;
+        QTest::newRow("CON") << "CON" << false;
+        QTest::newRow("AUX") << "AUX" << false;
+        QTest::newRow("PRN") << "PRN" << false;
+        QTest::newRow("NUL") << "NUL" << false;
+        QTest::newRow("COM1") << "COM1" << false;
+        QTest::newRow("LPT2") << "LPT2" << false;
+        QTest::newRow("CON.abc") << "CON.abc" << false;
+        QTest::newRow("xxx xxx") << "xxx xxx" << true;
+        QTest::newRow("xxx\txxx") << "xxx\txxx" << false;
+        QTest::newRow("xxx\nxxx") << "xxx\nxxx" << false;
+        QTest::newRow("xxx!xxx") << "xxx!xxx" << false;
+        QTest::newRow("xxx@xxx") << "xxx@xxx" << false;
+        QTest::newRow("xxx#xxx") << "xxx#xxx" << false;
+        QTest::newRow("xxx%xxx") << "xxx%xxx" << false;
+        QTest::newRow("xxx$xxx") << "xxx$xxx" << false;
+        QTest::newRow("xxx`xxx") << "xxx`xxx" << false;
+        QTest::newRow("xxx\\xxx") << "xxx\\xxx" << false;
+        QTest::newRow("xxx/xxx") << "xxx/xxx" << false;
+        QTest::newRow("xxx|xxx") << "xxx|xxx" << false;
     }
 
     void test_isValidDir() {

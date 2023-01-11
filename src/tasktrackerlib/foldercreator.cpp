@@ -4,13 +4,15 @@
 
 #include "foldercreator.h"
 
+#include <QRegularExpression>
+
 using namespace tasktrackerlib;
 
 namespace {
 
 static const int MaximumPathLength = 128;
 
-static const char* WindowsDevicePattern = "(CON|AUX|PRN|NUL|COM[1-9]|LPT[1-9])(\\..*)?";
+static const char* WindowsDevicePattern = R"((CON|AUX|PRN|NUL|COM[1-9]|LPT[1-9])(\..*)?)";
 
 // not all charactes from InvalidCharacters are invalid, but we better to avoid them
 static const char* InvalidCharacters = "\t\n`~!@#$%^&*()=[]{}\\|/<>?:;\"'";
@@ -75,11 +77,14 @@ bool FolderCreator::isValidDir(const QString &newDir)
             return false;
         }
     }
-    // TODO: finish isValidDir
-    // * check no invalid characters: /\\|`'"
-    // * check no dots at start or end
-    // * check not a windows device name
-    // * check no invalid character present
+
+    QRegularExpression re(WindowsDevicePattern);
+    auto match = re.match(newDir);
+    if (match.hasMatch()) {
+        setError(tr("'%1' is not valid").arg(newDir));
+        return false;
+    }
+
     setError("");
     return true;
 }
