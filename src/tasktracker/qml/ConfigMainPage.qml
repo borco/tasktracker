@@ -28,6 +28,7 @@ Page {
 
         contentHeight: layout.implicitHeight
         clip: true
+        interactive: contentHeight > height
 
         ColumnLayout {
             id: layout
@@ -69,9 +70,5 @@ Page {
                 onClicked: TogglProxy.logOut()
             }
         }
-    }
-
-    Component.onCompleted: {
-        selectDataFolderLocation()
     }
 }
