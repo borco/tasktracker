@@ -18,8 +18,11 @@
 #include <QSettings>
 
 namespace {
-static const char* DefaultSettingsGroupKey {"Main"};
-static const char* WindowGeometryKey {"windowGeometry"};
+
+static const char* DefaultQuickStyle = "iOS";
+
+static const char* DefaultSettingsGroupKey = "Main";
+static const char* WindowGeometryKey = "windowGeometry";
 
 QQuickWindow* main_window(QQmlApplicationEngine& engine)
 {
@@ -57,10 +60,22 @@ void load_window_settings(QQmlApplicationEngine& engine)
 int main(int argc, char *argv[])
 {
     qtplogadapter::init("/tmp/tasktracker.log");
+    qDebug() << "----------- Started Task Tracker -----------";
+
+    QStringList raw_arguments;
+    for (int i = 0; i < argc; ++i) {
+        raw_arguments << argv[i];
+    }
+
+    int index = raw_arguments.indexOf("--style");
+    if (index >= 0 && (index + 1) < raw_arguments.size()) {
+        qDebug() << "Main: style set on command line to:" << raw_arguments[index + 1];
+    } else {
+        qDebug() << "Main: style set to default style:" << DefaultQuickStyle;
+        QQuickStyle::setStyle(DefaultQuickStyle);
+    }
 
     qtkeychainadapter::KeyChainService keychain_service("tasktracker.app");
-
-    QQuickStyle::setStyle("iOS");
 
     QGuiApplication::setOrganizationName("Ioan Calin");
     QGuiApplication::setOrganizationDomain("com.github.borco");
@@ -69,6 +84,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/TaskTracker/icons/app.svg"));
 
+    static const char* QuickStyleCommandLineOption = "style";
     static const char* UseProxyCommandLineOption = "use-proxy";
     static const char* ProxyHostCommandLineOption = "proxy-host";
     static const char* ProxyPortCommandLineOption = "proxy-port";
@@ -96,8 +112,6 @@ int main(int argc, char *argv[])
                           },
                       });
     parser.process(app);
-
-    qDebug() << "----------- Started Task Tracker -----------";
 
     QNetworkProxy network_proxy;
 
