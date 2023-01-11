@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-TextField {
+WrappedTextField {
     id: control
 
     echoMode: TextInput.PasswordEchoOnEdit

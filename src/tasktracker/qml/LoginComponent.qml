@@ -48,7 +48,7 @@ ColumnLayout {
                         text: qsTr('Username:')
                     }
 
-                    TextField {
+                    WrappedTextField {
                         id: usernameInput
                         Layout.fillWidth: true
                     }

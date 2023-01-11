@@ -21,15 +21,9 @@ DialogWithButtons {
             Layout.bottomMargin: root.padding / 2
         }
 
-        Item {
+        WrappedTextField {
+            id: textField
             Layout.fillWidth: true
-            implicitHeight: textField.implicitHeight
-
-            TextField {
-                id: textField
-                width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
-            }
         }
 
         Label {

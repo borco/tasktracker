@@ -40,6 +40,7 @@ qt_add_qml_module(${APP_NAME}
         qml/RoundedImage.qml
         qml/SmallLabel.qml
         qml/Theme.js
+        qml/WrappedTextField.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
