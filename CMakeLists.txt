@@ -7,9 +7,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS
+find_package(Qt6 6.6 REQUIRED COMPONENTS
     Core
     Quick
+    QuickControls2
     Qml
     Test
 )
@@ -31,7 +32,8 @@ add_subdirectory(tests)
 
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
-list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/lib")
+list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/tasktracker")
+list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/tasktrackerlib")
 list(APPEND QML_IMPORT_PATH "${CMAKE_BINARY_DIR}/src/qtplogadapter")
 
 # Prevent adding duplicate values at each run of CMake.
