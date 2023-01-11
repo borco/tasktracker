@@ -6,6 +6,8 @@
 
 #include <QQmlEngine>
 
+namespace tasktrackerlib {
+
 class FolderCreator : public QObject
 {
     Q_OBJECT
@@ -35,3 +37,4 @@ private:
     QString m_error;
 };
 
+}

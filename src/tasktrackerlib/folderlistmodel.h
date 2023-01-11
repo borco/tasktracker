@@ -7,6 +7,8 @@
 #include <QQmlEngine>
 #include <QAbstractListModel>
 
+namespace tasktrackerlib {
+
 class FolderListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -42,3 +44,4 @@ private:
     QStringList m_files;
 };
 
+}

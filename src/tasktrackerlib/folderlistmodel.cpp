@@ -6,6 +6,8 @@
 
 #include <QDir>
 
+using namespace tasktrackerlib;
+
 FolderListModel::FolderListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
