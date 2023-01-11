@@ -13,15 +13,13 @@ Item {
 
     implicitHeight: Theme.PageHeaderHeight
 
-    FlatButton {
+    ThemedButton {
         id: leftButton
 
         text: qsTr("Cancel")
-        normalColor: palette.text
-        downColor: palette.text
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: Theme.ConfigLeftContentMargin - leftPadding
+        anchors.leftMargin: Theme.ContentLeftMargin - leftPadding
     }
 
     Label {
@@ -30,12 +28,12 @@ Item {
         font.bold: true
     }
 
-    FlatButton {
+    ThemedButton {
         id: rightButton
         text: qsTr("Save")
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        anchors.rightMargin: Theme.ConfigRightContentMargin - rightPadding
+        anchors.rightMargin: Theme.ContentRightMargin - rightPadding
     }
 
     ConfigHorizontalSeparator {}
