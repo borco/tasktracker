@@ -40,7 +40,7 @@ Dialog {
             anchors.fill: parent
             spacing: 0
 
-            FlatButton {
+            ThemedButton {
                 id: leftButton
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -53,7 +53,7 @@ Dialog {
                 width: 1
             }
 
-            FlatButton {
+            ThemedButton {
                 id: rightButton
                 Layout.fillHeight: true
                 Layout.fillWidth: true
