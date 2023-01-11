@@ -89,11 +89,15 @@ ColumnLayout {
                 }
             }
 
-            Button {
+            ThemedButton {
                 id: loginButton
                 text: qsTr("Login")
+
+                flat: false
                 highlighted: true
                 Layout.fillWidth: true
+                Layout.topMargin: 10
+
                 onClicked: {
                     TogglProxy.username = usernameInput.text.trim()
                     TogglProxy.password = passwordInput.text
