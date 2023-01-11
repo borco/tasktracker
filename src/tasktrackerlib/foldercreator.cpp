@@ -8,10 +8,12 @@ using namespace tasktrackerlib;
 
 namespace {
 
+static const int MaximumPathLength = 128;
+
 static const char* WindowsDevicePattern = "(CON|AUX|PRN|NUL|COM[1-9]|LPT[1-9])(\\..*)?";
 
 // not all charactes from InvalidCharacters are invalid, but we better to avoid them
-static const char* InvalidCharacters = "`~!@#$%^&*()=[]{}\\|/<>?:;\"'";
+static const char* InvalidCharacters = "\t\n`~!@#$%^&*()=[]{}\\|/<>?:;\"'";
 
 }
 
@@ -22,22 +24,59 @@ FolderCreator::FolderCreator(QObject *parent)
 
 bool FolderCreator::isValidDir(const QString &newDir)
 {
-    static const int maximum_length = 128;
-
     if (newDir.isEmpty()) {
         setError(tr("Path is empty"));
         return false;
     }
 
-    if (newDir.size() > maximum_length) {
+    if (newDir.size() > MaximumPathLength) {
         setError(tr("Path is too long"));
         return false;
     }
 
+    if (newDir == ".") {
+        setError(tr("'.' is not a valid path"));
+        return false;
+    }
+
+    if (newDir.startsWith("..")) {
+        setError(tr("Path can't start with '..'"));
+        return false;
+    }
+
+    if (newDir.endsWith(".")) {
+        setError(tr("Path can't end with '.'"));
+        return false;
+    }
+
+    if (newDir.startsWith(",") or newDir.endsWith(",")) {
+        setError(tr("Path can't start or end with ','"));
+        return false;
+    }
+
+    if (newDir.endsWith(".")) {
+        setError(tr("Path can't end with '.'"));
+        return false;
+    }
+
+    if (newDir[0].isSpace() || newDir[newDir.size() - 1].isSpace()) {
+        setError(tr("Path can't start or end with spaces"));
+        return false;
+    }
+
+    if (newDir[0].isSpace() || newDir[newDir.size() - 1].isSpace()) {
+        setError(tr("Path can't start or end with spaces"));
+        return false;
+    }
+
+    for (const auto& c: newDir) {
+        if (QString(InvalidCharacters).contains(c)) {
+            setError(tr("Path can't use '%1' character").arg(c));
+            return false;
+        }
+    }
     // TODO: finish isValidDir
     // * check no invalid characters: /\\|`'"
-    // * check not composed only from spaces
-    // * check no spaces at start or end
     // * check no dots at start or end
     // * check not a windows device name
     // * check no invalid character present

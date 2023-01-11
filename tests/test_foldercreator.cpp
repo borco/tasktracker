@@ -16,6 +16,17 @@ private slots:
         QTest::newRow("empty") << "" << false;
         QTest::newRow("max length") << QString("%1").arg("x", 128, QChar('x')) << true;
         QTest::newRow("too long") << QString("%1").arg("x", 129, QChar('x')) << false;
+        QTest::newRow("space at start") << "  xxx" << false;
+        QTest::newRow("space at end") << "xxx   " << false;
+        QTest::newRow("only spaces") << "\n  \t" << false;
+        QTest::newRow(".") << "." << false;
+        QTest::newRow("..") << "." << false;
+        QTest::newRow(".xxx") << ".xxx" << true;
+        QTest::newRow("xxx.") << "xxx." << false;
+        QTest::newRow("..xxx") << "..xxx" << false;
+        QTest::newRow("xxx..") << "xxx.." << false;
+        QTest::newRow(",xxx") << ",xxx" << false;
+        QTest::newRow("xxx,") << "xxx," << false;
     }
 
     void test_isValidDir() {
