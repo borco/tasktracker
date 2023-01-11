@@ -19,7 +19,7 @@ Page {
     component FolderItemComponent: ItemDelegate {
         width: ListView.view.width
         implicitHeight: Theme.ConfigItemHeight
-        leftPadding: Theme.ConfigLeftContentMargin
+        leftPadding: Theme.ContentLeftMargin
 
         onClicked: folderListModel.cd(text)
 
@@ -83,9 +83,9 @@ Page {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
                 anchors.left: parent.left
-                anchors.leftMargin: Theme.ConfigLeftContentMargin
+                anchors.leftMargin: Theme.ContentLeftMargin
                 anchors.right: parent.right
-                anchors.rightMargin: Theme.ConfigRightContentMargin
+                anchors.rightMargin: Theme.ContentRightMargin
 
                 Label {
                     text: root.dataFolderLocation
@@ -93,15 +93,13 @@ Page {
                     Layout.fillWidth: true
                 }
 
-                ToolButton {
+                ThemedToolButton {
                     icon.source: "../icons/create_new_folder.svg"
-                    flat: true
                     onClicked: newFolderNameDialog.open()
                 }
 
-                ToolButton {
+                ThemedToolButton {
                     icon.source: "../icons/refresh.svg"
-                    flat: true
                     onClicked: folderListModel.refresh()
                 }
             }
