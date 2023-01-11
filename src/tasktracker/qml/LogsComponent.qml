@@ -5,36 +5,32 @@ import QtQuick.Layouts
 
 import QtPlogAdapter
 
+import "Theme.js" as Theme
+
 ColumnLayout {
     id: control
 
     anchors.fill: parent
     spacing: 0
 
-    ToolBar {
+    DockToolBar {
+        title: qsTr("Logs")
+
         Layout.fillWidth: true
 
-        RowLayout {
+        innerContentItem: RowLayout {
             anchors.fill: parent
-            Label {
-                text: qsTr("Logs")
-                font.weight: 600
-            }
 
-            ToolSeparator {}
-
-            ToolButton {
+            ThemedToolButton {
                 icon.source: "../icons/clear.svg"
                 onClicked: PlogMessageModel.clear()
             }
 
-            ToolButton {
+            ThemedToolButton {
                 id: wrapTextToolButton
                 icon.source: "../icons/wrap_text.svg"
                 checkable: true
             }
-
-            Item { Layout.fillWidth: true }
         }
     }
 
