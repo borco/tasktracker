@@ -7,12 +7,11 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS
+find_package(Qt6 6.2 REQUIRED COMPONENTS
     Core
     Quick
     Qml
-    WebSockets
-    REQUIRED
+    Test
 )
 
 set(QTIFW_VERSION "4.5") # Qt Installer Framework version
@@ -28,6 +27,7 @@ add_subdirectory(src/qtkeychainadapter)
 add_subdirectory(src/qtplogadapter)
 add_subdirectory(src/tasktracker)
 add_subdirectory(src/tasktrackerlib)
+add_subdirectory(tests)
 
 # Directories where Qt Creator can find QML files.
 # (Not needed for builds, but makes Qt Creator code completion happy.)
