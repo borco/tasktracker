@@ -1,6 +1,5 @@
 import QtQuick
-
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 Item {
     id: root
@@ -10,36 +9,29 @@ Item {
     property color borderColor: palette.light
 
     Rectangle {
-        visible: image.status === Image.Ready
         property int minSize: Math.min(root.width, root.height)
-        color: root.borderColor
+
+        visible: image.status === Image.Ready
         anchors.centerIn: parent
+        color: borderSize > 0 ? root.borderColor : "transparent"
         width: minSize
         height: minSize
         radius: minSize
-    }
 
-    Image {
-        id: image
+        MultiEffect {
+            anchors.fill: parent
+            anchors.margins: root.borderSize
+            maskEnabled: true
 
-        property int minSize: Math.min(root.width, root.height) - 2 * root.borderSize
+            maskSource: Image {
+                anchors.fill: parent
+                source: "../icons/round_image.svg"
+            }
 
-        source: root.source
-        sourceSize: Qt.size(minSize, minSize)
-
-        anchors.centerIn: parent
-        fillMode: Image.PreserveAspectFit
-
-        layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Item {
-                width: image.width
-                height: image.height
-
-                Rectangle {
-                    anchors.fill: parent
-                    radius: width
-                }
+            source: Image {
+                id: image
+                anchors.fill: parent
+                source: root.source
             }
         }
     }

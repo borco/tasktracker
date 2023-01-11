@@ -17,6 +17,7 @@ qt_add_executable(${APP_NAME}
 qt_add_qml_module(${APP_NAME}
     URI ${APP_NAME}
     VERSION 1.0
+    RESOURCE_PREFIX "/"
     QML_FILES
         qml/ConfigButtonItem.qml
         qml/ConfigDataFolderLocationSelectionPage.qml
@@ -48,6 +49,7 @@ qt_add_qml_module(${APP_NAME}
         icons/create_new_folder.svg
         icons/password_hidden.svg
         icons/password_visible.svg
+        icons/round_image.svg
         icons/refresh.svg
         icons/settings.svg
         icons/wrap_text.svg
