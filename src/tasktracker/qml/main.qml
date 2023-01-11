@@ -1,12 +1,12 @@
+import QtCore
 import QtQuick
-import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt.labs.settings
+import QtQuick.Window
 
 import TaskTrackerLib
 
-Window {
+ApplicationWindow {
     id: root
 
     function showConfigPage() {
