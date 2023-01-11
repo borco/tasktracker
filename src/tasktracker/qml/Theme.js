@@ -29,3 +29,6 @@ const ConfigGroupTitleFontWeight = 400
 const DialogRadius = 12
 const DialogPadding = 20
 const DialogButtonsHeight = 40
+
+const SplitViewSize = 1
+const SplitViewHitAreaPadding = 4

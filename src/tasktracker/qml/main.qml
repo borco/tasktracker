@@ -55,22 +55,13 @@ ApplicationWindow {
         anchors.fill: parent
         spacing: 0
 
-        SplitView {
+        ThemedSplitView {
             id: splitView
 
             Layout.fillHeight: true
             Layout.fillWidth: true
 
             orientation: Qt.Vertical
-
-            handle: Rectangle {
-                implicitWidth: 6
-                implicitHeight: 6
-                color: SplitHandle.pressed ? palette.dark
-                                           : (SplitHandle.hovered
-                                              ? palette.highlight
-                                              : palette.window)
-            }
 
             StackView {
                 id: stackView
@@ -95,7 +86,7 @@ ApplicationWindow {
         function onLoggedStatusChanged() {
             if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
                 stackView.replace(null, mainPageComponent, StackView.Immediate)
-                showConfigPage()
+//                showConfigPage()
             } else if (TogglProxy.loggedStatus === TogglProxy.LoggedOut) {
                 stackView.replace(null, loginPageComponent, StackView.Immediate)
             }

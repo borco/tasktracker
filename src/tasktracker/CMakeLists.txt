@@ -23,33 +23,35 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
         qml/ConfigHorizontalSeparator.qml
-        qml/ConfigItemBackground.qml
         qml/ConfigMainPage.qml
         qml/ConfigOptionButton.qml
         qml/ConfigPage.qml
         qml/ConfigPageHeader.qml
         qml/ConfigSwitchItem.qml
         qml/DialogWithButtons.qml
-        qml/FlatButton.qml
+        qml/DockToolBar.qml
         qml/InputDialog.qml
         qml/LoginComponent.qml
         qml/LoginPage.qml
         qml/LogsComponent.qml
         qml/MainPage.qml
+        qml/MaskedImage.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
-        qml/RoundedImage.qml
         qml/SmallLabel.qml
         qml/Theme.js
+        qml/ThemedButton.qml
+        qml/ThemedSplitView.qml
+        qml/ThemedToolButton.qml
         qml/WrappedTextField.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
+        icons/avatar_mask.svg
         icons/clear.svg
         icons/create_new_folder.svg
         icons/password_hidden.svg
         icons/password_visible.svg
-        icons/round_image.svg
         icons/refresh.svg
         icons/settings.svg
         icons/wrap_text.svg
