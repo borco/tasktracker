@@ -62,10 +62,11 @@ Page {
         rightButton.text: qsTr("Ok")
         rightButton.enabled: folderCreator.isValidDir(textField.text)
         rightButton.onClicked: {
-            accept()
-            if (folderCreator.makeDir(textField.text)) {
+            let path = textField.text
+            if (folderCreator.makeDir(path)) {
+                accept()
                 textField.text = ""
-                folderListModel.refresh()
+                folderListModel.cd(path)
             }
         }
     }
