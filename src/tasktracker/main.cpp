@@ -13,6 +13,7 @@
 #include <QNetworkProxy>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSettings>
 
@@ -58,6 +59,8 @@ int main(int argc, char *argv[])
     qtplogadapter::init("/tmp/tasktracker.log");
 
     qtkeychainadapter::KeyChainService keychain_service("tasktracker.app");
+
+    QQuickStyle::setStyle("iOS");
 
     QGuiApplication::setOrganizationName("Ioan Calin");
     QGuiApplication::setOrganizationDomain("com.github.borco");
