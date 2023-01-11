@@ -7,28 +7,15 @@ import "Theme.js" as Theme
 Item {
     id: root
 
-    property alias rightLayout: rightLayout
-
     signal showConfig()
 
     implicitHeight: Theme.PageHeaderHeight
 
-    RowLayout {
+    ThemedToolButton {
         anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: 6
-
-        spacing: rightLayout.spacing
-
-        RowLayout {
-            id: rightLayout
-        }
-
-        ToolButton {
-            id: configButton
-            icon.source: "../icons/settings.svg"
-            flat: true
-            onClicked: root.showConfig()
-        }
+        anchors.rightMargin: Theme.PageHeaderRightMargin
+        anchors.verticalCenter: parent.verticalCenter
+        icon.source: "../icons/settings.svg"
+        onClicked: root.showConfig()
     }
 }
