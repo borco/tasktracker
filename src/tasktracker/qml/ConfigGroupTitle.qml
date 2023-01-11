@@ -16,7 +16,7 @@ Item {
     Label {
         text: parent.text
         anchors.left: parent.left
-        anchors.leftMargin: Theme.ConfigLeftContentMargin
+        anchors.leftMargin: Theme.ContentLeftMargin
         anchors.bottom: parent.bottom
         anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
 
