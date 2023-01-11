@@ -98,7 +98,13 @@ bool FolderCreator::isValidDir(const QString &newDir)
 
 bool FolderCreator::makeDir(const QString &newDir)
 {
-    // TODO: implement makeDir
+    QDir dir(m_path);
+    if (dir.mkdir(newDir)) {
+        setError("");
+        return true;
+    }
+
+    setError(tr("Couldn't create path '%1'").arg(newDir));
     return false;
 }
 
