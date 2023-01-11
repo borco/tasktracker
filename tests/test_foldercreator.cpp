@@ -56,6 +56,19 @@ private slots:
         qDebug() << "test string:" << path.size() << path;
         QCOMPARE(fc.isValidDir(path), is_valid);
     }
+
+    void test_existing_dir_is_invalid() {
+        FolderCreator fc;
+        fc.setPath(TEST_SOURCE_DIR);
+
+        // verify existing path is not valid
+        QCOMPARE(fc.isValidDir("data"), false);
+
+        // verify check is done case insensitive
+        // (actual path is "${TEST_SOURCE_DIR}/data")
+        QCOMPARE(fc.isValidDir("Data"), false);
+        QCOMPARE(fc.isValidDir("DATA"), false);
+    }
 };
 
 QTEST_MAIN(TestFolderCreator)

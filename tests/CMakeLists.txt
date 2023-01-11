@@ -13,3 +13,7 @@ target_link_libraries(test_foldercreator PUBLIC
     Qt::Test
     TaskTrackerLib
 )
+
+target_compile_definitions(test_foldercreator PRIVATE
+    TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+)

@@ -4,6 +4,7 @@
 
 #include "foldercreator.h"
 
+#include <QDir>
 #include <QRegularExpression>
 
 using namespace tasktrackerlib;
@@ -28,6 +29,12 @@ bool FolderCreator::isValidDir(const QString &newDir)
 {
     if (newDir.isEmpty()) {
         setError(tr("Path is empty"));
+        return false;
+    }
+
+    QDir dir(m_path);
+    if (dir.exists(newDir)) {
+        setError(tr("Path '%1' exists").arg(newDir));
         return false;
     }
 
