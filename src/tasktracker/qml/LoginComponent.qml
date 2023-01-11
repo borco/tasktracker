@@ -1,8 +1,7 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-import Qt.labs.settings
 
 import TaskTrackerLib
 
@@ -68,7 +67,6 @@ ColumnLayout {
                 id: infoLabel
 
                 Layout.fillWidth: true
-                GridLayout.columnSpan: 2
 
                 wrapMode: Text.Wrap
                 visible: false
@@ -95,7 +93,6 @@ ColumnLayout {
                 id: loginButton
                 text: qsTr("Login")
                 highlighted: true
-                GridLayout.columnSpan: 2
                 Layout.fillWidth: true
                 onClicked: {
                     TogglProxy.username = usernameInput.text.trim()
