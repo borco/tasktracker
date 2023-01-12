@@ -21,6 +21,10 @@ ApplicationWindow {
 
     title: qsTr("Task Tracker")
 
+    background: Rectangle {
+        color: palette.base
+    }
+
     ConfigPopup {
         id: configPopup
 

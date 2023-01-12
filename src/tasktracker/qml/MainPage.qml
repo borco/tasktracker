@@ -11,6 +11,8 @@ Page {
 
     signal showConfig()
 
+    background: null
+
     header: PageHeader {
         onShowConfig: root.showConfig()
 
