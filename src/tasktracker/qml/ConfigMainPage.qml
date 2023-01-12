@@ -14,6 +14,8 @@ Page {
 
     title: qsTr("Settings")
 
+    background: null
+
     header: ConfigPageHeader {
         title: root.title
         leftButton.visible: false

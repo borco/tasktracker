@@ -28,6 +28,8 @@ Page {
 
     title: qsTr("Data Folder Location")
 
+    background: null
+
     header: ConfigPageHeader {
         title: root.title
         leftButton.onClicked: root.rejected()
@@ -88,7 +90,7 @@ Page {
                 anchors.right: parent.right
                 anchors.rightMargin: Theme.ContentRightMargin
 
-                Label {
+                ThemedLabel {
                     text: root.dataFolderLocation
                     font.weight: Theme.ConfigGroupTitleFontWeight
                     Layout.fillWidth: true

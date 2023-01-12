@@ -8,8 +8,8 @@ ThemedPopup {
 
     topPadding: 0
     bottomPadding: 0
-//    leftPadding: 0
-//    rightPadding: 0
+    leftPadding: 0
+    rightPadding: 0
 
     modal: true
 
