@@ -26,6 +26,7 @@ find_program(BINARYCREATOR_EXECUTABLE binarycreator HINTS "${_QT_BIN_DIR_}/../..
 
 add_subdirectory(src/qtkeychainadapter)
 add_subdirectory(src/qtplogadapter)
+add_subdirectory(src/qtyamlcppadapter)
 add_subdirectory(src/tasktracker)
 add_subdirectory(src/tasktrackerlib)
 add_subdirectory(tests)

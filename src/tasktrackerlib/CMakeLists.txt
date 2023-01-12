@@ -26,6 +26,7 @@ target_link_libraries(${LIB_NAME} PUBLIC
     Qt6::Qml
     Qt6::Quick
     Qt6::QuickControls2
+    QtYamlCppAdapter
 )
 
 target_include_directories(${LIB_NAME} PUBLIC
