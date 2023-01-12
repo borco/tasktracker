@@ -6,6 +6,7 @@ import "Theme.js" as Theme
 SplitView {
     id: root
 
+    property bool inDarkMode: palette.text > palette.base
     property real hitAreaPadding: Theme.SplitViewHitAreaPadding + Theme.SplitViewSize / 2
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
@@ -18,8 +19,8 @@ SplitView {
         implicitHeight: root.orientation === Qt.Horizontal ? root.height : Theme.SplitViewSize
 
         color: SplitHandle.pressed || SplitHandle.hovered
-               ? root.palette.button
-               : palette.dark
+               ? palette.highlight
+               : (inDarkMode ? palette.light : palette.dark)
 
         // Increase the hit area
         containmentMask: Item {
