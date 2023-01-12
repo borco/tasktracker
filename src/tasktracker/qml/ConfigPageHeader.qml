@@ -36,5 +36,5 @@ Item {
         anchors.rightMargin: Theme.ContentRightMargin - rightPadding
     }
 
-    ConfigHorizontalSeparator {}
+    BottomSeparator {}
 }

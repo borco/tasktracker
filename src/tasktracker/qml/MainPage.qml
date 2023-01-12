@@ -30,6 +30,6 @@ Page {
             Label { text: TogglProxy.fullname }
         }
 
-        ConfigHorizontalSeparator {}
+        BottomSeparator {}
     }
 }

@@ -22,7 +22,7 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigButtonItem.qml
         qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
-        qml/ConfigHorizontalSeparator.qml
+        qml/BottomSeparator.qml
         qml/ConfigMainPage.qml
         qml/ConfigOptionButton.qml
         qml/ConfigPage.qml

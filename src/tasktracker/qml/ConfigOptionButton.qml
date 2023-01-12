@@ -21,5 +21,5 @@ ItemDelegate {
         Label { text: root.value + " ❯" }
     }
 
-    ConfigHorizontalSeparator {}
+    BottomSeparator {}
 }

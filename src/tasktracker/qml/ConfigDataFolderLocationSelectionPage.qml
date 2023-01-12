@@ -23,7 +23,7 @@ Page {
 
         onClicked: folderListModel.cd(text)
 
-        ConfigHorizontalSeparator {}
+        BottomSeparator {}
     }
 
     title: qsTr("Data Folder Location")
@@ -105,7 +105,7 @@ Page {
                 }
             }
 
-            ConfigHorizontalSeparator {}
+            BottomSeparator {}
         }
 
         ListView {

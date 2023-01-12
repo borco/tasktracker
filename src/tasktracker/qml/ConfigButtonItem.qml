@@ -25,5 +25,5 @@ ItemDelegate {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    ConfigHorizontalSeparator {}
+    BottomSeparator {}
 }

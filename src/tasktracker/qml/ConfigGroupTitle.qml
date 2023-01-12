@@ -24,5 +24,5 @@ Item {
         font.capitalization: Font.SmallCaps
     }
 
-    ConfigHorizontalSeparator {}
+    BottomSeparator {}
 }

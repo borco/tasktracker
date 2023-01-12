@@ -7,5 +7,5 @@ import "Theme.js" as Theme
 SwitchDelegate {
     Layout.fillWidth: true
 
-    ConfigHorizontalSeparator {}
+    BottomSeparator {}
 }
