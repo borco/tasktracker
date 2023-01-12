@@ -6,11 +6,13 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
+import "Theme.js" as Theme
+
 ApplicationWindow {
     id: root
 
     function showConfigPage() {
-        stackView.push(configPageComponent)
+        configPopup.open()
     }
 
     width: 640
@@ -19,6 +21,15 @@ ApplicationWindow {
 
     title: qsTr("Task Tracker")
 
+    ConfigPopup {
+        id: configPopup
+
+        x: Theme.PopupX
+        y: Theme.PopupTop
+        width: root.width - 2 * x
+        height: root.height - Theme.PopupTop - Theme.PopupBottom
+    }
+
     Component {
         id: starPageComponent
         Page {
@@ -26,13 +37,6 @@ ApplicationWindow {
                 anchors.centerIn: parent
                 running: true
             }
-        }
-    }
-
-    Component {
-        id: configPageComponent
-        ConfigPage {
-            onDone: stackView.pop()
         }
     }
 

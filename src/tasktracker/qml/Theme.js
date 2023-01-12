@@ -6,6 +6,10 @@ function colorWithAlpha(color, alpha) {
 
 const DangerColor = "#ff0000"
 
+const PopupX = 20
+const PopupTop = 40
+const PopupBottom = 20
+
 const ErrorTextColor = "#ff0000"
 const ErrorTextHeight = 11
 

@@ -82,6 +82,8 @@ Page {
                 text: qsTr("Sign Out")
                 onClicked: signOutMessageBox.open()
             }
+
+            Item { Layout.preferredHeight: Theme.ConfigGroupTitleHeight }
         }
     }
 }

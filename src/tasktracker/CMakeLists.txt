@@ -19,13 +19,13 @@ qt_add_qml_module(${APP_NAME}
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
+        qml/BottomSeparator.qml
         qml/ConfigButtonItem.qml
         qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
-        qml/BottomSeparator.qml
         qml/ConfigMainPage.qml
         qml/ConfigOptionButton.qml
-        qml/ConfigPage.qml
+        qml/ConfigPopup.qml
         qml/ConfigPageHeader.qml
         qml/ConfigSwitchItem.qml
         qml/DockToolBar.qml
@@ -42,6 +42,7 @@ qt_add_qml_module(${APP_NAME}
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
         qml/ThemedMessageBox.qml
+        qml/ThemedPopup.qml
         qml/ThemedSplitView.qml
         qml/ThemedToolButton.qml
         qml/WrappedTextField.qml
