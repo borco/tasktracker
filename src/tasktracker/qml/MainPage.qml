@@ -34,4 +34,32 @@ Page {
 
         BottomSeparator {}
     }
+
+    TaskListModel {
+        id: taskListModel
+    }
+
+    ColumnLayout {
+        anchors.fill: parent
+
+        ThemedButton {
+            flat: false
+            text: qsTr("Add task")
+            onClicked: {
+                let task = taskListModel.prependTask();
+                task.name = "xxx %1".arg(taskListModel.size);
+            }
+        }
+
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: taskListModel
+            clip: true
+            delegate: ItemDelegate {
+                width: ListView.view.width
+                text: name
+            }
+        }
+    }
 }
