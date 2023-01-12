@@ -23,6 +23,18 @@ Page {
         rightButton.onClicked: root.done()
     }
 
+    ThemedMessageBox {
+        id: signOutMessageBox
+        title: qsTr("Signing Out?")
+        text: qsTr("Are you sure you want to sign out of\nyour account?")
+
+        leftButton.text: qsTr("Cancel")
+        rightButton.text: qsTr("Sign Out")
+        rightButton.color: Theme.DangerColor
+
+        onAccepted: TogglProxy.logOut()
+    }
+
     Flickable {
         anchors.fill: parent
 
@@ -61,13 +73,14 @@ Page {
             }
 
             ConfigGroupTitle {
+                text: qsTr("Toggl")
                 visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
             }
 
             ConfigButtonItem {
                 visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
-                text: qsTr("Log Out")
-                onClicked: TogglProxy.logOut()
+                text: qsTr("Sign Out")
+                onClicked: signOutMessageBox.open()
             }
         }
     }

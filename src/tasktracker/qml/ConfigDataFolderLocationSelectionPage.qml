@@ -130,8 +130,4 @@ Page {
         folder: root.dataFolderLocation
         onFolderChanged: root.dataFolderLocation = folder
     }
-
-    Component.onCompleted: {
-        newFolderNameDialog.open()
-    }
 }

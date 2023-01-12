@@ -12,9 +12,9 @@ Dialog {
 
     background: Rectangle {
         radius: Theme.DialogRadius
-        color: palette.window
+        color: palette.base
         border.width: 1
-        border.color: palette.dark
+        border.color: palette.window
     }
 
     padding: Theme.DialogPadding

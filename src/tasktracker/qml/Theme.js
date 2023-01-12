@@ -4,6 +4,8 @@ function colorWithAlpha(color, alpha) {
     return Qt.hsla(color.hslHue, color.hslSaturation, color.hslLightness, alpha)
 }
 
+const DangerColor = "#ff0000"
+
 const ErrorTextColor = "#ff0000"
 const ErrorTextHeight = 11
 

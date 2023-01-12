@@ -7,10 +7,14 @@ import "Theme.js" as Theme
 ThemedDialog {
     id: root
 
-    property alias textField: textField
-    property alias errorLabel: errorLabel
+    property string text: ""
 
+    modal: true
+    anchors.centerIn: Overlay.overlay
     bottomPadding: Theme.DialogPadding / 2
+
+    leftButton.onClicked: reject()
+    rightButton.onClicked: accept()
 
     contentItem: ColumnLayout {
         Label {
@@ -21,15 +25,8 @@ ThemedDialog {
             Layout.bottomMargin: root.padding / 2
         }
 
-        WrappedTextField {
-            id: textField
-            Layout.fillWidth: true
-        }
-
         Label {
-            id: errorLabel
-            font.pointSize: Theme.ErrorTextHeight
-            color: Theme.ErrorTextColor
+            text: root.text
             Layout.fillWidth: true
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

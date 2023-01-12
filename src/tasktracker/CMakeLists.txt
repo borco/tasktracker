@@ -28,7 +28,6 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigPage.qml
         qml/ConfigPageHeader.qml
         qml/ConfigSwitchItem.qml
-        qml/DialogWithButtons.qml
         qml/DockToolBar.qml
         qml/InputDialog.qml
         qml/LoginComponent.qml
@@ -41,6 +40,8 @@ qt_add_qml_module(${APP_NAME}
         qml/SmallLabel.qml
         qml/Theme.js
         qml/ThemedButton.qml
+        qml/ThemedDialog.qml
+        qml/ThemedMessageBox.qml
         qml/ThemedSplitView.qml
         qml/ThemedToolButton.qml
         qml/WrappedTextField.qml
