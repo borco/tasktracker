@@ -34,7 +34,10 @@ Page {
         rightButton.text: qsTr("Sign Out")
         rightButton.color: Theme.DangerColor
 
-        onAccepted: TogglProxy.logOut()
+        onAccepted: {
+            TogglProxy.logOut()
+            root.done()
+        }
     }
 
     Flickable {
