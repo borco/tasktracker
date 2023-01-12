@@ -17,11 +17,7 @@ Dialog {
 
     padding: Theme.DialogPadding
 
-    Overlay.modal: Rectangle {
-        color: Theme.colorWithAlpha(palette.text, 0.5)
-    }
-
-    header: Item {}
+    header: null
 
     footer: Item {
         implicitHeight: Theme.DialogButtonsHeight
