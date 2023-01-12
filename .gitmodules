@@ -4,3 +4,6 @@
 [submodule "src/qtkeychainadapter"]
 	path = src/qtkeychainadapter
 	url = git@github.com:borco/qtkeychainadapter.git
+[submodule "src/qtyamlcppadapter"]
+	path = src/qtyamlcppadapter
+	url = git@github.com:borco/qtyamlcppadapter.git
