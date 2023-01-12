@@ -36,7 +36,7 @@ ApplicationWindow {
 
     Component {
         id: starPageComponent
-        Page {
+        Item {
             BusyIndicator {
                 anchors.centerIn: parent
                 running: true
@@ -94,7 +94,6 @@ ApplicationWindow {
         function onLoggedStatusChanged() {
             if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
                 stackView.replace(null, mainPageComponent, StackView.Immediate)
-//                showConfigPage()
             } else if (TogglProxy.loggedStatus === TogglProxy.LoggedOut) {
                 stackView.replace(null, loginPageComponent, StackView.Immediate)
             }
