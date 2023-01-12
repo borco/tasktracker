@@ -8,7 +8,7 @@ Button {
 
     flat: true
 
-    contentItem: Label {
+    contentItem: ThemedLabel {
         property color flatTextColor: root.color ? root.color : root.palette.button
         property color flatTextDownColor: Qt.lighter(flatTextColor, 1.2)
 

@@ -41,6 +41,7 @@ qt_add_qml_module(${APP_NAME}
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
+        qml/ThemedLabel.qml
         qml/ThemedMessageBox.qml
         qml/ThemedPopup.qml
         qml/ThemedSplitView.qml

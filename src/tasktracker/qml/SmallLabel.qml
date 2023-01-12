@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-Label {
+ThemedLabel {
     font.weight: 200
     font.pointSize: 10
 }

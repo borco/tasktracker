@@ -13,7 +13,7 @@ ToolBar {
     RowLayout {
         anchors.fill: parent
 
-        Label {
+        ThemedLabel {
             text: root.title
             verticalAlignment: Text.AlignVCenter
             Layout.alignment: Qt.AlignVCenter

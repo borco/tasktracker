@@ -22,7 +22,7 @@ Item {
         anchors.leftMargin: Theme.ContentLeftMargin - leftPadding
     }
 
-    Label {
+    ThemedLabel {
         text: root.title
         anchors.centerIn: parent
         font.bold: true

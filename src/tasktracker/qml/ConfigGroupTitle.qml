@@ -13,7 +13,7 @@ Item {
 
     implicitHeight: Theme.ConfigGroupTitleHeight
 
-    Label {
+    ThemedLabel {
         text: parent.text
         anchors.left: parent.left
         anchors.leftMargin: Theme.ContentLeftMargin

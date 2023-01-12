@@ -12,13 +12,13 @@ ItemDelegate {
     Layout.fillWidth: true
 
     contentItem: RowLayout {
-        Label {
+        ThemedLabel {
             text: root.text
             Layout.fillWidth: true
             elide: Text.ElideRight
         }
 
-        Label { text: root.value + " ❯" }
+        ThemedLabel { text: root.value + " ❯" }
     }
 
     BottomSeparator {}

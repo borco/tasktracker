@@ -17,7 +17,7 @@ ThemedDialog {
     rightButton.onClicked: accept()
 
     contentItem: ColumnLayout {
-        Label {
+        ThemedLabel {
             text: root.title
             font.bold: true
             Layout.fillWidth: true
@@ -25,10 +25,11 @@ ThemedDialog {
             Layout.bottomMargin: root.padding / 2
         }
 
-        Label {
+        ThemedLabel {
             text: root.text
             Layout.fillWidth: true
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 }

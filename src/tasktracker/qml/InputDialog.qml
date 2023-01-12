@@ -13,7 +13,7 @@ ThemedDialog {
     bottomPadding: Theme.DialogPadding / 2
 
     contentItem: ColumnLayout {
-        Label {
+        ThemedLabel {
             text: root.title
             font.bold: true
             Layout.fillWidth: true
@@ -26,7 +26,7 @@ ThemedDialog {
             Layout.fillWidth: true
         }
 
-        Label {
+        ThemedLabel {
             id: errorLabel
             font.pointSize: Theme.ErrorTextHeight
             color: Theme.ErrorTextColor

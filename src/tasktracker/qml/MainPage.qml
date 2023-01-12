@@ -27,7 +27,7 @@ Page {
                 maskSource: "../icons/avatar_mask.svg"
             }
 
-            Label { text: TogglProxy.fullname }
+            ThemedLabel { text: TogglProxy.fullname }
         }
 
         BottomSeparator {}

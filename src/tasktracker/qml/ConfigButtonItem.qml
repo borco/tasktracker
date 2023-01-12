@@ -9,7 +9,7 @@ ItemDelegate {
 
     Layout.fillWidth: true
 
-    contentItem: Label {
+    contentItem: ThemedLabel {
         rightPadding: root.spacing
         text: root.text
         font: root.font
