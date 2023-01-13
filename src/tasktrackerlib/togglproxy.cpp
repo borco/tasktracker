@@ -125,7 +125,7 @@ void TogglProxy::logIn()
 
             m_session = sessionFromCookieJar();
 
-            getMe(true);
+            getMe(false);
             setLoggedStatus(LoggedIn);
             emit loggedWithUserAndPassword();
         } else {
