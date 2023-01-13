@@ -62,4 +62,12 @@ Page {
             }
         }
     }
+
+    Component.onCompleted: {
+        taskListModel.load(Config.dataFolderLocation)
+    }
+
+    Component.onDestruction: {
+        taskListModel.save(Config.dataFolderLocation)
+    }
 }

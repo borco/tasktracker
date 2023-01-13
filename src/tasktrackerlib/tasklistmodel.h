@@ -30,15 +30,21 @@ public:
     int size() const { return m_size; }
     void setSize(int newSize);
 
-    Q_INVOKABLE tasktrackerlib::Task* prependTask();
-
 signals:
     void sizeChanged();
+
+public slots:
+    void load(const QString& path, const QString& fileName = DefaultFileName);
+    void save(const QString& path, const QString& fileName = DefaultFileName);
+
+    tasktrackerlib::Task* prependTask();
 
 private:
     enum Roles {
         NameRole = Qt::UserRole + 1,
     };
+
+    inline static const QString DefaultFileName = "tasks.yaml";
 
     QList<Task*> m_tasks;
     int m_size = 0;

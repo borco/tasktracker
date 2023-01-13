@@ -6,6 +6,9 @@
 
 #include "task.h"
 
+#include <QDir>
+#include <QFileInfo>
+
 using namespace tasktrackerlib;
 
 TaskListModel::TaskListModel(QObject *parent)
@@ -81,4 +84,18 @@ void TaskListModel::setSize(int newSize)
         return;
     m_size = newSize;
     emit sizeChanged();
+}
+
+void TaskListModel::load(const QString &path, const QString &fileName)
+{
+    QDir dir(path);
+    QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
+    qInfo() << "TaskListModel: loading tasks from:" << absolute_file_path;
+}
+
+void TaskListModel::save(const QString &path, const QString &fileName)
+{
+    QDir dir(path);
+    QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
+    qInfo() << "TaskListModel: saving tasks to:" << absolute_file_path;
 }
