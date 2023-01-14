@@ -14,6 +14,7 @@ using namespace tasktrackerlib;
 namespace {
 static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
+static const char* ScheduleModeYamlName = "schedule";
 }
 
 Task::Task(QObject *parent)
@@ -54,13 +55,14 @@ void Task::loadFromData(const QByteArray &data)
 
 void Task::loadFromYaml(YAML::Node &node)
 {
-    if (!node.IsMap()) {
-        qCritical().nospace() << "Task: yaml node is not a map";
+    if (!node.IsMap() && !node.IsNull()) {
+        qCritical() << "Task: yaml node is not a map";
         return;
     }
     using namespace qtyamlcppadapter;
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
+    setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, Task::Daily));
 }
 
 void Task::setIsArchived(bool newIsArchived)

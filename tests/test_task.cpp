@@ -13,7 +13,7 @@ private slots:
         QTest::addColumn<QString>("data");
         QTest::addColumn<QString>("name");
 
-        QTest::newRow("") << R"(
+        QTest::newRow("No name value") << R"(
 )" << "";
 
         QTest::newRow("Foo Bar") << R"(
@@ -38,7 +38,7 @@ name: foo bar
         QTest::addColumn<QString>("data");
         QTest::addColumn<bool>("isArchived");
 
-        QTest::newRow("") << R"(
+        QTest::newRow("No archived value") << R"(
 )" << false;
 
         QTest::newRow("false") << R"(
@@ -57,6 +57,35 @@ archived: true
         Task task;
         task.loadFromData(data.toUtf8());
         QCOMPARE(task.isArchived(), isArchived);
+    }
+
+    void test_load_schedule_mode_data() {
+        QTest::addColumn<QString>("data");
+        QTest::addColumn<Task::ScheduleMode>("scheduleMode");
+
+        QTest::newRow("No schedule value") << R"(
+)" << Task::Daily;
+
+        QTest::newRow("Unknown/invalid schedule value") << R"(
+schedule: xxx
+)" << Task::Daily;
+
+        QTest::newRow("Daily") << R"(
+schedule: Daily
+)" << Task::Daily;
+
+        QTest::newRow("Weekly") << R"(
+schedule: Weekly
+)" << Task::Weekly;
+    }
+
+    void test_load_schedule_mode() {
+        QFETCH(QString, data);
+        QFETCH(Task::ScheduleMode, scheduleMode);
+
+        Task task;
+        task.loadFromData(data.toUtf8());
+        QCOMPARE(task.scheduleMode(), scheduleMode);
     }
 };
 
