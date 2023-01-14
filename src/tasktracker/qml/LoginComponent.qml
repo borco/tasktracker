@@ -43,7 +43,7 @@ ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 6
 
-                    SmallLabel {
+                    ThemedSmallLabel {
                         text: qsTr('Username:')
                     }
 
@@ -52,7 +52,7 @@ ColumnLayout {
                         Layout.fillWidth: true
                     }
 
-                    SmallLabel {
+                    ThemedSmallLabel {
                         text: qsTr('Password:')
                     }
 
@@ -63,7 +63,7 @@ ColumnLayout {
                 }
             }
 
-            SmallLabel {
+            ThemedSmallLabel {
                 id: infoLabel
 
                 Layout.fillWidth: true

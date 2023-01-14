@@ -25,8 +25,8 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigGroupTitle.qml
         qml/ConfigMainPage.qml
         qml/ConfigOptionButton.qml
-        qml/ConfigPopup.qml
         qml/ConfigPageHeader.qml
+        qml/ConfigPopup.qml
         qml/ConfigSwitchItem.qml
         qml/DockToolBar.qml
         qml/InputDialog.qml
@@ -37,13 +37,13 @@ qt_add_qml_module(${APP_NAME}
         qml/MaskedImage.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
-        qml/SmallLabel.qml
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
         qml/ThemedLabel.qml
         qml/ThemedMessageBox.qml
         qml/ThemedPopup.qml
+        qml/ThemedSmallLabel.qml
         qml/ThemedSplitView.qml
         qml/ThemedToolButton.qml
         qml/WrappedTextField.qml
