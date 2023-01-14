@@ -4,6 +4,7 @@
 
 #include "tasklistmodel.h"
 
+#include "qtyamlcppadapter/enumhelper.h"
 #include "task.h"
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
@@ -31,14 +32,38 @@ int TaskListModel::rowCount(const QModelIndex &parent) const
     return m_tasks.count();
 }
 
+QHash<int, QByteArray> TaskListModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[Name] = "name";
+    roles[IsArchived] = "isArchived";
+    roles[ScheduleMode] = "scheduleMode";
+    roles[ScheduleModeText] = "scheduleModeText";
+    roles[TrackMode] = "trackMode";
+    roles[TrackModeText] = "trackModeText";
+    return roles;
+}
+
 QVariant TaskListModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
 
+    auto task = m_tasks[index.row()];
+
     switch(role) {
     case Name:
-        return m_tasks[index.row()]->name();
+        return task->name();
+    case IsArchived:
+        return task->isArchived();
+    case ScheduleMode:
+        return task->scheduleMode();
+    case ScheduleModeText:
+        return qtyamlcppadapter::toString(task->scheduleMode());
+    case TrackMode:
+        return task->trackMode();
+    case TrackModeText:
+        return qtyamlcppadapter::toString(task->trackMode());
     }
 
     return QVariant();
@@ -66,21 +91,25 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
     return false;
 }
 
-QHash<int, QByteArray> TaskListModel::roleNames() const
+Task* TaskListModel::insertTask(int row, Task* task)
 {
-    QHash<int, QByteArray> roles;
-    roles[Name] = "name";
-    return roles;
+    beginInsertRows(QModelIndex(), row, row);
+    if (row >= m_tasks.size()) {
+        m_tasks.append(task);
+    } else if (row == 0) {
+        m_tasks.prepend(task);
+    } else {
+        m_tasks.insert(row, task);
+    }
+    setSize(m_tasks.size());
+    endInsertRows();
+
+    return task;
 }
 
 Task* TaskListModel::prependTask()
 {
-    auto task = new Task(this);
-    beginInsertRows(QModelIndex(), 0, 0);
-    m_tasks.prepend(task);
-    setSize(m_tasks.size());
-    endInsertRows();
-    return task;
+    return insertTask(0, new Task(this));
 }
 
 void TaskListModel::setSize(int newSize)
@@ -111,12 +140,14 @@ void TaskListModel::loadFromData(const QByteArray &data)
     endResetModel();
 }
 
-void TaskListModel::loadTasks(YAML::Node &node)
+void TaskListModel::loadTasks(const YAML::Node &node)
 {
     assert(node.IsSequence());
 
-    for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
-//        string_list << QString::fromStdString(it->as<std::string>()).trimmed();
+    for (unsigned int i = 0; i < node.size(); ++i) {
+        auto task = new Task(this);
+        task->loadFromYaml(node[i]);
+        insertTask(i, task);
     }
 }
 
@@ -127,9 +158,17 @@ QByteArray TaskListModel::saveToData() const
 
 void TaskListModel::load(const QString &path, const QString &fileName)
 {
-    QDir dir(path);
-    QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
-    qInfo() << "TaskListModel: loading tasks from:" << absolute_file_path;
+    auto dir = QDir(path);
+    auto info = QFileInfo(dir.filePath(fileName));
+    auto absolute_file_path = info.absoluteFilePath();
+    if (info.exists()) {
+        qInfo() << "TaskListModel: loading tasks from:" << absolute_file_path;
+        auto file = QFile(absolute_file_path);
+        file.open(QIODeviceBase::ReadOnly);
+        loadFromData(file.readAll());
+    } else {
+        qInfo() << "TaskListModel: tasks file not found:" << absolute_file_path;
+    }
 }
 
 void TaskListModel::save(const QString &path, const QString &fileName)

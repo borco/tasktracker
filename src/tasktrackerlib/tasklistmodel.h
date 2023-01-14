@@ -49,9 +49,15 @@ public slots:
 private:
     enum Roles {
         Name = Qt::UserRole + 1,
+        IsArchived,
+        ScheduleMode,
+        ScheduleModeText,
+        TrackMode,
+        TrackModeText,
     };
 
-    void loadTasks(YAML::Node& node);
+    void loadTasks(const YAML::Node& node);
+    tasktrackerlib::Task* insertTask(int row, Task* task);
 
     inline static const QString DefaultFileName = "tasks.yaml";
 
