@@ -54,7 +54,7 @@ void Task::loadFromData(const QByteArray &data)
     loadFromYaml(node);
 }
 
-void Task::loadFromYaml(YAML::Node &node)
+void Task::loadFromYaml(const YAML::Node &node)
 {
     if (!node.IsMap() && !node.IsNull()) {
         qCritical() << "Task: yaml node is not a map";

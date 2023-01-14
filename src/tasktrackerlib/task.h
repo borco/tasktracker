@@ -61,7 +61,7 @@ public:
     TaskRunListModel* runs() const { return m_runs; }
 
     void loadFromData(const QByteArray& data);
-    void loadFromYaml(YAML::Node& node);
+    void loadFromYaml(const YAML::Node &node);
 
 signals:
     void nameChanged();
