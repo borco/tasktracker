@@ -21,6 +21,10 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         tasklistmodel.cpp
         tasklistmodel.h
+        taskrun.cpp
+        taskrun.h
+        taskrunlistmodel.cpp
+        taskrunlistmodel.h
         togglproxy.cpp
         togglproxy.h
 )

@@ -7,6 +7,8 @@
 #include <QQmlEngine>
 #include <QAbstractListModel>
 
+namespace YAML { class Node; }
+
 namespace tasktrackerlib {
 
 class Task;
@@ -30,6 +32,11 @@ public:
     int size() const { return m_size; }
     void setSize(int newSize);
 
+    void loadFromData(const QByteArray& data);
+    QByteArray saveToData() const;
+
+    const Task* get(int row) const { return m_tasks[row]; }
+
 signals:
     void sizeChanged();
 
@@ -41,8 +48,10 @@ public slots:
 
 private:
     enum Roles {
-        NameRole = Qt::UserRole + 1,
+        Name = Qt::UserRole + 1,
     };
+
+    void loadTasks(YAML::Node& node);
 
     inline static const QString DefaultFileName = "tasks.yaml";
 

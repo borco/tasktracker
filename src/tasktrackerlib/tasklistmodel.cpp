@@ -5,11 +5,16 @@
 #include "tasklistmodel.h"
 
 #include "task.h"
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
 #include <QDir>
 #include <QFileInfo>
 
 using namespace tasktrackerlib;
+
+namespace {
+static const char* TasksYamlNode = "tasks";
+}
 
 TaskListModel::TaskListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -32,7 +37,7 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     switch(role) {
-    case NameRole:
+    case Name:
         return m_tasks[index.row()]->name();
     }
 
@@ -45,7 +50,7 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
         bool changed = false;
 
         switch(role) {
-        case NameRole:
+        case Name:
             m_tasks[index.row()]->setName(value.toString());
             changed = true;
             break;
@@ -64,7 +69,7 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
 QHash<int, QByteArray> TaskListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[NameRole] = "name";
+    roles[Name] = "name";
     return roles;
 }
 
@@ -84,6 +89,40 @@ void TaskListModel::setSize(int newSize)
         return;
     m_size = newSize;
     emit sizeChanged();
+}
+
+void TaskListModel::loadFromData(const QByteArray &data)
+{
+    beginResetModel();
+    qDeleteAll(m_tasks);
+    m_tasks.clear();
+
+    YAML::Node node = YAML::Load(data.toStdString());
+    auto tasks_node = node[TasksYamlNode];
+    if (tasks_node) {
+        if (!tasks_node.IsSequence()) {
+            qCritical().nospace() << "TaskListModel: '" << TasksYamlNode << "' is not a list";
+        } else {
+            loadTasks(tasks_node);
+        }
+    }
+
+    setSize(m_tasks.size());
+    endResetModel();
+}
+
+void TaskListModel::loadTasks(YAML::Node &node)
+{
+    assert(node.IsSequence());
+
+    for (YAML::const_iterator it = node.begin(); it != node.end(); ++it) {
+//        string_list << QString::fromStdString(it->as<std::string>()).trimmed();
+    }
+}
+
+QByteArray TaskListModel::saveToData() const
+{
+    return QByteArray();
 }
 
 void TaskListModel::load(const QString &path, const QString &fileName)

@@ -4,12 +4,22 @@
 
 #include "task.h"
 
+#include "qtyamlcppadapter/yamlhelper.h"
+#include "taskrunlistmodel.h"
+#include "yaml-cpp/node/node.h"
+#include "yaml-cpp/node/parse.h"
+
 using namespace tasktrackerlib;
+
+namespace {
+static const char* TaskYamlName = "name";
+static const char* IsArchivedYamlName = "archived";
+}
 
 Task::Task(QObject *parent)
     : QObject{parent}
+    , m_runs(new TaskRunListModel(this))
 {
-
 }
 
 void Task::setName(const QString &newName)
@@ -18,4 +28,45 @@ void Task::setName(const QString &newName)
         return;
     m_name = newName;
     emit nameChanged();
+}
+
+void Task::setScheduleMode(ScheduleMode newScheduleMode)
+{
+    if (m_scheduleMode == newScheduleMode)
+        return;
+    m_scheduleMode = newScheduleMode;
+    emit scheduleModeChanged();
+}
+
+void Task::setTrackMode(TrackMode newTrackMode)
+{
+    if (m_trackMode == newTrackMode)
+        return;
+    m_trackMode = newTrackMode;
+    emit trackModeChanged();
+}
+
+void Task::loadFromData(const QByteArray &data)
+{
+    YAML::Node node = YAML::Load(data.toStdString());
+    loadFromYaml(node);
+}
+
+void Task::loadFromYaml(YAML::Node &node)
+{
+    if (!node.IsMap()) {
+        qCritical().nospace() << "Task: yaml node is not a map";
+        return;
+    }
+    using namespace qtyamlcppadapter;
+    setName(stringFromYaml(node, TaskYamlName));
+    setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
+}
+
+void Task::setIsArchived(bool newIsArchived)
+{
+    if (m_isArchived == newIsArchived)
+        return;
+    m_isArchived = newIsArchived;
+    emit isArchivedChanged();
 }
