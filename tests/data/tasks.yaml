@@ -1,0 +1,18 @@
+tasks:
+
+-
+  name: empty task
+
+-
+  name: archived task
+  archived: true
+
+- name: weekly task
+  schedule: Weekly
+
+- name: minimum duration task
+  track: MinimumDuration
+
+- name: weekly maximum duration task
+  schedule: Weekly
+  track: MaximumDuration
