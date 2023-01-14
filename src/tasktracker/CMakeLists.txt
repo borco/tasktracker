@@ -50,6 +50,7 @@ qt_add_qml_module(${APP_NAME}
         qml/main.qml
     RESOURCES
         icons/app.svg
+        icons/archived.svg
         icons/avatar_mask.svg
         icons/clear.svg
         icons/create_new_folder.svg
