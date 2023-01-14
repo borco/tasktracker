@@ -42,23 +42,44 @@ Page {
     ColumnLayout {
         anchors.fill: parent
 
-        ThemedButton {
-            flat: false
-            text: qsTr("Add task")
-            onClicked: {
-                let task = taskListModel.prependTask();
-                task.name = "xxx %1".arg(taskListModel.size);
-            }
-        }
-
         ListView {
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
             model: taskListModel
             clip: true
-            delegate: ItemDelegate {
+            spacing: 10
+
+            header: Item { implicitHeight: 10 }
+            footer: Item { implicitHeight: 10 }
+
+            delegate: Pane {
                 width: ListView.view.width
-                text: name
+                background: Rectangle {
+                    radius: 10
+                    color: isArchived ? palette.alternateBase : palette.base
+                }
+
+                ColumnLayout {
+                    ThemedLabel {
+                        text: name
+                    }
+
+                    ThemedSmallLabel {
+                        text: scheduleModeText
+                    }
+
+                    ThemedSmallLabel {
+                        visible: trackMode !== Task.NoTracking
+                        text: trackModeText
+                    }
+
+                    ThemedSmallLabel {
+                        visible: isArchived
+                        text: qsTr("Archived")
+                    }
+                }
             }
         }
     }
