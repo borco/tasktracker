@@ -1,3 +1,4 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -30,6 +31,12 @@ Page {
             }
 
             ThemedLabel { text: TogglProxy.fullname }
+
+            ThemedToolButton {
+                id: archivedToggle
+                icon.source: "../icons/archived.svg"
+                checkable: true
+            }
         }
 
         BottomSeparator {}
@@ -47,7 +54,11 @@ Page {
             Layout.rightMargin: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: taskListModel
+            model: TaskListFilterModel {
+                sourceModel: taskListModel
+                showArchived: archivedToggle.checked
+            }
+
             clip: true
             spacing: 10
 
@@ -56,6 +67,7 @@ Page {
 
             delegate: Pane {
                 width: ListView.view.width
+
                 background: Rectangle {
                     radius: 10
                     color: isArchived ? palette.alternateBase : palette.base
@@ -82,6 +94,11 @@ Page {
                 }
             }
         }
+    }
+
+    Settings {
+        category: "Main"
+        property alias showArchived: archivedToggle.checked
     }
 
     Component.onCompleted: {
