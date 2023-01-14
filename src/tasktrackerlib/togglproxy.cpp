@@ -197,6 +197,7 @@ void TogglProxy::getMe(bool updateIsLoggedIn)
             if (updateIsLoggedIn) {
                 setLoggedStatus(LoggedOut);
                 qDebug() << "TogglProxy: failed to log in using old session";
+                return;
             }
             qDebug().noquote() << "TogglProxy: failed to get user info:" << response_data;
         }
