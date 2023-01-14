@@ -15,6 +15,7 @@ namespace {
 static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
 static const char* ScheduleModeYamlName = "schedule";
+static const char* TrackModeYamlName = "track";
 }
 
 Task::Task(QObject *parent)
@@ -63,6 +64,7 @@ void Task::loadFromYaml(YAML::Node &node)
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
     setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, Task::Daily));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, Task::NoTracking));
 }
 
 void Task::setIsArchived(bool newIsArchived)

@@ -63,10 +63,10 @@ archived: true
         QTest::addColumn<QString>("data");
         QTest::addColumn<Task::ScheduleMode>("scheduleMode");
 
-        QTest::newRow("No schedule value") << R"(
+        QTest::newRow("No schedule mode") << R"(
 )" << Task::Daily;
 
-        QTest::newRow("Unknown/invalid schedule value") << R"(
+        QTest::newRow("Unknown/invalid schedule mode") << R"(
 schedule: xxx
 )" << Task::Daily;
 
@@ -86,6 +86,36 @@ schedule: Weekly
         Task task;
         task.loadFromData(data.toUtf8());
         QCOMPARE(task.scheduleMode(), scheduleMode);
+    }
+
+
+    void test_load_track_mode_data() {
+        QTest::addColumn<QString>("data");
+        QTest::addColumn<Task::TrackMode>("trackMode");
+
+        QTest::newRow("No track mode") << R"(
+)" << Task::NoTracking;
+
+        QTest::newRow("Unknown/invalid track mode") << R"(
+track: xxx
+)" << Task::NoTracking;
+
+        QTest::newRow("NoTracking") << R"(
+track: NoTracking
+)" << Task::NoTracking;
+
+        QTest::newRow("MinimumRepeats") << R"(
+track: MinimumRepeats
+)" << Task::MinimumRepeats;
+    }
+
+    void test_load_track_mode() {
+        QFETCH(QString, data);
+        QFETCH(Task::TrackMode, trackMode);
+
+        Task task;
+        task.loadFromData(data.toUtf8());
+        QCOMPARE(task.trackMode(), trackMode);
     }
 };
 
