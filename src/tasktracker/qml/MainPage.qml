@@ -72,7 +72,9 @@ Page {
             header: Item { implicitHeight: 10 }
             footer: Item { implicitHeight: 10 }
 
-            delegate: TaskDelegate {}
+            delegate: TaskDelegate {
+                width: ListView.view.width
+            }
         }
     }
 

@@ -27,8 +27,6 @@ Pane {
     signal start()
     signal stop()
 
-    width: ListView.view.width
-
     contentHeight: layout.implicitHeight
     contentWidth: layout.implicitWidth
 
