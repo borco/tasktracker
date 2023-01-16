@@ -27,11 +27,6 @@ ApplicationWindow {
 
     ConfigPopup {
         id: configPopup
-
-        x: Theme.PopupX
-        y: Theme.PopupTop
-        width: root.width - 2 * x
-        height: root.height - Theme.PopupTop - Theme.PopupBottom
     }
 
     Component {

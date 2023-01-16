@@ -3,15 +3,24 @@ import QtQuick.Controls
 
 import TaskTrackerLib
 
+import "Theme.js" as Theme
+
 ThemedPopup {
     id: root
+
+    modal: true
+
+    parent: Overlay.overlay
+
+    x: Theme.PopupX
+    y: Theme.PopupTop
+    width: parent.width - 2 * x
+    height: parent.height - Theme.PopupTop - Theme.PopupBottom
 
     topPadding: 0
     bottomPadding: 0
     leftPadding: 0
     rightPadding: 0
-
-    modal: true
 
     contentHeight: stackView.implicitHeight
     contentWidth: stackView.implicitWidth
