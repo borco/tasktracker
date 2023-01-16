@@ -37,6 +37,12 @@ Page {
                 icon.source: "../icons/archived.svg"
                 checkable: true
             }
+
+            ThemedToolButton {
+                id: doneToggle
+                icon.source: "../icons/task/done.svg"
+                checkable: true
+            }
         }
 
         BottomSeparator {}
@@ -56,6 +62,7 @@ Page {
             Layout.fillHeight: true
             model: TaskListFilterModel {
                 sourceModel: taskListModel
+                showDone: doneToggle.checked
                 showArchived: archivedToggle.checked
             }
 
@@ -65,40 +72,14 @@ Page {
             header: Item { implicitHeight: 10 }
             footer: Item { implicitHeight: 10 }
 
-            delegate: Pane {
-                width: ListView.view.width
-
-                background: Rectangle {
-                    radius: 10
-                    color: isArchived ? palette.alternateBase : palette.base
-                }
-
-                ColumnLayout {
-                    ThemedLabel {
-                        text: name
-                    }
-
-                    ThemedSmallLabel {
-                        text: scheduleModeText
-                    }
-
-                    ThemedSmallLabel {
-                        visible: trackMode !== Task.NoTracking
-                        text: trackModeText
-                    }
-
-                    ThemedSmallLabel {
-                        visible: isArchived
-                        text: qsTr("Archived")
-                    }
-                }
-            }
+            delegate: TaskDelegate {}
         }
     }
 
     Settings {
         category: "Main"
         property alias showArchived: archivedToggle.checked
+        property alias showDone: doneToggle.checked
     }
 
     Component.onCompleted: {

@@ -18,6 +18,7 @@ class Task : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(bool isDone READ isDone WRITE setIsDone NOTIFY isDoneChanged)
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(Task::ScheduleMode scheduleMode READ scheduleMode WRITE setScheduleMode NOTIFY scheduleModeChanged)
     Q_PROPERTY(Task::TrackMode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
@@ -37,8 +38,10 @@ public:
 
     enum TrackMode {
         NoTracking = 0, // needs to be done once; marked as done after doing it
+        Repeats,
         MinimumRepeats,
         MaximumRepeats,
+        Duration,
         MinimumDuration,
         MaximumDuration,
     };
@@ -48,6 +51,9 @@ public:
 
     QString name() const { return m_name; }
     void setName(const QString &newName);
+
+    bool isDone() const { return m_isDone; }
+    void setIsDone(bool newIsDone);
 
     bool isArchived() const { return m_isArchived; }
     void setIsArchived(bool newIsArchived);
@@ -65,12 +71,14 @@ public:
 
 signals:
     void nameChanged();
+    void isDoneChanged();
     void isArchivedChanged();
     void scheduleModeChanged();
     void trackModeChanged();
 
 private:
     QString m_name;
+    bool m_isDone = false;
     bool m_isArchived = false;
     ScheduleMode m_scheduleMode = Daily;
     TrackMode m_trackMode = NoTracking;

@@ -37,6 +37,7 @@ qt_add_qml_module(${APP_NAME}
         qml/MaskedImage.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
+        qml/TaskDelegate.qml
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
@@ -58,6 +59,13 @@ qt_add_qml_module(${APP_NAME}
         icons/password_visible.svg
         icons/refresh.svg
         icons/settings.svg
+        icons/task/decrement.svg
+        icons/task/done.svg
+        icons/task/edit.svg
+        icons/task/increment.svg
+        icons/task/start.svg
+        icons/task/stop.svg
+        icons/task/todo.svg
         icons/wrap_text.svg
 )
 

@@ -74,3 +74,11 @@ void Task::setIsArchived(bool newIsArchived)
     m_isArchived = newIsArchived;
     emit isArchivedChanged();
 }
+
+void Task::setIsDone(bool newIsDone)
+{
+    if (m_isDone == newIsDone)
+        return;
+    m_isDone = newIsDone;
+    emit isDoneChanged();
+}

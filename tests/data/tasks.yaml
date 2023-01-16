@@ -10,6 +10,13 @@ tasks:
 - name: weekly task
   schedule: Weekly
 
+- name: minimum repeats task
+  track: MinimumRepeats
+
+- name: weekly maximum repeats task
+  schedule: Weekly
+  track: MaximumRepeats
+
 - name: minimum duration task
   track: MinimumDuration
 

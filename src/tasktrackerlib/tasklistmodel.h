@@ -49,6 +49,7 @@ public slots:
 private:
     enum Roles {
         Name = Qt::UserRole + 1,
+        IsDone,
         IsArchived,
         ScheduleMode,
         ScheduleModeText,

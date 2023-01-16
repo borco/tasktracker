@@ -36,6 +36,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[Name] = "name";
+    roles[IsDone] = "isDone";
     roles[IsArchived] = "isArchived";
     roles[ScheduleMode] = "scheduleMode";
     roles[ScheduleModeText] = "scheduleModeText";
@@ -54,6 +55,8 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
     switch(role) {
     case Name:
         return task->name();
+    case IsDone:
+        return task->isDone();
     case IsArchived:
         return task->isArchived();
     case ScheduleMode:
@@ -77,6 +80,10 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
         switch(role) {
         case Name:
             m_tasks[index.row()]->setName(value.toString());
+            changed = true;
+            break;
+        case IsDone:
+            m_tasks[index.row()]->setIsDone(value.toBool());
             changed = true;
             break;
         }
