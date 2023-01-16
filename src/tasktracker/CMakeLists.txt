@@ -38,6 +38,8 @@ qt_add_qml_module(${APP_NAME}
         qml/PageHeader.qml
         qml/PasswordTextField.qml
         qml/TaskDelegate.qml
+        qml/TaskEditorMainPage.qml
+        qml/TaskEditorPopup.qml
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml

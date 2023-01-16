@@ -52,6 +52,10 @@ Page {
         id: taskListModel
     }
 
+    TaskEditorPopup {
+        id: taskEditorPopup
+    }
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -74,6 +78,10 @@ Page {
 
             delegate: TaskDelegate {
                 width: ListView.view.width
+                onEdit: {
+                    taskEditorPopup.model = model
+                    taskEditorPopup.open()
+                }
             }
         }
     }
