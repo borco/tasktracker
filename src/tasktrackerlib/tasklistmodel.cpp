@@ -78,29 +78,34 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
 bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        bool changed = false;
+        QList<int> roles = {};
 
         switch(role) {
         case Name:
             m_tasks[index.row()]->setName(value.toString());
-            changed = true;
+            roles << role;
             break;
         case IsEdited:
             m_tasks[index.row()]->setIsEdited(value.toBool());
-            changed = true;
+            roles << role;
             break;
         case IsDone:
             m_tasks[index.row()]->setIsDone(value.toBool());
-            changed = true;
+            roles << role;
             break;
         case IsArchived:
             m_tasks[index.row()]->setIsArchived(value.toBool());
-            changed = true;
+            roles << role;
+            break;
+        case TrackMode:
+            m_tasks[index.row()]->setTrackMode(Task::TrackMode(value.toInt()));
+            qDebug() << "setting track mode:" << value << qtyamlcppadapter::toString(m_tasks[index.row()]->trackMode());
+            roles << role << TrackModeText;
             break;
         }
 
-        if (changed) {
-            emit dataChanged(index, index, {role});
+        if (!roles.isEmpty()) {
+            emit dataChanged(index, index, roles);
             return true;
         } else {
             return false;
