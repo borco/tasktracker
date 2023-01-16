@@ -34,15 +34,16 @@ int TaskListModel::rowCount(const QModelIndex &parent) const
 
 QHash<int, QByteArray> TaskListModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
-    roles[Name] = "name";
-    roles[IsDone] = "isDone";
-    roles[IsArchived] = "isArchived";
-    roles[ScheduleMode] = "scheduleMode";
-    roles[ScheduleModeText] = "scheduleModeText";
-    roles[TrackMode] = "trackMode";
-    roles[TrackModeText] = "trackModeText";
-    return roles;
+    return {
+        { Name, "name"},
+        { IsEdited, "isEdited"},
+        { IsArchived, "isArchived"},
+        { IsDone, "isDone"},
+        { ScheduleMode, "scheduleMode"},
+        { ScheduleModeText, "scheduleModeText"},
+        { TrackMode, "trackMode"},
+        { TrackModeText, "trackModeText"},
+    };
 }
 
 QVariant TaskListModel::data(const QModelIndex &index, int role) const
@@ -55,6 +56,8 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
     switch(role) {
     case Name:
         return task->name();
+    case IsEdited:
+        return task->isEdited();
     case IsDone:
         return task->isDone();
     case IsArchived:
@@ -82,8 +85,16 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
             m_tasks[index.row()]->setName(value.toString());
             changed = true;
             break;
+        case IsEdited:
+            m_tasks[index.row()]->setIsEdited(value.toBool());
+            changed = true;
+            break;
         case IsDone:
             m_tasks[index.row()]->setIsDone(value.toBool());
+            changed = true;
+            break;
+        case IsArchived:
+            m_tasks[index.row()]->setIsArchived(value.toBool());
             changed = true;
             break;
         }
