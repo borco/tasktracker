@@ -80,6 +80,24 @@ ThemedPopup {
         model = null
     }
 
+    ThemedOptionsPopup {
+        id: trackModePopup
+
+        title: qsTr("Track Mode")
+
+        options: ListModel {
+            ListElement { name: "NoTracking"; value: Task.NoTracking }
+            ListElement { name: "Repeats"; value: Task.Repeats }
+            ListElement { name: "MinimumRepeats"; value: Task.MinimumRepeats }
+            ListElement { name: "MaximumRepeats"; value: Task.MaximumRepeats }
+            ListElement { name: "Duration"; value: Task.Duration }
+            ListElement { name: "MinimumDuration"; value: Task.MinimumDuration }
+            ListElement { name: "MaximumDuration"; value: Task.MaximumDuration }
+        }
+
+        onClicked: (trackMode) => model.trackMode = trackMode
+    }
+
     ColumnLayout {
         id: contentLayout
 
@@ -135,6 +153,7 @@ ThemedPopup {
                 ConfigOptionButton {
                     text: qsTr("Track Mode")
                     value: model ? model.trackModeText: ""
+                    onClicked: trackModePopup.open()
                 }
 
                 Item { Layout.preferredHeight: Theme.PopupContentBottomPadding }
