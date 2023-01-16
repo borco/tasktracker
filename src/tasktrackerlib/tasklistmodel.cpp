@@ -40,9 +40,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const
         { IsArchived, "isArchived"},
         { IsDone, "isDone"},
         { ScheduleMode, "scheduleMode"},
-        { ScheduleModeText, "scheduleModeText"},
         { TrackMode, "trackMode"},
-        { TrackModeText, "trackModeText"},
     };
 }
 
@@ -64,12 +62,8 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
         return task->isArchived();
     case ScheduleMode:
         return task->scheduleMode();
-    case ScheduleModeText:
-        return qtyamlcppadapter::toString(task->scheduleMode());
     case TrackMode:
         return task->trackMode();
-    case TrackModeText:
-        return qtyamlcppadapter::toString(task->trackMode());
     }
 
     return QVariant();
@@ -99,8 +93,7 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
             break;
         case TrackMode:
             m_tasks[index.row()]->setTrackMode(Task::TrackMode(value.toInt()));
-            qDebug() << "setting track mode:" << value << qtyamlcppadapter::toString(m_tasks[index.row()]->trackMode());
-            roles << role << TrackModeText;
+            roles << role;
             break;
         }
 

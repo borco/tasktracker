@@ -7,7 +7,7 @@ import "Theme.js" as Theme
 ThemedPopup {
     id: root
 
-    required property ListModel options
+    property ListModel options: ListModel {}
 
     property string title: ""
 

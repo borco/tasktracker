@@ -85,14 +85,21 @@ ThemedPopup {
 
         title: qsTr("Track Mode")
 
-        options: ListModel {
-            ListElement { name: "NoTracking"; value: Task.NoTracking }
-            ListElement { name: "Repeats"; value: Task.Repeats }
-            ListElement { name: "MinimumRepeats"; value: Task.MinimumRepeats }
-            ListElement { name: "MaximumRepeats"; value: Task.MaximumRepeats }
-            ListElement { name: "Duration"; value: Task.Duration }
-            ListElement { name: "MinimumDuration"; value: Task.MinimumDuration }
-            ListElement { name: "MaximumDuration"; value: Task.MaximumDuration }
+        Component.onCompleted: {
+            [
+            Task.NoTracking,
+            Task.Repeats,
+            Task.MinimumRepeats,
+            Task.MaximumRepeats,
+            Task.Duration,
+            Task.MinimumDuration,
+            Task.MaximumDuration
+            ]
+            .forEach(option =>
+                     options.append({
+                                        name: TaskHelper.trackModeName(option),
+                                        value: option
+                                    }))
         }
 
         onClicked: (trackMode) => model.trackMode = trackMode
@@ -147,12 +154,12 @@ ThemedPopup {
 
                 ConfigOptionButton {
                     text: qsTr("Schedule Mode")
-                    value: model ? model.scheduleModeText: ""
+                    value: model ? TaskHelper.scheduleModeName(model.scheduleMode) : ""
                 }
 
                 ConfigOptionButton {
                     text: qsTr("Track Mode")
-                    value: model ? model.trackModeText: ""
+                    value: model ? TaskHelper.trackModeName(model.trackMode) : ""
                     onClicked: trackModePopup.open()
                 }
 

@@ -19,6 +19,8 @@ qt_add_qml_module(${LIB_NAME}
         folderlistmodel.h
         task.cpp
         task.h
+        taskhelper.cpp
+        taskhelper.h
         tasklistfiltermodel.cpp
         tasklistfiltermodel.h
         tasklistmodel.cpp

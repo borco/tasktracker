@@ -53,9 +53,7 @@ private:
         IsDone,
         IsArchived,
         ScheduleMode,
-        ScheduleModeText,
         TrackMode,
-        TrackModeText,
     };
 
     void loadTasks(const YAML::Node& node);

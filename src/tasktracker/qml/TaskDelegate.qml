@@ -15,9 +15,7 @@ Pane {
     required property bool isDone
     required property bool isArchived
     required property int scheduleMode
-    required property string scheduleModeText
     required property int trackMode
-    required property string trackModeText
 
     property bool isStarted: false
 
@@ -54,12 +52,12 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: scheduleModeText
+                text: TaskHelper.scheduleModeName(scheduleMode)
             }
 
             ThemedSmallLabel {
                 visible: trackMode !== Task.NoTracking
-                text: trackModeText
+                text: TaskHelper.trackModeName(trackMode)
             }
 
             ThemedSmallLabel {
