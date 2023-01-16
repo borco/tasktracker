@@ -18,6 +18,7 @@ class Task : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(bool isEdited READ isEdited WRITE setIsEdited NOTIFY isEditedChanged)
     Q_PROPERTY(bool isDone READ isDone WRITE setIsDone NOTIFY isDoneChanged)
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(Task::ScheduleMode scheduleMode READ scheduleMode WRITE setScheduleMode NOTIFY scheduleModeChanged)
@@ -52,6 +53,9 @@ public:
     QString name() const { return m_name; }
     void setName(const QString &newName);
 
+    bool isEdited() const { return m_isEdited; }
+    void setIsEdited(bool newIsEdited);
+
     bool isDone() const { return m_isDone; }
     void setIsDone(bool newIsDone);
 
@@ -71,6 +75,7 @@ public:
 
 signals:
     void nameChanged();
+    void isEditedChanged();
     void isDoneChanged();
     void isArchivedChanged();
     void scheduleModeChanged();
@@ -78,6 +83,7 @@ signals:
 
 private:
     QString m_name;
+    bool m_isEdited = false;
     bool m_isDone = false;
     bool m_isArchived = false;
     ScheduleMode m_scheduleMode = Daily;

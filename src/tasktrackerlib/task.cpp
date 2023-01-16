@@ -32,6 +32,30 @@ void Task::setName(const QString &newName)
     emit nameChanged();
 }
 
+void Task::setIsEdited(bool newIsEdited)
+{
+    if (m_isEdited == newIsEdited)
+        return;
+    m_isEdited = newIsEdited;
+    emit isEditedChanged();
+}
+
+void Task::setIsDone(bool newIsDone)
+{
+    if (m_isDone == newIsDone)
+        return;
+    m_isDone = newIsDone;
+    emit isDoneChanged();
+}
+
+void Task::setIsArchived(bool newIsArchived)
+{
+    if (m_isArchived == newIsArchived)
+        return;
+    m_isArchived = newIsArchived;
+    emit isArchivedChanged();
+}
+
 void Task::setScheduleMode(ScheduleMode newScheduleMode)
 {
     if (m_scheduleMode == newScheduleMode)
@@ -65,20 +89,4 @@ void Task::loadFromYaml(const YAML::Node &node)
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
     setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, Task::Daily));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, Task::NoTracking));
-}
-
-void Task::setIsArchived(bool newIsArchived)
-{
-    if (m_isArchived == newIsArchived)
-        return;
-    m_isArchived = newIsArchived;
-    emit isArchivedChanged();
-}
-
-void Task::setIsDone(bool newIsDone)
-{
-    if (m_isDone == newIsDone)
-        return;
-    m_isDone = newIsDone;
-    emit isDoneChanged();
 }
