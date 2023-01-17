@@ -74,7 +74,6 @@ ApplicationWindow {
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
-        showConfigPage()
     }
 
     Component.onDestruction: {

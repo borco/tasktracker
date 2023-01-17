@@ -16,8 +16,9 @@
 #include <QSslError>
 
 namespace {
-static const char* SettingsGroupKey = "TogglProxy";
+static const char* SettingsGroupKey = "Toggl";
 static const char* SessionSettingsKey = "session";
+static const char* UsernameSettingsKey = "username";
 
 static const char* TogglApiUrl = "https://api.track.toggl.com/";
 static const char* SessionCookieName = "__Host-timer-session";
@@ -68,6 +69,7 @@ void TogglProxy::load()
 {
     QSettings settings;
     settings.beginGroup(SettingsGroupKey);
+    setUsername(settings.value(UsernameSettingsKey).toString());
     m_session = settings.value(SessionSettingsKey).toByteArray();
     settings.endGroup();
 
@@ -86,6 +88,7 @@ void TogglProxy::save()
 {
     QSettings settings;
     settings.beginGroup(SettingsGroupKey);
+    settings.setValue(UsernameSettingsKey, m_username);
     settings.setValue(SessionSettingsKey, m_session);
     settings.endGroup();
 

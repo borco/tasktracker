@@ -67,6 +67,7 @@ ThemedPopup {
 
             WrappedTextField {
                 id: usernameInput
+                text: TogglProxy.username
                 Layout.fillWidth: true
             }
 
@@ -189,7 +190,6 @@ ThemedPopup {
     Settings {
         id: settings
         category: "Login"
-        property alias username: usernameInput.text
         property alias passwordEchoMode: passwordInput.echoMode
     }
 
