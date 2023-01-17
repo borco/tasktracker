@@ -26,10 +26,9 @@ ThemedDialog {
             Layout.fillWidth: true
         }
 
-        ThemedLabel {
+        ThemedSmallLabel {
             id: errorLabel
-            font.pointSize: Theme.ErrorTextHeight
-            color: Theme.ErrorTextColor
+            color: Theme.ErrorColor
             Layout.fillWidth: true
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

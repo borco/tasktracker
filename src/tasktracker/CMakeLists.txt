@@ -30,8 +30,7 @@ qt_add_qml_module(${APP_NAME}
         qml/ConfigSwitchItem.qml
         qml/DockToolBar.qml
         qml/InputDialog.qml
-        qml/LoginComponent.qml
-        qml/LoginPage.qml
+        qml/LoginTogglPopup.qml
         qml/LogsComponent.qml
         qml/MainPage.qml
         qml/MaskedImage.qml

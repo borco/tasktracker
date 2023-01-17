@@ -29,28 +29,12 @@ ApplicationWindow {
         id: configPopup
     }
 
-    Component {
-        id: starPageComponent
-        Item {
-            BusyIndicator {
-                anchors.centerIn: parent
-                running: true
-            }
-        }
-    }
+    Item {
+        visible: false
 
-    Component {
-        id: loginPageComponent
-        LoginPage {
-            isBusy: TogglProxy.loggedStatus === TogglProxy.LoggedUnknown
-            onShowConfig: showConfigPage()
-        }
-    }
-
-    Component {
-        id: mainPageComponent
-        MainPage {
-            onShowConfig: showConfigPage()
+        BusyIndicator {
+            anchors.centerIn: parent
+            running: true
         }
     }
 
@@ -66,10 +50,9 @@ ApplicationWindow {
 
             orientation: Qt.Vertical
 
-            StackView {
-                id: stackView
-
+            MainPage {
                 SplitView.minimumHeight: 200
+                onShowConfig: showConfigPage()
             }
 
             Pane {
@@ -83,18 +66,6 @@ ApplicationWindow {
         }
     }
 
-    Connections {
-        target: TogglProxy
-
-        function onLoggedStatusChanged() {
-            if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
-                stackView.replace(null, mainPageComponent, StackView.Immediate)
-            } else if (TogglProxy.loggedStatus === TogglProxy.LoggedOut) {
-                stackView.replace(null, loginPageComponent, StackView.Immediate)
-            }
-        }
-    }
-
     Settings {
         id: settings
         category: "Main"
@@ -103,18 +74,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
-
-        switch(TogglProxy.loggedStatus) {
-        case TogglProxy.LoggedIn:
-            stackView.replace(null, mainPageComponent, StackView.Immediate)
-            break
-        case TogglProxy.LoggedUnknown:
-            stackView.replace(null, starPageComponent, StackView.Immediate)
-            break
-        default:
-            stackView.replace(null, loginPageComponent, StackView.Immediate)
-            break
-        }
+        showConfigPage()
     }
 
     Component.onDestruction: {

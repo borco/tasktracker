@@ -4,14 +4,15 @@ function colorWithAlpha(color, alpha) {
     return Qt.hsla(color.hslHue, color.hslSaturation, color.hslLightness, alpha)
 }
 
-const DangerColor = "#ff0000"
+const DangerColor = "#FF3B30"
+const ErrorColor = "#FF3B30"
+
+const SmallLabelWeight = 200
+const SmallLabelSize = 11
 
 const PopupX = 20
 const PopupTop = 40
 const PopupBottom = 20
-
-const ErrorTextColor = "#ff0000"
-const ErrorTextHeight = 11
 
 const PageHeaderHeight = 52
 const PageHeaderLeftMargin = 12

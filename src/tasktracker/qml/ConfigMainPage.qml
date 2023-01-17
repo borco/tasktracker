@@ -25,6 +25,10 @@ Page {
         rightButton.onClicked: root.done()
     }
 
+    LoginTogglPopup {
+        id: signInTogglPopup
+    }
+
     ThemedMessageBox {
         id: signOutMessageBox
         title: qsTr("Signing Out?")
@@ -79,13 +83,18 @@ Page {
 
             ConfigGroupTitle {
                 text: qsTr("Toggl")
-                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
             }
 
             ConfigButtonItem {
-                visible: TogglProxy.loggedStatus === TogglProxy.LoggedIn
-                text: qsTr("Sign Out")
-                onClicked: signOutMessageBox.open()
+                text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Sign Out") : qsTr("Sign In")
+                enabled: TogglProxy.loggedStatus !== TogglProxy.LoggedUnknown
+                onClicked: {
+                    if (TogglProxy.loggedStatus === TogglProxy.LoggedIn) {
+                        signOutMessageBox.open()
+                    } else {
+                        signInTogglPopup.open()
+                    }
+                }
             }
 
             Item { Layout.preferredHeight: Theme.ConfigGroupTitleHeight }

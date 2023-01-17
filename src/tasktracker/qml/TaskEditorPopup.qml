@@ -52,10 +52,6 @@ ThemedPopup {
         }
     }
 
-    component ItemRadio: RadioDelegate {
-        Layout.fillWidth: true
-    }
-
     modal: true
 
     parent: Overlay.overlay
