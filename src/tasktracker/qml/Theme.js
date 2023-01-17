@@ -13,9 +13,9 @@ const PopupBottom = 20
 const ErrorTextColor = "#ff0000"
 const ErrorTextHeight = 11
 
-const PageHeaderHeight = 42
-const PageHeaderLeftMargin = 4
-const PageHeaderRightMargin = 4
+const PageHeaderHeight = 52
+const PageHeaderLeftMargin = 12
+const PageHeaderRightMargin = 12
 
 const ToolBarHeight = 32
 const ToolBarSeparatorWidth = 2

@@ -19,18 +19,8 @@ Page {
 
         RowLayout {
             anchors.left: parent.left
+            anchors.leftMargin: Theme.PageHeaderLeftMargin
             height: parent.height
-
-            MaskedImage {
-                Layout.preferredHeight: parent.height
-                Layout.preferredWidth: parent.height
-                Layout.leftMargin: Theme.PageHeaderLeftMargin
-                borderSize: 2
-                source: TogglProxy.imageUrl
-                maskSource: "../icons/avatar_mask.svg"
-            }
-
-            ThemedLabel { text: TogglProxy.fullname }
 
             ThemedToolButton {
                 id: archivedToggle
@@ -42,6 +32,17 @@ Page {
                 id: doneToggle
                 icon.source: "../icons/task/done.svg"
                 checkable: true
+            }
+
+            ToolSeparator {}
+
+            ThemedToolButton {
+                id: toggleStatusButton
+                icon.source: "../icons/toggl.svg"
+                icon.color: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? "#E57CD8" : palette.dark
+                icon.width: parent.height - 2 * padding
+                icon.height: parent.height - 2 * padding
+                padding: 1
             }
         }
 
