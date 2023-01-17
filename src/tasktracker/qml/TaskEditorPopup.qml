@@ -93,7 +93,7 @@ ThemedPopup {
             ]
             .forEach(option =>
                      options.append({
-                                        name: TaskHelper.trackModeName(option),
+                                        name: TaskTrackMode.toString(option),
                                         value: option
                                     }))
         }
@@ -150,12 +150,12 @@ ThemedPopup {
 
                 ConfigOptionButton {
                     text: qsTr("Schedule Mode")
-                    value: model ? TaskHelper.scheduleModeName(model.scheduleMode) : ""
+                    value: model ? TaskScheduleMode.toString(model.scheduleMode) : ""
                 }
 
                 ConfigOptionButton {
                     text: qsTr("Track Mode")
-                    value: model ? TaskHelper.trackModeName(model.trackMode) : ""
+                    value: model ? TaskTrackMode.toString(model.trackMode) : ""
                     onClicked: trackModePopup.open()
                 }
 

@@ -56,7 +56,7 @@ void Task::setIsArchived(bool newIsArchived)
     emit isArchivedChanged();
 }
 
-void Task::setScheduleMode(ScheduleMode newScheduleMode)
+void Task::setScheduleMode(TaskScheduleMode::Mode newScheduleMode)
 {
     if (m_scheduleMode == newScheduleMode)
         return;
@@ -64,7 +64,7 @@ void Task::setScheduleMode(ScheduleMode newScheduleMode)
     emit scheduleModeChanged();
 }
 
-void Task::setTrackMode(TrackMode newTrackMode)
+void Task::setTrackMode(TaskTrackMode::Mode newTrackMode)
 {
     if (m_trackMode == newTrackMode)
         return;
@@ -80,13 +80,15 @@ void Task::loadFromData(const QByteArray &data)
 
 void Task::loadFromYaml(const YAML::Node &node)
 {
+    using namespace qtyamlcppadapter;
+
     if (!node.IsMap() && !node.IsNull()) {
         qCritical() << "Task: yaml node is not a map";
         return;
     }
-    using namespace qtyamlcppadapter;
+
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, Task::Daily));
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, Task::NoTracking));
+    setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, TaskScheduleMode::Daily));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
 }

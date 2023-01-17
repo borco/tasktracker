@@ -61,27 +61,27 @@ archived: true
 
     void test_load_schedule_mode_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<Task::ScheduleMode>("scheduleMode");
+        QTest::addColumn<TaskScheduleMode::Mode>("scheduleMode");
 
         QTest::newRow("No schedule mode") << R"(
-)" << Task::Daily;
+)" << TaskScheduleMode::Daily;
 
         QTest::newRow("Unknown/invalid schedule mode") << R"(
 schedule: xxx
-)" << Task::Daily;
+)" << TaskScheduleMode::Daily;
 
         QTest::newRow("Daily") << R"(
 schedule: Daily
-)" << Task::Daily;
+)" << TaskScheduleMode::Daily;
 
         QTest::newRow("Weekly") << R"(
 schedule: Weekly
-)" << Task::Weekly;
+)" << TaskScheduleMode::Weekly;
     }
 
     void test_load_schedule_mode() {
         QFETCH(QString, data);
-        QFETCH(Task::ScheduleMode, scheduleMode);
+        QFETCH(TaskScheduleMode::Mode, scheduleMode);
 
         Task task;
         task.loadFromData(data.toUtf8());
@@ -91,27 +91,27 @@ schedule: Weekly
 
     void test_load_track_mode_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<Task::TrackMode>("trackMode");
+        QTest::addColumn<TaskTrackMode::Mode>("trackMode");
 
         QTest::newRow("No track mode") << R"(
-)" << Task::NoTracking;
+)" << TaskTrackMode::NoTracking;
 
         QTest::newRow("Unknown/invalid track mode") << R"(
 track: xxx
-)" << Task::NoTracking;
+)" << TaskTrackMode::NoTracking;
 
         QTest::newRow("NoTracking") << R"(
 track: NoTracking
-)" << Task::NoTracking;
+)" << TaskTrackMode::NoTracking;
 
         QTest::newRow("MinimumRepeats") << R"(
 track: MinimumRepeats
-)" << Task::MinimumRepeats;
+)" << TaskTrackMode::MinimumRepeats;
     }
 
     void test_load_track_mode() {
         QFETCH(QString, data);
-        QFETCH(Task::TrackMode, trackMode);
+        QFETCH(TaskTrackMode::Mode, trackMode);
 
         Task task;
         task.loadFromData(data.toUtf8());

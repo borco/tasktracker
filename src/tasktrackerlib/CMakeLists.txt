@@ -19,8 +19,6 @@ qt_add_qml_module(${LIB_NAME}
         folderlistmodel.h
         task.cpp
         task.h
-        taskhelper.cpp
-        taskhelper.h
         tasklistfiltermodel.cpp
         tasklistfiltermodel.h
         tasklistmodel.cpp
@@ -29,6 +27,10 @@ qt_add_qml_module(${LIB_NAME}
         taskrun.h
         taskrunlistmodel.cpp
         taskrunlistmodel.h
+        taskschedulemode.cpp
+        taskschedulemode.h
+        tasktrackmode.cpp
+        tasktrackmode.h
         togglproxy.cpp
         togglproxy.h
 )

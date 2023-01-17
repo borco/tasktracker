@@ -52,12 +52,12 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: TaskHelper.scheduleModeName(scheduleMode)
+                text: TaskScheduleMode.toString(scheduleMode)
             }
 
             ThemedSmallLabel {
                 visible: trackMode !== Task.NoTracking
-                text: TaskHelper.trackModeName(trackMode)
+                text: TaskTrackMode.toString(trackMode)
             }
 
             ThemedSmallLabel {
