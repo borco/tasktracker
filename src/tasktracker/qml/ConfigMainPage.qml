@@ -40,7 +40,6 @@ Page {
 
         onAccepted: {
             TogglProxy.logOut()
-            root.done()
         }
     }
 
