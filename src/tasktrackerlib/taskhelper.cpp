@@ -10,7 +10,7 @@ TaskHelper::TaskHelper(QObject *parent)
 
 }
 
-QString TaskHelper::trackModeName(int trackMode) const
+QString TaskHelper::trackModeName(int trackMode)
 {
     switch(trackMode) {
     case Task::NoTracking:
@@ -32,7 +32,7 @@ QString TaskHelper::trackModeName(int trackMode) const
     }
 }
 
-QString TaskHelper::scheduleModeName(int scheduleMode) const
+QString TaskHelper::scheduleModeName(int scheduleMode)
 {
     switch(scheduleMode) {
     case Task::Daily:

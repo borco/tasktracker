@@ -17,8 +17,8 @@ class TaskHelper : public QObject
 public:
     explicit TaskHelper(QObject *parent = nullptr);
 
-    Q_INVOKABLE QString trackModeName(int trackMode) const;
-    Q_INVOKABLE QString scheduleModeName(int scheduleMode) const;
+    Q_INVOKABLE static QString trackModeName(int trackMode);
+    Q_INVOKABLE static QString scheduleModeName(int scheduleMode);
 };
 
 }
