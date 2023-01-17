@@ -19,14 +19,12 @@ qt_add_qml_module(${LIB_NAME}
         folderlistmodel.h
         task.cpp
         task.h
+        taskevent.cpp
+        taskevent.h
         tasklistfiltermodel.cpp
         tasklistfiltermodel.h
         tasklistmodel.cpp
         tasklistmodel.h
-        taskrun.cpp
-        taskrun.h
-        taskrunlistmodel.cpp
-        taskrunlistmodel.h
         taskschedulemode.cpp
         taskschedulemode.h
         tasktrackmode.cpp

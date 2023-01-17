@@ -6,7 +6,6 @@
 
 #include <QQmlEngine>
 
-#include "taskrunlistmodel.h"
 #include "taskschedulemode.h"
 #include "tasktrackmode.h"
 
@@ -25,7 +24,6 @@ class Task : public QObject
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(TaskScheduleMode::Mode scheduleMode READ scheduleMode WRITE setScheduleMode NOTIFY scheduleModeChanged)
     Q_PROPERTY(TaskTrackMode::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
-    Q_PROPERTY(TaskRunListModel* runs READ runs CONSTANT)
 
 public:
     explicit Task(QObject *parent = nullptr);
@@ -48,8 +46,6 @@ public:
     TaskTrackMode::Mode trackMode() const { return m_trackMode; }
     void setTrackMode(TaskTrackMode::Mode newTrackMode);
 
-    TaskRunListModel* runs() const { return m_runs; }
-
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
@@ -68,7 +64,6 @@ private:
     bool m_isArchived = false;
     TaskScheduleMode::Mode m_scheduleMode = TaskScheduleMode::Daily;
     TaskTrackMode::Mode m_trackMode = TaskTrackMode::NoTracking;
-    TaskRunListModel* m_runs = nullptr;
 };
 
 }

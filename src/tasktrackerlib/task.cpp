@@ -5,7 +5,6 @@
 #include "task.h"
 
 #include "qtyamlcppadapter/yamlhelper.h"
-#include "taskrunlistmodel.h"
 #include "yaml-cpp/node/node.h"
 #include "yaml-cpp/node/parse.h"
 
@@ -20,7 +19,6 @@ static const char* TrackModeYamlName = "track";
 
 Task::Task(QObject *parent)
     : QObject{parent}
-    , m_runs(new TaskRunListModel(this))
 {
 }
 
