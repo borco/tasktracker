@@ -21,6 +21,8 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         taskevent.cpp
         taskevent.h
+        taskhistory.cpp
+        taskhistory.h
         tasklistfiltermodel.cpp
         tasklistfiltermodel.h
         tasklistmodel.cpp
