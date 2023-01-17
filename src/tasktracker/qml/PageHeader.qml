@@ -4,10 +4,12 @@ import QtQuick.Layouts
 
 import "Theme.js" as Theme
 
-Item {
+Rectangle {
     id: root
 
     signal showConfig()
+
+    color: palette.base
 
     implicitHeight: Theme.PageHeaderHeight
 
