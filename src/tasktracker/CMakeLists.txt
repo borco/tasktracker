@@ -68,6 +68,7 @@ qt_add_qml_module(${APP_NAME}
         icons/task/start.svg
         icons/task/stop.svg
         icons/task/todo.svg
+        icons/toggl.svg
         icons/wrap_text.svg
 )
 
