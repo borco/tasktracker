@@ -77,6 +77,7 @@ void TogglProxy::load()
         updateCookieJar();
         getMe(true);
     } else {
+        setLoginError("");
         setLoggedStatus(LoggedOut);
     }
 }
@@ -94,7 +95,8 @@ void TogglProxy::save()
 void TogglProxy::logIn()
 {
     if (m_username.isEmpty() || m_password.isEmpty()) {
-        qWarning() << "TogglProxy: can't login without an username and a password";
+        setLoginError(tr("Can't login without an username and a password"));
+        qWarning().noquote() << "TogglProxy:" << m_loginError;
         setLoggedStatus(LoggedOut);
         return;
     }
@@ -111,7 +113,8 @@ void TogglProxy::logIn()
     auto reply = m_networkAccessManager->post(request, QByteArray());
 
     connect(reply, &QNetworkReply::errorOccurred, this, [=](QNetworkReply::NetworkError code){
-        qCritical().noquote() << "TogglProxy: error during login:" << code;
+        setLoginError(tr("Login error: %1").arg(code));
+        qCritical().noquote() << "TogglProxy:" << m_loginError;
         setLoggedStatus(LoggedOut);
     });
 
@@ -126,12 +129,14 @@ void TogglProxy::logIn()
             m_session = sessionFromCookieJar();
 
             getMe(false);
+            setLoginError("");
             setLoggedStatus(LoggedIn);
             emit loggedWithUserAndPassword();
         } else {
             qDebug().noquote() << "TogglProxy: login failed:" << response_data;
             m_session.clear();
             updateCookieJar();
+            setLoginError(tr("Login failed"));
             setLoggedStatus(LoggedOut);
         }
     });
@@ -149,6 +154,7 @@ void TogglProxy::logOut()
     updateCookieJar();
     setFullname("");
     setImageUrl("");
+    setLoginError("");
     setLoggedStatus(LoggedOut);
 }
 
@@ -173,6 +179,7 @@ void TogglProxy::getMe(bool updateIsLoggedIn)
         auto response_data = reply->readAll();
         if (reply->error() == QNetworkReply::NoError) {
             if (updateIsLoggedIn) {
+                setLoginError("");
                 setLoggedStatus(LoggedIn);
                 qDebug() << "TogglProxy: logged in using old session";
             }
@@ -195,6 +202,7 @@ void TogglProxy::getMe(bool updateIsLoggedIn)
             setImageUrl("");
             setFullname("");
             if (updateIsLoggedIn) {
+                setLoginError("");
                 setLoggedStatus(LoggedOut);
                 qDebug() << "TogglProxy: failed to log in using old session";
                 return;
@@ -290,4 +298,12 @@ void TogglProxy::setImageUrl(const QString &newImageUrl)
         return;
     m_imageUrl = newImageUrl;
     emit imageUrlChanged();
+}
+
+void TogglProxy::setLoginError(const QString &newLoginError)
+{
+    if (m_loginError == newLoginError)
+        return;
+    m_loginError = newLoginError;
+    emit loginErrorChanged();
 }

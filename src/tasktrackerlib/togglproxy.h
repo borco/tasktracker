@@ -17,6 +17,8 @@ class TogglProxy : public QObject
     QML_SINGLETON
 
     Q_PROPERTY(LoggedStatus loggedStatus READ loggedStatus WRITE setLoggedStatus NOTIFY loggedStatusChanged)
+    Q_PROPERTY(QString loginError READ loginError WRITE setLoginError NOTIFY loginErrorChanged)
+
     Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
 
@@ -49,6 +51,9 @@ public:
     LoggedStatus loggedStatus() const { return m_loggedStatus; }
     void setLoggedStatus(const LoggedStatus &newLoggedStatus);
 
+    QString loginError() const { return m_loginError; }
+    void setLoginError(const QString &newLoginError);
+
     QString username() const { return m_username; }
     void setUsername(const QString &newUsername);
 
@@ -61,6 +66,7 @@ public:
 
 signals:
     void loggedStatusChanged();
+    void loginErrorChanged();
     void loggedWithUserAndPassword();
     void usernameChanged();
     void passwordChanged();
@@ -89,6 +95,7 @@ private:
     QNetworkAccessManager* m_networkAccessManager = nullptr;
 
     LoggedStatus m_loggedStatus = LoggedUnknown;
+    QString m_loginError;
     QByteArray m_session;
     QString m_username;
     QString m_password;
