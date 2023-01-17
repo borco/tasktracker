@@ -21,7 +21,6 @@ Item {
         anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
 
         font.weight: Theme.ConfigGroupTitleFontWeight
-        font.capitalization: Font.SmallCaps
     }
 
     BottomSeparator {}

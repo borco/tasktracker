@@ -81,7 +81,7 @@ Page {
             }
 
             ConfigGroupTitle {
-                text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Toggl: %1").arg(TogglProxy.username) : qsTr("Toggl")
+                text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Toggl | <b>%1</b>").arg(TogglProxy.username) : qsTr("Toggl")
             }
 
             ConfigButtonItem {

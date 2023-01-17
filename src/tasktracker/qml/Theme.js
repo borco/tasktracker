@@ -31,7 +31,7 @@ const ContentRightMargin = 16
 const ConfigItemHeight = 28
 const ConfigGroupTitleHeight = 48
 const ConfigGroupTitleBottomMargin = 8
-const ConfigGroupTitleFontWeight = 400
+const ConfigGroupTitleFontWeight = 200
 
 const DialogRadius = 12
 const DialogPadding = 20
