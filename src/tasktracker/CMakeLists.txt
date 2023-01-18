@@ -49,6 +49,7 @@ qt_add_qml_module(${APP_NAME}
         qml/ThemedSmallLabel.qml
         qml/ThemedSplitView.qml
         qml/ThemedToolButton.qml
+        qml/TogglLoggedStatus.qml
         qml/WrappedTextField.qml
         qml/main.qml
     RESOURCES

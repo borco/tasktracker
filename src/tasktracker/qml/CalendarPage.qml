@@ -15,12 +15,12 @@ Page {
     background: null
 
     header: PageHeader {
+        title.text: root.title
+
         onShowConfig: root.showConfig()
 
         PageHeader.Layout {
-            PageHeader.Title { text: root.title }
+            TogglLoggedStatus {}
         }
-
-        BottomSeparator {}
     }
 }

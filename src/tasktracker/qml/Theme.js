@@ -19,6 +19,7 @@ const PageHeaderTitleSize = 28
 const PageHeaderTitleWeight = 800
 const PageHeaderLeftMargin = 12
 const PageHeaderRightMargin = 12
+const PageHeaderSpacing = 12
 
 const ToolBarHeight = 32
 const ToolBarSeparatorWidth = 2

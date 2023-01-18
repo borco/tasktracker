@@ -17,11 +17,12 @@ Page {
     header: PageHeader {
         onShowConfig: root.showConfig()
 
+        title.text: root.title
+
         PageHeader.Layout {
+            TogglLoggedStatus {}
 
-            PageHeader.Title { text: root.title }
-
-            ToolSeparator {}
+            Item { Layout.fillWidth: true }
 
             ThemedToolButton {
                 id: archivedToggle
@@ -34,20 +35,7 @@ Page {
                 icon.source: "../icons/task/done.svg"
                 checkable: true
             }
-
-            ToolSeparator {}
-
-            ThemedToolButton {
-                id: toggleStatusButton
-                icon.source: "../icons/toggl.svg"
-                icon.color: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? "#E57CD8" : palette.dark
-                icon.width: parent.height - 2 * padding
-                icon.height: parent.height - 2 * padding
-                padding: 1
-            }
         }
-
-        BottomSeparator {}
     }
 
     TaskListModel {
