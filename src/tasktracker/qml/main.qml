@@ -11,6 +11,8 @@ import "Theme.js" as Theme
 ApplicationWindow {
     id: root
 
+    property TaskListModel taskListModel: TaskListModel {}
+
     function showConfigPage() {
         configPopup.open()
     }
@@ -27,15 +29,6 @@ ApplicationWindow {
 
     ConfigPopup {
         id: configPopup
-    }
-
-    Item {
-        visible: false
-
-        BusyIndicator {
-            anchors.centerIn: parent
-            running: true
-        }
     }
 
     ColumnLayout {
@@ -58,11 +51,13 @@ ApplicationWindow {
 
                     TasksPage {
                         title: qsTr("Tasks")
+                        taskListModel: root.taskListModel
                         onShowConfig: showConfigPage()
                     }
 
                     CalendarPage {
                         title: qsTr("Calendar")
+                        taskListModel: root.taskListModel
                         onShowConfig: showConfigPage()
                     }
                 }

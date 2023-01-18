@@ -10,6 +10,8 @@ import "Theme.js" as Theme
 Page {
     id: root
 
+    required property TaskListModel taskListModel
+
     signal showConfig()
 
     background: null
@@ -36,10 +38,6 @@ Page {
                 checkable: true
             }
         }
-    }
-
-    TaskListModel {
-        id: taskListModel
     }
 
     TaskEditorPopup {
