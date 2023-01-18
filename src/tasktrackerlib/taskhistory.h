@@ -32,9 +32,11 @@ public:
 
 private:
     enum Roles {
-        DateTime = Qt::UserRole + 1,
-        TrackMode,
-        Seconds
+        TrackMode = Qt::UserRole + 1,
+        DateTime,
+        Seconds,
+        Date,
+        Time,
     };
 
     tasktrackerlib::TaskEvent* insertEvent(int row, TaskEvent* event);

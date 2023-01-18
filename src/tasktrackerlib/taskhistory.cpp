@@ -35,9 +35,11 @@ int TaskHistory::rowCount(const QModelIndex &parent) const
 QHash<int, QByteArray> TaskHistory::roleNames() const
 {
     return {
-        { DateTime, "dateTime" },
         { TrackMode, "trackMode" },
+        { DateTime, "dateTime" },
         { Seconds, "seconds" },
+        { Date, "date" },
+        { Time, "time" },
     };
 }
 
@@ -55,6 +57,10 @@ QVariant TaskHistory::data(const QModelIndex &index, int role) const
         return event->dateTime();
     case Seconds:
         return event->seconds();
+    case Date:
+        return event->dateTime().date();
+    case Time:
+        return event->dateTime().time().toString();
     }
 
     return QVariant();
