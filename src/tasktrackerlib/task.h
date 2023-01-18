@@ -4,14 +4,15 @@
 
 #pragma once
 
-#include <QQmlEngine>
-
+#include "taskhistory.h"
 #include "taskschedulemode.h"
 #include "tasktrackmode.h"
 
 namespace YAML { class Node; }
 
 namespace tasktrackerlib {
+
+class TaskHistory;
 
 class Task : public QObject
 {
@@ -24,6 +25,7 @@ class Task : public QObject
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(TaskScheduleMode::Mode scheduleMode READ scheduleMode WRITE setScheduleMode NOTIFY scheduleModeChanged)
     Q_PROPERTY(TaskTrackMode::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
+    Q_PROPERTY(TaskHistory* history READ history CONSTANT)
 
 public:
     explicit Task(QObject *parent = nullptr);
@@ -49,6 +51,11 @@ public:
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
+    TaskHistory *history() const
+    {
+        return m_history;
+    }
+
 signals:
     void nameChanged();
     void isEditedChanged();
@@ -64,6 +71,7 @@ private:
     bool m_isArchived = false;
     TaskScheduleMode::Mode m_scheduleMode = TaskScheduleMode::Daily;
     TaskTrackMode::Mode m_trackMode = TaskTrackMode::NoTracking;
+    TaskHistory *m_history = nullptr;
 };
 
 }

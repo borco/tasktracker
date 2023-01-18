@@ -13,6 +13,8 @@ namespace tasktrackerlib {
 class TaskHistory : public QAbstractTableModel
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("History can be created only in C++")
 
 public:
     explicit TaskHistory(QObject *parent = nullptr);

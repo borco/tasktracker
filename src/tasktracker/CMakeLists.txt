@@ -20,6 +20,7 @@ qt_add_qml_module(${APP_NAME}
     RESOURCE_PREFIX "/"
     QML_FILES
         qml/BottomSeparator.qml
+        qml/CalendarPage.qml
         qml/ConfigButtonItem.qml
         qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
@@ -32,12 +33,12 @@ qt_add_qml_module(${APP_NAME}
         qml/InputDialog.qml
         qml/LoginTogglPopup.qml
         qml/LogsComponent.qml
-        qml/MainPage.qml
         qml/MaskedImage.qml
         qml/PageHeader.qml
         qml/PasswordTextField.qml
         qml/TaskDelegate.qml
         qml/TaskEditorPopup.qml
+        qml/TasksPage.qml
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
@@ -54,6 +55,7 @@ qt_add_qml_module(${APP_NAME}
         icons/app.svg
         icons/archived.svg
         icons/avatar_mask.svg
+        icons/calendar.svg
         icons/clear.svg
         icons/create_new_folder.svg
         icons/password_hidden.svg
@@ -67,6 +69,7 @@ qt_add_qml_module(${APP_NAME}
         icons/task/start.svg
         icons/task/stop.svg
         icons/task/todo.svg
+        icons/tasks.svg
         icons/toggl.svg
         icons/wrap_text.svg
 )

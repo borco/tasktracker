@@ -15,6 +15,8 @@ const PopupTop = 40
 const PopupBottom = 20
 
 const PageHeaderHeight = 52
+const PageHeaderTitleSize = 28
+const PageHeaderTitleWeight = 800
 const PageHeaderLeftMargin = 12
 const PageHeaderRightMargin = 12
 

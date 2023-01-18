@@ -19,6 +19,7 @@ static const char* TrackModeYamlName = "track";
 
 Task::Task(QObject *parent)
     : QObject{parent}
+    , m_history(new TaskHistory(this))
 {
 }
 

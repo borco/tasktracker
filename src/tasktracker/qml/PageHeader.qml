@@ -9,6 +9,17 @@ Rectangle {
 
     signal showConfig()
 
+    component Title: ThemedLabel {
+        font.pointSize: Theme.PageHeaderTitleSize
+        font.weight: Theme.PageHeaderTitleWeight
+    }
+
+    component Layout: RowLayout {
+        anchors.left: parent.left
+        anchors.leftMargin: Theme.PageHeaderLeftMargin
+        height: parent.height
+    }
+
     color: palette.base
 
     implicitHeight: Theme.PageHeaderHeight

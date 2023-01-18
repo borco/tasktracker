@@ -17,10 +17,11 @@ Page {
     header: PageHeader {
         onShowConfig: root.showConfig()
 
-        RowLayout {
-            anchors.left: parent.left
-            anchors.leftMargin: Theme.PageHeaderLeftMargin
-            height: parent.height
+        PageHeader.Layout {
+
+            PageHeader.Title { text: root.title }
+
+            ToolSeparator {}
 
             ThemedToolButton {
                 id: archivedToggle

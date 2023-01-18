@@ -50,9 +50,29 @@ ApplicationWindow {
 
             orientation: Qt.Vertical
 
-            MainPage {
+            ColumnLayout {
                 SplitView.minimumHeight: 200
-                onShowConfig: showConfigPage()
+
+                StackLayout {
+                    currentIndex: mainTabBar.currentIndex
+
+                    TasksPage {
+                        title: qsTr("Tasks")
+                        onShowConfig: showConfigPage()
+                    }
+
+                    CalendarPage {
+                        title: qsTr("Calendar")
+                        onShowConfig: showConfigPage()
+                    }
+                }
+
+                TabBar {
+                    id: mainTabBar
+                    Layout.fillWidth: true
+                    TabButton { icon.source: "../icons/tasks.svg" }
+                    TabButton { icon.source: "../icons/calendar.svg" }
+                }
             }
 
             Pane {
@@ -70,6 +90,7 @@ ApplicationWindow {
         id: settings
         category: "Main"
         property var splitView
+        property alias currentPageIndex: mainTabBar.currentIndex
     }
 
     Component.onCompleted: {
