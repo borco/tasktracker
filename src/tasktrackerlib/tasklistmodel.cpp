@@ -142,10 +142,6 @@ void TaskListModel::setSize(int newSize)
 
 void TaskListModel::loadFromData(const QByteArray &data)
 {
-    beginResetModel();
-    qDeleteAll(m_tasks);
-    m_tasks.clear();
-
     YAML::Node node = YAML::Load(data.toStdString());
     auto tasks_node = node[TasksYamlNode];
     if (tasks_node) {
@@ -155,20 +151,24 @@ void TaskListModel::loadFromData(const QByteArray &data)
             loadTasks(tasks_node);
         }
     }
-
-    setSize(m_tasks.size());
-    endResetModel();
 }
 
 void TaskListModel::loadTasks(const YAML::Node &node)
 {
     assert(node.IsSequence());
 
+    beginResetModel();
+    qDeleteAll(m_tasks);
+    m_tasks.clear();
+
     for (unsigned int i = 0; i < node.size(); ++i) {
         auto task = new Task(this);
         task->loadFromYaml(node[i]);
         insertTask(i, task);
     }
+
+    setSize(m_tasks.size());
+    endResetModel();
 }
 
 QByteArray TaskListModel::saveToData() const
