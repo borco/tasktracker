@@ -9,6 +9,8 @@
 #include <QQmlEngine>
 #include <QDateTime>
 
+namespace YAML { class Node; }
+
 namespace tasktrackerlib {
 
 class TaskEvent : public QObject
@@ -32,8 +34,11 @@ public:
     int seconds() const;
     void setSeconds(int newSeconds);
 
-    Q_INVOKABLE QDateTime now() const;
-    Q_INVOKABLE int secondsElapsed() const;
+    QDateTime now() const;
+    int secondsElapsed() const;
+
+    void loadFromData(const QByteArray& data);
+    void loadFromYaml(const YAML::Node &node);
 
 signals:
     void trackModeChanged();

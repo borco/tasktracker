@@ -4,6 +4,16 @@
 
 #include "taskevent.h"
 
+#include "qtyamlcppadapter/yamlhelper.h"
+#include "yaml-cpp/node/node.h"
+#include "yaml-cpp/node/parse.h"
+
+namespace {
+static const char* TrackModeYamlName = "track";
+static const char* DateTimeYamlName = "dateTime";
+static const char* SecondsYamlName = "seconds";
+}
+
 namespace tasktrackerlib {
 
 TaskEvent::TaskEvent(QObject *parent)
@@ -63,6 +73,26 @@ int TaskEvent::secondsElapsed() const
     }
 
     return now().secsTo(m_dateTime);
+}
+
+void TaskEvent::loadFromData(const QByteArray &data)
+{
+    YAML::Node node = YAML::Load(data.toStdString());
+    loadFromYaml(node);
+}
+
+void TaskEvent::loadFromYaml(const YAML::Node &node)
+{
+    using namespace qtyamlcppadapter;
+
+    if (!node.IsMap() && !node.IsNull()) {
+        qCritical() << "Task: yaml node is not a map";
+        return;
+    }
+
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
+    setDateTime(dateTimeFromYaml(node, DateTimeYamlName, QDateTime()));
+    setSeconds(intFromYaml(node, SecondsYamlName, 0));
 }
 
 } // namespace tasktrackerlib
