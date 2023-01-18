@@ -51,10 +51,7 @@ public:
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
-    TaskHistory *history() const
-    {
-        return m_history;
-    }
+    TaskHistory *history() const { return m_history; }
 
 signals:
     void nameChanged();

@@ -90,4 +90,6 @@ void Task::loadFromYaml(const YAML::Node &node)
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
     setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, TaskScheduleMode::Daily));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
+
+    m_history->loadFromYaml(node);
 }
