@@ -7,6 +7,12 @@ tasks:
   track: Duration
   history:
   - track: Duration
+    dateTime: "2023-01-16T00:00Z"
+    seconds: 50
+  - track: Duration
+    dateTime: "2023-01-17T00:00Z"
+    seconds: 10
+  - track: Duration
     dateTime: "2023-01-18T00:00Z"
     seconds: 10
   - track: Duration
