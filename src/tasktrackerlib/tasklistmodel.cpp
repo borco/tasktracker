@@ -4,8 +4,9 @@
 
 #include "tasklistmodel.h"
 
-#include "qtyamlcppadapter/enumhelper.h"
 #include "task.h"
+#include "taskhistory.h"
+
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
 #include <QDir>
@@ -41,6 +42,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const
         { IsDone, "isDone"},
         { ScheduleMode, "scheduleMode"},
         { TrackMode, "trackMode"},
+        { History, "history" },
     };
 }
 
@@ -64,6 +66,8 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
         return task->scheduleMode();
     case TrackMode:
         return task->trackMode();
+    case History:
+        return QVariant::fromValue(task->history());
     }
 
     return QVariant();

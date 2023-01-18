@@ -54,6 +54,7 @@ private:
         IsArchived,
         ScheduleMode,
         TrackMode,
+        History,
     };
 
     void loadTasks(const YAML::Node& node);
