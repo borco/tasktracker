@@ -1,51 +1,24 @@
-# test_foldercreator
+foreach(TEST_NAME IN ITEMS
+        foldercreator
+        task
+        tasklistmodel)
 
-qt_add_executable(test_foldercreator
-    test_foldercreator.cpp
-)
+    qt_add_executable(test_${TEST_NAME}
+        test_${TEST_NAME}.cpp
+    )
 
-set_target_properties(test_foldercreator PROPERTIES
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
-)
+    set_target_properties(test_${TEST_NAME} PROPERTIES
+        WIN32_EXECUTABLE TRUE
+        MACOSX_BUNDLE TRUE
+    )
 
-target_link_libraries(test_foldercreator PUBLIC
-    Qt::Test
-    TaskTrackerLib
-)
+    target_link_libraries(test_${TEST_NAME} PUBLIC
+        Qt::Test
+        TaskTrackerLib
+    )
 
-target_compile_definitions(test_foldercreator PRIVATE
-    TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
-)
+    target_compile_definitions(test_${TEST_NAME} PRIVATE
+        TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+    )
 
-# test_task
-
-qt_add_executable(test_task
-test_task.cpp
-)
-
-set_target_properties(test_task PROPERTIES
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
-)
-
-target_link_libraries(test_task PUBLIC
-    Qt::Test
-    TaskTrackerLib
-)
-
-# test_tasklistmodel
-
-qt_add_executable(test_tasklistmodel
-    test_tasklistmodel.cpp
-)
-
-set_target_properties(test_tasklistmodel PROPERTIES
-    WIN32_EXECUTABLE TRUE
-    MACOSX_BUNDLE TRUE
-)
-
-target_link_libraries(test_tasklistmodel PUBLIC
-    Qt::Test
-    TaskTrackerLib
-)
+endforeach()
