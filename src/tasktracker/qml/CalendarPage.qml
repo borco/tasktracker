@@ -46,6 +46,8 @@ Page {
         ColumnLayout {
             id: topLayout
 
+            width: parent.width
+
             Repeater {
                 model: TaskListFilterModel {
                     sourceModel: taskListModel
@@ -55,14 +57,21 @@ Page {
 
                 delegate: ColumnLayout {
                     Layout.fillWidth: true
+
                     ConfigGroupTitle {
-                        text: name
-                        Repeater {
-                            model: history
-                            delegate: ThemedLabel {
-                                text: "started: %1, duration: %2".arg(dateTime).arg(seconds)
-                            }
+                        text: "%1 (%2, %3)".arg(name).arg(TaskScheduleMode.toString(scheduleMode)).arg(TaskTrackMode.toString(trackMode))
+                    }
+
+                    Repeater {
+                        model: history
+                        delegate: ThemedLabel {
+                            text: "tracking: %1, started: %2, duration: %3".arg(trackMode).arg(dateTime).arg(seconds)
                         }
+                    }
+
+                    BottomSeparator {
+                        anchors.bottom: undefined
+                        Layout.fillWidth: true
                     }
                 }
             }
