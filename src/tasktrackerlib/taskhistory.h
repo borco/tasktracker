@@ -40,6 +40,7 @@ private:
     };
 
     tasktrackerlib::TaskEvent* insertEvent(int row, TaskEvent* event);
+    void clear();
 
     QList<TaskEvent*> m_events;
 };

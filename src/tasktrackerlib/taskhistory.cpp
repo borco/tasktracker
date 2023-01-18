@@ -84,15 +84,22 @@ void TaskHistory::loadFromData(const QByteArray &data)
 
 void TaskHistory::loadFromYaml(const YAML::Node &node)
 {
-    assert(node.IsMap());
+    assert(node.IsMap() || node.IsNull());
+
+    if (node.IsNull()) {
+        clear();
+        return;
+    }
 
     auto history_node = node[HistoryYamlNode];
     if (!history_node) {
+        clear();
         return;
     }
 
     if (!history_node.IsSequence()) {
         qCritical().nospace() << "TaskHistory: '" << HistoryYamlNode << "' is not a list";
+        clear();
         return;
     }
 
@@ -115,6 +122,14 @@ TaskEvent *TaskHistory::insertEvent(int row, TaskEvent *event)
     m_events.insert(row, event);
     endInsertRows();
     return event;
+}
+
+void TaskHistory::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_events);
+    m_events.clear();
+    endResetModel();
 }
 
 } // namespace tasktrackerlib
