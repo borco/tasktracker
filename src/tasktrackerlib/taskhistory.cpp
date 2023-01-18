@@ -113,7 +113,11 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
         insertEvent(i, event);
     }
 
+    std::sort(m_events.begin(), m_events.end(), [](const TaskEvent* e1, const TaskEvent* e2) { return e1->dateTime() < e2->dateTime(); });
+
     endResetModel();
+
+    emit sizeChanged();
 }
 
 TaskEvent *TaskHistory::insertEvent(int row, TaskEvent *event)
@@ -121,6 +125,7 @@ TaskEvent *TaskHistory::insertEvent(int row, TaskEvent *event)
     beginInsertRows(QModelIndex(), row, row);
     m_events.insert(row, event);
     endInsertRows();
+    emit sizeChanged();
     return event;
 }
 
@@ -130,6 +135,17 @@ void TaskHistory::clear()
     qDeleteAll(m_events);
     m_events.clear();
     endResetModel();
+    emit sizeChanged();
+}
+
+int TaskHistory::size() const
+{
+    return m_events.size();
+}
+
+TaskEvent *TaskHistory::get(int index) const
+{
+    return m_events[index];
 }
 
 } // namespace tasktrackerlib

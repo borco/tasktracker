@@ -18,9 +18,14 @@ class TaskHistory : public QAbstractListModel
     QML_ELEMENT
     QML_UNCREATABLE("History can be created only in C++")
 
+    Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+
 public:
     explicit TaskHistory(QObject *parent = nullptr);
     ~TaskHistory() override;
+
+    int size() const;
+    TaskEvent* get(int index) const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -29,6 +34,9 @@ public:
 
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
+
+signals:
+    void sizeChanged();
 
 private:
     enum Roles {
