@@ -4,6 +4,14 @@
 
 #include "taskhistory.h"
 
+#include "taskevent.h"
+
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
+namespace {
+static const char* HistoryYamlNode = "history";
+}
+
 namespace tasktrackerlib {
 
 TaskHistory::TaskHistory(QObject *parent)
@@ -38,7 +46,7 @@ int TaskHistory::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 3;
+    return 1;
 }
 
 QVariant TaskHistory::data(const QModelIndex &index, int role) const
@@ -46,7 +54,17 @@ QVariant TaskHistory::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    auto event = m_events[index.row()];
+
+    switch(role) {
+    case TrackMode:
+        return event->trackMode();
+    case DateTime:
+        return event->dateTime();
+    case Seconds:
+        return event->seconds();
+    }
+
     return QVariant();
 }
 
@@ -60,41 +78,45 @@ bool TaskHistory::setData(const QModelIndex &index, const QVariant &value, int r
     return false;
 }
 
-//Qt::ItemFlags TaskHistory::flags(const QModelIndex &index) const
-//{
-//    if (!index.isValid())
-//        return Qt::NoItemFlags;
+void TaskHistory::loadFromData(const QByteArray &data)
+{
+    YAML::Node node = YAML::Load(data.toStdString());
+    loadFromYaml(node);
+}
 
-//    return QAbstractItemModel::flags(index) | Qt::ItemIsEditable; // FIXME: Implement me!
-//}
+void TaskHistory::loadFromYaml(const YAML::Node &node)
+{
+    assert(node.IsMap());
 
-bool TaskHistory::insertEvent(int row)
+    auto history_node = node[HistoryYamlNode];
+    if (!history_node) {
+        return;
+    }
+
+    if (!history_node.IsSequence()) {
+        qCritical().nospace() << "TaskHistory: '" << HistoryYamlNode << "' is not a list";
+        return;
+    }
+
+    beginResetModel();
+    qDeleteAll(m_events);
+    m_events.clear();
+
+    for (unsigned int i = 0; i < history_node.size(); ++i) {
+        auto event = new TaskEvent(this);
+        event->loadFromYaml(history_node[i]);
+        insertEvent(i, event);
+    }
+
+    endResetModel();
+}
+
+TaskEvent *TaskHistory::insertEvent(int row, TaskEvent *event)
 {
     beginInsertRows(QModelIndex(), row, row);
-    auto event = new TaskEvent(this);
     m_events.insert(row, event);
     endInsertRows();
-    return true;
-}
-
-bool TaskHistory::removeEvent(int row)
-{
-    beginRemoveRows(QModelIndex(), row, row);
-    auto event = m_events.takeAt(row);
-    delete event;
-    endRemoveRows();
-    return true;
-}
-
-bool TaskHistory::appendEvent()
-{
-    return insertEvent(m_events.size());
-}
-
-bool TaskHistory::removeLastEvent()
-{
-    return removeEvent(m_events.size() - 1);
+    return event;
 }
 
 } // namespace tasktrackerlib
-

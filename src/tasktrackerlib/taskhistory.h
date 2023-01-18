@@ -8,6 +8,8 @@
 
 #include <QAbstractTableModel>
 
+namespace YAML { class Node; }
+
 namespace tasktrackerlib {
 
 class TaskHistory : public QAbstractTableModel
@@ -28,12 +30,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
-//    Qt::ItemFlags flags(const QModelIndex& index) const override;
-
-    Q_INVOKABLE bool insertEvent(int row);
-    Q_INVOKABLE bool removeEvent(int row);
-    Q_INVOKABLE bool appendEvent();
-    Q_INVOKABLE bool removeLastEvent();
+    void loadFromData(const QByteArray& data);
+    void loadFromYaml(const YAML::Node &node);
 
 private:
     enum Roles {
@@ -41,6 +39,8 @@ private:
         TrackMode,
         Seconds
     };
+
+    tasktrackerlib::TaskEvent* insertEvent(int row, TaskEvent* event);
 
     QList<TaskEvent*> m_events;
 };
