@@ -1,10 +1,22 @@
 tasks:
 
--
-  name: empty task
+- name: empty task
 
--
-  name: archived task
+- name: explicit task
+  schedule: Daily
+  track: Duration
+  history:
+  - track: Duration
+    dateTime: "2023-01-18T00:00Z"
+    seconds: 10
+  - track: Duration
+    dateTime: "2023-01-18T00:02Z"
+    seconds: 20
+  - track: Duration
+    dateTime: "2023-01-18T00:01Z"
+    seconds: 0
+
+- name: archived task
   archived: true
 
 - name: weekly task
