@@ -40,40 +40,81 @@ Page {
         }
     }
 
-    Flickable {
+    ListView {
         anchors.fill: parent
 
-        ColumnLayout {
-            id: topLayout
+        model: TaskListFilterModel {
+            sourceModel: taskListModel
+            showDone: doneToggle.checked
+            showArchived: archivedToggle.checked
+        }
 
-            width: parent.width
+        delegate: ColumnLayout {
+            width: ListView.view.width
+            spacing: 0
 
-            Repeater {
-                model: TaskListFilterModel {
-                    sourceModel: taskListModel
-                    showDone: doneToggle.checked
-                    showArchived: archivedToggle.checked
-                }
+            ConfigGroupTitle {
+                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskScheduleMode.toString(scheduleMode)).arg(TaskTrackMode.toString(trackMode))
+            }
 
-                delegate: ColumnLayout {
-                    Layout.fillWidth: true
+            Pane {
+                Layout.fillWidth: true
 
-                    ConfigGroupTitle {
-                        text: "%1 (%2, %3)".arg(name).arg(TaskScheduleMode.toString(scheduleMode)).arg(TaskTrackMode.toString(trackMode))
-                    }
+                topPadding: 0
+                leftPadding: Theme.ContentLeftMargin
+                rightPadding: Theme.ContentRightMargin
 
-                    Repeater {
-                        model: history
-                        delegate: ThemedLabel {
-                            text: "tracking: %1, started: %2, duration: %3".arg(trackMode).arg(dateTime).arg(seconds)
+                background: Rectangle { color: palette.base }
+
+                ListView {
+                    model: history
+
+                    implicitHeight: contentHeight
+                    interactive: false
+                    section.property: "date"
+                    section.delegate: Rectangle {
+                        width: ListView.view.width
+                        height: 24
+
+                        color: palette.base
+
+                        ThemedSmallLabel {
+                            text: section
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 4
                         }
+
+                        BottomSeparator {}
                     }
 
-                    BottomSeparator {
-                        anchors.bottom: undefined
-                        Layout.fillWidth: true
+                    delegate: RowLayout {
+                        width: ListView.view.width
+
+                        ThemedLabel {
+                            Layout.preferredWidth: 100
+                            text: TaskTrackMode.toString(trackMode)
+                        }
+
+                        ThemedLabel {
+                            Layout.preferredWidth: 100
+                            horizontalAlignment: Text.AlignRight
+                            text: time
+                        }
+
+                        ThemedLabel {
+                            Layout.preferredWidth: 100
+                            horizontalAlignment: Text.AlignRight
+                            text: qsTr("%1 sec").arg(seconds)
+                        }
+
+                        Item { Layout.fillWidth: true }
                     }
                 }
+            }
+
+            BottomSeparator {
+                anchors.bottom: undefined
+                Layout.fillWidth: true
             }
         }
     }
