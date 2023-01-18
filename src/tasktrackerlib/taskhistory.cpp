@@ -15,22 +15,13 @@ static const char* HistoryYamlNode = "history";
 namespace tasktrackerlib {
 
 TaskHistory::TaskHistory(QObject *parent)
-    : QAbstractTableModel(parent)
+    : QAbstractListModel(parent)
 {
 }
 
 TaskHistory::~TaskHistory()
 {
     qDeleteAll(m_events);
-}
-
-QHash<int, QByteArray> TaskHistory::roleNames() const
-{
-    return {
-        { DateTime, "dateTime" },
-        { TrackMode, "trackMode" },
-        { Seconds, "seconds" },
-    };
 }
 
 int TaskHistory::rowCount(const QModelIndex &parent) const
@@ -41,12 +32,13 @@ int TaskHistory::rowCount(const QModelIndex &parent) const
     return m_events.size();
 }
 
-int TaskHistory::columnCount(const QModelIndex &parent) const
+QHash<int, QByteArray> TaskHistory::roleNames() const
 {
-    if (parent.isValid())
-        return 0;
-
-    return 1;
+    return {
+        { DateTime, "dateTime" },
+        { TrackMode, "trackMode" },
+        { Seconds, "seconds" },
+    };
 }
 
 QVariant TaskHistory::data(const QModelIndex &index, int role) const
