@@ -10,6 +10,9 @@ const ErrorColor = "#FF3B30"
 const SmallLabelWeight = 200
 const SmallLabelSize = 11
 
+const XSmallLabelWeight = 200
+const XSmallLabelSize = 9
+
 const PopupX = 20
 const PopupTop = 40
 const PopupBottom = 20

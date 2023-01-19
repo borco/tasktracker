@@ -4,13 +4,10 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
+import "calendar"
+
 Window {
     id: root
-
-    width: 640
-    height: 480
-    visible: true
-    title: qsTr("Calendar")
 
     property WeekModel weekModel: WeekModel {
         currentDate: {
@@ -20,6 +17,11 @@ Window {
         }
     }
 
+    width: 640
+    height: 480
+    visible: true
+    title: qsTr("Calendar")
+
     Page {
         anchors.fill: parent
 
@@ -27,9 +29,33 @@ Window {
             color: palette.base
         }
 
-        WeekView {
-            model: root.weekModel
-            width: parent.width
+        ColumnLayout {
+            anchors.fill: parent
+
+            WeekView {
+                model: root.weekModel
+                Layout.fillWidth: true
+            }
+
+            DayView {
+                id: dayView
+
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                sourceComponent: Component {
+                    Rectangle {
+                        color: palette.window
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "delta: %1".arg(delta)
+                        }
+                    }
+                }
+
+                onDaysAdded: (days) => root.weekModel.addDays(days)
+            }
         }
     }
 }

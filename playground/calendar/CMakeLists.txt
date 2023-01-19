@@ -26,7 +26,8 @@ qt_add_resources(${APP_NAME} "dut_qml"
     ../../src/tasktracker/qml/ThemedSmallLabel.qml
     ../../src/tasktracker/qml/ThemedToolButton.qml
     ../../src/tasktracker/qml/TogglLoggedStatus.qml
-    ../../src/tasktracker/qml/WeekView.qml
+    ../../src/tasktracker/qml/calendar/DayView.qml
+    ../../src/tasktracker/qml/calendar/WeekView.qml
 )
 
 qt_add_resources(${APP_NAME} "dut_icons"
