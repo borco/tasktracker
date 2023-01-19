@@ -16,6 +16,11 @@ Rectangle {
     property int dayCircleDiameter: 30
     property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * spacing) / 7)
 
+    function isToday(date) {
+        let today = new Date()
+        return date.getDate() === today.getDate()
+    }
+
     RowLayout {
         id: rowLayout
 
@@ -26,8 +31,10 @@ Rectangle {
         Repeater {
             id: repeater
 
-            delegate: Rectangle {
-                color: "#40ff0000"
+            delegate: Item {
+//            delegate: Rectangle {
+//                color: "#40ff0000"
+//                color: "transparent"
 
                 implicitWidth: root.dayWidth
                 implicitHeight: delegateLayout.implicitHeight
@@ -45,7 +52,10 @@ Rectangle {
                     }
 
                     Rectangle {
+                        property bool isToday: root.isToday(date)
                         color: isCurrentDate ? palette.highlight : "transparent"
+                        border.color: isToday ? palette.dark : "transparent"
+                        border.width: 2
                         Layout.alignment: Qt.AlignHCenter
                         width: root.dayCircleDiameter
                         height: width

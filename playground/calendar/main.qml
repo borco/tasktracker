@@ -13,11 +13,19 @@ Window {
     title: qsTr("Calendar")
 
     property WeekModel weekModel: WeekModel {
-        currentDate: new Date()
+        currentDate: {
+            let date = new Date()
+            date.setDate(date.getDate() - 1)
+            return date
+        }
     }
 
     Page {
         anchors.fill: parent
+
+        background: Rectangle {
+            color: palette.base
+        }
 
         WeekView {
             model: root.weekModel
