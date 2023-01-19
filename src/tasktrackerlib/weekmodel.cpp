@@ -84,14 +84,9 @@ void WeekModel::setCurrentDate(const QDate &newCurrentDate)
     emit currentDateChanged();
 }
 
-void WeekModel::decrementCurrentDate()
+void WeekModel::addDays(int days)
 {
-
-}
-
-void WeekModel::incrementCurrentDate()
-{
-
+    setCurrentDate(m_currentDate.addDays(days));
 }
 
 void WeekModel::updateDays()

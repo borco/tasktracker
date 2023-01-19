@@ -28,8 +28,7 @@ public:
     QDate currentDate() const;
     void setCurrentDate(const QDate &newCurrentDate);
 
-    Q_INVOKABLE void decrementCurrentDate();
-    Q_INVOKABLE void incrementCurrentDate();
+    Q_INVOKABLE void addDays(int days);
 
 signals:
     void currentDateChanged();
