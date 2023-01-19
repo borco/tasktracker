@@ -8,13 +8,13 @@ import TaskTrackerLib
 import ".."
 import "../Theme.js" as Theme
 
-Rectangle {
+Control {
     id: root
 
     property alias model: repeater.model
     property int daysSpacing: 10
     property int dayCircleDiameter: 30
-    property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing) / 7)
+    property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
 
     function isToday(date) {
         let today = new Date()
@@ -23,12 +23,19 @@ Rectangle {
                 && date.getYear() === today.getYear()
     }
 
-    implicitHeight: rootLayout.implicitHeight
+    implicitHeight: rootLayout.implicitHeight + topPadding + bottomPadding
+
+    leftPadding: Theme.ContentLeftMargin
+    rightPadding: Theme.ContentRightMargin
 
     ColumnLayout {
         id: rootLayout
 
-        width: parent.width
+        anchors.fill: parent
+        anchors.topMargin: topPadding
+        anchors.leftMargin: leftPadding
+        anchors.rightMargin: rightPadding
+        anchors.bottomMargin: bottomPadding
 
         ThemedLabel {
             text: root.model.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d"))
@@ -49,6 +56,8 @@ Rectangle {
                 delegate: Item {
                     implicitWidth: root.dayWidth
                     implicitHeight: delegateLayout.implicitHeight
+
+//                    Rectangle { anchors.fill: parent; color: "#40ff0000" }
 
                     ColumnLayout {
                         id: delegateLayout
