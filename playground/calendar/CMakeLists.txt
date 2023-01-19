@@ -26,6 +26,7 @@ qt_add_resources(${APP_NAME} "dut_qml"
     ../../src/tasktracker/qml/ThemedSmallLabel.qml
     ../../src/tasktracker/qml/ThemedToolButton.qml
     ../../src/tasktracker/qml/TogglLoggedStatus.qml
+    ../../src/tasktracker/qml/WeekView.qml
 )
 
 qt_add_resources(${APP_NAME} "dut_icons"
@@ -48,6 +49,7 @@ set_target_properties(${APP_NAME} PROPERTIES
 
 target_link_libraries(${APP_NAME} PRIVATE
     Qt6::Quick
+    QtPlogAdapter
     TaskTrackerLib
     TaskTrackerLibPlugin
 )

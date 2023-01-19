@@ -1,10 +1,11 @@
 /*
-    Copyright 2022 by Ioan Calin Borcoman <iborco@gmail.com>
+    Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
 #include "qtkeychainadapter/keychainservice.h"
 #include "qtplogadapter/setup.h"
 #include "tasktrackerlib/config.h"
+#include "tasktrackerlib/mainwindow.h"
 #include "tasktrackerlib/togglproxy.h"
 
 #include <QCommandLineParser>
@@ -18,43 +19,7 @@
 #include <QSettings>
 
 namespace {
-
 static const char* DefaultQuickStyle = "iOS";
-
-static const char* DefaultSettingsGroupKey = "Main";
-static const char* WindowGeometryKey = "windowGeometry";
-
-QQuickWindow* main_window(QQmlApplicationEngine& engine)
-{
-    if(engine.rootObjects().size() > 0) {
-        return qobject_cast<QQuickWindow*>(engine.rootObjects().at(0));
-    }
-
-    return nullptr;
-}
-
-void save_window_settings(QQmlApplicationEngine& engine)
-{
-    auto window = main_window(engine);
-    if (!window) return;
-
-    QSettings settings;
-    settings.beginGroup(DefaultSettingsGroupKey);
-    settings.setValue(WindowGeometryKey, window->geometry());
-    settings.endGroup();
-}
-
-void load_window_settings(QQmlApplicationEngine& engine)
-{
-    auto window = main_window(engine);
-    if (!window) return;
-
-    QSettings settings;
-    settings.beginGroup(DefaultSettingsGroupKey);
-    window->setGeometry(settings.value(WindowGeometryKey, QRect(100, 100, 800, 480)).toRect());
-    settings.endGroup();
-}
-
 }
 
 int main(int argc, char *argv[])
@@ -145,9 +110,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("KeyChain", &keychain_service);
     engine.load(url);
 
-    load_window_settings(engine);
+    tasktrackerlib::MainWindow mainWindow(engine);
+    mainWindow.loadGeometry();
     int ret = app.exec();
-    save_window_settings(engine);
+    mainWindow.saveGeometry();
 
     tasktrackerlib::TogglProxy::cleanup();
 
