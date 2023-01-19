@@ -43,7 +43,6 @@ Page {
 
     WeekModel {
         id: weekModel
-        currentDate: new Date()
     }
 
     ColumnLayout {
@@ -61,6 +60,8 @@ Page {
         }
 
         DayView {
+            id: dayView
+
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -81,5 +82,21 @@ Page {
 
             onDaysAdded: (days) => weekModel.addDays(days)
         }
+    }
+
+    Settings {
+        id: settings
+        category: "Calendar"
+        property date currentDate: new Date()
+    }
+
+    Component.onCompleted: {
+        weekModel.currentDate = weekView.today
+        let days = settings.currentDate.getDate() - weekView.today.getDate()
+        dayView.currentIndex += days
+    }
+
+    Component.onDestruction: {
+        settings.currentDate = weekModel.currentDate
     }
 }

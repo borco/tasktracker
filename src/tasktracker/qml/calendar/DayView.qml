@@ -13,6 +13,8 @@ Item {
     // example: 365 * 10 will let us go for roughly 10 years in the past or in the future
     property int daysInPast: 356 * 10
 
+    property alias currentIndex: swipeView.currentIndex
+
     signal daysAdded(days: int)
 
     implicitWidth: swipeView.implicitWidth
@@ -46,6 +48,10 @@ Item {
             let days = currentItem.delta - swipeView.currentDelta
             daysAdded(days)
             swipeView.currentDelta = currentItem.delta
+        }
+
+        Component.onCompleted:{
+            contentItem.highlightMoveDuration = 0 //Set the moving time to 0
         }
     }
 }
