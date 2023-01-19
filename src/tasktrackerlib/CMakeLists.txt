@@ -33,6 +33,8 @@ qt_add_qml_module(${LIB_NAME}
         tasktrackmode.h
         togglproxy.cpp
         togglproxy.h
+        weekmodel.cpp
+        weekmodel.h
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC

@@ -10,7 +10,32 @@ qt_add_qml_module(${APP_NAME}
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
-        main.qml
+    main.qml
+)
+
+qt_add_resources(${APP_NAME} "dut_qml"
+    PREFIX ${URI_NAME}
+    BASE ../../src/tasktracker/qml
+    FILES
+    ../../src/tasktracker/qml/BottomSeparator.qml
+    ../../src/tasktracker/qml/CalendarPage.qml
+    ../../src/tasktracker/qml/ConfigGroupTitle.qml
+    ../../src/tasktracker/qml/PageHeader.qml
+    ../../src/tasktracker/qml/Theme.js
+    ../../src/tasktracker/qml/ThemedLabel.qml
+    ../../src/tasktracker/qml/ThemedSmallLabel.qml
+    ../../src/tasktracker/qml/ThemedToolButton.qml
+    ../../src/tasktracker/qml/TogglLoggedStatus.qml
+)
+
+qt_add_resources(${APP_NAME} "dut_icons"
+    PREFIX /
+    BASE ../../src/tasktracker/
+    FILES
+    ../../src/tasktracker/icons/archived.svg
+    ../../src/tasktracker/icons/task/done.svg
+    ../../src/tasktracker/icons/toggl.svg
+    ../../src/tasktracker/icons/settings.svg
 )
 
 set_target_properties(${APP_NAME} PROPERTIES
