@@ -11,13 +11,14 @@ import "../Theme.js" as Theme
 Control {
     id: root
 
+    property date today: new Date()
+
     property alias model: repeater.model
     property int daysSpacing: 10
     property int dayCircleDiameter: 30
     property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
 
     function isToday(date) {
-        let today = new Date()
         return date.getDate() === today.getDate()
                 && date.getMonth() === today.getMonth()
                 && date.getYear() === today.getYear()

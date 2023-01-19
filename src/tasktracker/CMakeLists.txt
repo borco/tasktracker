@@ -51,6 +51,9 @@ qt_add_qml_module(${APP_NAME}
         qml/ThemedToolButton.qml
         qml/TogglLoggedStatus.qml
         qml/WrappedTextField.qml
+        qml/calendar/DayHistory.qml
+        qml/calendar/DayView.qml
+        qml/calendar/WeekView.qml
         qml/main.qml
     RESOURCES
         icons/app.svg
