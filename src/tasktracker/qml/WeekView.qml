@@ -7,43 +7,54 @@ import TaskTrackerLib
 
 import "Theme.js" as Theme
 
-RowLayout {
+Rectangle {
     id: root
 
-    required property WeekModel weekModel
+    property alias model: repeater.model
+    property alias spacing: rowLayout.spacing
 
-    property int dayWidth: 100
+    property int dayCircleDiameter: 30
+    property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * spacing) / 7)
 
-    Layout.topMargin: 10
-    Layout.alignment: Qt.AlignHCenter
+    RowLayout {
+        id: rowLayout
 
-    Repeater {
-        model: weekModel
+        width: parent.width
 
-        delegate: Item {
-            implicitWidth: root.dayWidth
-            implicitHeight: weekDelegateLayout.implicitHeight
+        spacing: 10
 
-            ColumnLayout {
-                id: weekDelegateLayout
-                width: parent.width
+        Repeater {
+            id: repeater
 
-                ThemedLabel {
-                    text: name
-                    Layout.fillWidth: true
-                    elide: Text.ElideRight
-                    horizontalAlignment: Text.AlignHCenter
-                }
+            delegate: Rectangle {
+                color: "#40ff0000"
 
-                Rectangle {
-                    color: isCurrentDate ? palette.highlight : "transparent"
-                    Layout.alignment: Qt.AlignHCenter
-                    width: 30
-                    height: width
-                    radius: width / 2
-                    ThemedSmallLabel {
-                        anchors.centerIn: parent
-                        text: date.getDate()
+                implicitWidth: root.dayWidth
+                implicitHeight: delegateLayout.implicitHeight
+
+                ColumnLayout {
+                    id: delegateLayout
+
+                    width: parent.width
+
+                    ThemedLabel {
+                        text: name
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Rectangle {
+                        color: isCurrentDate ? palette.highlight : "transparent"
+                        Layout.alignment: Qt.AlignHCenter
+                        width: root.dayCircleDiameter
+                        height: width
+                        radius: width / 2
+
+                        ThemedSmallLabel {
+                            anchors.centerIn: parent
+                            text: date.getDate()
+                        }
                     }
                 }
             }

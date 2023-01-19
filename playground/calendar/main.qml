@@ -10,20 +10,18 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Calendar")
 
-    property WeekModel weekModel: WeekModel {}
+    property WeekModel weekModel: WeekModel {
+        currentDate: new Date()
+    }
 
     Page {
         anchors.fill: parent
 
-        ColumnLayout {
+        WeekView {
+            model: root.weekModel
             width: parent.width
-
-            WeekView {
-                weekModel: root.weekModel
-                Layout.fillWidth: true
-            }
         }
     }
 }
