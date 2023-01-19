@@ -8,6 +8,9 @@ Item {
     id: root
 
     required property Component sourceComponent
+
+    // daysInPast controls how far in the past or in the future we can go
+    // example: 365 * 10 will let us go for roughly 10 years in the past or in the future
     property int daysInPast: 356 * 10
 
     signal daysAdded(days: int)
