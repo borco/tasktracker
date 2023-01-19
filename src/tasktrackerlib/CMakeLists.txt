@@ -17,8 +17,12 @@ qt_add_qml_module(${LIB_NAME}
         foldercreator.h
         folderlistmodel.cpp
         folderlistmodel.h
+        mainwindow.cpp
+        mainwindow.h
         task.cpp
         task.h
+        taskcurrentdayhistory.cpp
+        taskcurrentdayhistory.h
         taskevent.cpp
         taskevent.h
         taskhistory.cpp
@@ -33,6 +37,8 @@ qt_add_qml_module(${LIB_NAME}
         tasktrackmode.h
         togglproxy.cpp
         togglproxy.h
+        weekmodel.cpp
+        weekmodel.h
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC

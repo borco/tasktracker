@@ -5,6 +5,7 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
+import "calendar"
 import "Theme.js" as Theme
 
 Page {
@@ -40,82 +41,45 @@ Page {
         }
     }
 
-    ListView {
-        anchors.fill: parent
+    WeekModel {
+        id: weekModel
+        currentDate: new Date()
+    }
 
-        model: TaskListFilterModel {
-            sourceModel: taskListModel
-            showDone: doneToggle.checked
-            showArchived: archivedToggle.checked
+    ColumnLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        WeekView {
+            id: weekView
+            Layout.fillWidth: true
+            model: weekModel
+            topPadding: Theme.PopupItemTopMargin
+            bottomPadding: Theme.PopupItemTopMargin
+
+            BottomSeparator {}
         }
 
-        delegate: ColumnLayout {
-            width: ListView.view.width
-            spacing: 0
+        DayView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            ConfigGroupTitle {
-                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskScheduleMode.toString(scheduleMode)).arg(TaskTrackMode.toString(trackMode))
-            }
-
-            Pane {
-                Layout.fillWidth: true
-
-                topPadding: 0
-                leftPadding: Theme.ContentLeftMargin
-                rightPadding: Theme.ContentRightMargin
-
-                background: Rectangle { color: palette.base }
-
-                ListView {
-                    model: history
-
-                    implicitHeight: contentHeight
-                    interactive: false
-                    section.property: "date"
-                    section.delegate: Rectangle {
-                        width: ListView.view.width
-                        height: 24
-
-                        color: palette.base
-
-                        ThemedSmallLabel {
-                            text: section
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 4
-                        }
-
-                        BottomSeparator {}
+            sourceComponent: Component {
+                DayHistory {
+                    currentDate: {
+                        let date = new Date()
+                        date.setDate(weekView.today.getDate() + delta)
+                        return date
                     }
-
-                    delegate: RowLayout {
-                        width: ListView.view.width
-
-                        ThemedLabel {
-                            Layout.preferredWidth: 100
-                            text: TaskTrackMode.toString(trackMode)
-                        }
-
-                        ThemedLabel {
-                            Layout.preferredWidth: 100
-                            horizontalAlignment: Text.AlignRight
-                            text: time
-                        }
-
-                        ThemedLabel {
-                            Layout.preferredWidth: 100
-                            horizontalAlignment: Text.AlignRight
-                            text: qsTr("%1 sec").arg(seconds)
-                        }
-
-                        Item { Layout.fillWidth: true }
+                    visibleTasksModel: TaskListFilterModel {
+                        sourceModel: taskListModel
+                        showDone: doneToggle.checked
+                        showArchived: archivedToggle.checked
                     }
                 }
             }
 
-            BottomSeparator {
-                anchors.bottom: undefined
-                Layout.fillWidth: true
-            }
+            onDaysAdded: (days) => weekModel.addDays(days)
         }
     }
 }

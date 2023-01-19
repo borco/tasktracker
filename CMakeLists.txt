@@ -24,6 +24,7 @@ find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_QT_BIN_DIR_}")
 find_program(CREATE_DMG_EXECUTABLE create-dmg)
 find_program(BINARYCREATOR_EXECUTABLE binarycreator HINTS "${_QT_BIN_DIR_}/../../../Tools/QtInstallerFramework/${QTIFW_VERSION}/bin")
 
+add_subdirectory(playground)
 add_subdirectory(src/qtkeychainadapter)
 add_subdirectory(src/qtplogadapter)
 add_subdirectory(src/qtyamlcppadapter)
