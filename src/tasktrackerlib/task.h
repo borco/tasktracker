@@ -5,7 +5,7 @@
 #pragma once
 
 #include "taskhistory.h"
-#include "taskschedulemode.h"
+#include "taskrepeatmode.h"
 #include "tasktrackmode.h"
 
 namespace YAML { class Node; }
@@ -23,7 +23,7 @@ class Task : public QObject
     Q_PROPERTY(bool isEdited READ isEdited WRITE setIsEdited NOTIFY isEditedChanged)
     Q_PROPERTY(bool isDone READ isDone WRITE setIsDone NOTIFY isDoneChanged)
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
-    Q_PROPERTY(TaskScheduleMode::Mode scheduleMode READ scheduleMode WRITE setScheduleMode NOTIFY scheduleModeChanged)
+    Q_PROPERTY(TaskRepeatMode::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
     Q_PROPERTY(TaskTrackMode::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
     Q_PROPERTY(TaskHistory* history READ history CONSTANT)
 
@@ -42,8 +42,8 @@ public:
     bool isArchived() const { return m_isArchived; }
     void setIsArchived(bool newIsArchived);
 
-    TaskScheduleMode::Mode scheduleMode() const { return m_scheduleMode; }
-    void setScheduleMode(TaskScheduleMode::Mode newScheduleMode);
+    TaskRepeatMode::Mode repeatMode() const { return m_repeatMode; }
+    void setRepeatMode(TaskRepeatMode::Mode newRepeatMode);
 
     TaskTrackMode::Mode trackMode() const { return m_trackMode; }
     void setTrackMode(TaskTrackMode::Mode newTrackMode);
@@ -58,7 +58,7 @@ signals:
     void isEditedChanged();
     void isDoneChanged();
     void isArchivedChanged();
-    void scheduleModeChanged();
+    void repeatModeChanged();
     void trackModeChanged();
 
 private:
@@ -66,7 +66,7 @@ private:
     bool m_isEdited = false;
     bool m_isDone = false;
     bool m_isArchived = false;
-    TaskScheduleMode::Mode m_scheduleMode = TaskScheduleMode::Daily;
+    TaskRepeatMode::Mode m_repeatMode = TaskRepeatMode::Daily;
     TaskTrackMode::Mode m_trackMode = TaskTrackMode::NoTracking;
     TaskHistory *m_history = nullptr;
 };

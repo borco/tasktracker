@@ -40,7 +40,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const
         { IsEdited, "isEdited"},
         { IsArchived, "isArchived"},
         { IsDone, "isDone"},
-        { ScheduleMode, "scheduleMode"},
+        { RepeatMode, "repeatMode"},
         { TrackMode, "trackMode"},
         { History, "history" },
     };
@@ -62,8 +62,8 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
         return task->isDone();
     case IsArchived:
         return task->isArchived();
-    case ScheduleMode:
-        return task->scheduleMode();
+    case RepeatMode:
+        return task->repeatMode();
     case TrackMode:
         return task->trackMode();
     case History:

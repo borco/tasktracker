@@ -52,7 +52,7 @@ private:
         IsEdited,
         IsDone,
         IsArchived,
-        ScheduleMode,
+        RepeatMode,
         TrackMode,
         History,
     };

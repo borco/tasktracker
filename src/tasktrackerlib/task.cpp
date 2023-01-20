@@ -13,7 +13,7 @@ using namespace tasktrackerlib;
 namespace {
 static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
-static const char* ScheduleModeYamlName = "schedule";
+static const char* RepeatModeYamlName = "repeat";
 static const char* TrackModeYamlName = "track";
 }
 
@@ -55,12 +55,12 @@ void Task::setIsArchived(bool newIsArchived)
     emit isArchivedChanged();
 }
 
-void Task::setScheduleMode(TaskScheduleMode::Mode newScheduleMode)
+void Task::setRepeatMode(TaskRepeatMode::Mode newRepeatMode)
 {
-    if (m_scheduleMode == newScheduleMode)
+    if (m_repeatMode == newRepeatMode)
         return;
-    m_scheduleMode = newScheduleMode;
-    emit scheduleModeChanged();
+    m_repeatMode = newRepeatMode;
+    emit repeatModeChanged();
 }
 
 void Task::setTrackMode(TaskTrackMode::Mode newTrackMode)
@@ -88,7 +88,7 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setScheduleMode(enumFromYaml(node, ScheduleModeYamlName, TaskScheduleMode::Daily));
+    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeatMode::Daily));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
 
     m_history->loadFromYaml(node);

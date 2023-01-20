@@ -150,7 +150,7 @@ ThemedPopup {
 
                 ConfigOptionButton {
                     text: qsTr("Schedule Mode")
-                    value: model ? TaskScheduleMode.toString(model.scheduleMode) : ""
+                    value: model ? TaskRepeatMode.toString(model.repeatMode) : ""
                 }
 
                 ConfigOptionButton {

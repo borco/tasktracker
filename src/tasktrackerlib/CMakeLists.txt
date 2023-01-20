@@ -33,8 +33,8 @@ qt_add_qml_module(${LIB_NAME}
         tasklistfiltermodel.h
         tasklistmodel.cpp
         tasklistmodel.h
-        taskschedulemode.cpp
-        taskschedulemode.h
+        taskrepeatmode.cpp
+        taskrepeatmode.h
         tasktrackmode.cpp
         tasktrackmode.h
         togglproxy.cpp

@@ -8,14 +8,14 @@
 
 namespace tasktrackerlib {
 
-class TaskScheduleMode : public QObject
+class TaskRepeatMode : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
 public:
-    explicit TaskScheduleMode(QObject *parent = nullptr);
+    explicit TaskRepeatMode(QObject *parent = nullptr);
 
     enum Mode {
         Daily = 0,
@@ -28,8 +28,7 @@ public:
     };
     Q_ENUM(Mode)
 
-    Q_INVOKABLE static QString toString(int scheduleMode);
+    Q_INVOKABLE static QString toString(int repeatMode);
 };
 
 } // namespace tasktrackerlib
-

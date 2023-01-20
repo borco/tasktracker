@@ -14,7 +14,7 @@ Pane {
     required property string name
     required property bool isDone
     required property bool isArchived
-    required property int scheduleMode
+    required property int repeatMode
     required property int trackMode
 
     property bool isStarted: false
@@ -52,7 +52,7 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: TaskScheduleMode.toString(scheduleMode)
+                text: TaskRepeatMode.toString(repeatMode)
             }
 
             ThemedSmallLabel {

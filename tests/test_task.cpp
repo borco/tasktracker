@@ -59,33 +59,33 @@ archived: true
         QCOMPARE(task.isArchived(), isArchived);
     }
 
-    void test_load_schedule_mode_data() {
+    void test_load_repeat_mode_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<TaskScheduleMode::Mode>("scheduleMode");
+        QTest::addColumn<TaskRepeatMode::Mode>("repeatMode");
 
         QTest::newRow("No schedule mode") << R"(
-)" << TaskScheduleMode::Daily;
+)" << TaskRepeatMode::Daily;
 
         QTest::newRow("Unknown/invalid schedule mode") << R"(
-schedule: xxx
-)" << TaskScheduleMode::Daily;
+repeat: xxx
+)" << TaskRepeatMode::Daily;
 
         QTest::newRow("Daily") << R"(
-schedule: Daily
-)" << TaskScheduleMode::Daily;
+repeat: Daily
+)" << TaskRepeatMode::Daily;
 
         QTest::newRow("Weekly") << R"(
-schedule: Weekly
-)" << TaskScheduleMode::Weekly;
+repeat: Weekly
+)" << TaskRepeatMode::Weekly;
     }
 
-    void test_load_schedule_mode() {
+    void test_load_repeat_mode() {
         QFETCH(QString, data);
-        QFETCH(TaskScheduleMode::Mode, scheduleMode);
+        QFETCH(TaskRepeatMode::Mode, repeatMode);
 
         Task task;
         task.loadFromData(data.toUtf8());
-        QCOMPARE(task.scheduleMode(), scheduleMode);
+        QCOMPARE(task.repeatMode(), repeatMode);
     }
 
 

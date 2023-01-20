@@ -2,18 +2,18 @@
     Copyright (C) 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskschedulemode.h"
+#include "taskrepeatmode.h"
 
 namespace tasktrackerlib {
 
-TaskScheduleMode::TaskScheduleMode(QObject *parent)
+TaskRepeatMode::TaskRepeatMode(QObject *parent)
     : QObject{parent}
 {
 }
 
-QString TaskScheduleMode::toString(int scheduleMode)
+QString TaskRepeatMode::toString(int repeatMode)
 {
-    switch(scheduleMode) {
+    switch(repeatMode) {
     case Daily:
         return tr("Daily");
     case Weekly:
@@ -29,7 +29,7 @@ QString TaskScheduleMode::toString(int scheduleMode)
     case Between:
         return tr("Between");
     default:
-        return tr("Invalid schedule mode: %1").arg(scheduleMode);
+        return tr("Invalid schedule mode: %1").arg(repeatMode);
     }
 }
 
