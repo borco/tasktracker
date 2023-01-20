@@ -76,6 +76,9 @@ ThemedPopup {
         model = null
     }
 
+    ButtonGroup { id: trackModeGroup }
+    ButtonGroup { id: repeadModeGroup }
+
     ColumnLayout {
         id: contentLayout
 
@@ -91,7 +94,7 @@ ThemedPopup {
             rightButton.enabled: true
             rightButton.highlighted: true
             rightButton.text: qsTr("Done")
-            rightButton.onClicked: root.done()
+            rightButton.onClicked: root.close()
         }
 
         Flickable {
@@ -123,16 +126,31 @@ ThemedPopup {
                     onCheckedChanged: if (model) model.isArchived = checked
                 }
 
-                ConfigOptionButton {
-                    text: qsTr("Schedule Mode")
-                    value: model ? TaskRepeatMode.toString(model.repeatMode) : ""
+                ConfigGroupTitle { text: qsTr("Repeat Mode") }
+                Repeater {
+                    model: [
+                        TaskRepeatMode.Once,
+                        TaskRepeatMode.Daily,
+                        TaskRepeatMode.Weekly,
+                        TaskRepeatMode.Monthly,
+                    ]
+                    ThemedRadioDelegate {
+                        text: TaskRepeatMode.toString(modelData)
+                        ButtonGroup.group: repeadModeGroup
+                        checked: root.model ? root.model.repeatMode === modelData : false
+                        onClicked: root.model.repeatMode = modelData
+                    }
                 }
 
                 ConfigGroupTitle { text: qsTr("Track Mode") }
                 Repeater {
-                    model: [TaskTrackMode.Duration, TaskTrackMode.Count]
+                    model: [
+                        TaskTrackMode.Duration,
+                        TaskTrackMode.Count,
+                    ]
                     ThemedRadioDelegate {
                         text: TaskTrackMode.toString(modelData)
+                        ButtonGroup.group: trackModeGroup
                         checked: root.model ? root.model.trackMode === modelData : false
                         onClicked: root.model.trackMode = modelData
                     }
