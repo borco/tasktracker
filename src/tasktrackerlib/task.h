@@ -66,8 +66,8 @@ private:
     bool m_isEdited = false;
     bool m_isDone = false;
     bool m_isArchived = false;
-    TaskRepeatMode::Mode m_repeatMode = TaskRepeatMode::Daily;
-    TaskTrackMode::Mode m_trackMode = TaskTrackMode::NoTracking;
+    TaskRepeatMode::Mode m_repeatMode = TaskRepeatMode::DefaultMode;
+    TaskTrackMode::Mode m_trackMode = TaskTrackMode::DefaultMode;
     TaskHistory *m_history = nullptr;
 };
 

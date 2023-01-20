@@ -94,19 +94,19 @@ repeat: Weekly
         QTest::addColumn<TaskTrackMode::Mode>("trackMode");
 
         QTest::newRow("No track mode") << R"(
-)" << TaskTrackMode::NoTracking;
+)" << TaskTrackMode::DefaultMode;
 
         QTest::newRow("Unknown/invalid track mode") << R"(
 track: xxx
-)" << TaskTrackMode::NoTracking;
+)" << TaskTrackMode::DefaultMode;
 
-        QTest::newRow("NoTracking") << R"(
-track: NoTracking
-)" << TaskTrackMode::NoTracking;
+        QTest::newRow("Duration") << R"(
+track: Duration
+)" << TaskTrackMode::Duration;
 
-        QTest::newRow("MinimumRepeats") << R"(
-track: MinimumRepeats
-)" << TaskTrackMode::MinimumRepeats;
+        QTest::newRow("Repeats") << R"(
+track: Repeats
+)" << TaskTrackMode::Repeats;
     }
 
     void test_load_track_mode() {

@@ -90,7 +90,7 @@ void TaskEvent::loadFromYaml(const YAML::Node &node)
         return;
     }
 
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::DefaultMode));
     setDateTime(dateTimeFromYaml(node, DateTimeYamlName, QDateTime()));
     setSeconds(intFromYaml(node, SecondsYamlName, 0));
 }

@@ -46,7 +46,7 @@ signals:
     void secondsChanged();
 
 private:
-    TaskTrackMode::Mode m_trackMode = TaskTrackMode::NoTracking;
+    TaskTrackMode::Mode m_trackMode = TaskTrackMode::DefaultMode;
     QDateTime m_dateTime;
     int m_seconds = 0;
 };

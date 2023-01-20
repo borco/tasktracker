@@ -88,8 +88,8 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeatMode::Daily));
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::NoTracking));
+    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeatMode::DefaultMode));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::DefaultMode));
 
     m_history->loadFromYaml(node);
 }

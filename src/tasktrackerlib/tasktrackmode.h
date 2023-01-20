@@ -18,17 +18,14 @@ public:
     explicit TaskTrackMode(QObject *parent = nullptr);
 
     enum Mode {
-        NoTracking = 0, // needs to be done once; marked as done after doing it
+        Duration = 0,
         Repeats,
-        MinimumRepeats,
-        MaximumRepeats,
-        Duration,
-        MinimumDuration,
-        MaximumDuration,
     };
     Q_ENUM(Mode)
 
     Q_INVOKABLE static QString toString(int trackMode);
+
+    inline const static Mode DefaultMode = Duration;
 };
 
 } // namespace tasktrackerlib

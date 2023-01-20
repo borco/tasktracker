@@ -29,6 +29,8 @@ public:
     Q_ENUM(Mode)
 
     Q_INVOKABLE static QString toString(int repeatMode);
+
+    inline const static Mode DefaultMode = Daily;
 };
 
 } // namespace tasktrackerlib
