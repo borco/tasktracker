@@ -18,9 +18,7 @@ qt_add_resources(${APP_NAME} "dut_qml"
     BASE ../../src/tasktracker/qml
     FILES
     ../../src/tasktracker/qml/BottomSeparator.qml
-    ../../src/tasktracker/qml/CalendarPage.qml
     ../../src/tasktracker/qml/ConfigGroupTitle.qml
-    ../../src/tasktracker/qml/PageHeader.qml
     ../../src/tasktracker/qml/Theme.js
     ../../src/tasktracker/qml/ThemedButton.qml
     ../../src/tasktracker/qml/ThemedLabel.qml
