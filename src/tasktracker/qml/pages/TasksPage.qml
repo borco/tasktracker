@@ -30,7 +30,7 @@ Item {
             Layout.fillHeight: true
             model: TaskListFilterModel {
                 sourceModel: taskListModel
-                showDone: header.doneVisible
+                doneVisible: header.doneVisible
                 showArchived: header.archivedVisible
             }
 
