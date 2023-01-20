@@ -31,6 +31,10 @@ Control {
     leftPadding: Theme.ContentLeftMargin
     rightPadding: Theme.ContentRightMargin
 
+    background: Rectangle {
+        color: palette.base
+    }
+
     WeekModel {
         id: weekModel
         currentDate: today
