@@ -26,10 +26,9 @@ Window {
             anchors.fill: parent
 
             WeekView {
-                model: WeekModel {
-                    currentDate: dayView.dateForIndex(dayView.currentIndex)
-                }
+                currentDate: dayView.dateForIndex(dayView.currentIndex)
                 Layout.fillWidth: true
+                topPadding: 10
             }
 
             ThemedLabel {

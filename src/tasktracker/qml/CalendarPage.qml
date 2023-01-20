@@ -47,10 +47,10 @@ Page {
 
         WeekView {
             id: weekView
+
+            currentDate: dayView.dateForIndex(dayView.currentIndex)
+
             Layout.fillWidth: true
-            model: WeekModel {
-                currentDate: dayView.dateForIndex(dayView.currentIndex)
-            }
             topPadding: Theme.PopupItemTopMargin
             bottomPadding: Theme.PopupItemTopMargin
 

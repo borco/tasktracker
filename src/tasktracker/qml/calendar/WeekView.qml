@@ -11,8 +11,8 @@ Control {
     id: root
 
     property date today: new Date()
+    property alias currentDate: weekModel.currentDate
 
-    property alias model: repeater.model
     property int daysSpacing: 10
     property int dayCircleDiameter: 30
     property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
@@ -24,9 +24,15 @@ Control {
     }
 
     implicitHeight: rootLayout.implicitHeight + topPadding + bottomPadding
+    implicitWidth: rootLayout.implicitWidth + leftPadding + rightPadding
 
     leftPadding: Theme.ContentLeftMargin
     rightPadding: Theme.ContentRightMargin
+
+    WeekModel {
+        id: weekModel
+        currentDate: today
+    }
 
     ColumnLayout {
         id: rootLayout
@@ -38,7 +44,7 @@ Control {
         anchors.bottomMargin: bottomPadding
 
         ThemedLabel {
-            text: root.model.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+            text: weekModel.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
             font.pointSize: Theme.SmallLabelSize
             font.bold: true
         }
@@ -52,6 +58,8 @@ Control {
 
             Repeater {
                 id: repeater
+
+                model: weekModel
 
                 delegate: Item {
                     implicitWidth: root.dayWidth
