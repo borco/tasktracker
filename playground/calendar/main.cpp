@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setStyle(DefaultQuickStyle);
     QGuiApplication::setOrganizationName("Ioan Calin");
     QGuiApplication::setOrganizationDomain("com.github.borco");
-    QGuiApplication::setApplicationName("tasktracker");
+    QGuiApplication::setApplicationName("tasktracker_calendar");
     QSettings::setDefaultFormat(QSettings::IniFormat);
     qInfo() << "Main: settings file:" << QSettings().fileName();
 
