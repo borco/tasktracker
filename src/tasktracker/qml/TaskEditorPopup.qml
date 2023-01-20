@@ -83,13 +83,8 @@ ThemedPopup {
 
         Component.onCompleted: {
             [
-            Task.NoTracking,
-            Task.Repeats,
-            Task.MinimumRepeats,
-            Task.MaximumRepeats,
-            Task.Duration,
-            Task.MinimumDuration,
-            Task.MaximumDuration
+            TaskTrackMode.Count,
+            TaskTrackMode.Duration,
             ]
             .forEach(option =>
                      options.append({

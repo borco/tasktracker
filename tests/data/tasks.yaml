@@ -3,8 +3,8 @@ tasks:
 - name: empty task
 
 - name: explicit task
-  schedule: Daily
-  track: Duration
+  repeat: Monthly
+  track: Count
   history:
   - track: Duration
     dateTime: "2023-01-16T00:00.000Z"
@@ -25,30 +25,23 @@ tasks:
 - name: archived task
   archived: true
   history:
-  - track: MinimumDuration
+  - track: Duration
     dateTime: "2023-01-18T00:05.000Z"
     seconds: 50
 
 - name: weekly task
-  schedule: Weekly
+  repeat: Weekly
 
-- name: minimum repeats task
-  track: MinimumRepeats
-
-- name: weekly maximum repeats task
-  schedule: Weekly
-  track: MaximumRepeats
-
-- name: minimum duration task
-  track: MinimumDuration
+- name: count repeats task
+  track: Count
 
 - name: weekly maximum duration task
-  schedule: Weekly
-  track: MaximumDuration
+  repeat: Weekly
+  track: Duration
   history:
   - track: Duration
     dateTime: "2023-01-18T00:06.000Z"
     seconds: 120
-  - track: MaximumDuration
+  - track: Duration
     dateTime: "2023-01-18T00:10.000Z"
     seconds: 600

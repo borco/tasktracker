@@ -19,7 +19,7 @@ public:
 
     enum Mode {
         Duration = 0,
-        Repeats,
+        Count,
     };
     Q_ENUM(Mode)
 

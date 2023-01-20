@@ -104,9 +104,9 @@ track: xxx
 track: Duration
 )" << TaskTrackMode::Duration;
 
-        QTest::newRow("Repeats") << R"(
-track: Repeats
-)" << TaskTrackMode::Repeats;
+        QTest::newRow("Count") << R"(
+track: Count
+)" << TaskTrackMode::Count;
     }
 
     void test_load_track_mode() {

@@ -14,8 +14,8 @@ TaskTrackMode::TaskTrackMode(QObject *parent)
 QString TaskTrackMode::toString(int trackMode)
 {
     switch(trackMode) {
-    case Repeats:
-        return tr("Repeats");
+    case Count:
+        return tr("Count");
     case Duration:
         return tr("Duration");
     default:

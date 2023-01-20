@@ -56,7 +56,6 @@ Pane {
             }
 
             ThemedSmallLabel {
-                visible: trackMode !== Task.NoTracking
                 text: TaskTrackMode.toString(trackMode)
             }
 
@@ -67,25 +66,19 @@ Pane {
         }
 
         ThemedToolButton {
-            icon.source: isDone ? "../icons/task/done.svg" : "../icons/task/todo.svg"
-            visible: trackMode === Task.NoTracking
-            onClicked: model.isDone = !isDone
-        }
-
-        ThemedToolButton {
             icon.source: "../icons/task/decrement.svg"
-            visible: [Task.Repeats, Task.MinimumRepeats, Task.MaximumRepeats].includes(trackMode)
+            visible: trackMode === TaskTrackMode.Count
             onClicked: decrement()
         }
 
         ThemedToolButton {
             icon.source: "../icons/task/increment.svg"
-            visible: [Task.Repeats, Task.MinimumRepeats, Task.MaximumRepeats].includes(trackMode)
+            visible: trackMode === TaskTrackMode.Count
             onClicked: increment()
         }
 
         ThemedToolButton {
-            visible: [Task.Duration, Task.MinimumDuration, Task.MaximumDuration].includes(trackMode)
+            visible: trackMode === TaskTrackMode.Duration
             icon.source: isStarted ? "../icons/task/stop.svg" : "../icons/task/start.svg"
             onClicked: isStarted = !isStarted
         }
