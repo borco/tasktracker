@@ -11,6 +11,7 @@ import "Theme.js" as Theme
 ApplicationWindow {
     id: root
 
+    property bool inDarkMode: palette.text > palette.base
     property TaskListModel taskListModel: TaskListModel {}
 
     function showConfigPage() {
@@ -67,7 +68,7 @@ ApplicationWindow {
                 Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 1
-                    color: palette.window
+                    color: inDarkMode ? palette.light : palette.dark
                 }
 
                 TabBar {
