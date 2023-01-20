@@ -46,6 +46,8 @@ ApplicationWindow {
             ColumnLayout {
                 SplitView.minimumHeight: 200
 
+                spacing: 0
+
                 StackLayout {
                     currentIndex: mainTabBar.currentIndex
 
@@ -60,6 +62,12 @@ ApplicationWindow {
                         taskListModel: root.taskListModel
                         onShowConfig: showConfigPage()
                     }
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: palette.window
                 }
 
                 TabBar {
