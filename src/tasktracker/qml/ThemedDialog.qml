@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 Dialog {
     id: root
@@ -11,16 +11,16 @@ Dialog {
     property alias rightButton: rightButton
 
     background: Rectangle {
-        radius: Theme.DialogRadius
+        radius: Theme.dialogRadius
         color: palette.window
     }
 
-    padding: Theme.DialogPadding
+    padding: Theme.dialogPadding
 
     header: null
 
     footer: Item {
-        implicitHeight: Theme.DialogButtonsHeight
+        implicitHeight: Theme.dialogButtonsHeight
 
         Rectangle {
             color: palette.dark

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 ThemedDialog {
     id: root
@@ -10,7 +10,7 @@ ThemedDialog {
     property alias textField: textField
     property alias errorLabel: errorLabel
 
-    bottomPadding: Theme.DialogPadding / 2
+    bottomPadding: Theme.dialogPadding / 2
 
     contentItem: ColumnLayout {
         ThemedLabel {
@@ -28,7 +28,7 @@ ThemedDialog {
 
         ThemedSmallLabel {
             id: errorLabel
-            color: Theme.ErrorColor
+            color: Theme.errorColor
             Layout.fillWidth: true
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }

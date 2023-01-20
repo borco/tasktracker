@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 Rectangle {
     id: root
@@ -15,20 +15,20 @@ Rectangle {
 
     color: palette.base
 
-    implicitHeight: Theme.PageHeaderHeight
+    implicitHeight: Theme.pageHeaderHeight
 
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: Theme.PageHeaderLeftMargin
-        anchors.rightMargin: Theme.PageHeaderRightMargin
+        anchors.leftMargin: Theme.pageHeaderLeftMargin
+        anchors.rightMargin: Theme.pageHeaderRightMargin
 
-        spacing: Theme.PageHeaderSpacing
+        spacing: Theme.pageHeaderSpacing
 
         ThemedLabel {
             id: title
             Layout.alignment: Qt.AlignVCenter
-            font.pointSize: Theme.PageHeaderTitleSize
-            font.weight: Theme.PageHeaderTitleWeight
+            font.pointSize: Theme.pageHeaderTitleSize
+            font.weight: Theme.pageHeaderTitleWeight
         }
 
         TogglLoggedStatus {}

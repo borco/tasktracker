@@ -1,13 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 
-import "Theme.js" as Theme
+import Theme
 
 SplitView {
     id: root
 
     property bool inDarkMode: palette.text > palette.base
-    property real hitAreaPadding: Theme.SplitViewHitAreaPadding + Theme.SplitViewSize / 2
+    property real hitAreaPadding: Theme.splitViewHitAreaPadding + Theme.splitViewSize / 2
 
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
@@ -15,8 +15,8 @@ SplitView {
                              implicitContentHeight + topPadding + bottomPadding)
 
     handle: Rectangle {
-        implicitWidth: root.orientation === Qt.Horizontal ? Theme.SplitViewSize : root.width
-        implicitHeight: root.orientation === Qt.Horizontal ? root.height : Theme.SplitViewSize
+        implicitWidth: root.orientation === Qt.Horizontal ? Theme.splitViewSize : root.width
+        implicitHeight: root.orientation === Qt.Horizontal ? root.height : Theme.splitViewSize
 
         color: SplitHandle.pressed || SplitHandle.hovered
                ? palette.highlight

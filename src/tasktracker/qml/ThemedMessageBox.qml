@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 ThemedDialog {
     id: root
@@ -11,7 +11,7 @@ ThemedDialog {
 
     modal: true
     anchors.centerIn: Overlay.overlay
-    bottomPadding: Theme.DialogPadding / 2
+    bottomPadding: Theme.dialogPadding / 2
 
     leftButton.onClicked: reject()
     rightButton.onClicked: accept()

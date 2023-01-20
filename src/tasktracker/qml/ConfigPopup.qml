@@ -3,8 +3,6 @@ import QtQuick.Controls
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
-
 ThemedPopup {
     id: root
 
@@ -12,10 +10,10 @@ ThemedPopup {
 
     parent: Overlay.overlay
 
-    x: Theme.PopupX
-    y: Theme.PopupTop
+    x: Theme.popupX
+    y: Theme.popupTop
     width: parent.width - 2 * x
-    height: parent.height - Theme.PopupTop - Theme.PopupBottom
+    height: parent.height - Theme.popupTop - Theme.popupBottom
 
     topPadding: 0
     bottomPadding: 0

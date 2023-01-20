@@ -2,9 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
-
 import TaskTrackerLib
+import Theme
 
 Page {
     id: root
@@ -18,8 +17,8 @@ Page {
 
     component FolderItemComponent: ItemDelegate {
         width: ListView.view.width
-        implicitHeight: Theme.ConfigItemHeight
-        leftPadding: Theme.ContentLeftMargin
+        implicitHeight: Theme.configItemHeight
+        leftPadding: Theme.contentLeftMargin
 
         onClicked: folderListModel.cd(text)
 
@@ -78,21 +77,21 @@ Page {
         spacing: 0
 
         Item {
-            Layout.preferredHeight: Theme.ConfigGroupTitleHeight
+            Layout.preferredHeight: Theme.configGroupTitleHeight
             Layout.fillWidth: true
 
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
+                anchors.bottomMargin: Theme.configGroupTitleBottomMargin
                 anchors.left: parent.left
-                anchors.leftMargin: Theme.ContentLeftMargin
+                anchors.leftMargin: Theme.contentLeftMargin
                 anchors.right: parent.right
-                anchors.rightMargin: Theme.ContentRightMargin
+                anchors.rightMargin: Theme.contentRightMargin
 
                 ThemedLabel {
                     text: root.dataFolderLocation
-                    font.weight: Theme.ConfigGroupTitleFontWeight
+                    font.weight: Theme.configGroupTitleFontWeight
                     Layout.fillWidth: true
                 }
 

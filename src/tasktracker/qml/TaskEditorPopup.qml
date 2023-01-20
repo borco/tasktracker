@@ -3,8 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import TaskTrackerLib
-
-import "Theme.js" as Theme
+import Theme
 
 ThemedPopup {
     id: root
@@ -35,10 +34,10 @@ ThemedPopup {
             id: inputLayout
 
             anchors.fill: parent
-            anchors.topMargin: Theme.PopupItemTopMargin
-            anchors.bottomMargin: Theme.PopupItemBottomMargin
-            anchors.leftMargin: Theme.ContentLeftMargin
-            anchors.rightMargin: Theme.ContentRightMargin
+            anchors.topMargin: Theme.popupItemTopMargin
+            anchors.bottomMargin: Theme.popupItemBottomMargin
+            anchors.leftMargin: Theme.contentLeftMargin
+            anchors.rightMargin: Theme.contentRightMargin
 
             ThemedLabel {
                 id: inputLabel
@@ -56,10 +55,10 @@ ThemedPopup {
 
     parent: Overlay.overlay
 
-    x: Theme.PopupX
-    y: Theme.PopupTop
+    x: Theme.popupX
+    y: Theme.popupTop
     width: parent.width - 2 * x
-    height: parent.height - Theme.PopupTop - Theme.PopupBottom
+    height: parent.height - Theme.popupTop - Theme.popupBottom
 
     topPadding: 0
     bottomPadding: 0
@@ -156,7 +155,7 @@ ThemedPopup {
                     }
                 }
 
-                Item { Layout.preferredHeight: Theme.PopupContentBottomPadding }
+                Item { Layout.preferredHeight: Theme.popupContentBottomPadding }
             }
         }
     }

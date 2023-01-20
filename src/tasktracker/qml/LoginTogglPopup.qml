@@ -4,8 +4,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import TaskTrackerLib
-
-import "Theme.js" as Theme
+import Theme
 
 ThemedPopup {
     id: root
@@ -19,7 +18,7 @@ ThemedPopup {
 
     function showErrorMessage(message) {
         infoLabel.text = message
-        infoLabel.color = Theme.ErrorColor
+        infoLabel.color = Theme.errorColor
     }
 
     modal: true
@@ -55,10 +54,10 @@ ThemedPopup {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Layout.leftMargin: Theme.ContentLeftMargin
-            Layout.rightMargin: Theme.ContentRightMargin
-            Layout.topMargin: Theme.PopupItemTopMargin
-            Layout.bottomMargin: Theme.PopupContentBottomPadding
+            Layout.leftMargin: Theme.contentLeftMargin
+            Layout.rightMargin: Theme.contentRightMargin
+            Layout.topMargin: Theme.popupItemTopMargin
+            Layout.bottomMargin: Theme.popupContentBottomPadding
 
             ThemedSmallLabel {
                 text: qsTr('Username:')

@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 
-import "Theme.js" as Theme
+import Theme
 
 ThemedLabel {
-    font.weight: Theme.SmallLabelWeight
-    font.pointSize: Theme.SmallLabelSize
+    font.weight: Theme.smallLabelWeight
+    font.pointSize: Theme.smallLabelSize
 }

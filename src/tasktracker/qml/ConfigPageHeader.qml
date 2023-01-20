@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import "Theme.js" as Theme
+import Theme
 
 Item {
     id: root
@@ -11,7 +11,7 @@ Item {
     property alias leftButton: leftButton
     property alias rightButton: rightButton
 
-    implicitHeight: Theme.PageHeaderHeight
+    implicitHeight: Theme.pageHeaderHeight
 
     ThemedButton {
         id: leftButton
@@ -19,7 +19,7 @@ Item {
         text: qsTr("Cancel")
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: Theme.ContentLeftMargin - leftPadding
+        anchors.leftMargin: Theme.contentLeftMargin - leftPadding
     }
 
     ThemedLabel {
@@ -33,7 +33,7 @@ Item {
         text: qsTr("Save")
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        anchors.rightMargin: Theme.ContentRightMargin - rightPadding
+        anchors.rightMargin: Theme.contentRightMargin - rightPadding
     }
 
     BottomSeparator {}

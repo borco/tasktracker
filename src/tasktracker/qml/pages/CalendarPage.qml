@@ -4,10 +4,10 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import TaskTrackerLib
+import Theme
 
 import ".."
 import "../calendar"
-import "../Theme.js" as Theme
 
 Item {
     id: root
@@ -28,8 +28,8 @@ Item {
             onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)
 
             Layout.fillWidth: true
-            topPadding: Theme.PopupItemTopMargin
-            bottomPadding: Theme.PopupItemTopMargin
+            topPadding: Theme.popupItemTopMargin
+            bottomPadding: Theme.popupItemTopMargin
 
             BottomSeparator {}
         }

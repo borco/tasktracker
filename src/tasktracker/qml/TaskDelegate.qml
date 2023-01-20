@@ -4,8 +4,6 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
-
 Pane {
     id: root
 

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 Rectangle {
     id: root
@@ -13,16 +13,16 @@ Rectangle {
 
     Layout.fillWidth: true
 
-    implicitHeight: Theme.ConfigGroupTitleHeight
+    implicitHeight: Theme.configGroupTitleHeight
 
     ThemedLabel {
         text: parent.text
         anchors.left: parent.left
-        anchors.leftMargin: Theme.ContentLeftMargin
+        anchors.leftMargin: Theme.contentLeftMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
+        anchors.bottomMargin: Theme.configGroupTitleBottomMargin
 
-        font.weight: Theme.ConfigGroupTitleFontWeight
+        font.weight: Theme.configGroupTitleFontWeight
     }
 
     BottomSeparator {}

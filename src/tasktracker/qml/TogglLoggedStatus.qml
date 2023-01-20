@@ -3,8 +3,6 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
-
 ThemedToolButton {
     id: root
     icon.source: "../icons/toggl.svg"

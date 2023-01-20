@@ -2,9 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
-
 import TaskTrackerLib
+import Theme
 
 Page {
     id: root
@@ -36,7 +35,7 @@ Page {
 
         leftButton.text: qsTr("Cancel")
         rightButton.text: qsTr("Sign Out")
-        rightButton.color: Theme.DangerColor
+        rightButton.color: Theme.dangerColor
 
         onAccepted: {
             TogglProxy.logOut()
@@ -96,7 +95,7 @@ Page {
                 }
             }
 
-            Item { Layout.preferredHeight: Theme.ConfigGroupTitleHeight }
+            Item { Layout.preferredHeight: Theme.configGroupTitleHeight }
         }
     }
 }

@@ -5,7 +5,6 @@ import QtQuick.Layouts
 import TaskTrackerLib
 
 import ".."
-import "../Theme.js" as Theme
 
 Control {
     id: root
@@ -28,8 +27,8 @@ Control {
     implicitHeight: rootLayout.implicitHeight + topPadding + bottomPadding
     implicitWidth: rootLayout.implicitWidth + leftPadding + rightPadding
 
-    leftPadding: Theme.ContentLeftMargin
-    rightPadding: Theme.ContentRightMargin
+    leftPadding: Theme.contentLeftMargin
+    rightPadding: Theme.contentRightMargin
 
     WeekModel {
         id: weekModel
@@ -48,7 +47,7 @@ Control {
         RowLayout {
             ThemedLabel {
                 text: weekModel.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
-                font.pointSize: Theme.SmallLabelSize
+                font.pointSize: Theme.smallLabelSize
                 font.bold: true
                 Layout.fillWidth: true
             }
@@ -86,8 +85,8 @@ Control {
                         ThemedLabel {
                             text: name
                             Layout.fillWidth: true
-                            font.weight: Theme.XSmallLabelWeight
-                            font.pointSize: Theme.XSmallLabelSize
+                            font.weight: Theme.xSmallLabelWeight
+                            font.pointSize: Theme.xSmallLabelSize
                             elide: Text.ElideRight
                             horizontalAlignment: Text.AlignHCenter
                         }
@@ -105,7 +104,7 @@ Control {
                             ThemedLabel {
                                 anchors.centerIn: parent
                                 text: date.getDate()
-                                font.pointSize: Theme.SmallLabelSize
+                                font.pointSize: Theme.smallLabelSize
                                 font.bold: isCurrentDate
                             }
                         }

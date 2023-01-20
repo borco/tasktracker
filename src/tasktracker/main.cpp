@@ -17,6 +17,7 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSettings>
+#include <QtQml>
 
 namespace {
 static const char* DefaultQuickStyle = "iOS";
@@ -97,6 +98,8 @@ int main(int argc, char *argv[])
 
     tasktrackerlib::Config::get()->load();
     tasktrackerlib::TogglProxy::get()->load();
+
+    qmlRegisterSingletonType(QUrl("qrc:/TaskTracker/qml/Theme.qml"), "Theme", 1, 0, "Theme");
 
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");

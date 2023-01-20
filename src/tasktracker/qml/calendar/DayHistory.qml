@@ -4,9 +4,9 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import TaskTrackerLib
+import Theme
 
 import ".."
-import "../Theme.js" as Theme
 
 Item {
     id: root
@@ -23,7 +23,7 @@ Item {
         clip: true
 
         delegate: ColumnLayout {
-            x: Theme.ContentLeftMargin
+            x: Theme.contentLeftMargin
             width: ListView.view.width - x
 
             visible: currentDayHistoryView.count > 0
@@ -41,8 +41,8 @@ Item {
                 Layout.fillWidth: true
 
                 topPadding: 0
-                leftPadding: Theme.ContentLeftMargin
-                rightPadding: Theme.ContentRightMargin
+                leftPadding: Theme.contentLeftMargin
+                rightPadding: Theme.contentRightMargin
 
                 background: Rectangle { color: palette.base }
 

@@ -11,6 +11,7 @@ set_source_files_properties(${APP_ICON_MACOS} PROPERTIES MACOSX_PACKAGE_LOCATION
 
 qt_add_executable(${APP_NAME}
     main.cpp
+    qml/Theme.qml
     ${APP_ICON_MACOS}
 )
 
@@ -37,7 +38,7 @@ qt_add_qml_module(${APP_NAME}
         qml/PasswordTextField.qml
         qml/TaskDelegate.qml
         qml/TaskEditorPopup.qml
-        qml/Theme.js
+        qml/Theme.qml
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
         qml/ThemedLabel.qml

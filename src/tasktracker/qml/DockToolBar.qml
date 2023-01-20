@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import Theme
 
 ToolBar {
     id: root
@@ -17,7 +17,7 @@ ToolBar {
             text: root.title
             verticalAlignment: Text.AlignVCenter
             Layout.alignment: Qt.AlignVCenter
-            Layout.leftMargin: Theme.ContentLeftMargin
+            Layout.leftMargin: Theme.contentLeftMargin
         }
 
         ToolSeparator {}
