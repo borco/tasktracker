@@ -15,10 +15,12 @@ ApplicationWindow {
     property bool inDarkMode: palette.text > palette.base
     property TaskListModel taskListModel: TaskListModel {}
 
+    property string narrowLayoutAppTitle: ""
+    property string wideLayoutAppTitle: title
+
     readonly property int wideLayoutTasksMinimumWidth: 360
     readonly property int wideLayoutCalendarMinimumWidth: 360
     readonly property int wideLayoutMinimumWidth: wideLayoutTasksMinimumWidth + wideLayoutCalendarMinimumWidth
-    property bool useWideLayout: width >= wideLayoutMinimumWidth
 
     function showConfigPage() {
         configPopup.open()
@@ -38,6 +40,21 @@ ApplicationWindow {
         id: configPopup
     }
 
+    TasksPage {
+        id: tasksPage
+        title: qsTr("Tasks")
+        header: appHeader
+        anchors.fill: parent
+        taskListModel: root.taskListModel
+    }
+
+    CalendarPage {
+        id: calendarPage
+        title: qsTr("Calendar")
+        header: appHeader
+        anchors.fill: parent
+        taskListModel: root.taskListModel
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -45,11 +62,6 @@ ApplicationWindow {
 
         AppHeader {
             id: appHeader
-
-            property string wideLayoutTitle: qsTr("Task Tracker")
-            property string narrowLayoutTitle: ""
-
-            title: useWideLayout ? wideLayoutTitle : narrowLayoutTitle
             Layout.fillWidth: true
             onConfigClicked: showConfigPage()
         }
@@ -68,30 +80,30 @@ ApplicationWindow {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
-                SplitView {
+                ThemedSplitView {
                     id: wideLayoutSplitView
-                    visible: useWideLayout
+
+                    visible: true
                     anchors.fill: parent
 
-                    TasksPage {
-                        title: qsTr("Tasks")
-                        header: appHeader
-                        taskListModel: root.taskListModel
+                    Item {
+                        id: wideLayoutTasksPagePlaceholder
                         SplitView.minimumWidth: wideLayoutTasksMinimumWidth
                     }
 
-                    CalendarPage {
-                        title: qsTr("Calendar")
-                        header: appHeader
-                        taskListModel: root.taskListModel
+                    Item {
+                        id: wideLayoutCalendarPagePlaceholder
                         clip: true
                         SplitView.minimumWidth: wideLayoutCalendarMinimumWidth
                     }
                 }
 
                 ColumnLayout {
-                    visible: !useWideLayout
+                    id: narrowLayoutColumnLayout
+
+                    visible: false
                     anchors.fill: parent
+
                     spacing: 0
 
                     StackLayout {
@@ -99,18 +111,14 @@ ApplicationWindow {
 
                         currentIndex: mainTabBar.currentIndex
 
-                        TasksPage {
-                            title: qsTr("Tasks")
-                            header: appHeader
-                            taskListModel: root.taskListModel
-                            StackLayout.onIsCurrentItemChanged: appHeader.narrowLayoutTitle = title
+                        Item {
+                            id: narrowLayoutTasksPagePlaceholder
+                            StackLayout.onIsCurrentItemChanged: narrowLayoutAppTitle = tasksPage.title
                         }
 
-                        CalendarPage {
-                            title: qsTr("Calendar")
-                            header: appHeader
-                            taskListModel: root.taskListModel
-                            StackLayout.onIsCurrentItemChanged: appHeader.narrowLayoutTitle = title
+                        Item {
+                            id: narrowLayoutCalendarPagePlaceholder
+                            StackLayout.onIsCurrentItemChanged: narrowLayoutAppTitle = calendarPage.title
                         }
                     }
 
@@ -138,6 +146,51 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    StateGroup {
+        states: [
+            State {
+                name: "wideLayout"
+                when: width >= wideLayoutMinimumWidth
+
+                ParentChange {
+                    target: tasksPage
+                    parent: wideLayoutTasksPagePlaceholder
+                }
+
+                ParentChange {
+                    target: calendarPage
+                    parent: wideLayoutCalendarPagePlaceholder
+                }
+
+                PropertyChanges {
+                    appHeader.title: wideLayoutAppTitle
+                    wideLayoutSplitView.visible: true
+                    narrowLayoutColumnLayout.visible: false
+                }
+            },
+            State {
+                name: "narrowLayout"
+                when: width < wideLayoutMinimumWidth
+
+                ParentChange {
+                    target: tasksPage
+                    parent: narrowLayoutTasksPagePlaceholder
+                }
+
+                ParentChange {
+                    target: calendarPage
+                    parent: narrowLayoutCalendarPagePlaceholder
+                }
+
+                PropertyChanges {
+                    appHeader.title: narrowLayoutAppTitle
+                    wideLayoutSplitView.visible: false
+                    narrowLayoutColumnLayout.visible: true
+                }
+            }
+        ]
     }
 
     Settings {
