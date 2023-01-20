@@ -76,26 +76,6 @@ ThemedPopup {
         model = null
     }
 
-    ThemedOptionsPopup {
-        id: trackModePopup
-
-        title: qsTr("Track Mode")
-
-        Component.onCompleted: {
-            [
-            TaskTrackMode.Count,
-            TaskTrackMode.Duration,
-            ]
-            .forEach(option =>
-                     options.append({
-                                        name: TaskTrackMode.toString(option),
-                                        value: option
-                                    }))
-        }
-
-        onClicked: (trackMode) => model.trackMode = trackMode
-    }
-
     ColumnLayout {
         id: contentLayout
 
@@ -148,10 +128,14 @@ ThemedPopup {
                     value: model ? TaskRepeatMode.toString(model.repeatMode) : ""
                 }
 
-                ConfigOptionButton {
-                    text: qsTr("Track Mode")
-                    value: model ? TaskTrackMode.toString(model.trackMode) : ""
-                    onClicked: trackModePopup.open()
+                ConfigGroupTitle { text: qsTr("Track Mode") }
+                Repeater {
+                    model: [TaskTrackMode.Duration, TaskTrackMode.Count]
+                    ThemedRadioDelegate {
+                        text: TaskTrackMode.toString(modelData)
+                        checked: root.model ? root.model.trackMode === modelData : false
+                        onClicked: root.model.trackMode = modelData
+                    }
                 }
 
                 Item { Layout.preferredHeight: Theme.PopupContentBottomPadding }
