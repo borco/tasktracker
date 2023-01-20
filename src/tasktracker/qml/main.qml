@@ -22,6 +22,11 @@ ApplicationWindow {
     height: 480
     visible: true
 
+    readonly property int wideLayoutTasksMinimumWidth: 360
+    readonly property int wideLayoutCalendarMinimumWidth: 360
+    readonly property int wideLayoutMinimumWidth: wideLayoutTasksMinimumWidth + wideLayoutCalendarMinimumWidth
+    property bool useWideLayout: width >= wideLayoutMinimumWidth
+
     title: qsTr("Task Tracker")
 
     background: Rectangle {
@@ -31,6 +36,7 @@ ApplicationWindow {
     ConfigPopup {
         id: configPopup
     }
+
 
     ColumnLayout {
         anchors.fill: parent
@@ -44,38 +50,66 @@ ApplicationWindow {
 
             orientation: Qt.Vertical
 
-            ColumnLayout {
+            Item {
                 SplitView.minimumHeight: 200
 
-                spacing: 0
+                Layout.fillHeight: true
+                Layout.fillWidth: true
 
-                StackLayout {
-                    currentIndex: mainTabBar.currentIndex
+                SplitView {
+                    id: wideLayoutSplitView
+                    visible: useWideLayout
+                    anchors.fill: parent
 
                     TasksPage {
                         title: qsTr("Tasks")
                         taskListModel: root.taskListModel
+                        SplitView.minimumWidth: wideLayoutTasksMinimumWidth
                         onShowConfig: showConfigPage()
                     }
 
                     CalendarPage {
                         title: qsTr("Calendar")
+                        clip: true
                         taskListModel: root.taskListModel
+                        SplitView.minimumWidth: wideLayoutCalendarMinimumWidth
                         onShowConfig: showConfigPage()
                     }
                 }
 
-                Rectangle {
-                    Layout.fillWidth: true
-                    implicitHeight: 1
-                    color: inDarkMode ? palette.light : palette.dark
-                }
+                ColumnLayout {
+                    visible: !useWideLayout
+                    anchors.fill: parent
+                    spacing: 0
 
-                TabBar {
-                    id: mainTabBar
-                    Layout.fillWidth: true
-                    TabButton { icon.source: "../icons/tasks.svg" }
-                    TabButton { icon.source: "../icons/calendar.svg" }
+                    StackLayout {
+                        currentIndex: mainTabBar.currentIndex
+
+                        TasksPage {
+                            title: qsTr("Tasks")
+                            taskListModel: root.taskListModel
+                            onShowConfig: showConfigPage()
+                        }
+
+                        CalendarPage {
+                            title: qsTr("Calendar")
+                            taskListModel: root.taskListModel
+                            onShowConfig: showConfigPage()
+                        }
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        implicitHeight: 1
+                        color: inDarkMode ? palette.light : palette.dark
+                    }
+
+                    TabBar {
+                        id: mainTabBar
+                        Layout.fillWidth: true
+                        TabButton { icon.source: "../icons/tasks.svg" }
+                        TabButton { icon.source: "../icons/calendar.svg" }
+                    }
                 }
             }
 
@@ -94,14 +128,17 @@ ApplicationWindow {
         id: settings
         category: "Main"
         property var splitView
+        property var wideLayoutSplitView
         property alias currentPageIndex: mainTabBar.currentIndex
     }
 
     Component.onCompleted: {
         splitView.restoreState(settings.splitView)
+        wideLayoutSplitView.restoreState(settings.wideLayoutSplitView)
     }
 
     Component.onDestruction: {
         settings.splitView = splitView.saveState()
+        settings.wideLayoutSplitView = wideLayoutSplitView.saveState()
     }
 }
