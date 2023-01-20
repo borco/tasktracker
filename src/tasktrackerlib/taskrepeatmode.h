@@ -18,19 +18,16 @@ public:
     explicit TaskRepeatMode(QObject *parent = nullptr);
 
     enum Mode {
-        Daily = 0,
+        Once = 0, // do it once, without a specific time limit
+        Daily,
         Weekly,
         Monthly,
-        Once, // do it once, without a specific time limit
-        Before, // before a set date; shown as "Overdue" after end date
-        After,  // after a set date; not shown by default before start date
-        Between, // between 2 date; not shown by default before start date; shown as"Overdue" after end date
     };
     Q_ENUM(Mode)
 
     Q_INVOKABLE static QString toString(int repeatMode);
 
-    inline const static Mode DefaultMode = Daily;
+    inline const static Mode DefaultMode = Once;
 };
 
 } // namespace tasktrackerlib

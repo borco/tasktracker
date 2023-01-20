@@ -64,11 +64,11 @@ archived: true
         QTest::addColumn<TaskRepeatMode::Mode>("repeatMode");
 
         QTest::newRow("No schedule mode") << R"(
-)" << TaskRepeatMode::Daily;
+)" << TaskRepeatMode::Once;
 
         QTest::newRow("Unknown/invalid schedule mode") << R"(
 repeat: xxx
-)" << TaskRepeatMode::Daily;
+)" << TaskRepeatMode::Once;
 
         QTest::newRow("Daily") << R"(
 repeat: Daily
@@ -94,11 +94,11 @@ repeat: Weekly
         QTest::addColumn<TaskTrackMode::Mode>("trackMode");
 
         QTest::newRow("No track mode") << R"(
-)" << TaskTrackMode::DefaultMode;
+)" << TaskTrackMode::Duration;
 
         QTest::newRow("Unknown/invalid track mode") << R"(
 track: xxx
-)" << TaskTrackMode::DefaultMode;
+)" << TaskTrackMode::Duration;
 
         QTest::newRow("Duration") << R"(
 track: Duration
