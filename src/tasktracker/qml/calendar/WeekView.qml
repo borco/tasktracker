@@ -39,7 +39,7 @@ Control {
         anchors.bottomMargin: bottomPadding
 
         ThemedLabel {
-            text: root.model.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d"))
+            text: root.model.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
             font.pointSize: Theme.SmallLabelSize
             font.bold: true
         }
