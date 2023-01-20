@@ -17,10 +17,10 @@ qt_add_executable(${APP_NAME}
 qt_add_qml_module(${APP_NAME}
     URI ${APP_NAME}
     VERSION 1.0
-    RESOURCE_PREFIX "/"
+    RESOURCE_PREFIX /
     QML_FILES
+        qml/AppHeader.qml
         qml/BottomSeparator.qml
-        qml/CalendarPage.qml
         qml/ConfigButtonItem.qml
         qml/ConfigDataFolderLocationSelectionPage.qml
         qml/ConfigGroupTitle.qml
@@ -34,11 +34,9 @@ qt_add_qml_module(${APP_NAME}
         qml/LoginTogglPopup.qml
         qml/LogsComponent.qml
         qml/MaskedImage.qml
-        qml/PageHeader.qml
         qml/PasswordTextField.qml
         qml/TaskDelegate.qml
         qml/TaskEditorPopup.qml
-        qml/TasksPage.qml
         qml/Theme.js
         qml/ThemedButton.qml
         qml/ThemedDialog.qml
@@ -56,6 +54,8 @@ qt_add_qml_module(${APP_NAME}
         qml/calendar/DayView.qml
         qml/calendar/WeekView.qml
         qml/main.qml
+        qml/pages/CalendarPage.qml
+        qml/pages/TasksPage.qml
     RESOURCES
         icons/app.svg
         icons/archived.svg

@@ -6,6 +6,7 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
+import "pages"
 import "Theme.js" as Theme
 
 ApplicationWindow {
@@ -14,6 +15,11 @@ ApplicationWindow {
     property bool inDarkMode: palette.text > palette.base
     property TaskListModel taskListModel: TaskListModel {}
 
+    readonly property int wideLayoutTasksMinimumWidth: 360
+    readonly property int wideLayoutCalendarMinimumWidth: 360
+    readonly property int wideLayoutMinimumWidth: wideLayoutTasksMinimumWidth + wideLayoutCalendarMinimumWidth
+    property bool useWideLayout: width >= wideLayoutMinimumWidth
+
     function showConfigPage() {
         configPopup.open()
     }
@@ -21,11 +27,6 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-
-    readonly property int wideLayoutTasksMinimumWidth: 360
-    readonly property int wideLayoutCalendarMinimumWidth: 360
-    readonly property int wideLayoutMinimumWidth: wideLayoutTasksMinimumWidth + wideLayoutCalendarMinimumWidth
-    property bool useWideLayout: width >= wideLayoutMinimumWidth
 
     title: qsTr("Task Tracker")
 
@@ -41,6 +42,17 @@ ApplicationWindow {
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
+
+        AppHeader {
+            id: appHeader
+
+            property string wideLayoutTitle: qsTr("Task Tracker")
+            property string narrowLayoutTitle: ""
+
+            title: useWideLayout ? wideLayoutTitle : narrowLayoutTitle
+            Layout.fillWidth: true
+            onConfigClicked: showConfigPage()
+        }
 
         ThemedSplitView {
             id: splitView
@@ -63,17 +75,17 @@ ApplicationWindow {
 
                     TasksPage {
                         title: qsTr("Tasks")
+                        header: appHeader
                         taskListModel: root.taskListModel
                         SplitView.minimumWidth: wideLayoutTasksMinimumWidth
-                        onShowConfig: showConfigPage()
                     }
 
                     CalendarPage {
                         title: qsTr("Calendar")
-                        clip: true
+                        header: appHeader
                         taskListModel: root.taskListModel
+                        clip: true
                         SplitView.minimumWidth: wideLayoutCalendarMinimumWidth
-                        onShowConfig: showConfigPage()
                     }
                 }
 
@@ -83,18 +95,22 @@ ApplicationWindow {
                     spacing: 0
 
                     StackLayout {
+                        id: narrowStackLayout
+
                         currentIndex: mainTabBar.currentIndex
 
                         TasksPage {
                             title: qsTr("Tasks")
+                            header: appHeader
                             taskListModel: root.taskListModel
-                            onShowConfig: showConfigPage()
+                            StackLayout.onIsCurrentItemChanged: appHeader.narrowLayoutTitle = title
                         }
 
                         CalendarPage {
                             title: qsTr("Calendar")
+                            header: appHeader
                             taskListModel: root.taskListModel
-                            onShowConfig: showConfigPage()
+                            StackLayout.onIsCurrentItemChanged: appHeader.narrowLayoutTitle = title
                         }
                     }
 
@@ -133,11 +149,13 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        taskListModel.load(Config.dataFolderLocation)
         splitView.restoreState(settings.splitView)
         wideLayoutSplitView.restoreState(settings.wideLayoutSplitView)
     }
 
     Component.onDestruction: {
+        taskListModel.save(Config.dataFolderLocation)
         settings.splitView = splitView.saveState()
         settings.wideLayoutSplitView = wideLayoutSplitView.saveState()
     }

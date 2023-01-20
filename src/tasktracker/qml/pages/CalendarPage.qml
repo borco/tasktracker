@@ -5,41 +5,17 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "calendar"
-import "Theme.js" as Theme
+import ".."
+import "../calendar"
+import "../Theme.js" as Theme
 
-Page {
+Item {
     id: root
 
     required property TaskListModel taskListModel
+    required property AppHeader header
 
-    signal showConfig()
-
-    background: null
-
-    header: PageHeader {
-        title.text: root.title
-
-        onShowConfig: root.showConfig()
-
-        PageHeader.Layout {
-            TogglLoggedStatus {}
-
-            Item { Layout.fillWidth: true }
-
-            ThemedToolButton {
-                id: archivedToggle
-                icon.source: "../icons/archived.svg"
-                checkable: true
-            }
-
-            ThemedToolButton {
-                id: doneToggle
-                icon.source: "../icons/task/done.svg"
-                checkable: true
-            }
-        }
-    }
+    property string title: ""
 
     ColumnLayout {
         anchors.fill: parent
@@ -68,8 +44,8 @@ Page {
                 DayHistory {
                     visibleTasksModel: TaskListFilterModel {
                         sourceModel: taskListModel
-                        showDone: doneToggle.checked
-                        showArchived: archivedToggle.checked
+                        showDone: header.doneVisible
+                        showArchived: header.archivedVisible
                     }
                 }
             }
