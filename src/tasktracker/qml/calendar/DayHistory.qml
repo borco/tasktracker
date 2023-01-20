@@ -11,7 +11,6 @@ import "../Theme.js" as Theme
 Item {
     id: root
 
-    required property date currentDate
     property alias visibleTasksModel: view.model
 
     implicitHeight: view.implicitHeight
@@ -52,7 +51,7 @@ Item {
                 TaskCurrentDayHistory {
                     id: currentDayHistory
                     sourceModel: history
-                    currentDate: root.currentDate
+                    currentDate: date
                 }
 
                 ListView {

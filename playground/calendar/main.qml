@@ -1,3 +1,4 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,14 +9,6 @@ import "calendar"
 
 Window {
     id: root
-
-    property WeekModel weekModel: WeekModel {
-        currentDate: {
-            let date = new Date()
-            date.setDate(date.getDate() - 1)
-            return date
-        }
-    }
 
     width: 640
     height: 480
@@ -33,8 +26,14 @@ Window {
             anchors.fill: parent
 
             WeekView {
-                model: root.weekModel
+                model: WeekModel {
+                    currentDate: dayView.dateForIndex(dayView.currentIndex)
+                }
                 Layout.fillWidth: true
+            }
+
+            ThemedLabel {
+                text: "current index: %1\ncurrent date: %2".arg(dayView.currentIndex).arg(dayView.dateForIndex(dayView.currentIndex).toLocaleString(Qt.locale(), "MMM dd, yyyy"))
             }
 
             DayView {
@@ -49,13 +48,16 @@ Window {
 
                         Text {
                             anchors.centerIn: parent
-                            text: "delta: %1".arg(delta)
+                            text: "index: %1\ndate: %2".arg(index).arg(date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
                         }
                     }
                 }
-
-                onDaysAdded: (days) => root.weekModel.addDays(days)
             }
         }
+    }
+
+    Settings {
+        category: "Main"
+        property alias dayCurrentIndex: dayView.currentIndex
     }
 }

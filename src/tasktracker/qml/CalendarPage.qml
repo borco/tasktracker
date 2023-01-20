@@ -41,10 +41,6 @@ Page {
         }
     }
 
-    WeekModel {
-        id: weekModel
-    }
-
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -52,7 +48,9 @@ Page {
         WeekView {
             id: weekView
             Layout.fillWidth: true
-            model: weekModel
+            model: WeekModel {
+                currentDate: dayView.dateForIndex(dayView.currentIndex)
+            }
             topPadding: Theme.PopupItemTopMargin
             bottomPadding: Theme.PopupItemTopMargin
 
@@ -67,11 +65,6 @@ Page {
 
             sourceComponent: Component {
                 DayHistory {
-                    currentDate: {
-                        let date = new Date()
-                        date.setDate(weekView.today.getDate() + delta)
-                        return date
-                    }
                     visibleTasksModel: TaskListFilterModel {
                         sourceModel: taskListModel
                         showDone: doneToggle.checked
@@ -79,24 +72,12 @@ Page {
                     }
                 }
             }
-
-            onDaysAdded: (days) => weekModel.addDays(days)
         }
     }
 
     Settings {
         id: settings
         category: "Calendar"
-        property date currentDate: new Date()
-    }
-
-    Component.onCompleted: {
-        weekModel.currentDate = weekView.today
-        let days = settings.currentDate.getDate() - weekView.today.getDate()
-        dayView.currentIndex += days
-    }
-
-    Component.onDestruction: {
-        settings.currentDate = weekModel.currentDate
+        property alias dayViewCurrentIndex: dayView.currentIndex
     }
 }
