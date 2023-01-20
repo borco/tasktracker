@@ -43,7 +43,7 @@ const DialogRadius = 12
 const DialogPadding = 20
 const DialogButtonsHeight = 40
 
-const SplitViewSize = 1
+const SplitViewSize = 3
 const SplitViewHitAreaPadding = 4
 
 const PopupContentBottomPadding = 12
