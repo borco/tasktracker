@@ -4,10 +4,12 @@ import QtQuick.Layouts
 
 import "Theme.js" as Theme
 
-Item {
+Rectangle {
     id: root
 
     property string text: ""
+
+    color: palette.window
 
     Layout.fillWidth: true
 
