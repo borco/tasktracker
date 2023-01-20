@@ -34,12 +34,6 @@ signals:
     void currentDateChanged();
 
 private:
-    enum Roles {
-        Name = Qt::UserRole + 1,
-        Date,
-        IsCurrentDate,
-    };
-
     struct Day {
         Day(const Qt::DayOfWeek dayOfWeek);
 

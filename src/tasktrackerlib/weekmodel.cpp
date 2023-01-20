@@ -1,5 +1,13 @@
 #include "weekmodel.h"
 
+namespace {
+enum Roles {
+    Name = Qt::UserRole + 1,
+    Date,
+    IsCurrentDate,
+};
+}
+
 namespace tasktrackerlib {
 
 WeekModel::WeekModel(QObject *parent)
