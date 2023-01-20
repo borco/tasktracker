@@ -29,6 +29,7 @@ Window {
                 currentDate: dayView.dateForIndex(dayView.currentIndex)
                 Layout.fillWidth: true
                 topPadding: 10
+                onSelectToday: dayView.currentIndex = dayView.indexForDate(today)
             }
 
             ThemedLabel {

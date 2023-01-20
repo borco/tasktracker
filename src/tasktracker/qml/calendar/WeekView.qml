@@ -17,6 +17,8 @@ Control {
     property int dayCircleDiameter: 30
     property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
 
+    signal todayClicked()
+
     function isToday(date) {
         return date.getDate() === today.getDate()
                 && date.getMonth() === today.getMonth()
@@ -43,10 +45,19 @@ Control {
         anchors.rightMargin: rightPadding
         anchors.bottomMargin: bottomPadding
 
-        ThemedLabel {
-            text: weekModel.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
-            font.pointSize: Theme.SmallLabelSize
-            font.bold: true
+        RowLayout {
+            ThemedLabel {
+                text: weekModel.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+                font.pointSize: Theme.SmallLabelSize
+                font.bold: true
+                Layout.fillWidth: true
+            }
+
+            ThemedButton {
+                text: qsTr("Today")
+                highlighted: false
+                onClicked: todayClicked()
+            }
         }
 
         RowLayout {

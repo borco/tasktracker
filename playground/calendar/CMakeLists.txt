@@ -22,6 +22,7 @@ qt_add_resources(${APP_NAME} "dut_qml"
     ../../src/tasktracker/qml/ConfigGroupTitle.qml
     ../../src/tasktracker/qml/PageHeader.qml
     ../../src/tasktracker/qml/Theme.js
+    ../../src/tasktracker/qml/ThemedButton.qml
     ../../src/tasktracker/qml/ThemedLabel.qml
     ../../src/tasktracker/qml/ThemedSmallLabel.qml
     ../../src/tasktracker/qml/ThemedToolButton.qml

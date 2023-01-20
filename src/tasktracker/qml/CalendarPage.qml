@@ -49,6 +49,7 @@ Page {
             id: weekView
 
             currentDate: dayView.dateForIndex(dayView.currentIndex)
+            onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)
 
             Layout.fillWidth: true
             topPadding: Theme.PopupItemTopMargin

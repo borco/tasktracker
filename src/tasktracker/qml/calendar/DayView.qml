@@ -12,6 +12,7 @@ Item {
     property alias currentIndex: swipeView.currentIndex
 
     function dateForIndex(index) { return dayModel.dateForIndex(index) }
+    function indexForDate(date) { return dayModel.indexForDate(date) }
 
     implicitWidth: swipeView.implicitWidth
     implicitHeight: swipeView.implicitHeight
