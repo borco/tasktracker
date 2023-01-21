@@ -10,6 +10,9 @@ import "../theme/Theme.js" as Theme
 ColumnLayout {
     id: root
 
+    signal incrementCount()
+    signal decrementCount()
+
     component FilterPane: Pane {
         Layout.fillWidth: true
 
@@ -22,8 +25,31 @@ ColumnLayout {
     }
 
     component FilterListView: ListView {
+        anchors.fill: parent
         implicitHeight: contentHeight
         interactive: false
+    }
+
+    component CountDelegate: RowLayout {
+        required property int count
+
+        ThemedLabel {
+            id: valueLabel
+            text: count
+        }
+
+        Item { Layout.fillWidth: true }
+
+        ThemedToolButton {
+            visible: count > 0
+            icon.source: "../../icons/task/decrement.svg"
+            onClicked: decrementCount()
+        }
+
+        ThemedToolButton {
+            icon.source: "../../icons/task/increment.svg"
+            onClicked: incrementCount()
+        }
     }
 
     x: Theme.ContentLeftMargin
@@ -51,8 +77,9 @@ ColumnLayout {
 
     FilterPane {
         visible: trackMode === TaskTrack.Count && countsView.count === 0
-        ThemedLabel {
-            text: "0"
+        CountDelegate {
+            anchors.fill: parent
+            count: 0
         }
     }
 
@@ -64,9 +91,8 @@ ColumnLayout {
 
             model: filteredCounts
 
-            delegate: ThemedLabel {
+            delegate: CountDelegate {
                 width: ListView.view.width
-                text: count
             }
         }
     }
@@ -100,9 +126,9 @@ ColumnLayout {
     }
 
     FilterPane {
-        visible: trackMode === TaskTrack.Duration && durationsView.count === 0
-        ThemedLabel {
-            text: "+"
+        visible: trackMode === TaskTrack.Duration
+        ThemedToolButton {
+            icon.source: "../../icons/task/increment.svg"
         }
     }
 

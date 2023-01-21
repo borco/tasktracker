@@ -22,6 +22,9 @@ Item {
         anchors.fill: parent
         clip: true
 
-        delegate: DayHistoryDelegate {}
+        delegate: DayHistoryDelegate {
+            onIncrementCount: console.log("increment count")
+            onDecrementCount: console.log("decrement count")
+        }
     }
 }
