@@ -1,5 +1,6 @@
 #include <QTest>
 
+#include "tasktrackerlib/taskduration.h"
 #include "tasktrackerlib/taskdurationmodel.h"
 
 using namespace tasktrackerlib;

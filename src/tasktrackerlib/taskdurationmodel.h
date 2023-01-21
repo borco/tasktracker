@@ -4,13 +4,14 @@
 
 #pragma once
 
-#include "taskduration.h"
-
 #include <QAbstractListModel>
+#include <QQmlEngine>
 
 namespace YAML { class Node; }
 
 namespace tasktrackerlib {
+
+class TaskDuration;
 
 class TaskDurationModel : public QAbstractListModel
 {

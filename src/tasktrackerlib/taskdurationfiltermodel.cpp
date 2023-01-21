@@ -2,8 +2,10 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskdurationmodel.h"
 #include "taskdurationfiltermodel.h"
+
+#include "taskduration.h"
+#include "taskdurationmodel.h"
 
 namespace tasktrackerlib {
 
