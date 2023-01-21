@@ -31,7 +31,7 @@ Item {
             model: TaskFilterModel {
                 sourceModel: taskModel
                 isDoneVisible: header.isDoneVisible
-                archivedVisible: header.archivedVisible
+                isArchivedVisible: header.isArchivedVisible
             }
 
             clip: true

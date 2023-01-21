@@ -15,7 +15,7 @@ class TaskFilterModel : public QSortFilterProxyModel
     QML_ELEMENT
 
     Q_PROPERTY(bool isDoneVisible READ isDoneVisible WRITE setIsDoneVisible NOTIFY isDoneVisibleChanged)
-    Q_PROPERTY(bool archivedVisible READ archivedVisible WRITE setArchivedVisible NOTIFY archivedVisibleChanged)
+    Q_PROPERTY(bool isArchivedVisible READ isArchivedVisible WRITE setIsArchivedVisible NOTIFY isArchivedVisibleChanged)
 
 public:
     explicit TaskFilterModel(QObject* parent = nullptr);
@@ -25,16 +25,16 @@ public:
     bool isDoneVisible() const { return m_isDoneVisible; }
     void setIsDoneVisible(bool newIsDoneVisible);
 
-    bool archivedVisible() const { return m_archivedVisible; }
-    void setArchivedVisible(bool newArchivedVisible);
+    bool isArchivedVisible() const { return m_isArchivedVisible; }
+    void setIsArchivedVisible(bool newIsArchivedVisible);
 
 signals:
     void isDoneVisibleChanged();
-    void archivedVisibleChanged();
+    void isArchivedVisibleChanged();
 
 private:
     bool m_isDoneVisible = false;
-    bool m_archivedVisible = false;
+    bool m_isArchivedVisible = false;
 };
 
 }

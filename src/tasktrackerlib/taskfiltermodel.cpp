@@ -19,7 +19,7 @@ bool TaskFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source
     auto task = task_list_model->get(source_row);
 
     return (task->isEdited())
-            || ((!task->isArchived() || m_archivedVisible)
+            || ((!task->isArchived() || m_isArchivedVisible)
                 && (!task->isDone() || m_isDoneVisible));
 }
 
@@ -32,13 +32,13 @@ void TaskFilterModel::setIsDoneVisible(bool newIsDoneVisible)
     emit isDoneVisibleChanged();
 }
 
-void TaskFilterModel::setArchivedVisible(bool newArchivedVisible)
+void TaskFilterModel::setIsArchivedVisible(bool newIsArchivedVisible)
 {
-    if (m_archivedVisible == newArchivedVisible)
+    if (m_isArchivedVisible == newIsArchivedVisible)
         return;
-    m_archivedVisible = newArchivedVisible;
+    m_isArchivedVisible = newIsArchivedVisible;
     invalidate();
-    emit archivedVisibleChanged();
+    emit isArchivedVisibleChanged();
 }
 
 }

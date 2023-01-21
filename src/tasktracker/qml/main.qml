@@ -171,7 +171,7 @@ ApplicationWindow {
         property var splitView
         property var wideLayoutSplitView
         property alias currentPageIndex: mainTabBar.currentIndex
-        property alias archivedVisible: appHeader.archivedVisible
+        property alias isArchivedVisible: appHeader.isArchivedVisible
         property alias isDoneVisible: appHeader.isDoneVisible
     }
 
