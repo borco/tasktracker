@@ -20,16 +20,16 @@ bool TaskFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source
 
     return (task->isEdited())
             || ((!task->isArchived() || m_archivedVisible)
-                && (!task->isDone() || m_doneVisible));
+                && (!task->isDone() || m_isDoneVisible));
 }
 
-void TaskFilterModel::setDoneVisible(bool newDoneVisible)
+void TaskFilterModel::setIsDoneVisible(bool newIsDoneVisible)
 {
-    if (m_doneVisible == newDoneVisible)
+    if (m_isDoneVisible == newIsDoneVisible)
         return;
-    m_doneVisible = newDoneVisible;
+    m_isDoneVisible = newIsDoneVisible;
     invalidate();
-    emit doneVisibleChanged();
+    emit isDoneVisibleChanged();
 }
 
 void TaskFilterModel::setArchivedVisible(bool newArchivedVisible)

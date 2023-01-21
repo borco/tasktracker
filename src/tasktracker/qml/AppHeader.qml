@@ -8,7 +8,7 @@ Rectangle {
     id: root
 
     property alias title: title.text
-    property alias doneVisible: doneToggle.checked
+    property alias isDoneVisible: doneToggle.checked
     property alias archivedVisible: archivedToggle.checked
 
     signal configClicked()

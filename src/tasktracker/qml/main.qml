@@ -172,7 +172,7 @@ ApplicationWindow {
         property var wideLayoutSplitView
         property alias currentPageIndex: mainTabBar.currentIndex
         property alias archivedVisible: appHeader.archivedVisible
-        property alias doneVisible: appHeader.doneVisible
+        property alias isDoneVisible: appHeader.isDoneVisible
     }
 
     Component.onCompleted: {

@@ -44,7 +44,7 @@ Item {
                 DayHistory {
                     visibleTasksModel: TaskFilterModel {
                         sourceModel: taskModel
-                        doneVisible: header.doneVisible
+                        isDoneVisible: header.isDoneVisible
                         archivedVisible: header.archivedVisible
                     }
                 }
