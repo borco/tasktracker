@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "taskhistory.h"
+#include "taskdurationmodel.h"
 #include "taskrepeat.h"
 #include "tasktrack.h"
 
@@ -12,7 +12,7 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
-class TaskHistory;
+class TaskDurationModel;
 
 class Task : public QObject
 {
@@ -25,7 +25,7 @@ class Task : public QObject
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(TaskRepeat::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
     Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
-    Q_PROPERTY(TaskHistory* history READ history CONSTANT)
+    Q_PROPERTY(TaskDurationModel* durations READ durations CONSTANT)
 
 public:
     explicit Task(QObject *parent = nullptr);
@@ -51,7 +51,7 @@ public:
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
-    TaskHistory *history() const { return m_history; }
+    TaskDurationModel *durations() const { return m_durations; }
 
 signals:
     void nameChanged();
@@ -68,7 +68,7 @@ private:
     bool m_isArchived = false;
     TaskRepeat::Mode m_repeatMode = TaskRepeat::DefaultMode;
     TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
-    TaskHistory *m_history = nullptr;
+    TaskDurationModel *m_durations = nullptr;
 };
 
 }

@@ -5,7 +5,7 @@
 #include "taskmodel.h"
 
 #include "task.h"
-#include "taskhistory.h"
+#include "taskdurationmodel.h"
 
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
@@ -42,7 +42,7 @@ QHash<int, QByteArray> TaskModel::roleNames() const
         { IsDone, "isDone"},
         { RepeatMode, "repeatMode"},
         { TrackMode, "trackMode"},
-        { History, "history" },
+        { Durations, "durations" },
     };
 }
 
@@ -66,8 +66,8 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const
         return task->repeatMode();
     case TrackMode:
         return task->trackMode();
-    case History:
-        return QVariant::fromValue(task->history());
+    case Durations:
+        return QVariant::fromValue(task->durations());
     }
 
     return QVariant();

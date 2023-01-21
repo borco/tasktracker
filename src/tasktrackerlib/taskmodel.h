@@ -54,7 +54,7 @@ private:
         IsArchived,
         RepeatMode,
         TrackMode,
-        History,
+        Durations,
     };
 
     void loadTasks(const YAML::Node& node);

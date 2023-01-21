@@ -2,14 +2,14 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskhistory.h"
+#include "taskdurationmodel.h"
 
 #include "taskduration.h"
 
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
 namespace {
-static const char* HistoryYamlNode = "history";
+static const char* DurationsYamlNode = "durations";
 
 enum Roles {
     DateTime = Qt::UserRole + 1,
@@ -21,17 +21,17 @@ enum Roles {
 
 namespace tasktrackerlib {
 
-TaskHistory::TaskHistory(QObject *parent)
+TaskDurationModel::TaskDurationModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 }
 
-TaskHistory::~TaskHistory()
+TaskDurationModel::~TaskDurationModel()
 {
     qDeleteAll(m_durations);
 }
 
-int TaskHistory::rowCount(const QModelIndex &parent) const
+int TaskDurationModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;
@@ -39,7 +39,7 @@ int TaskHistory::rowCount(const QModelIndex &parent) const
     return m_durations.size();
 }
 
-QHash<int, QByteArray> TaskHistory::roleNames() const
+QHash<int, QByteArray> TaskDurationModel::roleNames() const
 {
     return {
         { DateTime, "dateTime" },
@@ -49,7 +49,7 @@ QHash<int, QByteArray> TaskHistory::roleNames() const
     };
 }
 
-QVariant TaskHistory::data(const QModelIndex &index, int role) const
+QVariant TaskDurationModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -70,7 +70,7 @@ QVariant TaskHistory::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool TaskHistory::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TaskDurationModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
         // FIXME: Implement me!
@@ -80,13 +80,13 @@ bool TaskHistory::setData(const QModelIndex &index, const QVariant &value, int r
     return false;
 }
 
-void TaskHistory::loadFromData(const QByteArray &data)
+void TaskDurationModel::loadFromData(const QByteArray &data)
 {
     YAML::Node node = YAML::Load(data.toStdString());
     loadFromYaml(node);
 }
 
-void TaskHistory::loadFromYaml(const YAML::Node &node)
+void TaskDurationModel::loadFromYaml(const YAML::Node &node)
 {
     assert(node.IsMap() || node.IsNull());
 
@@ -95,14 +95,14 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
         return;
     }
 
-    auto history_node = node[HistoryYamlNode];
-    if (!history_node) {
+    auto durations_node = node[DurationsYamlNode];
+    if (!durations_node) {
         clear();
         return;
     }
 
-    if (!history_node.IsSequence()) {
-        qCritical().nospace() << "TaskHistory: '" << HistoryYamlNode << "' is not a list";
+    if (!durations_node.IsSequence()) {
+        qCritical().nospace() << "TaskDurationModel: '" << DurationsYamlNode << "' is not a list";
         clear();
         return;
     }
@@ -111,9 +111,9 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
     qDeleteAll(m_durations);
     m_durations.clear();
 
-    for (unsigned int i = 0; i < history_node.size(); ++i) {
+    for (unsigned int i = 0; i < durations_node.size(); ++i) {
         auto duration = new TaskDuration(this);
-        duration->loadFromYaml(history_node[i]);
+        duration->loadFromYaml(durations_node[i]);
         insertDuration(i, duration);
     }
 
@@ -124,7 +124,7 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
     emit sizeChanged();
 }
 
-TaskDuration *TaskHistory::insertDuration(int row, TaskDuration *duration)
+TaskDuration *TaskDurationModel::insertDuration(int row, TaskDuration *duration)
 {
     beginInsertRows(QModelIndex(), row, row);
     m_durations.insert(row, duration);
@@ -133,7 +133,7 @@ TaskDuration *TaskHistory::insertDuration(int row, TaskDuration *duration)
     return duration;
 }
 
-void TaskHistory::clear()
+void TaskDurationModel::clear()
 {
     beginResetModel();
     qDeleteAll(m_durations);
@@ -142,12 +142,12 @@ void TaskHistory::clear()
     emit sizeChanged();
 }
 
-int TaskHistory::size() const
+int TaskDurationModel::size() const
 {
     return m_durations.size();
 }
 
-TaskDuration *TaskHistory::get(int index) const
+TaskDuration *TaskDurationModel::get(int index) const
 {
     return m_durations[index];
 }

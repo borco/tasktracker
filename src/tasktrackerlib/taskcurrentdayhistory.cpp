@@ -2,7 +2,7 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskhistory.h"
+#include "taskdurationmodel.h"
 #include "taskcurrentdayhistory.h"
 
 namespace tasktrackerlib {
@@ -29,11 +29,11 @@ void TaskCurrentDayHistory::setSelectedDate(const QDate &newSelectedDate)
 
 bool TaskCurrentDayHistory::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    auto history = qobject_cast<TaskHistory*>(sourceModel());
-    if (!history)
+    auto durations = qobject_cast<TaskDurationModel*>(sourceModel());
+    if (!durations)
         return false;
 
-    auto duration = history->get(source_row);
+    auto duration = durations->get(source_row);
     return duration->dateTime().date().daysTo(m_selectedDate) == 0;
 }
 

@@ -1,6 +1,6 @@
 #include <QTest>
 
-#include "tasktrackerlib/taskhistory.h"
+#include "tasktrackerlib/taskdurationmodel.h"
 
 using namespace tasktrackerlib;
 
@@ -13,7 +13,7 @@ struct Duration {
 
 typedef QList<Duration> DurationList;
 
-class TestTaskHistory: public QObject
+class TestTaskDurationModel: public QObject
 {
     Q_OBJECT
 
@@ -26,17 +26,17 @@ private slots:
 )" << DurationList();
 
         QTest::newRow("Empty") << R"(
-history: []
+durations: []
 )" << DurationList();
 
         QTest::newRow("One Value") << R"(
-history:
+durations:
 - dateTime: 2023-01-01T00:01:02Z
   seconds: 20
 )" << (DurationList() << Duration {"2023-01-01T00:01:02Z", 20});
 
         QTest::newRow("Unordered") << R"(
-history:
+durations:
 - dateTime: 2023-01-02T00:01:02Z
   seconds: 20
 - dateTime: 2023-01-01T00:01:02Z
@@ -54,11 +54,11 @@ history:
         QFETCH(QString, data);
         QFETCH(DurationList, durations);
 
-        TaskHistory history;
-        history.loadFromData(data.toUtf8());
-        QCOMPARE(history.size(), durations.size());
-        for(int i = 0; i < history.size(); ++i) {
-            auto duration = history.get(i);
+        TaskDurationModel model;
+        model.loadFromData(data.toUtf8());
+        QCOMPARE(durations.size(), durations.size());
+        for(int i = 0; i < durations.size(); ++i) {
+            auto duration = model.get(i);
             QCOMPARE(duration->dateTime(), durations[i].dateTime());
             QCOMPARE(duration->seconds(), durations[i].seconds);
         }
@@ -66,5 +66,5 @@ history:
 
 };
 
-QTEST_MAIN(TestTaskHistory)
-#include "test_taskhistory.moc"
+QTEST_MAIN(TestTaskDurationModel)
+#include "test_taskdurationmodel.moc"

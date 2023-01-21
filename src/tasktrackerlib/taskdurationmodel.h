@@ -12,17 +12,17 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
-class TaskHistory : public QAbstractListModel
+class TaskDurationModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("History can be created only in C++")
+    QML_UNCREATABLE("Durations can be created only in C++")
 
     Q_PROPERTY(int size READ size NOTIFY sizeChanged)
 
 public:
-    explicit TaskHistory(QObject *parent = nullptr);
-    ~TaskHistory() override;
+    explicit TaskDurationModel(QObject *parent = nullptr);
+    ~TaskDurationModel() override;
 
     int size() const;
     TaskDuration* get(int index) const;
