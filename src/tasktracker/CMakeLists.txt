@@ -23,6 +23,7 @@ qt_add_qml_module(${APP_NAME}
         qml/LogsComponent.qml
         qml/calendar/CalendarPage.qml
         qml/calendar/DayHistory.qml
+        qml/calendar/DayHistoryDelegate.qml
         qml/calendar/DayView.qml
         qml/calendar/WeekView.qml
         qml/config/ConfigDataFolderLocationSelectionPage.qml
