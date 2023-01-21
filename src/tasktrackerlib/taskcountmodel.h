@@ -1,7 +1,3 @@
-/*
-    Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
-*/
-
 #pragma once
 
 #include <QAbstractListModel>
@@ -11,22 +7,20 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
-class TaskDuration;
+class TaskCount;
 
-class TaskDurationModel : public QAbstractListModel
+class TaskCountModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("TaskDurationModel can be created only in C++")
-
-    Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+    QML_UNCREATABLE("TaskCountModel can be created only in C++")
 
 public:
-    explicit TaskDurationModel(QObject *parent = nullptr);
-    ~TaskDurationModel() override;
+    explicit TaskCountModel(QObject *parent = nullptr);
+    ~TaskCountModel() override;
 
     int size() const;
-    TaskDuration* get(int index) const;
+    TaskCount* get(int index) const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -36,14 +30,12 @@ public:
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
-signals:
-    void sizeChanged();
-
 private:
-    void insertDuration(int row, TaskDuration* duration);
+    void insertCount(int row, TaskCount* count);
     void clear();
 
-    QList<TaskDuration*> m_durations;
+    QList<TaskCount*> m_counts;
 };
 
 } // namespace tasktrackerlib
+

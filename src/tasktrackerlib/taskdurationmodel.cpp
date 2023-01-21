@@ -124,13 +124,12 @@ void TaskDurationModel::loadFromYaml(const YAML::Node &node)
     emit sizeChanged();
 }
 
-TaskDuration *TaskDurationModel::insertDuration(int row, TaskDuration *duration)
+void TaskDurationModel::insertDuration(int row, TaskDuration *duration)
 {
     beginInsertRows(QModelIndex(), row, row);
     m_durations.insert(row, duration);
     endInsertRows();
     emit sizeChanged();
-    return duration;
 }
 
 void TaskDurationModel::clear()
