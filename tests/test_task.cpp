@@ -94,11 +94,11 @@ repeat: Weekly
         QTest::addColumn<TaskTrack::Mode>("trackMode");
 
         QTest::newRow("No track mode") << R"(
-)" << TaskTrack::Duration;
+)" << TaskTrack::Count;
 
         QTest::newRow("Unknown/invalid track mode") << R"(
 track: xxx
-)" << TaskTrack::Duration;
+)" << TaskTrack::Count;
 
         QTest::newRow("Duration") << R"(
 track: Duration
