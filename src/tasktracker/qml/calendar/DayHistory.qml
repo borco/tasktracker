@@ -43,7 +43,9 @@ Item {
                 leftPadding: Theme.ContentLeftMargin
                 rightPadding: Theme.ContentRightMargin
 
-                background: Rectangle { color: palette.base }
+                background: Rectangle {
+                    color: isArchived ? palette.alternateBase : palette.base
+                }
 
                 contentHeight: currentDayHistoryView.implicitHeight
 
