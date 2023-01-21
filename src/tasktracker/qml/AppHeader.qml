@@ -8,8 +8,8 @@ Rectangle {
     id: root
 
     property alias title: title.text
-    property alias isDoneVisible: doneToggle.checked
-    property alias isArchivedVisible: archivedToggle.checked
+    property alias isDoneVisible: isDoneToggle.checked
+    property alias isArchivedVisible: isArchivedToggle.checked
 
     signal configClicked()
 
@@ -36,13 +36,13 @@ Rectangle {
         Item { Layout.fillWidth: true }
 
         ThemedToolButton {
-            id: archivedToggle
+            id: isArchivedToggle
             icon.source: "../icons/archived.svg"
             checkable: true
         }
 
         ThemedToolButton {
-            id: doneToggle
+            id: isDoneToggle
             icon.source: "../icons/task/done.svg"
             checkable: true
         }
