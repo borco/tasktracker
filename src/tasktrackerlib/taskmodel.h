@@ -47,16 +47,6 @@ public slots:
     tasktrackerlib::Task* prependTask();
 
 private:
-    enum Roles {
-        Name = Qt::UserRole + 1,
-        IsEdited,
-        IsDone,
-        IsArchived,
-        RepeatMode,
-        TrackMode,
-        Durations,
-    };
-
     void loadTasks(const YAML::Node& node);
     tasktrackerlib::Task* insertTask(int row, Task* task);
 

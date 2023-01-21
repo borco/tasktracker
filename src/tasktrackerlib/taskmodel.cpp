@@ -16,6 +16,17 @@ using namespace tasktrackerlib;
 
 namespace {
 static const char* TasksYamlNode = "tasks";
+
+enum Roles {
+    Name = Qt::UserRole + 1,
+    IsEdited,
+    IsDone,
+    IsArchived,
+    RepeatMode,
+    TrackMode,
+    Durations,
+    Counts,
+};
 }
 
 TaskModel::TaskModel(QObject *parent)
@@ -43,6 +54,7 @@ QHash<int, QByteArray> TaskModel::roleNames() const
         { RepeatMode, "repeatMode"},
         { TrackMode, "trackMode"},
         { Durations, "durations" },
+        { Counts, "counts" },
     };
 }
 
@@ -68,6 +80,8 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const
         return task->trackMode();
     case Durations:
         return QVariant::fromValue(task->durations());
+    case Counts:
+        return QVariant::fromValue(task->counts());
     }
 
     return QVariant();
