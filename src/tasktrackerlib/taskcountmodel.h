@@ -1,3 +1,7 @@
+/*
+    Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
+*/
+
 #pragma once
 
 #include <QAbstractListModel>
@@ -38,4 +42,3 @@ private:
 };
 
 } // namespace tasktrackerlib
-
