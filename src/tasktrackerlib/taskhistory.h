@@ -47,7 +47,7 @@ private:
         Time,
     };
 
-    tasktrackerlib::TaskDuration* insertEvent(int row, TaskDuration* duration);
+    tasktrackerlib::TaskDuration* insertDuration(int row, TaskDuration* duration);
     void clear();
 
     QList<TaskDuration*> m_durations;

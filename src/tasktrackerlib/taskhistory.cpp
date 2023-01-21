@@ -110,7 +110,7 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
     for (unsigned int i = 0; i < history_node.size(); ++i) {
         auto duration = new TaskDuration(this);
         duration->loadFromYaml(history_node[i]);
-        insertEvent(i, duration);
+        insertDuration(i, duration);
     }
 
     std::sort(m_durations.begin(), m_durations.end(), [](const TaskDuration* e1, const TaskDuration* e2) { return e1->dateTime() < e2->dateTime(); });
@@ -120,7 +120,7 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
     emit sizeChanged();
 }
 
-TaskDuration *TaskHistory::insertEvent(int row, TaskDuration *duration)
+TaskDuration *TaskHistory::insertDuration(int row, TaskDuration *duration)
 {
     beginInsertRows(QModelIndex(), row, row);
     m_durations.insert(row, duration);
