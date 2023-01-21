@@ -52,7 +52,7 @@ Item {
                 TaskCurrentDayHistory {
                     id: currentDayHistory
                     sourceModel: history
-                    currentDate: date
+                    selectedDate: date
                 }
 
                 ListView {

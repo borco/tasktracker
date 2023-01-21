@@ -13,18 +13,18 @@ TaskCurrentDayHistory::TaskCurrentDayHistory(QObject *parent)
 
 }
 
-QDate TaskCurrentDayHistory::currentDate() const
+QDate TaskCurrentDayHistory::selectedDate() const
 {
-    return m_currentDate;
+    return m_selectedDate;
 }
 
-void TaskCurrentDayHistory::setCurrentDate(const QDate &newCurrentDate)
+void TaskCurrentDayHistory::setSelectedDate(const QDate &newSelectedDate)
 {
-    if (m_currentDate == newCurrentDate)
+    if (m_selectedDate == newSelectedDate)
         return;
-    m_currentDate = newCurrentDate;
+    m_selectedDate = newSelectedDate;
     invalidate();
-    emit currentDateChanged();
+    emit selectedDateChanged();
 }
 
 bool TaskCurrentDayHistory::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
@@ -34,7 +34,7 @@ bool TaskCurrentDayHistory::filterAcceptsRow(int source_row, const QModelIndex &
         return false;
 
     auto duration = history->get(source_row);
-    return duration->dateTime().date().daysTo(m_currentDate) == 0;
+    return duration->dateTime().date().daysTo(m_selectedDate) == 0;
 }
 
 } // namespace tasktrackerlib

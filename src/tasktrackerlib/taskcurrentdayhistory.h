@@ -15,22 +15,21 @@ class TaskCurrentDayHistory : public QSortFilterProxyModel
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(QDate currentDate READ currentDate WRITE setCurrentDate NOTIFY currentDateChanged)
+    Q_PROPERTY(QDate selectedDate READ selectedDate WRITE setSelectedDate NOTIFY selectedDateChanged)
 
 public:
     explicit TaskCurrentDayHistory(QObject *parent = nullptr);
 
-    QDate currentDate() const;
-    void setCurrentDate(const QDate &newCurrentDate);
+    QDate selectedDate() const;
+    void setSelectedDate(const QDate &newSelectedDate);
 
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 signals:
-    void currentDateChanged();
+    void selectedDateChanged();
 
 private:
-    QDate m_currentDate;
+    QDate m_selectedDate;
 };
 
 } // namespace tasktrackerlib
-
