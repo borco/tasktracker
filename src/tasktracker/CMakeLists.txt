@@ -33,7 +33,6 @@ qt_add_qml_module(${APP_NAME}
         qml/task/TaskEditorPopup.qml
         qml/task/TasksPage.qml
         qml/theme/BottomSeparator.qml
-        qml/theme/ConfigButtonItem.qml
         qml/theme/ConfigOptionButton.qml
         qml/theme/ConfigPageHeader.qml
         qml/theme/ConfigSwitchItem.qml
@@ -43,6 +42,7 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/PasswordTextField.qml
         qml/theme/Theme.js
         qml/theme/ThemedButton.qml
+        qml/theme/ThemedButtonDelegate.qml
         qml/theme/ThemedDialog.qml
         qml/theme/ThemedGroupTitle.qml
         qml/theme/ThemedLabel.qml

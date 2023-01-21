@@ -86,7 +86,7 @@ Page {
                 text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Toggl | <b>%1</b>").arg(TogglProxy.username) : qsTr("Toggl")
             }
 
-            ConfigButtonItem {
+            ThemedButtonDelegate {
                 text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Sign Out") : qsTr("Sign In")
                 enabled: TogglProxy.loggedStatus !== TogglProxy.LoggedUnknown
                 onClicked: {
