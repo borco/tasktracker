@@ -36,6 +36,7 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/DockToolBar.qml
         qml/theme/InputDialog.qml
         qml/theme/MaskedImage.qml
+        qml/theme/OptionsPopup.qml
         qml/theme/PasswordTextField.qml
         qml/theme/PopupPageHeader.qml
         qml/theme/Theme.js
@@ -45,7 +46,6 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/ThemedGroupTitle.qml
         qml/theme/ThemedLabel.qml
         qml/theme/ThemedMessageBox.qml
-        qml/theme/ThemedOptionsPopup.qml
         qml/theme/ThemedPopup.qml
         qml/theme/ThemedRadioDelegate.qml
         qml/theme/ThemedSmallLabel.qml
