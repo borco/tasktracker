@@ -33,7 +33,6 @@ qt_add_qml_module(${APP_NAME}
         qml/task/TaskEditorPopup.qml
         qml/task/TasksPage.qml
         qml/theme/BottomSeparator.qml
-        qml/theme/ConfigOptionButton.qml
         qml/theme/ConfigPageHeader.qml
         qml/theme/ConfigSwitchItem.qml
         qml/theme/DockToolBar.qml
@@ -53,6 +52,7 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/ThemedSmallLabel.qml
         qml/theme/ThemedSplitView.qml
         qml/theme/ThemedToolButton.qml
+        qml/theme/ThemedValueDelegate.qml
         qml/theme/WrappedTextField.qml
         qml/toggl/LoginTogglPopup.qml
         qml/toggl/TogglLoggedStatus.qml

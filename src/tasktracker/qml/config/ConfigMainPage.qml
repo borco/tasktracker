@@ -67,7 +67,7 @@ Page {
                 onCheckedChanged: Config.storeSecretsInKeychain = checked
             }
 
-            ConfigOptionButton {
+            ThemedValueDelegate {
                 text: qsTr("Data folder location")
                 value: Config.dataFolderLocation
                 onClicked: root.selectDataFolderLocation()
