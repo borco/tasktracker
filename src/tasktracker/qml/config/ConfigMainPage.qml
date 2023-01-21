@@ -2,9 +2,11 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
-
 import TaskTrackerLib
+
+import "../theme"
+import "../theme/Theme.js" as Theme
+import "../toggl"
 
 Page {
     id: root
@@ -56,7 +58,7 @@ Page {
             width: parent.width
             spacing: 0
 
-            ConfigGroupTitle { text: qsTr("Security and Privacy") }
+            ThemedGroupTitle { text: qsTr("Security and Privacy") }
 
             ConfigSwitchItem {
                 id: storeSecretsInKeychain
@@ -71,7 +73,7 @@ Page {
                 onClicked: root.selectDataFolderLocation()
             }
 
-            ConfigGroupTitle { text: qsTr("Misc") }
+            ThemedGroupTitle { text: qsTr("Misc") }
 
             ConfigSwitchItem {
                 id: logsVisibleSwitch
@@ -80,7 +82,7 @@ Page {
                 onCheckedChanged: Config.logsVisible = checked
             }
 
-            ConfigGroupTitle {
+            ThemedGroupTitle {
                 text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Toggl | <b>%1</b>").arg(TogglProxy.username) : qsTr("Toggl")
             }
 
@@ -96,7 +98,7 @@ Page {
                 }
             }
 
-            Item { Layout.preferredHeight: Theme.ConfigGroupTitleHeight }
+            Item { Layout.preferredHeight: Theme.GroupTitleHeight }
         }
     }
 }

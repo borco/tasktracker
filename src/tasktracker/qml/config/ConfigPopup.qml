@@ -3,7 +3,8 @@ import QtQuick.Controls
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 ThemedPopup {
     id: root

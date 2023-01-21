@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import TaskTrackerLib
 
 import "calendar"
+import "theme"
 
 Window {
     id: root

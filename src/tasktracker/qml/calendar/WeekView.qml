@@ -4,8 +4,8 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import ".."
-import "../Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Control {
     id: root

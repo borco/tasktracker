@@ -13,16 +13,16 @@ Rectangle {
 
     Layout.fillWidth: true
 
-    implicitHeight: Theme.ConfigGroupTitleHeight
+    implicitHeight: Theme.GroupTitleHeight
 
     ThemedLabel {
         text: parent.text
         anchors.left: parent.left
         anchors.leftMargin: Theme.ContentLeftMargin
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
+        anchors.bottomMargin: Theme.GroupTitleBottomMargin
 
-        font.weight: Theme.ConfigGroupTitleFontWeight
+        font.weight: Theme.GroupTitleFontWeight
     }
 
     BottomSeparator {}

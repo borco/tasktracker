@@ -5,8 +5,8 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import ".."
-import "../Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Item {
     id: root
@@ -31,9 +31,7 @@ Item {
 
             spacing: 0
 
-            ConfigGroupTitle {
-//                Rectangle { color: "#40ff0000"; anchors.fill: parent }
-
+            ThemedGroupTitle {
                 text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeat.toString(repeatMode)).arg(TaskTrack.toString(trackMode))
             }
 

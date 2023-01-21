@@ -2,9 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
-
 import TaskTrackerLib
+
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Page {
     id: root
@@ -78,13 +79,13 @@ Page {
         spacing: 0
 
         Item {
-            Layout.preferredHeight: Theme.ConfigGroupTitleHeight
+            Layout.preferredHeight: Theme.GroupTitleHeight
             Layout.fillWidth: true
 
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: Theme.ConfigGroupTitleBottomMargin
+                anchors.bottomMargin: Theme.GroupTitleBottomMargin
                 anchors.left: parent.left
                 anchors.leftMargin: Theme.ContentLeftMargin
                 anchors.right: parent.right
@@ -92,17 +93,17 @@ Page {
 
                 ThemedLabel {
                     text: root.dataFolderLocation
-                    font.weight: Theme.ConfigGroupTitleFontWeight
+                    font.weight: Theme.GroupTitleFontWeight
                     Layout.fillWidth: true
                 }
 
                 ThemedToolButton {
-                    icon.source: "../icons/create_new_folder.svg"
+                    icon.source: "../../icons/create_new_folder.svg"
                     onClicked: newFolderNameDialog.open()
                 }
 
                 ThemedToolButton {
-                    icon.source: "../icons/refresh.svg"
+                    icon.source: "../../icons/refresh.svg"
                     onClicked: folderModel.refresh()
                 }
             }

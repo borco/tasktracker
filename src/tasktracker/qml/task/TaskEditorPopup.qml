@@ -4,7 +4,8 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 ThemedPopup {
     id: root
@@ -126,7 +127,7 @@ ThemedPopup {
                     onCheckedChanged: if (model) model.isArchived = checked
                 }
 
-                ConfigGroupTitle { text: qsTr("Repeat Mode") }
+                ThemedGroupTitle { text: qsTr("Repeat Mode") }
                 Repeater {
                     model: [
                         TaskRepeat.Once,
@@ -142,7 +143,7 @@ ThemedPopup {
                     }
                 }
 
-                ConfigGroupTitle { text: qsTr("Track Mode") }
+                ThemedGroupTitle { text: qsTr("Track Mode") }
                 Repeater {
                     model: [
                         TaskTrack.Duration,

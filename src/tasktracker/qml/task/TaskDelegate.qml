@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "Theme.js" as Theme
+import "../theme"
 
 Pane {
     id: root
@@ -39,7 +39,7 @@ Pane {
         anchors.fill: parent
 
         ThemedToolButton {
-            icon.source: "../icons/task/edit.svg"
+            icon.source: "../../icons/task/edit.svg"
             onClicked: edit()
         }
 
@@ -66,20 +66,20 @@ Pane {
         }
 
         ThemedToolButton {
-            icon.source: "../icons/task/decrement.svg"
+            icon.source: "../../icons/task/decrement.svg"
             visible: trackMode === TaskTrack.Count
             onClicked: decrement()
         }
 
         ThemedToolButton {
-            icon.source: "../icons/task/increment.svg"
+            icon.source: "../../icons/task/increment.svg"
             visible: trackMode === TaskTrack.Count
             onClicked: increment()
         }
 
         ThemedToolButton {
             visible: trackMode === TaskTrack.Duration
-            icon.source: isStarted ? "../icons/task/stop.svg" : "../icons/task/start.svg"
+            icon.source: isStarted ? "../../icons/task/stop.svg" : "../../icons/task/start.svg"
             onClicked: isStarted = !isStarted
         }
     }

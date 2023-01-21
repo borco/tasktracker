@@ -6,8 +6,11 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
-import "pages"
-import "Theme.js" as Theme
+import "calendar"
+import "config"
+import "task"
+import "theme"
+import "theme/Theme.js" as Theme
 
 ApplicationWindow {
     id: root

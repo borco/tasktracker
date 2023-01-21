@@ -2,7 +2,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import "theme"
+import "theme/Theme.js" as Theme
+import "toggl"
 
 Rectangle {
     id: root

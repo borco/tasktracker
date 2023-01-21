@@ -22,8 +22,8 @@ WrappedTextField {
         fillMode: Image.PreserveAspectFit
 
         source: control.echoMode === TextInput.PasswordEchoOnEdit
-                ? "../icons/password_hidden.svg"
-                : "../icons/password_visible.svg"
+                ? "../../icons/password_hidden.svg"
+                : "../../icons/password_visible.svg"
 
         MouseArea {
             anchors.fill: parent
