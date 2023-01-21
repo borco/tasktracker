@@ -1,10 +1,13 @@
 tasks:
 
-- name: empty task
+- name: empty task (do it once)
+  counts:
+  - date: "2023-01-18"
+    count: 1
 
 - name: explicit task
   repeat: Monthly
-  track: Count
+  track: Duration
   durations:
   - dateTime: "2023-01-16T00:00.000Z"
     seconds: 16
@@ -19,6 +22,7 @@ tasks:
 
 - name: archived task
   archived: true
+  track: Duration
   durations:
   - dateTime: "2023-01-18T00:05.000Z"
     seconds: 50
@@ -27,7 +31,13 @@ tasks:
   repeat: Weekly
 
 - name: count repeats task
+  repeat: Daily
   track: Count
+  counts:
+  - date: "2023-01-17"
+    count: 2
+  - date: "2023-01-18"
+    count: 4
 
 - name: weekly maximum duration task
   repeat: Weekly
