@@ -9,6 +9,7 @@
 #include "tasktrackerlib/togglproxy.h"
 
 #include <QCommandLineParser>
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QNetworkProxy>
@@ -98,8 +99,11 @@ int main(int argc, char *argv[])
     tasktrackerlib::Config::get()->load();
     tasktrackerlib::TogglProxy::get()->load();
 
+    const QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/");
+    engine.rootContext()->setContextProperty("fixedFont", fixedFont);
 
     const QUrl url(u"qrc:/TaskTracker/qml/main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
