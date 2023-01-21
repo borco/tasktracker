@@ -86,7 +86,7 @@ ThemedPopup {
         anchors.fill: parent
         spacing: 0
 
-        ConfigPageHeader {
+        PopupPageHeader {
             title: root.title
 
             Layout.fillWidth: true
@@ -118,7 +118,7 @@ ThemedPopup {
                     onTextChanged: if (model) model.name = text
                 }
 
-                ConfigSwitchItem {
+                ThemedSwitchDelegate {
                     property var model: root.model
                     focus: true
                     text: qsTr("Archived")

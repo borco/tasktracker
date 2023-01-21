@@ -18,7 +18,7 @@ Page {
 
     background: null
 
-    header: ConfigPageHeader {
+    header: PopupPageHeader {
         title: root.title
         leftButton.visible: false
         rightButton.enabled: true
@@ -60,7 +60,7 @@ Page {
 
             ThemedGroupTitle { text: qsTr("Security and Privacy") }
 
-            ConfigSwitchItem {
+            ThemedSwitchDelegate {
                 id: storeSecretsInKeychain
                 text: qsTr('Store sensitive data in key-chain')
                 checked: Config.storeSecretsInKeychain
@@ -75,7 +75,7 @@ Page {
 
             ThemedGroupTitle { text: qsTr("Misc") }
 
-            ConfigSwitchItem {
+            ThemedSwitchDelegate {
                 id: logsVisibleSwitch
                 text: qsTr('Show logs')
                 checked: Config.logsVisible

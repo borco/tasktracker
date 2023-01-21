@@ -31,7 +31,7 @@ Page {
 
     background: null
 
-    header: ConfigPageHeader {
+    header: PopupPageHeader {
         title: root.title
         leftButton.onClicked: root.rejected()
         rightButton.enabled: root.isModified

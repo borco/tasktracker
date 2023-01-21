@@ -33,12 +33,11 @@ qt_add_qml_module(${APP_NAME}
         qml/task/TaskEditorPopup.qml
         qml/task/TasksPage.qml
         qml/theme/BottomSeparator.qml
-        qml/theme/ConfigPageHeader.qml
-        qml/theme/ConfigSwitchItem.qml
         qml/theme/DockToolBar.qml
         qml/theme/InputDialog.qml
         qml/theme/MaskedImage.qml
         qml/theme/PasswordTextField.qml
+        qml/theme/PopupPageHeader.qml
         qml/theme/Theme.js
         qml/theme/ThemedButton.qml
         qml/theme/ThemedButtonDelegate.qml
@@ -51,6 +50,7 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/ThemedRadioDelegate.qml
         qml/theme/ThemedSmallLabel.qml
         qml/theme/ThemedSplitView.qml
+        qml/theme/ThemedSwitchDelegate.qml
         qml/theme/ThemedToolButton.qml
         qml/theme/ThemedValueDelegate.qml
         qml/theme/WrappedTextField.qml

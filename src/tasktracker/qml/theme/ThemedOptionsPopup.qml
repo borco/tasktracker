@@ -31,7 +31,7 @@ ThemedPopup {
 
         spacing: 0
 
-        ConfigPageHeader {
+        PopupPageHeader {
             id: header
             title: root.title
             leftButton.onClicked: close()

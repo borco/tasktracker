@@ -42,7 +42,7 @@ ThemedPopup {
         anchors.fill: parent
         spacing: 0
 
-        ConfigPageHeader {
+        PopupPageHeader {
             title: root.title
 
             Layout.fillWidth: true
