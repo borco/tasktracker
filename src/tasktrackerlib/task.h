@@ -4,15 +4,13 @@
 
 #pragma once
 
-#include "taskhistory.h"
-#include "taskrepeatmode.h"
-#include "tasktrackmode.h"
+#include "taskdurationmodel.h"
+#include "taskrepeat.h"
+#include "tasktrack.h"
 
 namespace YAML { class Node; }
 
 namespace tasktrackerlib {
-
-class TaskHistory;
 
 class Task : public QObject
 {
@@ -23,9 +21,9 @@ class Task : public QObject
     Q_PROPERTY(bool isEdited READ isEdited WRITE setIsEdited NOTIFY isEditedChanged)
     Q_PROPERTY(bool isDone READ isDone WRITE setIsDone NOTIFY isDoneChanged)
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
-    Q_PROPERTY(TaskRepeatMode::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
-    Q_PROPERTY(TaskTrackMode::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
-    Q_PROPERTY(TaskHistory* history READ history CONSTANT)
+    Q_PROPERTY(TaskRepeat::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
+    Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
+    Q_PROPERTY(TaskDurationModel* durations READ durations CONSTANT)
 
 public:
     explicit Task(QObject *parent = nullptr);
@@ -42,16 +40,16 @@ public:
     bool isArchived() const { return m_isArchived; }
     void setIsArchived(bool newIsArchived);
 
-    TaskRepeatMode::Mode repeatMode() const { return m_repeatMode; }
-    void setRepeatMode(TaskRepeatMode::Mode newRepeatMode);
+    TaskRepeat::Mode repeatMode() const { return m_repeatMode; }
+    void setRepeatMode(TaskRepeat::Mode newRepeatMode);
 
-    TaskTrackMode::Mode trackMode() const { return m_trackMode; }
-    void setTrackMode(TaskTrackMode::Mode newTrackMode);
+    TaskTrack::Mode trackMode() const { return m_trackMode; }
+    void setTrackMode(TaskTrack::Mode newTrackMode);
 
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
-    TaskHistory *history() const { return m_history; }
+    TaskDurationModel *durations() const { return m_durations; }
 
 signals:
     void nameChanged();
@@ -66,9 +64,9 @@ private:
     bool m_isEdited = false;
     bool m_isDone = false;
     bool m_isArchived = false;
-    TaskRepeatMode::Mode m_repeatMode = TaskRepeatMode::DefaultMode;
-    TaskTrackMode::Mode m_trackMode = TaskTrackMode::DefaultMode;
-    TaskHistory *m_history = nullptr;
+    TaskRepeat::Mode m_repeatMode = TaskRepeat::DefaultMode;
+    TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
+    TaskDurationModel *m_durations = nullptr;
 };
 
 }

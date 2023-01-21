@@ -17,26 +17,26 @@ qt_add_qml_module(${LIB_NAME}
         daymodel.h
         foldercreator.cpp
         foldercreator.h
-        folderlistmodel.cpp
-        folderlistmodel.h
+        foldermodel.cpp
+        foldermodel.h
         mainwindow.cpp
         mainwindow.h
         task.cpp
         task.h
-        taskcurrentdayhistory.cpp
-        taskcurrentdayhistory.h
-        taskevent.cpp
-        taskevent.h
-        taskhistory.cpp
-        taskhistory.h
-        tasklistfiltermodel.cpp
-        tasklistfiltermodel.h
-        tasklistmodel.cpp
-        tasklistmodel.h
-        taskrepeatmode.cpp
-        taskrepeatmode.h
-        tasktrackmode.cpp
-        tasktrackmode.h
+        taskduration.cpp
+        taskduration.h
+        taskdurationfiltermodel.cpp
+        taskdurationfiltermodel.h
+        taskdurationmodel.cpp
+        taskdurationmodel.h
+        taskfiltermodel.cpp
+        taskfiltermodel.h
+        taskmodel.cpp
+        taskmodel.h
+        taskrepeat.cpp
+        taskrepeat.h
+        tasktrack.cpp
+        tasktrack.h
         togglproxy.cpp
         togglproxy.h
         weekmodel.cpp

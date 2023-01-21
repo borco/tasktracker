@@ -6,14 +6,17 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
-import "pages"
-import "Theme.js" as Theme
+import "calendar"
+import "config"
+import "task"
+import "theme"
+import "theme/Theme.js" as Theme
 
 ApplicationWindow {
     id: root
 
     property bool inDarkMode: palette.text > palette.base
-    property TaskListModel taskListModel: TaskListModel {}
+    property TaskModel taskModel: TaskModel {}
 
     property string narrowLayoutTitle: ""
 
@@ -73,7 +76,7 @@ ApplicationWindow {
                             title: qsTr("Tasks")
                             header: appHeader
                             anchors.fill: parent
-                            taskListModel: root.taskListModel
+                            taskModel: root.taskModel
                         }
                     }
 
@@ -88,7 +91,7 @@ ApplicationWindow {
                             title: qsTr("Calendar")
                             header: appHeader
                             anchors.fill: parent
-                            taskListModel: root.taskListModel
+                            taskModel: root.taskModel
                         }
                     }
                 }
@@ -171,18 +174,18 @@ ApplicationWindow {
         property var splitView
         property var wideLayoutSplitView
         property alias currentPageIndex: mainTabBar.currentIndex
-        property alias archivedVisible: appHeader.archivedVisible
-        property alias doneVisible: appHeader.doneVisible
+        property alias isArchivedVisible: appHeader.isArchivedVisible
+        property alias isDoneVisible: appHeader.isDoneVisible
     }
 
     Component.onCompleted: {
-        taskListModel.load(Config.dataFolderLocation)
+        taskModel.load(Config.dataFolderLocation)
         splitView.restoreState(settings.splitView)
         wideLayoutSplitView.restoreState(settings.wideLayoutSplitView)
     }
 
     Component.onDestruction: {
-        taskListModel.save(Config.dataFolderLocation)
+        taskModel.save(Config.dataFolderLocation)
         settings.splitView = splitView.saveState()
         settings.wideLayoutSplitView = wideLayoutSplitView.saveState()
     }

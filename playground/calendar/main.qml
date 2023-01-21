@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import TaskTrackerLib
 
 import "calendar"
+import "theme"
 
 Window {
     id: root
@@ -26,7 +27,7 @@ Window {
             anchors.fill: parent
 
             WeekView {
-                currentDate: dayView.dateForIndex(dayView.currentIndex)
+                selectedDate: dayView.dateForIndex(dayView.currentIndex)
                 Layout.fillWidth: true
                 topPadding: 10
                 onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)

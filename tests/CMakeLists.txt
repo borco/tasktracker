@@ -1,8 +1,8 @@
 foreach(TEST_NAME IN ITEMS
         foldercreator
         task
-        taskhistory
-        tasklistmodel
+        taskdurationmodel
+        taskmodel
     )
 
     qt_add_executable(test_${TEST_NAME}

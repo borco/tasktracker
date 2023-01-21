@@ -4,14 +4,14 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import ".."
-import "../Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Control {
     id: root
 
     property date today: new Date()
-    property alias currentDate: weekModel.currentDate
+    property alias selectedDate: weekModel.selectedDate
 
     property int daysSpacing: 10
     property int dayCircleDiameter: 30
@@ -37,7 +37,7 @@ Control {
 
     WeekModel {
         id: weekModel
-        currentDate: today
+        selectedDate: today
     }
 
     ColumnLayout {
@@ -51,7 +51,7 @@ Control {
 
         RowLayout {
             ThemedLabel {
-                text: weekModel.currentDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+                text: weekModel.selectedDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
                 font.pointSize: Theme.SmallLabelSize
                 font.bold: true
                 Layout.fillWidth: true
@@ -98,7 +98,7 @@ Control {
 
                         Rectangle {
                             property bool isToday: root.isToday(date)
-                            color: isCurrentDate ? palette.highlight : "transparent"
+                            color: isSelectedDate ? palette.highlight : "transparent"
                             border.color: isToday ? palette.dark : "transparent"
                             border.width: 2
                             Layout.alignment: Qt.AlignHCenter
@@ -110,7 +110,7 @@ Control {
                                 anchors.centerIn: parent
                                 text: date.getDate()
                                 font.pointSize: Theme.SmallLabelSize
-                                font.bold: isCurrentDate
+                                font.bold: isSelectedDate
                             }
                         }
                     }

@@ -20,42 +20,42 @@ qt_add_qml_module(${APP_NAME}
     RESOURCE_PREFIX /
     QML_FILES
         qml/AppHeader.qml
-        qml/BottomSeparator.qml
-        qml/ConfigButtonItem.qml
-        qml/ConfigDataFolderLocationSelectionPage.qml
-        qml/ConfigGroupTitle.qml
-        qml/ConfigMainPage.qml
-        qml/ConfigOptionButton.qml
-        qml/ConfigPageHeader.qml
-        qml/ConfigPopup.qml
-        qml/ConfigSwitchItem.qml
-        qml/DockToolBar.qml
-        qml/InputDialog.qml
-        qml/LoginTogglPopup.qml
         qml/LogsComponent.qml
-        qml/MaskedImage.qml
-        qml/PasswordTextField.qml
-        qml/TaskDelegate.qml
-        qml/TaskEditorPopup.qml
-        qml/Theme.js
-        qml/ThemedButton.qml
-        qml/ThemedDialog.qml
-        qml/ThemedLabel.qml
-        qml/ThemedMessageBox.qml
-        qml/ThemedOptionsPopup.qml
-        qml/ThemedPopup.qml
-        qml/ThemedRadioDelegate.qml
-        qml/ThemedSmallLabel.qml
-        qml/ThemedSplitView.qml
-        qml/ThemedToolButton.qml
-        qml/TogglLoggedStatus.qml
-        qml/WrappedTextField.qml
+        qml/calendar/CalendarPage.qml
         qml/calendar/DayHistory.qml
         qml/calendar/DayView.qml
         qml/calendar/WeekView.qml
+        qml/config/ConfigDataFolderLocationSelectionPage.qml
+        qml/config/ConfigMainPage.qml
+        qml/config/ConfigPopup.qml
         qml/main.qml
-        qml/pages/CalendarPage.qml
-        qml/pages/TasksPage.qml
+        qml/task/TaskDelegate.qml
+        qml/task/TaskEditorPopup.qml
+        qml/task/TasksPage.qml
+        qml/theme/BottomSeparator.qml
+        qml/theme/DockToolBar.qml
+        qml/theme/InputDialog.qml
+        qml/theme/MaskedImage.qml
+        qml/theme/OptionsPopup.qml
+        qml/theme/PasswordTextField.qml
+        qml/theme/PopupPageHeader.qml
+        qml/theme/Theme.js
+        qml/theme/ThemedButton.qml
+        qml/theme/ThemedButtonDelegate.qml
+        qml/theme/ThemedDialog.qml
+        qml/theme/ThemedGroupTitle.qml
+        qml/theme/ThemedLabel.qml
+        qml/theme/ThemedMessageBox.qml
+        qml/theme/ThemedPopup.qml
+        qml/theme/ThemedRadioDelegate.qml
+        qml/theme/ThemedSmallLabel.qml
+        qml/theme/ThemedSplitView.qml
+        qml/theme/ThemedSwitchDelegate.qml
+        qml/theme/ThemedToolButton.qml
+        qml/theme/ThemedValueDelegate.qml
+        qml/theme/WrappedTextField.qml
+        qml/toggl/LoginTogglPopup.qml
+        qml/toggl/TogglLoggedStatus.qml
     RESOURCES
         icons/app.svg
         icons/archived.svg

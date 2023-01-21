@@ -19,7 +19,7 @@ static const char* TrackModeYamlName = "track";
 
 Task::Task(QObject *parent)
     : QObject{parent}
-    , m_history(new TaskHistory(this))
+    , m_durations(new TaskDurationModel(this))
 {
 }
 
@@ -55,7 +55,7 @@ void Task::setIsArchived(bool newIsArchived)
     emit isArchivedChanged();
 }
 
-void Task::setRepeatMode(TaskRepeatMode::Mode newRepeatMode)
+void Task::setRepeatMode(TaskRepeat::Mode newRepeatMode)
 {
     if (m_repeatMode == newRepeatMode)
         return;
@@ -63,7 +63,7 @@ void Task::setRepeatMode(TaskRepeatMode::Mode newRepeatMode)
     emit repeatModeChanged();
 }
 
-void Task::setTrackMode(TaskTrackMode::Mode newTrackMode)
+void Task::setTrackMode(TaskTrack::Mode newTrackMode)
 {
     if (m_trackMode == newTrackMode)
         return;
@@ -88,8 +88,8 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeatMode::DefaultMode));
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::DefaultMode));
+    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
-    m_history->loadFromYaml(node);
+    m_durations->loadFromYaml(node);
 }

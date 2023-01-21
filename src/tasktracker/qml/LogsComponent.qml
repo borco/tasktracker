@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 import QtPlogAdapter
 
-import "Theme.js" as Theme
+import "theme"
 
 ColumnLayout {
     id: control

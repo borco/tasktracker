@@ -1,0 +1,5 @@
+add_subdirectory(qtkeychainadapter)
+add_subdirectory(qtplogadapter)
+add_subdirectory(qtyamlcppadapter)
+add_subdirectory(tasktracker)
+add_subdirectory(tasktrackerlib)

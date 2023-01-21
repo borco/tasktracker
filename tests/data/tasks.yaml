@@ -5,28 +5,22 @@ tasks:
 - name: explicit task
   repeat: Monthly
   track: Count
-  history:
-  - track: Duration
-    dateTime: "2023-01-16T00:00.000Z"
+  durations:
+  - dateTime: "2023-01-16T00:00.000Z"
     seconds: 16
-  - track: Duration
-    dateTime: "2023-01-17T00:00.000Z"
+  - dateTime: "2023-01-17T00:00.000Z"
     seconds: 17
-  - track: Duration
-    dateTime: "2023-01-18T00:00.000Z"
+  - dateTime: "2023-01-18T00:00.000Z"
     seconds: 18
-  - track: Duration
-    dateTime: "2023-01-18T00:02.000Z"
+  - dateTime: "2023-01-18T00:02.000Z"
     seconds: 20
-  - track: Duration
-    dateTime: "2023-01-18T00:01.000Z"
+  - dateTime: "2023-01-18T00:01.000Z"
     seconds: 10
 
 - name: archived task
   archived: true
-  history:
-  - track: Duration
-    dateTime: "2023-01-18T00:05.000Z"
+  durations:
+  - dateTime: "2023-01-18T00:05.000Z"
     seconds: 50
 
 - name: weekly task
@@ -38,10 +32,8 @@ tasks:
 - name: weekly maximum duration task
   repeat: Weekly
   track: Duration
-  history:
-  - track: Duration
-    dateTime: "2023-01-18T00:06.000Z"
+  durations:
+  - dateTime: "2023-01-18T00:06.000Z"
     seconds: 120
-  - track: Duration
-    dateTime: "2023-01-18T00:10.000Z"
+  - dateTime: "2023-01-18T00:10.000Z"
     seconds: 600

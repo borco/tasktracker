@@ -4,7 +4,7 @@ namespace {
 enum Roles {
     Name = Qt::UserRole + 1,
     Date,
-    IsCurrentDate,
+    IsSelectedDate,
 };
 }
 
@@ -36,7 +36,7 @@ QHash<int, QByteArray> WeekModel::roleNames() const
     return {
         { Name, "name" },
         { Date, "date" },
-        { IsCurrentDate, "isCurrentDate" },
+        { IsSelectedDate, "isSelectedDate" },
     };
 }
 
@@ -52,8 +52,8 @@ QVariant WeekModel::data(const QModelIndex &index, int role) const
         return day.name;
     case Date:
         return day.date;
-    case IsCurrentDate:
-        return day.date.daysTo(m_currentDate) == 0;
+    case IsSelectedDate:
+        return day.date.daysTo(m_selectedDate) == 0;
     }
 
     return QVariant();
@@ -77,35 +77,35 @@ bool WeekModel::setData(const QModelIndex &index, const QVariant &value, int rol
     return false;
 }
 
-QDate WeekModel::currentDate() const
+QDate WeekModel::selectedDate() const
 {
-    return m_currentDate;
+    return m_selectedDate;
 }
 
-void WeekModel::setCurrentDate(const QDate &newCurrentDate)
+void WeekModel::setSelectedDate(const QDate &newSelectedDate)
 {
-    if (m_currentDate == newCurrentDate)
+    if (m_selectedDate == newSelectedDate)
         return;
-    m_currentDate = newCurrentDate;
+    m_selectedDate = newSelectedDate;
 
     updateDays();
-    emit currentDateChanged();
+    emit selectedDateChanged();
 }
 
 void WeekModel::addDays(int days)
 {
-    setCurrentDate(m_currentDate.addDays(days));
+    setSelectedDate(m_selectedDate.addDays(days));
 }
 
 void WeekModel::updateDays()
 {
     beginResetModel();
-    auto day_of_week = m_currentDate.dayOfWeek();
+    auto day_of_week = m_selectedDate.dayOfWeek();
     auto it = std::find_if(m_days.begin(), m_days.end(), [&](const Day& d) { return d.dayOfWeek == day_of_week; });
     auto index = it - m_days.begin();
 
     for (int i = 0; i < m_days.size(); ++i) {
-        m_days[i].date = m_currentDate.addDays(i - index);
+        m_days[i].date = m_selectedDate.addDays(i - index);
     }
 
     endResetModel();

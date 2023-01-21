@@ -5,8 +5,8 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import ".."
-import "../Theme.js" as Theme
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Item {
     id: root
@@ -26,75 +26,54 @@ Item {
             x: Theme.ContentLeftMargin
             width: ListView.view.width - x
 
-            visible: currentDayHistoryView.count > 0
+            visible: selectedDateDurationsView.count > 0
             height: visible ? implicitHeight : 0
 
             spacing: 0
 
-            ConfigGroupTitle {
-//                Rectangle { color: "#40ff0000"; anchors.fill: parent }
-
-                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeatMode.toString(repeatMode)).arg(TaskTrackMode.toString(trackMode))
+            ThemedGroupTitle {
+                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeat.toString(repeatMode)).arg(TaskTrack.toString(trackMode))
             }
 
             Pane {
                 Layout.fillWidth: true
 
-                topPadding: 0
                 leftPadding: Theme.ContentLeftMargin
                 rightPadding: Theme.ContentRightMargin
 
-                background: Rectangle { color: palette.base }
+                background: Rectangle {
+                    color: isArchived ? palette.alternateBase : palette.base
+                }
 
-                contentHeight: currentDayHistoryView.implicitHeight
+                contentHeight: selectedDateDurationsView.implicitHeight
 
-                TaskCurrentDayHistory {
-                    id: currentDayHistory
-                    sourceModel: history
-                    currentDate: date
+                TaskDurationFilterModel {
+                    id: selectedDateDurations
+                    sourceModel: durations
+                    selectedDate: date
                 }
 
                 ListView {
-                    id: currentDayHistoryView
+                    id: selectedDateDurationsView
 
-                    model: currentDayHistory
+                    model: selectedDateDurations
 
                     implicitHeight: contentHeight
                     interactive: false
-                    section.property: "date"
-                    section.delegate: Rectangle {
-                        width: ListView.view.width
-                        height: 24
-
-                        color: palette.base
-
-                        ThemedSmallLabel {
-                            text: section
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 4
-                        }
-
-                        BottomSeparator {}
-                    }
 
                     delegate: RowLayout {
                         width: ListView.view.width
 
                         ThemedLabel {
-                            Layout.preferredWidth: 100
-                            text: TaskTrackMode.toString(trackMode)
-                        }
-
-                        ThemedLabel {
-                            Layout.preferredWidth: 100
-                            horizontalAlignment: Text.AlignRight
                             text: time
+                            font.family: fixedFont.family
                         }
 
                         ThemedLabel {
-                            Layout.preferredWidth: 100
+                            Layout.preferredWidth: 80
                             horizontalAlignment: Text.AlignRight
-                            text: qsTr("%1 sec").arg(seconds)
+                            text: qsTr("+%1 sec").arg(seconds)
+                            font.family: fixedFont.family
                         }
 
                         Item { Layout.fillWidth: true }

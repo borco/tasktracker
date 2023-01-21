@@ -2,14 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "Theme.js" as Theme
+import "theme"
+import "theme/Theme.js" as Theme
+import "toggl"
 
 Rectangle {
     id: root
 
     property alias title: title.text
-    property alias doneVisible: doneToggle.checked
-    property alias archivedVisible: archivedToggle.checked
+    property alias isDoneVisible: isDoneToggle.checked
+    property alias isArchivedVisible: isArchivedToggle.checked
 
     signal configClicked()
 
@@ -36,13 +38,13 @@ Rectangle {
         Item { Layout.fillWidth: true }
 
         ThemedToolButton {
-            id: archivedToggle
+            id: isArchivedToggle
             icon.source: "../icons/archived.svg"
             checkable: true
         }
 
         ThemedToolButton {
-            id: doneToggle
+            id: isDoneToggle
             icon.source: "../icons/task/done.svg"
             checkable: true
         }
