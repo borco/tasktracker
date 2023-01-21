@@ -12,8 +12,6 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
-class TaskDurationModel;
-
 class Task : public QObject
 {
     Q_OBJECT
