@@ -25,6 +25,8 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         taskcount.cpp
         taskcount.h
+        taskcountfiltermodel.cpp
+        taskcountfiltermodel.h
         taskcountmodel.cpp
         taskcountmodel.h
         taskduration.cpp
