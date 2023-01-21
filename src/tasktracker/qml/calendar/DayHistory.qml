@@ -26,7 +26,7 @@ Item {
             x: Theme.ContentLeftMargin
             width: ListView.view.width - x
 
-            visible: currentDayDurationsView.count > 0
+            visible: selectedDateDurationsView.count > 0
             height: visible ? implicitHeight : 0
 
             spacing: 0
@@ -47,18 +47,18 @@ Item {
                     color: isArchived ? palette.alternateBase : palette.base
                 }
 
-                contentHeight: currentDayDurationsView.implicitHeight
+                contentHeight: selectedDateDurationsView.implicitHeight
 
                 TaskDurationFilterModel {
-                    id: currentDayDurations
+                    id: selectedDateDurations
                     sourceModel: durations
                     selectedDate: date
                 }
 
                 ListView {
-                    id: currentDayDurationsView
+                    id: selectedDateDurationsView
 
-                    model: currentDayDurations
+                    model: selectedDateDurations
 
                     implicitHeight: contentHeight
                     interactive: false
