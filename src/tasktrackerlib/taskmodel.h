@@ -13,7 +13,7 @@ namespace tasktrackerlib {
 
 class Task;
 
-class TaskListModel : public QAbstractListModel
+class TaskModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -21,8 +21,8 @@ class TaskListModel : public QAbstractListModel
     Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
 
 public:
-    explicit TaskListModel(QObject *parent = nullptr);
-    ~TaskListModel();
+    explicit TaskModel(QObject *parent = nullptr);
+    ~TaskModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;

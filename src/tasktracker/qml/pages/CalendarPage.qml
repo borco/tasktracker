@@ -12,7 +12,7 @@ import "../Theme.js" as Theme
 Item {
     id: root
 
-    required property TaskListModel taskListModel
+    required property TaskModel taskModel
     required property AppHeader header
 
     property string title: ""
@@ -43,7 +43,7 @@ Item {
             sourceComponent: Component {
                 DayHistory {
                     visibleTasksModel: TaskListFilterModel {
-                        sourceModel: taskListModel
+                        sourceModel: taskModel
                         doneVisible: header.doneVisible
                         archivedVisible: header.archivedVisible
                     }

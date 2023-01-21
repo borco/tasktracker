@@ -31,8 +31,8 @@ qt_add_qml_module(${LIB_NAME}
         taskhistory.h
         tasklistfiltermodel.cpp
         tasklistfiltermodel.h
-        tasklistmodel.cpp
-        tasklistmodel.h
+        taskmodel.cpp
+        taskmodel.h
         taskrepeat.cpp
         taskrepeat.h
         tasktrack.cpp

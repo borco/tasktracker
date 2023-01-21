@@ -13,7 +13,7 @@ ApplicationWindow {
     id: root
 
     property bool inDarkMode: palette.text > palette.base
-    property TaskListModel taskListModel: TaskListModel {}
+    property TaskModel taskModel: TaskModel {}
 
     property string narrowLayoutTitle: ""
 
@@ -73,7 +73,7 @@ ApplicationWindow {
                             title: qsTr("Tasks")
                             header: appHeader
                             anchors.fill: parent
-                            taskListModel: root.taskListModel
+                            taskModel: root.taskModel
                         }
                     }
 
@@ -88,7 +88,7 @@ ApplicationWindow {
                             title: qsTr("Calendar")
                             header: appHeader
                             anchors.fill: parent
-                            taskListModel: root.taskListModel
+                            taskModel: root.taskModel
                         }
                     }
                 }
@@ -176,13 +176,13 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        taskListModel.load(Config.dataFolderLocation)
+        taskModel.load(Config.dataFolderLocation)
         splitView.restoreState(settings.splitView)
         wideLayoutSplitView.restoreState(settings.wideLayoutSplitView)
     }
 
     Component.onDestruction: {
-        taskListModel.save(Config.dataFolderLocation)
+        taskModel.save(Config.dataFolderLocation)
         settings.splitView = splitView.saveState()
         settings.wideLayoutSplitView = wideLayoutSplitView.saveState()
     }

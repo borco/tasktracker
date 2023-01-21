@@ -1,11 +1,11 @@
 #include <QTest>
 
 #include "tasktrackerlib/task.h"
-#include "tasktrackerlib/tasklistmodel.h"
+#include "tasktrackerlib/taskmodel.h"
 
 using namespace tasktrackerlib;
 
-class TestTaskListModel: public QObject
+class TestTaskModel: public QObject
 {
     Q_OBJECT
 
@@ -26,7 +26,7 @@ tasks: []
         QFETCH(QString, data);
         QFETCH(QStringList, taskNames);
 
-        TaskListModel model;
+        TaskModel model;
         model.loadFromData(data.toUtf8());
         QCOMPARE(model.size(), taskNames.size());
         for(int i = 0; i < model.size(); ++i) {
@@ -36,5 +36,5 @@ tasks: []
 
 };
 
-QTEST_MAIN(TestTaskListModel)
-#include "test_tasklistmodel.moc"
+QTEST_MAIN(TestTaskModel)
+#include "test_taskmodel.moc"

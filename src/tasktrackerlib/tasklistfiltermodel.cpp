@@ -1,7 +1,7 @@
 #include "tasklistfiltermodel.h"
 
 #include "task.h"
-#include "tasklistmodel.h"
+#include "taskmodel.h"
 
 namespace tasktrackerlib {
 
@@ -12,7 +12,7 @@ TaskListFilterModel::TaskListFilterModel(QObject *parent)
 
 bool TaskListFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-    auto task_list_model = qobject_cast<TaskListModel*>(sourceModel());
+    auto task_list_model = qobject_cast<TaskModel*>(sourceModel());
     if (!task_list_model)
         return false;
 

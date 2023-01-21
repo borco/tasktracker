@@ -2,7 +2,7 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "tasklistmodel.h"
+#include "taskmodel.h"
 
 #include "task.h"
 #include "taskhistory.h"
@@ -18,22 +18,22 @@ namespace {
 static const char* TasksYamlNode = "tasks";
 }
 
-TaskListModel::TaskListModel(QObject *parent)
+TaskModel::TaskModel(QObject *parent)
     : QAbstractListModel(parent)
 {
 }
 
-TaskListModel::~TaskListModel()
+TaskModel::~TaskModel()
 {
     qDeleteAll(m_tasks);
 }
 
-int TaskListModel::rowCount(const QModelIndex &parent) const
+int TaskModel::rowCount(const QModelIndex &parent) const
 {
     return m_tasks.count();
 }
 
-QHash<int, QByteArray> TaskListModel::roleNames() const
+QHash<int, QByteArray> TaskModel::roleNames() const
 {
     return {
         { Name, "name"},
@@ -46,7 +46,7 @@ QHash<int, QByteArray> TaskListModel::roleNames() const
     };
 }
 
-QVariant TaskListModel::data(const QModelIndex &index, int role) const
+QVariant TaskModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -73,7 +73,7 @@ QVariant TaskListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TaskModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
         QList<int> roles = {};
@@ -111,7 +111,7 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
     return false;
 }
 
-Task* TaskListModel::insertTask(int row, Task* task)
+Task* TaskModel::insertTask(int row, Task* task)
 {
     beginInsertRows(QModelIndex(), row, row);
     if (row >= m_tasks.size()) {
@@ -127,12 +127,12 @@ Task* TaskListModel::insertTask(int row, Task* task)
     return task;
 }
 
-Task* TaskListModel::prependTask()
+Task* TaskModel::prependTask()
 {
     return insertTask(0, new Task(this));
 }
 
-void TaskListModel::setSize(int newSize)
+void TaskModel::setSize(int newSize)
 {
     if (m_size == newSize)
         return;
@@ -140,20 +140,20 @@ void TaskListModel::setSize(int newSize)
     emit sizeChanged();
 }
 
-void TaskListModel::loadFromData(const QByteArray &data)
+void TaskModel::loadFromData(const QByteArray &data)
 {
     YAML::Node node = YAML::Load(data.toStdString());
     auto tasks_node = node[TasksYamlNode];
     if (tasks_node) {
         if (!tasks_node.IsSequence()) {
-            qCritical().nospace() << "TaskListModel: '" << TasksYamlNode << "' is not a list";
+            qCritical().nospace() << "TaskModel: '" << TasksYamlNode << "' is not a list";
         } else {
             loadTasks(tasks_node);
         }
     }
 }
 
-void TaskListModel::loadTasks(const YAML::Node &node)
+void TaskModel::loadTasks(const YAML::Node &node)
 {
     assert(node.IsSequence());
 
@@ -171,29 +171,29 @@ void TaskListModel::loadTasks(const YAML::Node &node)
     endResetModel();
 }
 
-QByteArray TaskListModel::saveToData() const
+QByteArray TaskModel::saveToData() const
 {
     return QByteArray();
 }
 
-void TaskListModel::load(const QString &path, const QString &fileName)
+void TaskModel::load(const QString &path, const QString &fileName)
 {
     auto dir = QDir(path);
     auto info = QFileInfo(dir.filePath(fileName));
     auto absolute_file_path = info.absoluteFilePath();
     if (info.exists()) {
-        qInfo() << "TaskListModel: loading tasks from:" << absolute_file_path;
+        qInfo() << "TaskModel: loading tasks from:" << absolute_file_path;
         auto file = QFile(absolute_file_path);
         file.open(QIODeviceBase::ReadOnly);
         loadFromData(file.readAll());
     } else {
-        qInfo() << "TaskListModel: tasks file not found:" << absolute_file_path;
+        qInfo() << "TaskModel: tasks file not found:" << absolute_file_path;
     }
 }
 
-void TaskListModel::save(const QString &path, const QString &fileName)
+void TaskModel::save(const QString &path, const QString &fileName)
 {
     QDir dir(path);
     QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
-    qInfo() << "TaskListModel: saving tasks to:" << absolute_file_path;
+    qInfo() << "TaskModel: saving tasks to:" << absolute_file_path;
 }
