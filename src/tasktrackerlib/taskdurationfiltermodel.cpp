@@ -3,22 +3,22 @@
 */
 
 #include "taskdurationmodel.h"
-#include "taskcurrentdayhistory.h"
+#include "taskdurationfiltermodel.h"
 
 namespace tasktrackerlib {
 
-TaskCurrentDayHistory::TaskCurrentDayHistory(QObject *parent)
+TaskDurationFilterModel::TaskDurationFilterModel(QObject *parent)
     : QSortFilterProxyModel{parent}
 {
 
 }
 
-QDate TaskCurrentDayHistory::selectedDate() const
+QDate TaskDurationFilterModel::selectedDate() const
 {
     return m_selectedDate;
 }
 
-void TaskCurrentDayHistory::setSelectedDate(const QDate &newSelectedDate)
+void TaskDurationFilterModel::setSelectedDate(const QDate &newSelectedDate)
 {
     if (m_selectedDate == newSelectedDate)
         return;
@@ -27,7 +27,7 @@ void TaskCurrentDayHistory::setSelectedDate(const QDate &newSelectedDate)
     emit selectedDateChanged();
 }
 
-bool TaskCurrentDayHistory::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool TaskDurationFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     auto durations = qobject_cast<TaskDurationModel*>(sourceModel());
     if (!durations)

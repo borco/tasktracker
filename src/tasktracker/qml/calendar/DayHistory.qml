@@ -49,7 +49,7 @@ Item {
 
                 contentHeight: currentDayDurationsView.implicitHeight
 
-                TaskCurrentDayHistory {
+                TaskDurationFilterModel {
                     id: currentDayDurations
                     sourceModel: durations
                     selectedDate: date

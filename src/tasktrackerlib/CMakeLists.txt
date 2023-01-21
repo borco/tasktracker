@@ -23,10 +23,10 @@ qt_add_qml_module(${LIB_NAME}
         mainwindow.h
         task.cpp
         task.h
-        taskcurrentdayhistory.cpp
-        taskcurrentdayhistory.h
         taskduration.cpp
         taskduration.h
+        taskdurationfiltermodel.cpp
+        taskdurationfiltermodel.h
         taskdurationmodel.cpp
         taskdurationmodel.h
         taskfiltermodel.cpp

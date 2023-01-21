@@ -10,7 +10,7 @@
 
 namespace tasktrackerlib {
 
-class TaskCurrentDayHistory : public QSortFilterProxyModel
+class TaskDurationFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -18,7 +18,7 @@ class TaskCurrentDayHistory : public QSortFilterProxyModel
     Q_PROPERTY(QDate selectedDate READ selectedDate WRITE setSelectedDate NOTIFY selectedDateChanged)
 
 public:
-    explicit TaskCurrentDayHistory(QObject *parent = nullptr);
+    explicit TaskDurationFilterModel(QObject *parent = nullptr);
 
     QDate selectedDate() const;
     void setSelectedDate(const QDate &newSelectedDate);
