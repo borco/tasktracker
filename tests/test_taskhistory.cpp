@@ -5,7 +5,6 @@
 using namespace tasktrackerlib;
 
 struct Duration {
-    TaskTrack::Mode trackMode;
     QString dateTimeString;
     int seconds;
 
@@ -32,26 +31,22 @@ history: []
 
         QTest::newRow("One Value") << R"(
 history:
-- track: Duration
-  dateTime: 2023-01-01T00:01:02Z
+- dateTime: 2023-01-01T00:01:02Z
   seconds: 20
-)" << (DurationList() << Duration {TaskTrack::Duration, "2023-01-01T00:01:02Z", 20});
+)" << (DurationList() << Duration {"2023-01-01T00:01:02Z", 20});
 
         QTest::newRow("Unordered") << R"(
 history:
-- track: Duration
-  dateTime: 2023-01-02T00:01:02Z
+- dateTime: 2023-01-02T00:01:02Z
   seconds: 20
-- track: Duration
-  dateTime: 2023-01-01T00:01:02Z
+- dateTime: 2023-01-01T00:01:02Z
   seconds: 10
-- track: Duration
-  dateTime: 2023-01-03T00:01:02Z
+- dateTime: 2023-01-03T00:01:02Z
   seconds: 30
 )" << (DurationList()
-        << Duration {TaskTrack::Duration, "2023-01-01T00:01:02Z", 10}
-        << Duration {TaskTrack::Duration, "2023-01-02T00:01:02Z", 20}
-        << Duration {TaskTrack::Duration, "2023-01-03T00:01:02Z", 30}
+        << Duration {"2023-01-01T00:01:02Z", 10}
+        << Duration {"2023-01-02T00:01:02Z", 20}
+        << Duration {"2023-01-03T00:01:02Z", 30}
         );
     }
 
@@ -64,7 +59,6 @@ history:
         QCOMPARE(history.size(), durations.size());
         for(int i = 0; i < history.size(); ++i) {
             auto duration = history.get(i);
-            QCOMPARE(duration->trackMode(), durations[i].trackMode);
             QCOMPARE(duration->dateTime(), durations[i].dateTime());
             QCOMPARE(duration->seconds(), durations[i].seconds);
         }

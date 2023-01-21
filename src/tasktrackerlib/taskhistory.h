@@ -39,14 +39,6 @@ signals:
     void sizeChanged();
 
 private:
-    enum Roles {
-        TrackMode = Qt::UserRole + 1,
-        DateTime,
-        Seconds,
-        Date,
-        Time,
-    };
-
     tasktrackerlib::TaskDuration* insertDuration(int row, TaskDuration* duration);
     void clear();
 

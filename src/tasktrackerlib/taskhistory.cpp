@@ -10,6 +10,13 @@
 
 namespace {
 static const char* HistoryYamlNode = "history";
+
+enum Roles {
+    DateTime = Qt::UserRole + 1,
+    Seconds,
+    Date,
+    Time,
+};
 }
 
 namespace tasktrackerlib {
@@ -35,7 +42,6 @@ int TaskHistory::rowCount(const QModelIndex &parent) const
 QHash<int, QByteArray> TaskHistory::roleNames() const
 {
     return {
-        { TrackMode, "trackMode" },
         { DateTime, "dateTime" },
         { Seconds, "seconds" },
         { Date, "date" },
@@ -51,8 +57,6 @@ QVariant TaskHistory::data(const QModelIndex &index, int role) const
     auto duration = m_durations[index.row()];
 
     switch(role) {
-    case TrackMode:
-        return duration->trackMode();
     case DateTime:
         return duration->dateTime();
     case Seconds:

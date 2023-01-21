@@ -9,7 +9,6 @@
 #include "yaml-cpp/node/parse.h"
 
 namespace {
-static const char* TrackModeYamlName = "track";
 static const char* DateTimeYamlName = "dateTime";
 static const char* SecondsYamlName = "seconds";
 }
@@ -19,19 +18,6 @@ namespace tasktrackerlib {
 TaskDuration::TaskDuration(QObject *parent)
     : QObject{parent}
 {
-}
-
-TaskTrack::Mode TaskDuration::trackMode() const
-{
-    return m_trackMode;
-}
-
-void TaskDuration::setTrackMode(const TaskTrack::Mode &newTrackMode)
-{
-    if (m_trackMode == newTrackMode)
-        return;
-    m_trackMode = newTrackMode;
-    emit trackModeChanged();
 }
 
 QDateTime TaskDuration::dateTime() const
@@ -90,7 +76,6 @@ void TaskDuration::loadFromYaml(const YAML::Node &node)
         return;
     }
 
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
     setDateTime(dateTimeFromYaml(node, DateTimeYamlName, QDateTime()));
     setSeconds(intFromYaml(node, SecondsYamlName, 0));
 }

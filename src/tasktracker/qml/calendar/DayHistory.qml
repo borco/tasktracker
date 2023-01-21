@@ -82,12 +82,6 @@ Item {
 
                         ThemedLabel {
                             Layout.preferredWidth: 100
-                            text: TaskTrack.toString(trackMode)
-                        }
-
-                        ThemedLabel {
-                            Layout.preferredWidth: 100
-                            horizontalAlignment: Text.AlignRight
                             text: time
                         }
 
