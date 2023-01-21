@@ -40,7 +40,6 @@ Item {
             Pane {
                 Layout.fillWidth: true
 
-                topPadding: 0
                 leftPadding: Theme.ContentLeftMargin
                 rightPadding: Theme.ContentRightMargin
 
@@ -61,34 +60,20 @@ Item {
 
                     implicitHeight: contentHeight
                     interactive: false
-                    section.property: "date"
-                    section.delegate: Rectangle {
-                        width: ListView.view.width
-                        height: 24
-
-                        color: palette.base
-
-                        ThemedSmallLabel {
-                            text: section
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 4
-                        }
-
-                        BottomSeparator {}
-                    }
 
                     delegate: RowLayout {
                         width: ListView.view.width
 
                         ThemedLabel {
-                            Layout.preferredWidth: 100
                             text: time
+                            font.family: fixedFont.family
                         }
 
                         ThemedLabel {
-                            Layout.preferredWidth: 100
+                            Layout.preferredWidth: 80
                             horizontalAlignment: Text.AlignRight
-                            text: qsTr("%1 sec").arg(seconds)
+                            text: qsTr("+%1 sec").arg(seconds)
+                            font.family: fixedFont.family
                         }
 
                         Item { Layout.fillWidth: true }
