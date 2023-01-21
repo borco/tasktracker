@@ -91,27 +91,27 @@ repeat: Weekly
 
     void test_load_track_mode_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<TaskTrackMode::Mode>("trackMode");
+        QTest::addColumn<TaskTrack::Mode>("trackMode");
 
         QTest::newRow("No track mode") << R"(
-)" << TaskTrackMode::Duration;
+)" << TaskTrack::Duration;
 
         QTest::newRow("Unknown/invalid track mode") << R"(
 track: xxx
-)" << TaskTrackMode::Duration;
+)" << TaskTrack::Duration;
 
         QTest::newRow("Duration") << R"(
 track: Duration
-)" << TaskTrackMode::Duration;
+)" << TaskTrack::Duration;
 
         QTest::newRow("Count") << R"(
 track: Count
-)" << TaskTrackMode::Count;
+)" << TaskTrack::Count;
     }
 
     void test_load_track_mode() {
         QFETCH(QString, data);
-        QFETCH(TaskTrackMode::Mode, trackMode);
+        QFETCH(TaskTrack::Mode, trackMode);
 
         Task task;
         task.loadFromData(data.toUtf8());

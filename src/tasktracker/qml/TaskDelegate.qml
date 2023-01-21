@@ -56,7 +56,7 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: TaskTrackMode.toString(trackMode)
+                text: TaskTrack.toString(trackMode)
             }
 
             ThemedSmallLabel {
@@ -67,18 +67,18 @@ Pane {
 
         ThemedToolButton {
             icon.source: "../icons/task/decrement.svg"
-            visible: trackMode === TaskTrackMode.Count
+            visible: trackMode === TaskTrack.Count
             onClicked: decrement()
         }
 
         ThemedToolButton {
             icon.source: "../icons/task/increment.svg"
-            visible: trackMode === TaskTrackMode.Count
+            visible: trackMode === TaskTrack.Count
             onClicked: increment()
         }
 
         ThemedToolButton {
-            visible: trackMode === TaskTrackMode.Duration
+            visible: trackMode === TaskTrack.Duration
             icon.source: isStarted ? "../icons/task/stop.svg" : "../icons/task/start.svg"
             onClicked: isStarted = !isStarted
         }

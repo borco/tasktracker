@@ -8,14 +8,14 @@
 
 namespace tasktrackerlib {
 
-class TaskTrackMode : public QObject
+class TaskTrack : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
 public:
-    explicit TaskTrackMode(QObject *parent = nullptr);
+    explicit TaskTrack(QObject *parent = nullptr);
 
     enum Mode {
         Duration = 0,

@@ -96,7 +96,7 @@ bool TaskListModel::setData(const QModelIndex &index, const QVariant &value, int
             roles << role;
             break;
         case TrackMode:
-            m_tasks[index.row()]->setTrackMode(TaskTrackMode::Mode(value.toInt()));
+            m_tasks[index.row()]->setTrackMode(TaskTrack::Mode(value.toInt()));
             roles << role;
             break;
         }

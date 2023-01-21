@@ -145,11 +145,11 @@ ThemedPopup {
                 ConfigGroupTitle { text: qsTr("Track Mode") }
                 Repeater {
                     model: [
-                        TaskTrackMode.Duration,
-                        TaskTrackMode.Count,
+                        TaskTrack.Duration,
+                        TaskTrack.Count,
                     ]
                     ThemedRadioDelegate {
-                        text: TaskTrackMode.toString(modelData)
+                        text: TaskTrack.toString(modelData)
                         ButtonGroup.group: trackModeGroup
                         checked: root.model ? root.model.trackMode === modelData : false
                         onClicked: root.model.trackMode = modelData

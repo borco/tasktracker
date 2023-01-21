@@ -21,12 +21,12 @@ TaskEvent::TaskEvent(QObject *parent)
 {
 }
 
-TaskTrackMode::Mode TaskEvent::trackMode() const
+TaskTrack::Mode TaskEvent::trackMode() const
 {
     return m_trackMode;
 }
 
-void TaskEvent::setTrackMode(const TaskTrackMode::Mode &newTrackMode)
+void TaskEvent::setTrackMode(const TaskTrack::Mode &newTrackMode)
 {
     if (m_trackMode == newTrackMode)
         return;
@@ -90,7 +90,7 @@ void TaskEvent::loadFromYaml(const YAML::Node &node)
         return;
     }
 
-    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrackMode::DefaultMode));
+    setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
     setDateTime(dateTimeFromYaml(node, DateTimeYamlName, QDateTime()));
     setSeconds(intFromYaml(node, SecondsYamlName, 0));
 }

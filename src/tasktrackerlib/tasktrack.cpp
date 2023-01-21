@@ -2,16 +2,16 @@
     Copyright (C) 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "tasktrackmode.h"
+#include "tasktrack.h"
 
 namespace tasktrackerlib {
 
-TaskTrackMode::TaskTrackMode(QObject *parent)
+TaskTrack::TaskTrack(QObject *parent)
     : QObject{parent}
 {
 }
 
-QString TaskTrackMode::toString(int trackMode)
+QString TaskTrack::toString(int trackMode)
 {
     switch(trackMode) {
     case Count:

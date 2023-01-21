@@ -5,7 +5,7 @@
 using namespace tasktrackerlib;
 
 struct Event {
-    TaskTrackMode::Mode trackMode;
+    TaskTrack::Mode trackMode;
     QString dateTimeString;
     int seconds;
 
@@ -35,7 +35,7 @@ history:
 - track: Duration
   dateTime: 2023-01-01T00:01:02Z
   seconds: 20
-)" << (EventList() << Event {TaskTrackMode::Duration, "2023-01-01T00:01:02Z", 20});
+)" << (EventList() << Event {TaskTrack::Duration, "2023-01-01T00:01:02Z", 20});
 
         QTest::newRow("Unordered") << R"(
 history:
@@ -49,9 +49,9 @@ history:
   dateTime: 2023-01-03T00:01:02Z
   seconds: 30
 )" << (EventList()
-        << Event {TaskTrackMode::Duration, "2023-01-01T00:01:02Z", 10}
-        << Event {TaskTrackMode::Duration, "2023-01-02T00:01:02Z", 20}
-        << Event {TaskTrackMode::Duration, "2023-01-03T00:01:02Z", 30}
+        << Event {TaskTrack::Duration, "2023-01-01T00:01:02Z", 10}
+        << Event {TaskTrack::Duration, "2023-01-02T00:01:02Z", 20}
+        << Event {TaskTrack::Duration, "2023-01-03T00:01:02Z", 30}
         );
     }
 

@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "tasktrackmode.h"
+#include "tasktrack.h"
 
 #include <QQmlEngine>
 #include <QDateTime>
@@ -18,15 +18,15 @@ class TaskEvent : public QObject
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(TaskTrackMode::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
+    Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
     Q_PROPERTY(QDateTime dateTime READ dateTime WRITE setDateTime NOTIFY dateTimeChanged)
     Q_PROPERTY(int seconds READ seconds WRITE setSeconds NOTIFY secondsChanged)
 
 public:
     explicit TaskEvent(QObject *parent = nullptr);
 
-    TaskTrackMode::Mode trackMode() const;
-    void setTrackMode(const TaskTrackMode::Mode &newTrackMode);
+    TaskTrack::Mode trackMode() const;
+    void setTrackMode(const TaskTrack::Mode &newTrackMode);
 
     QDateTime dateTime() const;
     void setDateTime(const QDateTime &newDateTime);
@@ -46,10 +46,9 @@ signals:
     void secondsChanged();
 
 private:
-    TaskTrackMode::Mode m_trackMode = TaskTrackMode::DefaultMode;
+    TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
     QDateTime m_dateTime;
     int m_seconds = 0;
 };
 
 } // namespace tasktrackerlib
-
