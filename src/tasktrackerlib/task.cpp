@@ -19,6 +19,7 @@ static const char* TrackModeYamlName = "track";
 
 Task::Task(QObject *parent)
     : QObject{parent}
+    , m_counts(new TaskCountModel(this))
     , m_durations(new TaskDurationModel(this))
 {
 }
@@ -91,5 +92,6 @@ void Task::loadFromYaml(const YAML::Node &node)
     setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
+    m_counts->loadFromYaml(node);
     m_durations->loadFromYaml(node);
 }

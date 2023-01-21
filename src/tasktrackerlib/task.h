@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "taskcountmodel.h"
 #include "taskdurationmodel.h"
 #include "taskrepeat.h"
 #include "tasktrack.h"
@@ -23,6 +24,7 @@ class Task : public QObject
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(TaskRepeat::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
     Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
+    Q_PROPERTY(TaskCountModel* counts READ counts CONSTANT)
     Q_PROPERTY(TaskDurationModel* durations READ durations CONSTANT)
 
 public:
@@ -49,7 +51,8 @@ public:
     void loadFromData(const QByteArray& data);
     void loadFromYaml(const YAML::Node &node);
 
-    TaskDurationModel *durations() const { return m_durations; }
+    TaskCountModel* counts() const { return m_counts; }
+    TaskDurationModel* durations() const { return m_durations; }
 
 signals:
     void nameChanged();
@@ -66,6 +69,7 @@ private:
     bool m_isArchived = false;
     TaskRepeat::Mode m_repeatMode = TaskRepeat::DefaultMode;
     TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
+    TaskCountModel* m_counts = nullptr;
     TaskDurationModel *m_durations = nullptr;
 };
 
