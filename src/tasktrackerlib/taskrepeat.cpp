@@ -2,16 +2,16 @@
     Copyright (C) 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskrepeatmode.h"
+#include "taskrepeat.h"
 
 namespace tasktrackerlib {
 
-TaskRepeatMode::TaskRepeatMode(QObject *parent)
+TaskRepeat::TaskRepeat(QObject *parent)
     : QObject{parent}
 {
 }
 
-QString TaskRepeatMode::toString(int repeatMode)
+QString TaskRepeat::toString(int repeatMode)
 {
     switch(repeatMode) {
     case Daily:

@@ -34,7 +34,7 @@ Item {
             ConfigGroupTitle {
 //                Rectangle { color: "#40ff0000"; anchors.fill: parent }
 
-                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeatMode.toString(repeatMode)).arg(TaskTrack.toString(trackMode))
+                text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeat.toString(repeatMode)).arg(TaskTrack.toString(trackMode))
             }
 
             Pane {

@@ -8,14 +8,14 @@
 
 namespace tasktrackerlib {
 
-class TaskRepeatMode : public QObject
+class TaskRepeat : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
 public:
-    explicit TaskRepeatMode(QObject *parent = nullptr);
+    explicit TaskRepeat(QObject *parent = nullptr);
 
     enum Mode {
         Once = 0, // do it once, without a specific time limit

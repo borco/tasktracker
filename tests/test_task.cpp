@@ -61,27 +61,27 @@ archived: true
 
     void test_load_repeat_mode_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<TaskRepeatMode::Mode>("repeatMode");
+        QTest::addColumn<TaskRepeat::Mode>("repeatMode");
 
         QTest::newRow("No schedule mode") << R"(
-)" << TaskRepeatMode::Once;
+)" << TaskRepeat::Once;
 
         QTest::newRow("Unknown/invalid schedule mode") << R"(
 repeat: xxx
-)" << TaskRepeatMode::Once;
+)" << TaskRepeat::Once;
 
         QTest::newRow("Daily") << R"(
 repeat: Daily
-)" << TaskRepeatMode::Daily;
+)" << TaskRepeat::Daily;
 
         QTest::newRow("Weekly") << R"(
 repeat: Weekly
-)" << TaskRepeatMode::Weekly;
+)" << TaskRepeat::Weekly;
     }
 
     void test_load_repeat_mode() {
         QFETCH(QString, data);
-        QFETCH(TaskRepeatMode::Mode, repeatMode);
+        QFETCH(TaskRepeat::Mode, repeatMode);
 
         Task task;
         task.loadFromData(data.toUtf8());

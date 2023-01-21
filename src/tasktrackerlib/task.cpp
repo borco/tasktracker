@@ -55,7 +55,7 @@ void Task::setIsArchived(bool newIsArchived)
     emit isArchivedChanged();
 }
 
-void Task::setRepeatMode(TaskRepeatMode::Mode newRepeatMode)
+void Task::setRepeatMode(TaskRepeat::Mode newRepeatMode)
 {
     if (m_repeatMode == newRepeatMode)
         return;
@@ -88,7 +88,7 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeatMode::DefaultMode));
+    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
     m_history->loadFromYaml(node);

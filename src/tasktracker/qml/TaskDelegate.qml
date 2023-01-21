@@ -52,7 +52,7 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: TaskRepeatMode.toString(repeatMode)
+                text: TaskRepeat.toString(repeatMode)
             }
 
             ThemedSmallLabel {

@@ -129,13 +129,13 @@ ThemedPopup {
                 ConfigGroupTitle { text: qsTr("Repeat Mode") }
                 Repeater {
                     model: [
-                        TaskRepeatMode.Once,
-                        TaskRepeatMode.Daily,
-                        TaskRepeatMode.Weekly,
-                        TaskRepeatMode.Monthly,
+                        TaskRepeat.Once,
+                        TaskRepeat.Daily,
+                        TaskRepeat.Weekly,
+                        TaskRepeat.Monthly,
                     ]
                     ThemedRadioDelegate {
-                        text: TaskRepeatMode.toString(modelData)
+                        text: TaskRepeat.toString(modelData)
                         ButtonGroup.group: repeadModeGroup
                         checked: root.model ? root.model.repeatMode === modelData : false
                         onClicked: root.model.repeatMode = modelData
