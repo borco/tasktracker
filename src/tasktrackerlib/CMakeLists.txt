@@ -17,8 +17,8 @@ qt_add_qml_module(${LIB_NAME}
         daymodel.h
         foldercreator.cpp
         foldercreator.h
-        folderlistmodel.cpp
-        folderlistmodel.h
+        foldermodel.cpp
+        foldermodel.h
         mainwindow.cpp
         mainwindow.h
         task.cpp

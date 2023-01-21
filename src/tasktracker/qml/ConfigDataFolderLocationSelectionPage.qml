@@ -21,7 +21,7 @@ Page {
         implicitHeight: Theme.ConfigItemHeight
         leftPadding: Theme.ContentLeftMargin
 
-        onClicked: folderListModel.cd(text)
+        onClicked: folderModel.cd(text)
 
         BottomSeparator {}
     }
@@ -40,7 +40,7 @@ Page {
 
     FolderCreator {
         id: folderCreator
-        path: folderListModel.folder
+        path: folderModel.folder
     }
 
     InputDialog {
@@ -68,7 +68,7 @@ Page {
             if (folderCreator.makeDir(path)) {
                 accept()
                 textField.text = ""
-                folderListModel.cd(path)
+                folderModel.cd(path)
             }
         }
     }
@@ -103,7 +103,7 @@ Page {
 
                 ThemedToolButton {
                     icon.source: "../icons/refresh.svg"
-                    onClicked: folderListModel.refresh()
+                    onClicked: folderModel.refresh()
                 }
             }
 
@@ -115,7 +115,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            model: folderListModel
+            model: folderModel
 
             header: FolderItemComponent {
                 text: ".."
@@ -127,8 +127,8 @@ Page {
         }
     }
 
-    FolderListModel {
-        id: folderListModel
+    FolderModel {
+        id: folderModel
         folder: root.dataFolderLocation
         onFolderChanged: root.dataFolderLocation = folder
     }

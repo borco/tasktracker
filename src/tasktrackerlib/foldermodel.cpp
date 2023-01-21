@@ -2,36 +2,36 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "folderlistmodel.h"
+#include "foldermodel.h"
 
 #include <QDir>
 
 using namespace tasktrackerlib;
 
-FolderListModel::FolderListModel(QObject *parent)
+FolderModel::FolderModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-//    qDebug().nospace() << "FolderListModel: instance created (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "FolderModel: instance created (" << static_cast<void*>(this) << ")";
 }
 
-FolderListModel::~FolderListModel()
+FolderModel::~FolderModel()
 {
-//    qDebug().nospace() << "FolderListModel: instance deleted (" << static_cast<void*>(this) << ")";
+//    qDebug().nospace() << "FolderModel: instance deleted (" << static_cast<void*>(this) << ")";
 }
 
-QHash<int, QByteArray> FolderListModel::roleNames() const
+QHash<int, QByteArray> FolderModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[FileName] = "fileName";
     return roles;
 }
 
-int FolderListModel::rowCount(const QModelIndex &parent) const
+int FolderModel::rowCount(const QModelIndex &parent) const
 {
     return m_files.size();
 }
 
-QVariant FolderListModel::data(const QModelIndex &index, int role) const
+QVariant FolderModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -39,7 +39,7 @@ QVariant FolderListModel::data(const QModelIndex &index, int role) const
     return m_files[index.row()];
 }
 
-void FolderListModel::setFolder(const QString &newFolder)
+void FolderModel::setFolder(const QString &newFolder)
 {
     auto clean_path = QDir::cleanPath(newFolder);
 
@@ -52,13 +52,13 @@ void FolderListModel::setFolder(const QString &newFolder)
     emit folderChanged();
 }
 
-void FolderListModel::refresh()
+void FolderModel::refresh()
 {
-//    qDebug() << "FolderListModel: refresh";
+//    qDebug() << "FolderModel: refresh";
     updateModel();
 }
 
-void FolderListModel::cd(const QString &path)
+void FolderModel::cd(const QString &path)
 {
     if (QDir(path).isAbsolute()) {
         setFolder(path);
@@ -67,7 +67,7 @@ void FolderListModel::cd(const QString &path)
     }
 }
 
-void FolderListModel::updateModel()
+void FolderModel::updateModel()
 {
     beginResetModel();
     QDir path(m_folder);

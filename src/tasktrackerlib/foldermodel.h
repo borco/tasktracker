@@ -9,7 +9,7 @@
 
 namespace tasktrackerlib {
 
-class FolderListModel : public QAbstractListModel
+class FolderModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -17,8 +17,8 @@ class FolderListModel : public QAbstractListModel
     Q_PROPERTY(QString folder READ folder WRITE setFolder NOTIFY folderChanged)
 
 public:
-    explicit FolderListModel(QObject *parent = nullptr);
-    ~FolderListModel();
+    explicit FolderModel(QObject *parent = nullptr);
+    ~FolderModel();
 
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
