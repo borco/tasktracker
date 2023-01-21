@@ -9,7 +9,7 @@
 
 namespace tasktrackerlib {
 
-class TaskListFilterModel : public QSortFilterProxyModel
+class TaskFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
     QML_ELEMENT
@@ -18,7 +18,7 @@ class TaskListFilterModel : public QSortFilterProxyModel
     Q_PROPERTY(bool archivedVisible READ archivedVisible WRITE setArchivedVisible NOTIFY archivedVisibleChanged)
 
 public:
-    explicit TaskListFilterModel(QObject* parent = nullptr);
+    explicit TaskFilterModel(QObject* parent = nullptr);
 
     bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 

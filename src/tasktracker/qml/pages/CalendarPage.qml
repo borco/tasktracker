@@ -42,7 +42,7 @@ Item {
 
             sourceComponent: Component {
                 DayHistory {
-                    visibleTasksModel: TaskListFilterModel {
+                    visibleTasksModel: TaskFilterModel {
                         sourceModel: taskModel
                         doneVisible: header.doneVisible
                         archivedVisible: header.archivedVisible

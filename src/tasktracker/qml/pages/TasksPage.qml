@@ -28,7 +28,7 @@ Item {
             Layout.rightMargin: 10
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: TaskListFilterModel {
+            model: TaskFilterModel {
                 sourceModel: taskModel
                 doneVisible: header.doneVisible
                 archivedVisible: header.archivedVisible

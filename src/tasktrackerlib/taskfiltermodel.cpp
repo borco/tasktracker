@@ -1,16 +1,16 @@
-#include "tasklistfiltermodel.h"
+#include "taskfiltermodel.h"
 
 #include "task.h"
 #include "taskmodel.h"
 
 namespace tasktrackerlib {
 
-TaskListFilterModel::TaskListFilterModel(QObject *parent)
+TaskFilterModel::TaskFilterModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
 }
 
-bool TaskListFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+bool TaskFilterModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
     auto task_list_model = qobject_cast<TaskModel*>(sourceModel());
     if (!task_list_model)
@@ -23,7 +23,7 @@ bool TaskListFilterModel::filterAcceptsRow(int source_row, const QModelIndex &so
                 && (!task->isDone() || m_doneVisible));
 }
 
-void TaskListFilterModel::setDoneVisible(bool newDoneVisible)
+void TaskFilterModel::setDoneVisible(bool newDoneVisible)
 {
     if (m_doneVisible == newDoneVisible)
         return;
@@ -32,7 +32,7 @@ void TaskListFilterModel::setDoneVisible(bool newDoneVisible)
     emit doneVisibleChanged();
 }
 
-void TaskListFilterModel::setArchivedVisible(bool newArchivedVisible)
+void TaskFilterModel::setArchivedVisible(bool newArchivedVisible)
 {
     if (m_archivedVisible == newArchivedVisible)
         return;

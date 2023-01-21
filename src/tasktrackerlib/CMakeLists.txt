@@ -27,10 +27,10 @@ qt_add_qml_module(${LIB_NAME}
         taskcurrentdayhistory.h
         taskevent.cpp
         taskevent.h
+        taskfiltermodel.cpp
+        taskfiltermodel.h
         taskhistory.cpp
         taskhistory.h
-        tasklistfiltermodel.cpp
-        tasklistfiltermodel.h
         taskmodel.cpp
         taskmodel.h
         taskrepeat.cpp
