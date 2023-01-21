@@ -4,7 +4,7 @@
 
 using namespace tasktrackerlib;
 
-struct Event {
+struct Duration {
     TaskTrack::Mode trackMode;
     QString dateTimeString;
     int seconds;
@@ -12,7 +12,7 @@ struct Event {
     QDateTime dateTime() { return QDateTime::fromString(dateTimeString, Qt::ISODate); }
 };
 
-typedef QList<Event> EventList;
+typedef QList<Duration> DurationList;
 
 class TestTaskHistory: public QObject
 {
@@ -21,21 +21,21 @@ class TestTaskHistory: public QObject
 private slots:
     void test_loadFromBinary_data() {
         QTest::addColumn<QString>("data");
-        QTest::addColumn<EventList>("events");
+        QTest::addColumn<DurationList>("durations");
 
         QTest::newRow("Empty") << R"(
-)" << EventList();
+)" << DurationList();
 
         QTest::newRow("Empty") << R"(
 history: []
-)" << EventList();
+)" << DurationList();
 
         QTest::newRow("One Value") << R"(
 history:
 - track: Duration
   dateTime: 2023-01-01T00:01:02Z
   seconds: 20
-)" << (EventList() << Event {TaskTrack::Duration, "2023-01-01T00:01:02Z", 20});
+)" << (DurationList() << Duration {TaskTrack::Duration, "2023-01-01T00:01:02Z", 20});
 
         QTest::newRow("Unordered") << R"(
 history:
@@ -48,25 +48,25 @@ history:
 - track: Duration
   dateTime: 2023-01-03T00:01:02Z
   seconds: 30
-)" << (EventList()
-        << Event {TaskTrack::Duration, "2023-01-01T00:01:02Z", 10}
-        << Event {TaskTrack::Duration, "2023-01-02T00:01:02Z", 20}
-        << Event {TaskTrack::Duration, "2023-01-03T00:01:02Z", 30}
+)" << (DurationList()
+        << Duration {TaskTrack::Duration, "2023-01-01T00:01:02Z", 10}
+        << Duration {TaskTrack::Duration, "2023-01-02T00:01:02Z", 20}
+        << Duration {TaskTrack::Duration, "2023-01-03T00:01:02Z", 30}
         );
     }
 
     void test_loadFromBinary() {
         QFETCH(QString, data);
-        QFETCH(EventList, events);
+        QFETCH(DurationList, durations);
 
         TaskHistory history;
         history.loadFromData(data.toUtf8());
-        QCOMPARE(history.size(), events.size());
+        QCOMPARE(history.size(), durations.size());
         for(int i = 0; i < history.size(); ++i) {
-            auto event = history.get(i);
-            QCOMPARE(event->trackMode(), events[i].trackMode);
-            QCOMPARE(event->dateTime(), events[i].dateTime());
-            QCOMPARE(event->seconds(), events[i].seconds);
+            auto duration = history.get(i);
+            QCOMPARE(duration->trackMode(), durations[i].trackMode);
+            QCOMPARE(duration->dateTime(), durations[i].dateTime());
+            QCOMPARE(duration->seconds(), durations[i].seconds);
         }
     }
 

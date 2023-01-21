@@ -33,8 +33,8 @@ bool TaskCurrentDayHistory::filterAcceptsRow(int source_row, const QModelIndex &
     if (!history)
         return false;
 
-    auto event = history->get(source_row);
-    return event->dateTime().date().daysTo(m_currentDate) == 0;
+    auto duration = history->get(source_row);
+    return duration->dateTime().date().daysTo(m_currentDate) == 0;
 }
 
 } // namespace tasktrackerlib

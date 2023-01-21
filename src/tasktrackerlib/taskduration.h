@@ -13,7 +13,7 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
-class TaskEvent : public QObject
+class TaskDuration : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
@@ -23,7 +23,7 @@ class TaskEvent : public QObject
     Q_PROPERTY(int seconds READ seconds WRITE setSeconds NOTIFY secondsChanged)
 
 public:
-    explicit TaskEvent(QObject *parent = nullptr);
+    explicit TaskDuration(QObject *parent = nullptr);
 
     TaskTrack::Mode trackMode() const;
     void setTrackMode(const TaskTrack::Mode &newTrackMode);

@@ -4,7 +4,7 @@
 
 #include "taskhistory.h"
 
-#include "taskevent.h"
+#include "taskduration.h"
 
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
@@ -21,7 +21,7 @@ TaskHistory::TaskHistory(QObject *parent)
 
 TaskHistory::~TaskHistory()
 {
-    qDeleteAll(m_events);
+    qDeleteAll(m_durations);
 }
 
 int TaskHistory::rowCount(const QModelIndex &parent) const
@@ -29,7 +29,7 @@ int TaskHistory::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return m_events.size();
+    return m_durations.size();
 }
 
 QHash<int, QByteArray> TaskHistory::roleNames() const
@@ -48,19 +48,19 @@ QVariant TaskHistory::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    auto event = m_events[index.row()];
+    auto duration = m_durations[index.row()];
 
     switch(role) {
     case TrackMode:
-        return event->trackMode();
+        return duration->trackMode();
     case DateTime:
-        return event->dateTime();
+        return duration->dateTime();
     case Seconds:
-        return event->seconds();
+        return duration->seconds();
     case Date:
-        return event->dateTime().date();
+        return duration->dateTime().date();
     case Time:
-        return event->dateTime().time().toString();
+        return duration->dateTime().time().toString();
     }
 
     return QVariant();
@@ -104,48 +104,48 @@ void TaskHistory::loadFromYaml(const YAML::Node &node)
     }
 
     beginResetModel();
-    qDeleteAll(m_events);
-    m_events.clear();
+    qDeleteAll(m_durations);
+    m_durations.clear();
 
     for (unsigned int i = 0; i < history_node.size(); ++i) {
-        auto event = new TaskEvent(this);
-        event->loadFromYaml(history_node[i]);
-        insertEvent(i, event);
+        auto duration = new TaskDuration(this);
+        duration->loadFromYaml(history_node[i]);
+        insertEvent(i, duration);
     }
 
-    std::sort(m_events.begin(), m_events.end(), [](const TaskEvent* e1, const TaskEvent* e2) { return e1->dateTime() < e2->dateTime(); });
+    std::sort(m_durations.begin(), m_durations.end(), [](const TaskDuration* e1, const TaskDuration* e2) { return e1->dateTime() < e2->dateTime(); });
 
     endResetModel();
 
     emit sizeChanged();
 }
 
-TaskEvent *TaskHistory::insertEvent(int row, TaskEvent *event)
+TaskDuration *TaskHistory::insertEvent(int row, TaskDuration *duration)
 {
     beginInsertRows(QModelIndex(), row, row);
-    m_events.insert(row, event);
+    m_durations.insert(row, duration);
     endInsertRows();
     emit sizeChanged();
-    return event;
+    return duration;
 }
 
 void TaskHistory::clear()
 {
     beginResetModel();
-    qDeleteAll(m_events);
-    m_events.clear();
+    qDeleteAll(m_durations);
+    m_durations.clear();
     endResetModel();
     emit sizeChanged();
 }
 
 int TaskHistory::size() const
 {
-    return m_events.size();
+    return m_durations.size();
 }
 
-TaskEvent *TaskHistory::get(int index) const
+TaskDuration *TaskHistory::get(int index) const
 {
-    return m_events[index];
+    return m_durations[index];
 }
 
 } // namespace tasktrackerlib

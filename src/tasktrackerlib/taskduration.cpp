@@ -2,7 +2,7 @@
     Copyright 2023 by Ioan Calin Borcoman <iborco@gmail.com>
 */
 
-#include "taskevent.h"
+#include "taskduration.h"
 
 #include "qtyamlcppadapter/yamlhelper.h"
 #include "yaml-cpp/node/node.h"
@@ -16,17 +16,17 @@ static const char* SecondsYamlName = "seconds";
 
 namespace tasktrackerlib {
 
-TaskEvent::TaskEvent(QObject *parent)
+TaskDuration::TaskDuration(QObject *parent)
     : QObject{parent}
 {
 }
 
-TaskTrack::Mode TaskEvent::trackMode() const
+TaskTrack::Mode TaskDuration::trackMode() const
 {
     return m_trackMode;
 }
 
-void TaskEvent::setTrackMode(const TaskTrack::Mode &newTrackMode)
+void TaskDuration::setTrackMode(const TaskTrack::Mode &newTrackMode)
 {
     if (m_trackMode == newTrackMode)
         return;
@@ -34,12 +34,12 @@ void TaskEvent::setTrackMode(const TaskTrack::Mode &newTrackMode)
     emit trackModeChanged();
 }
 
-QDateTime TaskEvent::dateTime() const
+QDateTime TaskDuration::dateTime() const
 {
     return m_dateTime;
 }
 
-void TaskEvent::setDateTime(const QDateTime &newDateTime)
+void TaskDuration::setDateTime(const QDateTime &newDateTime)
 {
     if (m_dateTime == newDateTime)
         return;
@@ -47,12 +47,12 @@ void TaskEvent::setDateTime(const QDateTime &newDateTime)
     emit dateTimeChanged();
 }
 
-int TaskEvent::seconds() const
+int TaskDuration::seconds() const
 {
     return m_seconds;
 }
 
-void TaskEvent::setSeconds(int newSeconds)
+void TaskDuration::setSeconds(int newSeconds)
 {
     if (m_seconds == newSeconds)
         return;
@@ -60,28 +60,28 @@ void TaskEvent::setSeconds(int newSeconds)
     emit secondsChanged();
 }
 
-QDateTime TaskEvent::now() const
+QDateTime TaskDuration::now() const
 {
     return QDateTime::currentDateTimeUtc();
 }
 
-int TaskEvent::secondsElapsed() const
+int TaskDuration::secondsElapsed() const
 {
     if (!m_dateTime.isValid()) {
-        qCritical() << "TaskEvent: dateTime not set";
+        qCritical() << "TaskDuration: dateTime not set";
         return -1;
     }
 
     return now().secsTo(m_dateTime);
 }
 
-void TaskEvent::loadFromData(const QByteArray &data)
+void TaskDuration::loadFromData(const QByteArray &data)
 {
     YAML::Node node = YAML::Load(data.toStdString());
     loadFromYaml(node);
 }
 
-void TaskEvent::loadFromYaml(const YAML::Node &node)
+void TaskDuration::loadFromYaml(const YAML::Node &node)
 {
     using namespace qtyamlcppadapter;
 

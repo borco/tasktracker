@@ -25,8 +25,8 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         taskcurrentdayhistory.cpp
         taskcurrentdayhistory.h
-        taskevent.cpp
-        taskevent.h
+        taskduration.cpp
+        taskduration.h
         taskfiltermodel.cpp
         taskfiltermodel.h
         taskhistory.cpp

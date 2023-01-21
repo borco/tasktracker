@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "taskevent.h"
+#include "taskduration.h"
 
 #include <QAbstractListModel>
 
@@ -25,7 +25,7 @@ public:
     ~TaskHistory() override;
 
     int size() const;
-    TaskEvent* get(int index) const;
+    TaskDuration* get(int index) const;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -47,11 +47,10 @@ private:
         Time,
     };
 
-    tasktrackerlib::TaskEvent* insertEvent(int row, TaskEvent* event);
+    tasktrackerlib::TaskDuration* insertEvent(int row, TaskDuration* duration);
     void clear();
 
-    QList<TaskEvent*> m_events;
+    QList<TaskDuration*> m_durations;
 };
 
 } // namespace tasktrackerlib
-
