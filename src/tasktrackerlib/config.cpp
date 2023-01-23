@@ -77,3 +77,16 @@ void Config::setDataFolderLocation(const QString &newDataFolderLocation)
     m_dataFolderLocation = newDataFolderLocation;
     emit dataFolderLocationChanged();
 }
+
+Qt::DayOfWeek Config::weekStart() const
+{
+    return m_weekStart;
+}
+
+void Config::setWeekStart(Qt::DayOfWeek newWeekStart)
+{
+    if (m_weekStart == newWeekStart)
+        return;
+    m_weekStart = newWeekStart;
+    emit weekStartChanged();
+}

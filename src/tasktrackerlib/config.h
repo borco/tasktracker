@@ -14,6 +14,7 @@ class Config: public QObject
     QML_ELEMENT
     QML_SINGLETON
 
+    Q_PROPERTY(Qt::DayOfWeek weekStart READ weekStart WRITE setWeekStart NOTIFY weekStartChanged)
     Q_PROPERTY(bool storeSecretsInKeychain READ storeSecretsInKeychain WRITE setStoreSecretsInKeychain NOTIFY storeSecretsInKeychainChanged)
     Q_PROPERTY(bool logsVisible READ logsVisible WRITE setLogsVisible NOTIFY logsVisibleChanged)
     Q_PROPERTY(QString dataFolderLocation READ dataFolderLocation WRITE setDataFolderLocation NOTIFY dataFolderLocationChanged)
@@ -44,10 +45,15 @@ public:
 
     QString defaultDataFolderLocation() const { return m_defaultDataFolderLocation; }
 
+    Qt::DayOfWeek weekStart() const;
+    void setWeekStart(Qt::DayOfWeek newWeekStart);
+
 signals:
     void storeSecretsInKeychainChanged();
     void logsVisibleChanged();
     void dataFolderLocationChanged();
+
+    void weekStartChanged();
 
 private:
     Config();
@@ -58,6 +64,7 @@ private:
     bool m_logsVisible = false;
     QString m_dataFolderLocation;
     QString m_defaultDataFolderLocation;
+    Qt::DayOfWeek m_weekStart = Qt::Sunday;
 };
 
 }
