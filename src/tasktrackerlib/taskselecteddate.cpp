@@ -205,7 +205,9 @@ QString TaskSelectedDate::formattedSeconds(int seconds)
     if (hours > 0) {
         return tr("%1h %2m").arg(hours).arg(mins);
     } else if (mins > 0) {
-        return tr("%1m %2s").arg(mins).arg(seconds);
+        return seconds > 0
+                ? tr("%1m %2s").arg(mins).arg(seconds)
+                : tr("%1m").arg(mins);
     } else {
         return tr("%1s").arg(seconds);
     }
