@@ -7,14 +7,13 @@ import TaskTrackerLib
 import "../theme"
 import "../theme/Theme.js" as Theme
 
-Pane {
+Control {
     id: root
 
     required property Task task
 
-    background: Rectangle {
-        color: task.isArchived ? palette.alternateBase : palette.base
-    }
+    implicitHeight: layout.implicitHeight
+    implicitWidth: layout.implicitWidth
 
     TaskSelectedDate {
         id: taskSelectedDate
@@ -24,70 +23,85 @@ Pane {
 
     ColumnLayout {
         id: layout
-        anchors.fill: parent
 
-        RowLayout {
+        anchors.fill: parent
+        spacing: 0
+
+        Pane {
             Layout.fillWidth: true
 
-            Button {
-                id: durationDetailsToggle
-                visible: task.trackMode === TaskTrack.Duration
-                text: taskSelectedDate.durations.size
-                checkable: true
-
-                background: Rectangle {
-                    implicitWidth: 30
-                    implicitHeight: 30
-                    radius: width
-                    color : durationDetailsToggle.checked ? root.palette.button : "transparent"
-                    border.color: root.palette.button
-                    border.width: 1
-                }
-
-                contentItem: Text {
-                    text: durationDetailsToggle.text
-                    color : durationDetailsToggle.checked ? root.palette.buttonText : root.palette.button
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
+            background: Rectangle {
+                color: task.isArchived ? palette.alternateBase : palette.base
             }
 
             ColumnLayout {
-                Layout.fillWidth: true
-                Layout.leftMargin: task.trackMode === TaskTrack.Duration ? 10 : 0
+                anchors.fill: parent
 
-                ThemedLabel {
-                    text: task.name
+                RowLayout {
                     Layout.fillWidth: true
+
+                    Button {
+                        id: durationDetailsToggle
+                        visible: task.trackMode === TaskTrack.Duration
+                        text: taskSelectedDate.durations.size
+                        checkable: true
+                        checked: true
+
+                        background: Rectangle {
+                            implicitWidth: 30
+                            implicitHeight: 30
+                            radius: width
+                            color : durationDetailsToggle.checked ? root.palette.button : "transparent"
+                            border.color: root.palette.button
+                            border.width: 1
+                        }
+
+                        contentItem: Text {
+                            text: durationDetailsToggle.text
+                            color : durationDetailsToggle.checked ? root.palette.buttonText : root.palette.button
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: task.trackMode === TaskTrack.Duration ? 10 : 0
+
+                        ThemedLabel {
+                            text: task.name
+                            Layout.fillWidth: true
+                        }
+
+                        ThemedSmallLabel {
+                            visible: task.trackMode === TaskTrack.Count
+                            text: task.aggregateMode === TaskAggregate.Daily
+                                  ? qsTr("%1").arg(taskSelectedDate.count)
+                                  : qsTr("%1 / %2: %3").arg(taskSelectedDate.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskSelectedDate.aggregateCount)
+                        }
+
+                        ThemedSmallLabel {
+                            property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
+                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregatedSeconds)
+                            visible: task.trackMode === TaskTrack.Duration
+                            text: task.aggregateMode === TaskAggregate.Daily
+                                  ? qsTr("%1").arg(formattedSeconds)
+                                  : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
+                        }
+                    }
+
+                    ThemedToolButton {
+                        icon.source: "../../icons/task/decrement.svg"
+                        visible: task.trackMode === TaskTrack.Count && taskSelectedDate.count > 0
+                        onClicked: --taskSelectedDate.count
+                    }
+
+                    ThemedToolButton {
+                        icon.source: "../../icons/task/increment.svg"
+                        visible: task.trackMode === TaskTrack.Count
+                        onClicked: ++taskSelectedDate.count
+                    }
                 }
-
-                ThemedSmallLabel {
-                    visible: task.trackMode === TaskTrack.Count
-                    text: task.aggregateMode === TaskAggregate.Daily
-                          ? qsTr("%1").arg(taskSelectedDate.count)
-                          : qsTr("%1 / %2: %3").arg(taskSelectedDate.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskSelectedDate.aggregateCount)
-                }
-
-                ThemedSmallLabel {
-                    property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
-                    property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregatedSeconds)
-                    visible: task.trackMode === TaskTrack.Duration
-                    text: task.aggregateMode === TaskAggregate.Daily
-                          ? qsTr("%1").arg(formattedSeconds)
-                          : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
-                }
-            }
-
-            ThemedToolButton {
-                icon.source: "../../icons/task/decrement.svg"
-                visible: task.trackMode === TaskTrack.Count && taskSelectedDate.count > 0
-                onClicked: --taskSelectedDate.count
-            }
-
-            ThemedToolButton {
-                icon.source: "../../icons/task/increment.svg"
-                visible: task.trackMode === TaskTrack.Count
-                onClicked: ++taskSelectedDate.count
             }
         }
 
