@@ -5,6 +5,7 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
+import "../task"
 import "../theme"
 import "../theme/Theme.js" as Theme
 
@@ -20,8 +21,17 @@ Item {
         id: view
 
         anchors.fill: parent
-        clip: true
+        anchors.leftMargin: Theme.ContentLeftMargin
+        anchors.rightMargin: Theme.ContentRightMargin
 
-        delegate: DayHistoryDelegate {}
+        clip: true
+        spacing: 10
+
+        header: Item { implicitHeight: 10 }
+        footer: Item { implicitHeight: 10 }
+
+        delegate: DayHistoryDelegate {
+            width: ListView.view.width
+        }
     }
 }
