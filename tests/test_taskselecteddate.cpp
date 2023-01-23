@@ -75,7 +75,7 @@ counts:
                 << 14
                 << 31;
 
-        QTest::newRow("Weekly, 2023/1/22")
+        QTest::newRow("Weekly, 2023/1/22, Week Starts Sunday")
                 << duration_tracking_data
                 << Qt::Sunday
                 << TaskAggregate::Weekly
@@ -83,7 +83,7 @@ counts:
                 << 14
                 << 30;
 
-        QTest::newRow("Weekly, 2023/1/22")
+        QTest::newRow("Weekly, 2023/1/22, Week Starts Monday")
                 << duration_tracking_data
                 << Qt::Monday
                 << TaskAggregate::Weekly
