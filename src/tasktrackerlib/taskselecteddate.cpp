@@ -142,4 +142,47 @@ void TaskSelectedDate::setAggregateCount(int newAggregateCount)
     emit aggregateCountChanged();
 }
 
+int TaskSelectedDate::seconds() const
+{
+    return m_seconds;
+}
+
+void TaskSelectedDate::setSeconds(int newSeconds)
+{
+    if (m_seconds == newSeconds)
+        return;
+    m_seconds = newSeconds;
+    emit secondsChanged();
+}
+
+int TaskSelectedDate::aggregateSeconds() const
+{
+    return m_aggregateSeconds;
+}
+
+void TaskSelectedDate::setAggregateSeconds(int newAggregateSeconds)
+{
+    if (m_aggregateSeconds == newAggregateSeconds)
+        return;
+    m_aggregateSeconds = newAggregateSeconds;
+    emit aggregateSecondsChanged();
+}
+
+QString TaskSelectedDate::formattedSeconds(int seconds)
+{
+    if (seconds == 0)
+        return tr("-");
+
+    int hours = seconds / 3600;
+    int mins = (seconds / 60) % 60;
+    seconds = seconds % 60;
+    if (hours > 0) {
+        return tr("%1h %2m").arg(hours).arg(mins);
+    } else if (mins > 0) {
+        return tr("%1m %2s").arg(mins).arg(seconds);
+    } else {
+        return tr("%1s").arg(seconds);
+    }
+}
+
 } // namespace tasktrackerlib
