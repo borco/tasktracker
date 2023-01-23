@@ -2,8 +2,9 @@
 
 Simple task tracker.
 
-A tasks can:
-
-* have a maximum or minimum number of repeats
-* have a maximum or minimum duration
-* can be daily, weekly or monthly
+* the user can track the time spent on a task or how many times the task was done
+* the app can show the aggregate (totals) the time spent or times done by:
+  * day (the default)
+  * week
+  * month
+* weekly aggregates depend on the week start (week start can be changed in the config dialog)
