@@ -13,6 +13,7 @@ static const char* SettingsGroupKey = "Config";
 static const char* StorePasswordInKeyChainSettingsKey = "storeSecretsInKeychain";
 static const char* LogsVisibleSettingsKey = "logsVisible";
 static const char* DataFolderLocationSettingsKey = "dataFolderLocation";
+static const char* WeekStartSettingsKey = "weekStart";
 }
 
 using namespace tasktrackerlib;
@@ -37,6 +38,7 @@ void Config::load()
     setStoreSecretsInKeychain(settings.value(StorePasswordInKeyChainSettingsKey, false).toBool());
     setLogsVisible(settings.value(LogsVisibleSettingsKey, false).toBool());
     setDataFolderLocation(settings.value(DataFolderLocationSettingsKey, m_defaultDataFolderLocation).toString());
+    setWeekStart(Qt::DayOfWeek(settings.value(WeekStartSettingsKey, DefaultWeekStart).toInt()));
     settings.endGroup();
 
 //    qDebug() << "Config: loaded";
@@ -49,6 +51,7 @@ void Config::save()
     settings.setValue(StorePasswordInKeyChainSettingsKey, m_storeSecretsInKeychain);
     settings.setValue(LogsVisibleSettingsKey, m_logsVisible);
     settings.setValue(DataFolderLocationSettingsKey, m_dataFolderLocation);
+    settings.setValue(WeekStartSettingsKey, m_weekStart);
     settings.endGroup();
 
 //    qDebug() << "Config: saved";

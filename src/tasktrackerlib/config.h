@@ -52,7 +52,6 @@ signals:
     void storeSecretsInKeychainChanged();
     void logsVisibleChanged();
     void dataFolderLocationChanged();
-
     void weekStartChanged();
 
 private:
@@ -64,7 +63,9 @@ private:
     bool m_logsVisible = false;
     QString m_dataFolderLocation;
     QString m_defaultDataFolderLocation;
-    Qt::DayOfWeek m_weekStart = Qt::Sunday;
+    Qt::DayOfWeek m_weekStart = DefaultWeekStart;
+
+    inline static const Qt::DayOfWeek DefaultWeekStart = Qt::Sunday;
 };
 
 }
