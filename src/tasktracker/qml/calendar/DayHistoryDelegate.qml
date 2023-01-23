@@ -43,7 +43,7 @@ ColumnLayout {
     }
 
     ThemedGroupTitle {
-        text: "<b>%1</b> (%2, %3)".arg(task.name).arg(TaskRepeat.toString(task.repeatMode)).arg(TaskTrack.toString(task.trackMode))
+        text: "<b>%1</b> (%2, %3)".arg(task.name).arg(TaskAggregate.toString(task.aggregateMode)).arg(TaskTrack.toString(task.trackMode))
     }
 
     FilterPane {

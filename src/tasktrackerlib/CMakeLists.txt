@@ -23,14 +23,14 @@ qt_add_qml_module(${LIB_NAME}
         mainwindow.h
         task.cpp
         task.h
+        taskaggregate.cpp
+        taskaggregate.h
         taskdurationmodel.cpp
         taskdurationmodel.h
         taskfiltermodel.cpp
         taskfiltermodel.h
         taskmodel.cpp
         taskmodel.h
-        taskrepeat.cpp
-        taskrepeat.h
         taskselecteddate.cpp
         taskselecteddate.h
         tasktrack.cpp

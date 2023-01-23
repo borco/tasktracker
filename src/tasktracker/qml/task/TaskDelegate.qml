@@ -50,7 +50,7 @@ Pane {
             }
 
             ThemedSmallLabel {
-                text: TaskRepeat.toString(task.repeatMode)
+                text: TaskAggregate.toString(task.aggregateMode)
             }
 
             ThemedSmallLabel {

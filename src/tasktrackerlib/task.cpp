@@ -11,7 +11,7 @@ namespace {
 
 static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
-static const char* RepeatModeYamlName = "repeat";
+static const char* AggregateModeYamlName = "aggregate";
 static const char* TrackModeYamlName = "track";
 static const char* CountsYamlName = "counts";
 static const char* CountsDateYamlName = "date";
@@ -65,12 +65,12 @@ void Task::setIsArchived(bool newIsArchived)
     emit isArchivedChanged();
 }
 
-void Task::setRepeatMode(TaskRepeat::Mode newRepeatMode)
+void Task::setAggregateMode(TaskAggregate::Mode newAggregateMode)
 {
-    if (m_repeatMode == newRepeatMode)
+    if (m_aggregateMode == newAggregateMode)
         return;
-    m_repeatMode = newRepeatMode;
-    emit repeatModeChanged();
+    m_aggregateMode = newAggregateMode;
+    emit aggregateModeChanged();
 }
 
 void Task::setTrackMode(TaskTrack::Mode newTrackMode)
@@ -98,7 +98,7 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     setName(stringFromYaml(node, TaskYamlName));
     setIsArchived(boolFromYaml(node, IsArchivedYamlName, false));
-    setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
+    setAggregateMode(enumFromYaml(node, AggregateModeYamlName, TaskAggregate::DefaultMode));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
     loadCounts(node);

@@ -127,23 +127,22 @@ ThemedPopup {
                     onCheckedChanged: if (model) model.isArchived = checked
                 }
 
-                ThemedGroupTitle { text: qsTr("Repeat Mode") }
+                ThemedGroupTitle { text: qsTr("Aggregate") }
                 Repeater {
                     model: [
-                        TaskRepeat.Once,
-                        TaskRepeat.Daily,
-                        TaskRepeat.Weekly,
-                        TaskRepeat.Monthly,
+                        TaskAggregate.Daily,
+                        TaskAggregate.Weekly,
+                        TaskAggregate.Monthly,
                     ]
                     ThemedRadioDelegate {
-                        text: TaskRepeat.toString(modelData)
+                        text: TaskAggregate.toString(modelData)
                         ButtonGroup.group: repeadModeGroup
-                        checked: root.model ? root.model.task.repeatMode === modelData : false
-                        onClicked: root.model.task.repeatMode = modelData
+                        checked: root.model ? root.model.task.aggregateMode === modelData : false
+                        onClicked: root.model.task.aggregateMode = modelData
                     }
                 }
 
-                ThemedGroupTitle { text: qsTr("Track Mode") }
+                ThemedGroupTitle { text: qsTr("Track") }
                 Repeater {
                     model: [
                         TaskTrack.Duration,

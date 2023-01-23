@@ -8,26 +8,25 @@
 
 namespace tasktrackerlib {
 
-class TaskRepeat : public QObject
+class TaskAggregate : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
 public:
-    explicit TaskRepeat(QObject *parent = nullptr);
+    explicit TaskAggregate(QObject *parent = nullptr);
 
     enum Mode {
-        Once = 0, // do it once, without a specific time limit
-        Daily,
+        Daily = 0,
         Weekly,
         Monthly,
     };
     Q_ENUM(Mode)
 
-    Q_INVOKABLE static QString toString(int repeatMode);
+    Q_INVOKABLE static QString toString(int aggregateMode);
 
-    inline const static Mode DefaultMode = Once;
+    inline const static Mode DefaultMode = Daily;
 };
 
 } // namespace tasktrackerlib

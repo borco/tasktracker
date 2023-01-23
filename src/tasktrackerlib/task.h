@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "taskrepeat.h"
+#include "taskaggregate.h"
 #include "tasktrack.h"
 
 #include <QDateTime>
@@ -22,7 +22,7 @@ class Task : public QObject
     Q_PROPERTY(bool isEdited READ isEdited WRITE setIsEdited NOTIFY isEditedChanged)
     Q_PROPERTY(bool isDone READ isDone WRITE setIsDone NOTIFY isDoneChanged)
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
-    Q_PROPERTY(TaskRepeat::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
+    Q_PROPERTY(TaskAggregate::Mode aggregateMode READ aggregateMode WRITE setAggregateMode NOTIFY aggregateModeChanged)
     Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
 
 public:
@@ -44,8 +44,8 @@ public:
     bool isArchived() const { return m_isArchived; }
     void setIsArchived(bool newIsArchived);
 
-    TaskRepeat::Mode repeatMode() const { return m_repeatMode; }
-    void setRepeatMode(TaskRepeat::Mode newRepeatMode);
+    TaskAggregate::Mode aggregateMode() const { return m_aggregateMode; }
+    void setAggregateMode(TaskAggregate::Mode newAggregateMode);
 
     TaskTrack::Mode trackMode() const { return m_trackMode; }
     void setTrackMode(TaskTrack::Mode newTrackMode);
@@ -63,7 +63,7 @@ signals:
     void isEditedChanged();
     void isDoneChanged();
     void isArchivedChanged();
-    void repeatModeChanged();
+    void aggregateModeChanged();
     void trackModeChanged();
     void countChanged(const QDate& date, int count);
     void durationsChanged(const QDate& date);
@@ -76,7 +76,7 @@ private:
     bool m_isEdited = false;
     bool m_isDone = false;
     bool m_isArchived = false;
-    TaskRepeat::Mode m_repeatMode = TaskRepeat::DefaultMode;
+    TaskAggregate::Mode m_aggregateMode = TaskAggregate::DefaultMode;
     TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
 
     QMap<QDate, int> m_counts;
