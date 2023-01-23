@@ -37,6 +37,7 @@ Control {
 
     WeekModel {
         id: weekModel
+        weekStart: Config.weekStart
         selectedDate: today
     }
 
