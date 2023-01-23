@@ -13,14 +13,6 @@ namespace tasktrackerlib {
 WeekModel::WeekModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_days << Qt::Sunday
-           << Qt::Monday
-           << Qt::Tuesday
-           << Qt::Wednesday
-           << Qt::Thursday
-           << Qt::Friday
-           << Qt::Saturday
-              ;
 }
 
 int WeekModel::rowCount(const QModelIndex &parent) const
@@ -77,6 +69,22 @@ bool WeekModel::setData(const QModelIndex &index, const QVariant &value, int rol
     return false;
 }
 
+
+Qt::DayOfWeek WeekModel::weekStart() const
+{
+    return m_weekStart;
+}
+
+void WeekModel::setWeekStart(Qt::DayOfWeek newWeekStart)
+{
+    if (m_weekStart == newWeekStart)
+        return;
+    m_weekStart = newWeekStart;
+
+    updateDays();
+    emit weekStartChanged();
+}
+
 QDate WeekModel::selectedDate() const
 {
     return m_selectedDate;
@@ -100,6 +108,13 @@ void WeekModel::addDays(int days)
 void WeekModel::updateDays()
 {
     beginResetModel();
+
+    m_days.clear();
+    const int days_in_week = 7;
+    for (int i = 0; i < days_in_week; ++i) {
+        m_days << Qt::DayOfWeek((m_weekStart - 1 + i) % days_in_week + 1);
+    }
+
     auto day_of_week = m_selectedDate.dayOfWeek();
     auto it = std::find_if(m_days.begin(), m_days.end(), [&](const Day& d) { return d.dayOfWeek == day_of_week; });
     auto index = it - m_days.begin();
