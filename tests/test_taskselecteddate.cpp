@@ -32,6 +32,8 @@ durations:
   seconds: 8
 - dateTime: "2023-01-23T00:00.000Z"
   seconds: 16
+- dateTime: "2023-02-01T00:00.000Z"
+  seconds: 32
 )";
 
         QString count_tracking_data = R"(
@@ -65,13 +67,29 @@ counts:
                 << 1
                 << 1;
 
-        QTest::newRow("Daily, 2023/1/22")
+        QTest::newRow("Monthly, 2023/1/22")
                 << duration_tracking_data
                 << Qt::Sunday
-                << TaskAggregate::Daily
+                << TaskAggregate::Monthly
                 << QDate(2023, 1, 22)
                 << 14
-                << 14;
+                << 31;
+
+        QTest::newRow("Weekly, 2023/1/22")
+                << duration_tracking_data
+                << Qt::Sunday
+                << TaskAggregate::Weekly
+                << QDate(2023, 1, 22)
+                << 14
+                << 30;
+
+        QTest::newRow("Weekly, 2023/1/22")
+                << duration_tracking_data
+                << Qt::Monday
+                << TaskAggregate::Weekly
+                << QDate(2023, 1, 22)
+                << 14
+                << 15;
     }
 
     void test_seconds_and_aggregate_seconds() {
