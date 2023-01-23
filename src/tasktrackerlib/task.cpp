@@ -15,11 +15,50 @@ static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
 static const char* RepeatModeYamlName = "repeat";
 static const char* TrackModeYamlName = "track";
+static const char* CountsYamlName = "counts";
+static const char* CountsDateYamlName = "date";
+static const char* CountsCountYamlName = "count";
+
+QMap<QDate, int> loadCounts(const YAML::Node &node) {
+    QMap<QDate, int> counts;
+
+    if (node.IsNull()) {
+        return counts;
+    }
+
+    auto counts_node = node[CountsYamlName];
+    if (!counts_node) {
+        return counts;
+    }
+
+    if (!counts_node.IsSequence()) {
+        qCritical().nospace() << CountsYamlName << " is not a sequence";
+        return counts;
+    }
+
+    for (unsigned int i = 0; i < counts_node.size(); ++i) {
+        auto count = counts_node[i];
+        if (!count.IsMap()) {
+            qCritical().nospace() << CountsYamlName << "[" << i << "] is not a dictionary";
+            continue;
+        }
+        auto count_date = qtyamlcppadapter::dateFromYaml(count, CountsDateYamlName, QDate());
+        if (!count_date.isValid()) {
+            qCritical().nospace() << CountsYamlName << "[" << i << "]["<< CountsDateYamlName << "] is not a valid date";
+            continue;
+        }
+        counts[count_date] =
+                (counts.contains(count_date) ? counts[count_date] : 0)
+                + qtyamlcppadapter::intFromYaml(count, CountsCountYamlName, 0);
+    }
+
+    return counts;
+}
+
 }
 
 Task::Task(QObject *parent)
     : QObject{parent}
-    , m_counts(new TaskCountModel(this))
     , m_durations(new TaskDurationModel(this))
 {
 }
@@ -92,6 +131,19 @@ void Task::loadFromYaml(const YAML::Node &node)
     setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
-    m_counts->loadFromYaml(node);
+    m_counts = loadCounts(node);
     m_durations->loadFromYaml(node);
+}
+
+int Task::count(const QDate &date) const
+{
+    return m_counts[date];
+}
+
+void Task::setCount(const QDate &date, int count)
+{
+    if (m_counts[date] == count && !date.isValid())
+        return;
+    m_counts[date] = count;
+    emit countChanged(date, count);
 }

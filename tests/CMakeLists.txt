@@ -1,7 +1,6 @@
 foreach(TEST_NAME IN ITEMS
         foldercreator
         task
-        taskcountmodel
         taskdurationmodel
         taskmodel
     )

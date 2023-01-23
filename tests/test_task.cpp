@@ -8,6 +8,14 @@ class TestTask: public QObject
 {
     Q_OBJECT
 
+private:
+    struct Count {
+        QDate date;
+        int count;
+    };
+
+    typedef QList<Count> CountList;
+
 private slots:
     void test_load_name_data() {
         QTest::addColumn<QString>("data");
@@ -88,7 +96,6 @@ repeat: Weekly
         QCOMPARE(task.repeatMode(), repeatMode);
     }
 
-
     void test_load_track_mode_data() {
         QTest::addColumn<QString>("data");
         QTest::addColumn<TaskTrack::Mode>("trackMode");
@@ -116,6 +123,50 @@ track: Count
         Task task;
         task.loadFromData(data.toUtf8());
         QCOMPARE(task.trackMode(), trackMode);
+    }
+
+    void test_load_counts_data() {
+        QTest::addColumn<QString>("data");
+        QTest::addColumn<CountList>("counts");
+
+        QTest::newRow("Empty") << R"(
+)" << CountList();
+
+        QTest::newRow("Empty") << R"(
+counts: []
+)" << CountList();
+
+        QTest::newRow("One Value") << R"(
+counts:
+- date: 2023-01-01T00:01:02Z
+  count: 20
+)" << (CountList() << Count { QDate(2023, 1, 1), 20 });
+
+        QTest::newRow("Unordered") << R"(
+counts:
+- date: 2023-01-02
+  count: 20
+- date: 2023-01-01
+  count: 10
+- date: 2023-01-03
+  count: 30
+)" << (CountList()
+        << Count { QDate(2023, 1, 1), 10 }
+        << Count { QDate(2023, 1, 2), 20 }
+        << Count { QDate(2023, 1, 3), 30 }
+        );
+    }
+
+    void test_load_counts() {
+        QFETCH(QString, data);
+        QFETCH(CountList, counts);
+
+        Task task;
+        task.loadFromData(data.toUtf8());
+        for(int i = 0; i < counts.size(); ++i) {
+            auto count = counts[i];
+            QCOMPARE(task.count(count.date), count.count);
+        }
     }
 };
 

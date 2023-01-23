@@ -12,9 +12,6 @@ ColumnLayout {
 
     required property Task task
 
-    signal incrementCount()
-    signal decrementCount()
-
     component FilterPane: Pane {
         Layout.fillWidth: true
 
@@ -32,28 +29,6 @@ ColumnLayout {
         interactive: false
     }
 
-    component CountDelegate: RowLayout {
-        required property int count
-
-        ThemedLabel {
-            id: valueLabel
-            text: count
-        }
-
-        Item { Layout.fillWidth: true }
-
-        ThemedToolButton {
-            visible: count > 0
-            icon.source: "../../icons/task/decrement.svg"
-            onClicked: decrementCount()
-        }
-
-        ThemedToolButton {
-            icon.source: "../../icons/task/increment.svg"
-            onClicked: incrementCount()
-        }
-    }
-
     x: Theme.ContentLeftMargin
     width: ListView.view.width - x
 
@@ -61,15 +36,15 @@ ColumnLayout {
 
     spacing: 0
 
-    TaskDurationFilterModel {
-        id: filteredDurations
-        sourceModel: task.durations
+    TaskSelectedDate {
+        id: taskSelectedDate
+        task: root.task
         selectedDate: date
     }
 
-    TaskCountFilterModel {
-        id: filteredCounts
-        sourceModel: task.counts
+    TaskDurationFilterModel {
+        id: filteredDurations
+        sourceModel: task.durations
         selectedDate: date
     }
 
@@ -78,23 +53,26 @@ ColumnLayout {
     }
 
     FilterPane {
-        visible: task.trackMode === TaskTrack.Count && countsView.count === 0
-        CountDelegate {
+        visible: task.trackMode === TaskTrack.Count
+        RowLayout {
             anchors.fill: parent
-            count: 0
-        }
-    }
 
-    FilterPane {
-        visible: countsView.count > 0
+            ThemedLabel {
+                id: valueLabel
+                text: taskSelectedDate.count
+            }
 
-        FilterListView {
-            id: countsView
+            Item { Layout.fillWidth: true }
 
-            model: filteredCounts
+            ThemedToolButton {
+                visible: taskSelectedDate.count > 0
+                icon.source: "../../icons/task/decrement.svg"
+                onClicked: --taskSelectedDate.count
+            }
 
-            delegate: CountDelegate {
-                width: ListView.view.width
+            ThemedToolButton {
+                icon.source: "../../icons/task/increment.svg"
+                onClicked: ++taskSelectedDate.count
             }
         }
     }
