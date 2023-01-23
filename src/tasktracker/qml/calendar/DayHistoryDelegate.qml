@@ -10,6 +10,8 @@ import "../theme/Theme.js" as Theme
 ColumnLayout {
     id: root
 
+    required property Task task
+
     signal incrementCount()
     signal decrementCount()
 
@@ -20,7 +22,7 @@ ColumnLayout {
         rightPadding: Theme.ContentRightMargin
 
         background: Rectangle {
-            color: isArchived ? palette.alternateBase : palette.base
+            color: task.isArchived ? palette.alternateBase : palette.base
         }
     }
 
@@ -61,22 +63,22 @@ ColumnLayout {
 
     TaskDurationFilterModel {
         id: filteredDurations
-        sourceModel: durations
+        sourceModel: task.durations
         selectedDate: date
     }
 
     TaskCountFilterModel {
         id: filteredCounts
-        sourceModel: counts
+        sourceModel: task.counts
         selectedDate: date
     }
 
     ThemedGroupTitle {
-        text: "<b>%1</b> (%2, %3)".arg(name).arg(TaskRepeat.toString(repeatMode)).arg(TaskTrack.toString(trackMode))
+        text: "<b>%1</b> (%2, %3)".arg(task.name).arg(TaskRepeat.toString(task.repeatMode)).arg(TaskTrack.toString(task.trackMode))
     }
 
     FilterPane {
-        visible: trackMode === TaskTrack.Count && countsView.count === 0
+        visible: task.trackMode === TaskTrack.Count && countsView.count === 0
         CountDelegate {
             anchors.fill: parent
             count: 0
@@ -126,7 +128,7 @@ ColumnLayout {
     }
 
     FilterPane {
-        visible: trackMode === TaskTrack.Duration
+        visible: task.trackMode === TaskTrack.Duration
         ThemedToolButton {
             icon.source: "../../icons/task/increment.svg"
         }

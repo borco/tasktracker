@@ -5,29 +5,24 @@
 #include "taskmodel.h"
 
 #include "task.h"
-#include "taskdurationmodel.h"
 
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
 #include <QDir>
 #include <QFileInfo>
 
-using namespace tasktrackerlib;
-
 namespace {
 static const char* TasksYamlNode = "tasks";
 
 enum Roles {
-    Name = Qt::UserRole + 1,
+    Task = Qt::UserRole + 1,
     IsEdited,
     IsDone,
     IsArchived,
-    RepeatMode,
-    TrackMode,
-    Durations,
-    Counts,
 };
 }
+
+namespace tasktrackerlib {
 
 TaskModel::TaskModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -47,14 +42,10 @@ int TaskModel::rowCount(const QModelIndex &parent) const
 QHash<int, QByteArray> TaskModel::roleNames() const
 {
     return {
-        { Name, "name"},
+        { ::Task, "task" },
         { IsEdited, "isEdited"},
         { IsArchived, "isArchived"},
         { IsDone, "isDone"},
-        { RepeatMode, "repeatMode"},
-        { TrackMode, "trackMode"},
-        { Durations, "durations" },
-        { Counts, "counts" },
     };
 }
 
@@ -64,24 +55,15 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     auto task = m_tasks[index.row()];
-
     switch(role) {
-    case Name:
-        return task->name();
-    case IsEdited:
+    case ::Task:
+        return QVariant::fromValue(task);
+            case IsEdited:
         return task->isEdited();
     case IsDone:
         return task->isDone();
     case IsArchived:
         return task->isArchived();
-    case RepeatMode:
-        return task->repeatMode();
-    case TrackMode:
-        return task->trackMode();
-    case Durations:
-        return QVariant::fromValue(task->durations());
-    case Counts:
-        return QVariant::fromValue(task->counts());
     }
 
     return QVariant();
@@ -93,10 +75,6 @@ bool TaskModel::setData(const QModelIndex &index, const QVariant &value, int rol
         QList<int> roles = {};
 
         switch(role) {
-        case Name:
-            m_tasks[index.row()]->setName(value.toString());
-            roles << role;
-            break;
         case IsEdited:
             m_tasks[index.row()]->setIsEdited(value.toBool());
             roles << role;
@@ -107,10 +85,6 @@ bool TaskModel::setData(const QModelIndex &index, const QVariant &value, int rol
             break;
         case IsArchived:
             m_tasks[index.row()]->setIsArchived(value.toBool());
-            roles << role;
-            break;
-        case TrackMode:
-            m_tasks[index.row()]->setTrackMode(TaskTrack::Mode(value.toInt()));
             roles << role;
             break;
         }
@@ -211,3 +185,5 @@ void TaskModel::save(const QString &path, const QString &fileName)
     QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
     qInfo() << "TaskModel: saving tasks to:" << absolute_file_path;
 }
+
+} // tasktrackerlib

@@ -11,11 +11,9 @@ Pane {
 
     required property int index
     required property var model
-    required property string name
+    required property Task task
     required property bool isDone
     required property bool isArchived
-    required property int repeatMode
-    required property int trackMode
 
     property bool isStarted: false
 
@@ -30,7 +28,7 @@ Pane {
 
     background: Rectangle {
         radius: 10
-        color: isArchived ? palette.alternateBase : palette.base
+        color: task.isArchived ? palette.alternateBase : palette.base
     }
 
     RowLayout {
@@ -47,16 +45,16 @@ Pane {
             Layout.fillWidth: true
 
             ThemedLabel {
-                text: name
+                text: task.name
                 Layout.fillWidth: true
             }
 
             ThemedSmallLabel {
-                text: TaskRepeat.toString(repeatMode)
+                text: TaskRepeat.toString(task.repeatMode)
             }
 
             ThemedSmallLabel {
-                text: TaskTrack.toString(trackMode)
+                text: TaskTrack.toString(task.trackMode)
             }
 
             ThemedSmallLabel {
@@ -67,18 +65,18 @@ Pane {
 
         ThemedToolButton {
             icon.source: "../../icons/task/decrement.svg"
-            visible: trackMode === TaskTrack.Count
+            visible: task.trackMode === TaskTrack.Count
             onClicked: decrement()
         }
 
         ThemedToolButton {
             icon.source: "../../icons/task/increment.svg"
-            visible: trackMode === TaskTrack.Count
+            visible: task.trackMode === TaskTrack.Count
             onClicked: increment()
         }
 
         ThemedToolButton {
-            visible: trackMode === TaskTrack.Duration
+            visible: task.trackMode === TaskTrack.Duration
             icon.source: isStarted ? "../../icons/task/stop.svg" : "../../icons/task/start.svg"
             onClicked: isStarted = !isStarted
         }

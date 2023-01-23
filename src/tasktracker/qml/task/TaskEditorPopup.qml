@@ -114,8 +114,8 @@ ThemedPopup {
 
                 ItemInput {
                     label: qsTr("Name")
-                    text: model ? model.name : ""
-                    onTextChanged: if (model) model.name = text
+                    text: model ? model.task.name : ""
+                    onTextChanged: if (model) model.task.name = text
                 }
 
                 ThemedSwitchDelegate {
@@ -138,8 +138,8 @@ ThemedPopup {
                     ThemedRadioDelegate {
                         text: TaskRepeat.toString(modelData)
                         ButtonGroup.group: repeadModeGroup
-                        checked: root.model ? root.model.repeatMode === modelData : false
-                        onClicked: root.model.repeatMode = modelData
+                        checked: root.model ? root.model.task.repeatMode === modelData : false
+                        onClicked: root.model.task.repeatMode = modelData
                     }
                 }
 
@@ -152,8 +152,8 @@ ThemedPopup {
                     ThemedRadioDelegate {
                         text: TaskTrack.toString(modelData)
                         ButtonGroup.group: trackModeGroup
-                        checked: root.model ? root.model.trackMode === modelData : false
-                        onClicked: root.model.trackMode = modelData
+                        checked: root.model ? root.model.task.trackMode === modelData : false
+                        onClicked: root.model.task.trackMode = modelData
                     }
                 }
 
