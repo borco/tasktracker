@@ -13,6 +13,7 @@ TaskSelectedDate::TaskSelectedDate(QObject *parent)
     : QObject{parent}
     , m_durations(new TaskDurationModel(this))
 {
+    connect(Config::get(), &Config::weekStartChanged, this, &TaskSelectedDate::updateAggregateInterval);
 }
 
 Task *TaskSelectedDate::task() const
