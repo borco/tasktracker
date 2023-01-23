@@ -27,6 +27,10 @@ Page {
         rightButton.onClicked: root.done()
     }
 
+    ButtonGroup {
+        id: weekStartGroup
+    }
+
     LoginTogglPopup {
         id: signInTogglPopup
     }
@@ -57,6 +61,22 @@ Page {
 
             width: parent.width
             spacing: 0
+
+            ThemedGroupTitle { text: qsTr("Week Start") }
+
+            ThemedRadioDelegate {
+                text: qsTr("Sunday")
+                checked: Config.weekStart === Qt.Sunday
+                onClicked: Config.weekStart = Qt.Sunday
+                ButtonGroup.group: weekStartGroup
+            }
+
+            ThemedRadioDelegate {
+                text: qsTr("Monday")
+                checked: Config.weekStart === Qt.Monday
+                onClicked: Config.weekStart = Qt.Monday
+                ButtonGroup.group: weekStartGroup
+            }
 
             ThemedGroupTitle { text: qsTr("Security and Privacy") }
 
