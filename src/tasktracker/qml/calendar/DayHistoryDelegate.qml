@@ -42,12 +42,6 @@ ColumnLayout {
         selectedDate: date
     }
 
-    TaskDurationFilterModel {
-        id: filteredDurations
-        sourceModel: task.durations
-        selectedDate: date
-    }
-
     ThemedGroupTitle {
         text: "<b>%1</b> (%2, %3)".arg(task.name).arg(TaskRepeat.toString(task.repeatMode)).arg(TaskTrack.toString(task.trackMode))
     }
@@ -83,7 +77,7 @@ ColumnLayout {
         FilterListView {
             id: durationsView
 
-            model: filteredDurations
+            model: taskSelectedDate.durations
 
             delegate: RowLayout {
                 width: ListView.view.width

@@ -10,6 +10,7 @@ namespace tasktrackerlib {
 
 TaskSelectedDate::TaskSelectedDate(QObject *parent)
     : QObject{parent}
+    , m_durations(new TaskDurationModel(this))
 {
 }
 
@@ -73,9 +74,16 @@ void TaskSelectedDate::updateWrappedProperties()
 {
     if (m_task && m_selectedDate.isValid()) {
         setCount(m_task->count(m_selectedDate));
+        m_durations->setTimeDurations(m_task->timeDurations(m_selectedDate));
     } else {
         setCount(0);
+        m_durations->clear();
     }
+}
+
+TaskDurationModel *TaskSelectedDate::durations() const
+{
+    return m_durations;
 }
 
 } // namespace tasktrackerlib

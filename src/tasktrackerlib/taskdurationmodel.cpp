@@ -4,18 +4,12 @@
 
 #include "taskdurationmodel.h"
 
-#include "taskduration.h"
-
-#include "yaml-cpp/yaml.h" // IWYU pragma: keep
-
 namespace {
 static const char* DurationsYamlNode = "durations";
 
 enum Roles {
-    DateTime = Qt::UserRole + 1,
+    Time = Qt::UserRole + 1,
     Seconds,
-    Date,
-    Time,
 };
 }
 
@@ -28,7 +22,6 @@ TaskDurationModel::TaskDurationModel(QObject *parent)
 
 TaskDurationModel::~TaskDurationModel()
 {
-    qDeleteAll(m_durations);
 }
 
 int TaskDurationModel::rowCount(const QModelIndex &parent) const
@@ -42,10 +35,8 @@ int TaskDurationModel::rowCount(const QModelIndex &parent) const
 QHash<int, QByteArray> TaskDurationModel::roleNames() const
 {
     return {
-        { DateTime, "dateTime" },
-        { Seconds, "seconds" },
-        { Date, "date" },
         { Time, "time" },
+        { Seconds, "seconds" },
     };
 }
 
@@ -57,14 +48,10 @@ QVariant TaskDurationModel::data(const QModelIndex &index, int role) const
     auto duration = m_durations[index.row()];
 
     switch(role) {
-    case DateTime:
-        return duration->dateTime();
     case Seconds:
-        return duration->seconds();
-    case Date:
-        return duration->dateTime().date();
+        return duration.seconds;
     case Time:
-        return duration->dateTime().time().toString();
+        return duration.time.toString();
     }
 
     return QVariant();
@@ -80,63 +67,21 @@ bool TaskDurationModel::setData(const QModelIndex &index, const QVariant &value,
     return false;
 }
 
-void TaskDurationModel::loadFromData(const QByteArray &data)
-{
-    YAML::Node node = YAML::Load(data.toStdString());
-    loadFromYaml(node);
-}
-
-void TaskDurationModel::loadFromYaml(const YAML::Node &node)
-{
-    assert(node.IsMap() || node.IsNull());
-
-    if (node.IsNull()) {
-        clear();
-        return;
-    }
-
-    auto durations_node = node[DurationsYamlNode];
-    if (!durations_node) {
-        clear();
-        return;
-    }
-
-    if (!durations_node.IsSequence()) {
-        qCritical().nospace() << "TaskDurationModel: '" << DurationsYamlNode << "' is not a list";
-        clear();
-        return;
-    }
-
-    beginResetModel();
-    qDeleteAll(m_durations);
-    m_durations.clear();
-
-    for (unsigned int i = 0; i < durations_node.size(); ++i) {
-        auto duration = new TaskDuration(this);
-        duration->loadFromYaml(durations_node[i]);
-        insertDuration(i, duration);
-    }
-
-    std::sort(m_durations.begin(), m_durations.end(), [](const TaskDuration* e1, const TaskDuration* e2) { return e1->dateTime() < e2->dateTime(); });
-
-    endResetModel();
-
-    emit sizeChanged();
-}
-
-void TaskDurationModel::insertDuration(int row, TaskDuration *duration)
-{
-    beginInsertRows(QModelIndex(), row, row);
-    m_durations.insert(row, duration);
-    endInsertRows();
-    emit sizeChanged();
-}
-
 void TaskDurationModel::clear()
 {
     beginResetModel();
-    qDeleteAll(m_durations);
     m_durations.clear();
+    endResetModel();
+    emit sizeChanged();
+}
+
+void TaskDurationModel::setTimeDurations(const TimeDurations &timeDurations)
+{
+    beginResetModel();
+    m_durations.clear();
+    for (auto it = timeDurations.cbegin(); it != timeDurations.cend(); ++it) {
+        m_durations << Duration { it.key(), it.value() };
+    }
     endResetModel();
     emit sizeChanged();
 }
@@ -144,11 +89,6 @@ void TaskDurationModel::clear()
 int TaskDurationModel::size() const
 {
     return m_durations.size();
-}
-
-TaskDuration *TaskDurationModel::get(int index) const
-{
-    return m_durations[index];
 }
 
 } // namespace tasktrackerlib

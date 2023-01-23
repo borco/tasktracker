@@ -4,9 +4,10 @@
 
 #pragma once
 
-#include "taskdurationmodel.h"
 #include "taskrepeat.h"
 #include "tasktrack.h"
+
+#include <QDateTime>
 
 namespace YAML { class Node; }
 
@@ -23,10 +24,13 @@ class Task : public QObject
     Q_PROPERTY(bool isArchived READ isArchived WRITE setIsArchived NOTIFY isArchivedChanged)
     Q_PROPERTY(TaskRepeat::Mode repeatMode READ repeatMode WRITE setRepeatMode NOTIFY repeatModeChanged)
     Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
-    Q_PROPERTY(TaskDurationModel* durations READ durations CONSTANT)
 
 public:
+    typedef QMap<QTime, int> TimeDurations;
+    typedef QMap<QDate, TimeDurations> DateTimeDurations;
+
     explicit Task(QObject *parent = nullptr);
+    ~Task() override;
 
     QString name() const { return m_name; }
     void setName(const QString &newName);
@@ -52,7 +56,7 @@ public:
     Q_INVOKABLE int count(const QDate& date) const;
     void setCount(const QDate& date, int count);
 
-    TaskDurationModel* durations() const { return m_durations; }
+    TimeDurations timeDurations(const QDate& date) const;
 
 signals:
     void nameChanged();
@@ -62,8 +66,12 @@ signals:
     void repeatModeChanged();
     void trackModeChanged();
     void countChanged(const QDate& date, int count);
+    void durationsChanged(const QDate& date);
 
 private:
+    void loadCounts(const YAML::Node &node);
+    void loadDurations(const YAML::Node& node);
+
     QString m_name;
     bool m_isEdited = false;
     bool m_isDone = false;
@@ -72,7 +80,7 @@ private:
     TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
 
     QMap<QDate, int> m_counts;
-    TaskDurationModel *m_durations = nullptr;
+    DateTimeDurations m_durations;
 };
 
 }

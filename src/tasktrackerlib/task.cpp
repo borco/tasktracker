@@ -5,12 +5,10 @@
 #include "task.h"
 
 #include "qtyamlcppadapter/yamlhelper.h"
-#include "yaml-cpp/node/node.h"
-#include "yaml-cpp/node/parse.h"
-
-using namespace tasktrackerlib;
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
 namespace {
+
 static const char* TaskYamlName = "name";
 static const char* IsArchivedYamlName = "archived";
 static const char* RepeatModeYamlName = "repeat";
@@ -18,48 +16,20 @@ static const char* TrackModeYamlName = "track";
 static const char* CountsYamlName = "counts";
 static const char* CountsDateYamlName = "date";
 static const char* CountsCountYamlName = "count";
-
-QMap<QDate, int> loadCounts(const YAML::Node &node) {
-    QMap<QDate, int> counts;
-
-    if (node.IsNull()) {
-        return counts;
-    }
-
-    auto counts_node = node[CountsYamlName];
-    if (!counts_node) {
-        return counts;
-    }
-
-    if (!counts_node.IsSequence()) {
-        qCritical().nospace() << CountsYamlName << " is not a sequence";
-        return counts;
-    }
-
-    for (unsigned int i = 0; i < counts_node.size(); ++i) {
-        auto count = counts_node[i];
-        if (!count.IsMap()) {
-            qCritical().nospace() << CountsYamlName << "[" << i << "] is not a dictionary";
-            continue;
-        }
-        auto count_date = qtyamlcppadapter::dateFromYaml(count, CountsDateYamlName, QDate());
-        if (!count_date.isValid()) {
-            qCritical().nospace() << CountsYamlName << "[" << i << "]["<< CountsDateYamlName << "] is not a valid date";
-            continue;
-        }
-        counts[count_date] =
-                (counts.contains(count_date) ? counts[count_date] : 0)
-                + qtyamlcppadapter::intFromYaml(count, CountsCountYamlName, 0);
-    }
-
-    return counts;
-}
+static const char* DurationsYamlName = "durations";
+static const char* DurationsDateTimeYamlName = "dateTime";
+static const char* DurationsSecondsYamlName = "seconds";
 
 }
+
+namespace tasktrackerlib {
 
 Task::Task(QObject *parent)
     : QObject{parent}
-    , m_durations(new TaskDurationModel(this))
+{
+}
+
+Task::~Task()
 {
 }
 
@@ -131,13 +101,84 @@ void Task::loadFromYaml(const YAML::Node &node)
     setRepeatMode(enumFromYaml(node, RepeatModeYamlName, TaskRepeat::DefaultMode));
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
-    m_counts = loadCounts(node);
-    m_durations->loadFromYaml(node);
+    loadCounts(node);
+    loadDurations(node);
 }
 
 int Task::count(const QDate &date) const
 {
     return m_counts[date];
+}
+
+void Task::loadCounts(const YAML::Node &node)
+{
+    m_counts.clear();
+
+    if (node.IsNull()) {
+        return;
+    }
+
+    auto counts_node = node[CountsYamlName];
+    if (!counts_node) {
+        return;
+    }
+
+    if (!counts_node.IsSequence()) {
+        qCritical().nospace() << CountsYamlName << " is not a sequence";
+        return;
+    }
+
+    for (unsigned int i = 0; i < counts_node.size(); ++i) {
+        auto count = counts_node[i];
+        if (!count.IsMap()) {
+            qCritical().nospace() << CountsYamlName << "[" << i << "] is not a dictionary";
+            continue;
+        }
+        auto count_date = qtyamlcppadapter::dateFromYaml(count, CountsDateYamlName, QDate());
+        if (!count_date.isValid()) {
+            qCritical().nospace() << CountsYamlName << "[" << i << "]["<< CountsDateYamlName << "] is not a valid date";
+            continue;
+        }
+        m_counts[count_date] =
+                (m_counts.contains(count_date) ? m_counts[count_date] : 0)
+                + qtyamlcppadapter::intFromYaml(count, CountsCountYamlName, 0);
+    }
+}
+
+void Task::loadDurations(const YAML::Node &node)
+{
+    m_durations.clear();
+
+    if (node.IsNull()) {
+        return;
+    }
+
+    auto durations_node = node[DurationsYamlName];
+    if (!durations_node) {
+        return;
+    }
+
+    if (!durations_node.IsSequence()) {
+        qCritical().nospace() << DurationsYamlName << " is not a sequence";
+        return;
+    }
+
+    for (unsigned int i = 0; i < durations_node.size(); ++i) {
+        auto duration = durations_node[i];
+        if (!duration.IsMap()) {
+            qCritical().nospace() << DurationsYamlName << "[" << i << "] is not a dictionary";
+            continue;
+        }
+        auto duration_date_time = qtyamlcppadapter::dateTimeFromYaml(duration, DurationsDateTimeYamlName, QDateTime());
+        if (!duration_date_time.isValid()) {
+            qCritical().nospace() << DurationsYamlName << "[" << i << "]["<< DurationsDateTimeYamlName << "] is not a valid datetime";
+            continue;
+        }
+        auto duration_date = duration_date_time.date();
+        auto duration_time = duration_date_time.time();
+        auto seconds = qtyamlcppadapter::intFromYaml(duration, DurationsSecondsYamlName, 0);
+        m_durations[duration_date][duration_time] = seconds;
+    }
 }
 
 void Task::setCount(const QDate &date, int count)
@@ -147,3 +188,10 @@ void Task::setCount(const QDate &date, int count)
     m_counts[date] = count;
     emit countChanged(date, count);
 }
+
+Task::TimeDurations Task::timeDurations(const QDate &date) const
+{
+    return m_durations.value(date);
+}
+
+} // tasktrackerlib
