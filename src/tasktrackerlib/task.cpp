@@ -191,7 +191,7 @@ void Task::setCount(const QDate &date, int count)
 
 Task::TimeDurations Task::timeDurations(const QDate &date) const
 {
-    return m_durations.value(date);
+    return m_durations[date];
 }
 
 } // tasktrackerlib

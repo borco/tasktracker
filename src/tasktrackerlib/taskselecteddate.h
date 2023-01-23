@@ -24,8 +24,8 @@ class TaskSelectedDate : public QObject
 
     Q_PROPERTY(int aggregateCount READ aggregateCount NOTIFY aggregateCountChanged)
 
-    Q_PROPERTY(int seconds READ seconds WRITE setSeconds NOTIFY secondsChanged) // seconds tracked durint selectedDate, regardless of trackAggregate
-    Q_PROPERTY(int aggregateSeconds READ aggregateSeconds WRITE setAggregateSeconds NOTIFY aggregateSecondsChanged)
+    Q_PROPERTY(int seconds READ seconds NOTIFY secondsChanged) // seconds tracked durint selectedDate, regardless of trackAggregate
+    Q_PROPERTY(int aggregateSeconds READ aggregateSeconds NOTIFY aggregateSecondsChanged)
 
 public:
     explicit TaskSelectedDate(QObject *parent = nullptr);
@@ -42,12 +42,8 @@ public:
     TaskDurationModel *durations() const;
 
     int aggregateCount() const;
-
     int seconds() const;
-    void setSeconds(int newSeconds);
-
     int aggregateSeconds() const;
-    void setAggregateSeconds(int newAggregateSeconds);
 
     Q_INVOKABLE static QString formattedSeconds(int seconds);
 
@@ -55,20 +51,22 @@ signals:
     void taskChanged();
     void selectedDateChanged();
     void countChanged();
-
     void aggregateCountChanged();
-
     void secondsChanged();
-
     void aggregateSecondsChanged();
 
 private:
     void setAggregateCount(int newAggregateCount);
+    void setSeconds(int newSeconds);
+    void setAggregateSeconds(int newAggregateSeconds);
 
     void updateWrappedProperties();
     void updateCount(const QDate& date, int count);
     void updateAggregateCount();
     void updateAggregateInterval();
+    void updateSeconds();
+    void updateAggregateSeconds();
+    int seconds(const QDate& start, const QDate& end) const;
 
     Task *m_task = nullptr;
     QDate m_selectedDate;

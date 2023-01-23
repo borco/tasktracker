@@ -77,12 +77,13 @@ void TaskSelectedDate::updateWrappedProperties()
     if (m_task && m_selectedDate.isValid()) {
         setCount(m_task->count(m_selectedDate));
         m_durations->setTimeDurations(m_task->timeDurations(m_selectedDate));
-        updateAggregateCount();
     } else {
         setCount(0);
         m_durations->clear();
-        updateAggregateCount();
     }
+    updateAggregateCount();
+    updateSeconds();
+    updateAggregateSeconds();
 }
 
 void TaskSelectedDate::updateCount(const QDate &date, int count)
@@ -93,7 +94,6 @@ void TaskSelectedDate::updateCount(const QDate &date, int count)
     } else if (date >= m_aggregateBegin && date <= m_aggregateEnd) {
         updateAggregateCount();
     }
-
 }
 
 void TaskSelectedDate::updateAggregateCount()
@@ -122,6 +122,32 @@ void TaskSelectedDate::updateAggregateInterval()
     }
 
     updateAggregateCount();
+    updateAggregateSeconds();
+}
+
+void TaskSelectedDate::updateSeconds()
+{
+    setSeconds(seconds(m_selectedDate, m_selectedDate));
+}
+
+void TaskSelectedDate::updateAggregateSeconds()
+{
+    setAggregateSeconds(seconds(m_aggregateBegin, m_aggregateEnd));
+}
+
+int TaskSelectedDate::seconds(const QDate &start, const QDate &end) const
+{
+    if (!m_task || m_task->trackMode() != TaskTrack::Duration || !start.isValid() || !end.isValid())
+        return 0;
+
+    int seconds = 0;
+    for (auto date = start; date <= end; date = date.addDays(1)) {
+        auto time_durations = m_task->timeDurations(date);
+        for (auto it = time_durations.cbegin(); it != time_durations.cend(); ++it) {
+            seconds += it.value();
+        }
+    }
+    return seconds;
 }
 
 TaskDurationModel *TaskSelectedDate::durations() const

@@ -3,6 +3,7 @@ foreach(TEST_NAME IN ITEMS
         task
         taskaggregate
         taskmodel
+        taskselecteddate
     )
 
     qt_add_executable(test_${TEST_NAME}
