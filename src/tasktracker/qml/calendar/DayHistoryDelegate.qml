@@ -45,7 +45,7 @@ Control {
                         visible: task.trackMode === TaskTrack.Duration
                         text: taskSelectedDate.durations.size
                         checkable: true
-                        checked: true
+//                        checked: true
 
                         background: Rectangle {
                             implicitWidth: 30
@@ -82,7 +82,7 @@ Control {
 
                         ThemedSmallLabel {
                             property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
-                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregatedSeconds)
+                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregateSeconds)
                             visible: task.trackMode === TaskTrack.Duration
                             text: task.aggregateMode === TaskAggregate.Daily
                                   ? qsTr("%1").arg(formattedSeconds)
