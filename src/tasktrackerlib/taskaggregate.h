@@ -26,6 +26,9 @@ public:
 
     Q_INVOKABLE static QString toString(int aggregateMode);
 
+    static QDate aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);
+    static QDate aggregateEnd(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);
+
     inline const static Mode DefaultMode = Daily;
 };
 
