@@ -22,6 +22,8 @@ class TaskSelectedDate : public QObject
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(TaskDurationModel* durations READ durations CONSTANT)
 
+    Q_PROPERTY(int aggregateCount READ aggregateCount WRITE setAggregateCount NOTIFY aggregateCountChanged)
+
 public:
     explicit TaskSelectedDate(QObject *parent = nullptr);
 
@@ -36,17 +38,28 @@ public:
 
     TaskDurationModel *durations() const;
 
+    int aggregateCount() const;
+    void setAggregateCount(int newAggregateCount);
+
 signals:
     void taskChanged();
     void selectedDateChanged();
     void countChanged();
 
+    void aggregateCountChanged();
+
 private:
     void updateWrappedProperties();
+    void updateCount(const QDate& date, int count);
+    void updateAggregateCount();
+    void updateAggregateInterval();
 
     Task *m_task = nullptr;
     QDate m_selectedDate;
+    QDate m_aggregateBegin;
+    QDate m_aggregateEnd;
     int m_count = 0;
+    int m_aggregateCount = 0;
     TaskDurationModel *m_durations = nullptr;
 };
 

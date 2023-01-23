@@ -1,6 +1,7 @@
 foreach(TEST_NAME IN ITEMS
         foldercreator
         task
+        taskaggregate
         taskmodel
     )
 

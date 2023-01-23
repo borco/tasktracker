@@ -43,7 +43,9 @@ ColumnLayout {
     }
 
     ThemedGroupTitle {
-        text: "<b>%1</b> (%2, %3)".arg(task.name).arg(TaskAggregate.toString(task.aggregateMode)).arg(TaskTrack.toString(task.trackMode))
+        text: task.trackMode === TaskTrack.Count
+              ? "<b>%1</b> (%2 | %3)".arg(task.name).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskSelectedDate.aggregateCount)
+              : "<b>%1</b> (%2)".arg(task.name).arg(TaskAggregate.toString(task.aggregateMode))
     }
 
     FilterPane {

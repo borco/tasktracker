@@ -25,10 +25,10 @@ tasks:
     seconds: 50
 
 - name: weekly task
-  repeat: Weekly
+  aggregate: Weekly
 
 - name: count repeats task
-  aggregate: Weekly
+  aggregate: Monthly
   track: Count
   counts:
   - date: "2023-01-17"
