@@ -3,6 +3,7 @@ foreach(TEST_NAME IN ITEMS
         task
         taskaggregate
         taskduration
+        taskdurationsortedlist
         taskmodel
         taskselecteddate
     )

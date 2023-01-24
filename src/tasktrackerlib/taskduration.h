@@ -9,8 +9,6 @@
 #include <QQmlEngine>
 #include <QTime>
 
-namespace YAML { class Node; }
-
 namespace tasktrackerlib {
 
 class TaskDuration : public QObject, public YamlBackingStore
