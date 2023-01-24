@@ -18,8 +18,8 @@ class TaskDuration : public QObject, public YamlBackingStore
     Q_OBJECT
     QML_ELEMENT
 
-    Q_PROPERTY(QTime start READ start WRITE setStart NOTIFY startChanged)
-    Q_PROPERTY(QTime stop READ stop WRITE setStop NOTIFY stopChanged)
+    Q_PROPERTY(QDateTime start READ start WRITE setStart NOTIFY startChanged)
+    Q_PROPERTY(QDateTime stop READ stop WRITE setStop NOTIFY stopChanged)
     Q_PROPERTY(int seconds READ seconds NOTIFY secondsChanged)
 
 public:
@@ -27,11 +27,11 @@ public:
 
     void loadFromYaml(const YAML::Node &node) override;
 
-    QTime start() const;
-    void setStart(const QTime& time);
+    QDateTime start() const;
+    void setStart(const QDateTime& time);
 
-    QTime stop() const;
-    void setStop(const QTime& time);
+    QDateTime stop() const;
+    void setStop(const QDateTime& time);
 
     int seconds() const;
 
@@ -43,8 +43,8 @@ signals:
 private:
     void setSeconds(int newSeconds);
 
-    QTime m_start;
-    QTime m_stop;
+    QDateTime m_start;
+    QDateTime m_stop;
     int m_seconds = 0;
 };
 

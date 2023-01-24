@@ -4,9 +4,15 @@
 
 #include "taskduration.h"
 
+#include "qtyamlcppadapter/yamlhelper.h"
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
 namespace {
 
-int seconds(const QTime& start, const QTime& stop) {
+static const char* StartTimeYamlName = "start";
+static const char* StopTimeYamlName = "stop";
+
+int seconds(const QDateTime& start, const QDateTime& stop) {
     return start.isValid() && stop.isValid() ? start.secsTo(stop) : 0;
 }
 
@@ -21,14 +27,23 @@ TaskDuration::TaskDuration(QObject *parent)
 
 void TaskDuration::loadFromYaml(const YAML::Node &node)
 {
+    using namespace qtyamlcppadapter;
+
+    if (!node.IsMap() && !node.IsNull()) {
+        qCritical() << "TaskDuration: yaml node is not a map";
+        return;
+    }
+
+    setStart(dateTimeFromYaml(node, StartTimeYamlName));
+    setStop(dateTimeFromYaml(node, StopTimeYamlName));
 }
 
-QTime TaskDuration::start() const
+QDateTime TaskDuration::start() const
 {
     return m_start;
 }
 
-void TaskDuration::setStart(const QTime &time)
+void TaskDuration::setStart(const QDateTime &time)
 {
     if (m_start == time)
         return;
@@ -37,12 +52,12 @@ void TaskDuration::setStart(const QTime &time)
     emit startChanged();
 }
 
-QTime TaskDuration::stop() const
+QDateTime TaskDuration::stop() const
 {
     return m_stop;
 }
 
-void TaskDuration::setStop(const QTime &time)
+void TaskDuration::setStop(const QDateTime &time)
 {
     if (m_stop == time)
         return;
