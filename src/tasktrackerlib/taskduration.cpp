@@ -14,7 +14,8 @@ int seconds(const QTime& start, const QTime& stop) {
 
 namespace tasktrackerlib {
 
-TaskDuration::TaskDuration()
+TaskDuration::TaskDuration(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -32,7 +33,8 @@ void TaskDuration::setStart(const QTime &time)
     if (m_start == time)
         return;
     m_start = time;
-    m_seconds = ::seconds(m_start, m_stop);
+    setSeconds(::seconds(m_start, m_stop));
+    emit startChanged();
 }
 
 QTime TaskDuration::stop() const
@@ -45,12 +47,22 @@ void TaskDuration::setStop(const QTime &time)
     if (m_stop == time)
         return;
     m_stop = time;
-    m_seconds = ::seconds(m_start, m_stop);
+    setSeconds(::seconds(m_start, m_stop));
+    emit stopChanged();
 }
 
 int TaskDuration::seconds() const
 {
     return m_seconds;
+}
+
+void TaskDuration::setSeconds(int newSeconds)
+{
+    if (m_seconds == newSeconds)
+        return;
+
+    m_seconds = newSeconds;
+    emit secondsChanged();
 }
 
 } // namespace tasktrackerlib
