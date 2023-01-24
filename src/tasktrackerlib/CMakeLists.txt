@@ -25,6 +25,8 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         taskaggregate.cpp
         taskaggregate.h
+        taskduration.cpp
+        taskduration.h
         taskdurationmodel.cpp
         taskdurationmodel.h
         taskfiltermodel.cpp
@@ -39,6 +41,8 @@ qt_add_qml_module(${LIB_NAME}
         togglproxy.h
         weekmodel.cpp
         weekmodel.h
+        yamlbackingstore.cpp
+        yamlbackingstore.h
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC

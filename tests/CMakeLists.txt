@@ -2,6 +2,7 @@ foreach(TEST_NAME IN ITEMS
         foldercreator
         task
         taskaggregate
+        taskduration
         taskmodel
         taskselecteddate
     )
