@@ -30,7 +30,7 @@ Item {
         header: Item { implicitHeight: 10 }
         footer: Item { implicitHeight: 10 }
 
-        delegate: DayHistoryDelegate {
+        delegate: DayTask {
             width: ListView.view.width
         }
     }

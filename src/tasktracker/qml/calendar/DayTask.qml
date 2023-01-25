@@ -15,10 +15,10 @@ Control {
     implicitHeight: layout.implicitHeight
     implicitWidth: layout.implicitWidth
 
-    TaskSelectedDate {
+    TaskCount {
         id: taskSelectedDate
         task: root.task
-        selectedDate: date
+        selectedDate: model.date
     }
 
     ColumnLayout {
@@ -43,7 +43,8 @@ Control {
                     Button {
                         id: durationDetailsToggle
                         visible: task.trackMode === TaskTrack.Duration
-                        text: taskSelectedDate.durations.size
+//                        text: taskSelectedDate.durations.size
+                        text: "X"
                         checkable: true
 //                        checked: true
 
@@ -80,14 +81,14 @@ Control {
                                   : qsTr("%1 / %2: %3").arg(taskSelectedDate.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskSelectedDate.aggregateCount)
                         }
 
-                        ThemedSmallLabel {
-                            property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
-                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregateSeconds)
-                            visible: task.trackMode === TaskTrack.Duration
-                            text: task.aggregateMode === TaskAggregate.Daily
-                                  ? qsTr("%1").arg(formattedSeconds)
-                                  : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
-                        }
+//                        ThemedSmallLabel {
+//                            property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
+//                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregateSeconds)
+//                            visible: task.trackMode === TaskTrack.Duration
+//                            text: task.aggregateMode === TaskAggregate.Daily
+//                                  ? qsTr("%1").arg(formattedSeconds)
+//                                  : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
+//                        }
                     }
 
                     ThemedToolButton {
@@ -105,37 +106,37 @@ Control {
             }
         }
 
-        ListView {
-            Layout.fillWidth: true
+//        ListView {
+//            Layout.fillWidth: true
 
-            visible: task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
-            model: taskSelectedDate.durations
+//            visible: task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
+//            model: taskSelectedDate.durations
 
-            implicitHeight: contentHeight
-            interactive: false
+//            implicitHeight: contentHeight
+//            interactive: false
 
-            delegate: Pane {
-                width: ListView.view.width
+//            delegate: Pane {
+//                width: ListView.view.width
 
-                background: Rectangle { color: palette.alternateBase }
+//                background: Rectangle { color: palette.alternateBase }
 
-                RowLayout {
-                    anchors.fill: parent
-                    ThemedLabel {
-                        text: time
-                        font.family: fixedFont.family
-                    }
+//                RowLayout {
+//                    anchors.fill: parent
+//                    ThemedLabel {
+//                        text: time
+//                        font.family: fixedFont.family
+//                    }
 
-                    ThemedLabel {
-                        Layout.preferredWidth: 80
-                        horizontalAlignment: Text.AlignRight
-                        text: qsTr("+%1 sec").arg(seconds)
-                        font.family: fixedFont.family
-                    }
+//                    ThemedLabel {
+//                        Layout.preferredWidth: 80
+//                        horizontalAlignment: Text.AlignRight
+//                        text: qsTr("+%1 sec").arg(seconds)
+//                        font.family: fixedFont.family
+//                    }
 
-                    Item { Layout.fillWidth: true }
-                }
-            }
-        }
+//                    Item { Layout.fillWidth: true }
+//                }
+//            }
+//        }
     }
 }

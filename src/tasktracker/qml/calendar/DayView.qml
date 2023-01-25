@@ -7,7 +7,7 @@ import TaskTrackerLib
 Item {
     id: root
 
-    required property Component sourceComponent
+    required property Component dayComponent
 
     property alias currentIndex: swipeView.currentIndex
 
@@ -33,9 +33,8 @@ Item {
 
             Loader {
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                property date date: model.date
-                property int index: model.index
-                sourceComponent: root.sourceComponent
+                required property var model
+                sourceComponent: root.dayComponent
             }
         }
 

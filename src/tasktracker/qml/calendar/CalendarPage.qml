@@ -40,8 +40,8 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            sourceComponent: Component {
-                DayHistory {
+            dayComponent: Component {
+                DayTasks {
                     visibleTasksModel: TaskFilterModel {
                         sourceModel: taskModel
                         isDoneVisible: header.isDoneVisible

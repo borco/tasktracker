@@ -6,7 +6,6 @@ foreach(TEST_NAME IN ITEMS
         taskduration
         taskdurationsortedlist
         taskmodel
-        taskselecteddate
     )
 
     qt_add_executable(test_${TEST_NAME}
