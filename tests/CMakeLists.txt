@@ -1,4 +1,5 @@
 foreach(TEST_NAME IN ITEMS
+        datesortedlist
         foldercreator
         task
         taskaggregate

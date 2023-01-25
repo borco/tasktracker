@@ -13,6 +13,7 @@ qt_add_qml_module(${LIB_NAME}
     SOURCES
         config.cpp
         config.h
+        datesortedlist.h
         daymodel.cpp
         daymodel.h
         foldercreator.cpp
