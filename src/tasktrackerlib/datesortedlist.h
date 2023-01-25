@@ -8,12 +8,14 @@
 
 namespace tasktrackerlib {
 
-template <typename T> requires
-requires (T a) {
+template <typename T>
+concept ObjectWithStart = requires (T a) {
     [](T a) -> QObject* { return a.parent(); };
     [](T a, QObject* o) { a.setParent(o); };
     [](T a) -> QDateTime { return a.start(); };
-}
+};
+
+template <ObjectWithStart T>
 class DateSortedList
 {
 public:
@@ -64,7 +66,7 @@ public:
     virtual void setSize(int newSize) { m_size = newSize; }
 
 protected:
-    QObject* m_itemsOwner;
+    QObject* m_itemsOwner = nullptr;
     int m_size = 0;
     std::vector<T*> m_items;
 };
