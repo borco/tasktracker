@@ -20,6 +20,13 @@ int seconds(const QDateTime& start, const QDateTime& stop) {
 
 namespace tasktrackerlib {
 
+TaskDuration::TaskDuration(const QDateTime &start, const QDateTime &stop, QObject *parent)
+    : QObject(parent)
+    , m_start(start)
+    , m_stop(stop)
+{
+}
+
 TaskDuration::TaskDuration(QObject *parent)
     : QObject(parent)
 {

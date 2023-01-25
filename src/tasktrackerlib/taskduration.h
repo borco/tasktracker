@@ -21,6 +21,7 @@ class TaskDuration : public QObject, public YamlBackingStore
     Q_PROPERTY(int seconds READ seconds NOTIFY secondsChanged)
 
 public:
+    explicit TaskDuration(const QDateTime& start, const QDateTime& stop, QObject *parent = nullptr);
     explicit TaskDuration(QObject *parent = nullptr);
 
     void loadFromYaml(const YAML::Node &node) override;
