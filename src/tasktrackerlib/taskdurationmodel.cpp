@@ -65,10 +65,11 @@ QVariant TaskDurationModel::data(const QModelIndex &index, int role) const
             return duration->start();
         case Stop:
             return duration->stop();
-        case StartTime:
-            return duration->start().time().toString();
+        case StartTime: {
+            return duration->start().toLocalTime().time().toString();
+        }
         case StopTime:
-            return duration->stop().time().toString();
+            return duration->stop().toLocalTime().time().toString();
         case Seconds:
             return duration->seconds();
         }
