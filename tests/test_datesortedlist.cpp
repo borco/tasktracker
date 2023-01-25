@@ -190,11 +190,11 @@ private slots:
             sortedEvents.insert(event);
         };
 
-        auto slice_begin = sortedEvents.sliceBegin(date);
-        auto slice_end = sortedEvents.sliceEnd(date);
+        auto slice_begin = sortedEvents.begin(date);
+        auto slice_end = sortedEvents.end(date);
 
-        QCOMPARE(sortedEvents.sliceBegin(date) - sortedEvents.begin(), sliceBeginDistance);
-        QCOMPARE(sortedEvents.sliceEnd(date) - sortedEvents.begin(), sliceEndDistance);
+        QCOMPARE(sortedEvents.begin(date) - sortedEvents.begin(), sliceBeginDistance);
+        QCOMPARE(sortedEvents.end(date) - sortedEvents.begin(), sliceEndDistance);
     }
 };
 

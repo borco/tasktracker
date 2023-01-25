@@ -69,7 +69,7 @@ public:
 
     iterator begin() { return m_items.begin(); }
 
-    iterator sliceBegin(const QDate& date) {
+    iterator begin(const QDate& date) {
         if (date.isValid()) {
             return std::lower_bound(m_items.begin(), m_items.end(), date, [](const T* item, const QDate& date) { return item->start().date() < date; });
         } else {
@@ -79,18 +79,12 @@ public:
 
     iterator end() { return m_items.end(); }
 
-    iterator sliceEnd(const QDate& date) {
+    iterator end(const QDate& date) {
         if (date.isValid()) {
             return std::upper_bound(m_items.begin(), m_items.end(), date, [](const QDate& date, const T* item) { return date < item->start().date(); });
         } else {
             return m_items.end();
         }
-    }
-
-    DateSortedList* makeSlice(iterator sliceBegin, iterator sliceEnd) {
-        auto list = new DateSortedList(nullptr);
-        list->m_items = Items(sliceBegin, sliceEnd);
-        return list;
     }
 
 protected:
