@@ -17,7 +17,7 @@ class TaskCount : public QObject
     QML_ELEMENT
 
     Q_PROPERTY(Task* task READ task WRITE setTask NOTIFY taskChanged)
-    Q_PROPERTY(QDate selectedDate READ selectedDate WRITE setSelectedDate NOTIFY selectedDateChanged)
+    Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(int aggregateCount READ aggregateCount NOTIFY aggregateCountChanged)
 
@@ -27,8 +27,8 @@ public:
     Task *task() const;
     void setTask(Task *newTask);
 
-    QDate selectedDate() const;
-    void setSelectedDate(const QDate &newSelectedDate);
+    QDate date() const;
+    void setDate(const QDate &newDate);
 
     int count() const;
     void setCount(int newCount);
@@ -37,7 +37,7 @@ public:
 
 signals:
     void taskChanged();
-    void selectedDateChanged();
+    void dateChanged();
     void countChanged();
     void aggregateCountChanged();
 
@@ -50,7 +50,7 @@ private:
     void updateAggregateInterval();
 
     Task *m_task = nullptr;
-    QDate m_selectedDate;
+    QDate m_date;
     QDate m_aggregateBegin;
     QDate m_aggregateEnd;
     int m_count = 0;

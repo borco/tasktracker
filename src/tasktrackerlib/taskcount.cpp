@@ -40,19 +40,19 @@ void TaskCount::setTask(Task *newTask)
     emit taskChanged();
 }
 
-QDate TaskCount::selectedDate() const
+QDate TaskCount::date() const
 {
-    return m_selectedDate;
+    return m_date;
 }
 
-void TaskCount::setSelectedDate(const QDate &newSelectedDate)
+void TaskCount::setDate(const QDate &newDate)
 {
-    if (m_selectedDate == newSelectedDate)
+    if (m_date == newDate)
         return;
-    m_selectedDate = newSelectedDate;
+    m_date = newDate;
     updateAggregateInterval();
     updateWrappedProperties();
-    emit selectedDateChanged();
+    emit dateChanged();
 }
 
 int TaskCount::count() const
@@ -66,15 +66,15 @@ void TaskCount::setCount(int newCount)
         return;
     m_count = newCount;
     if (m_task) {
-        m_task->setCount(m_selectedDate, m_count);
+        m_task->setCount(m_date, m_count);
     }
     emit countChanged();
 }
 
 void TaskCount::updateWrappedProperties()
 {
-    if (m_task && m_selectedDate.isValid()) {
-        setCount(m_task->count(m_selectedDate));
+    if (m_task && m_date.isValid()) {
+        setCount(m_task->count(m_date));
     } else {
         setCount(0);
     }
@@ -83,7 +83,7 @@ void TaskCount::updateWrappedProperties()
 
 void TaskCount::updateCount(const QDate &date, int count)
 {
-    if (date == m_selectedDate) {
+    if (date == m_date) {
         setCount(count);
         updateAggregateCount();
     } else if (date >= m_aggregateBegin && date <= m_aggregateEnd) {
@@ -93,7 +93,7 @@ void TaskCount::updateCount(const QDate &date, int count)
 
 void TaskCount::updateAggregateCount()
 {
-    if (!m_task || !m_selectedDate.isValid()) {
+    if (!m_task || !m_date.isValid()) {
         setAggregateCount(0);
         return;
     }
@@ -107,13 +107,13 @@ void TaskCount::updateAggregateCount()
 
 void TaskCount::updateAggregateInterval()
 {
-    if (m_task && m_selectedDate.isValid()) {
+    if (m_task && m_date.isValid()) {
         auto week_start = Config::get()->weekStart();
-        m_aggregateBegin = TaskAggregate::aggregateBegin(week_start, m_task->aggregateMode(), m_selectedDate);
-        m_aggregateEnd = TaskAggregate::aggregateEnd(week_start, m_task->aggregateMode(), m_selectedDate);
+        m_aggregateBegin = TaskAggregate::aggregateBegin(week_start, m_task->aggregateMode(), m_date);
+        m_aggregateEnd = TaskAggregate::aggregateEnd(week_start, m_task->aggregateMode(), m_date);
     } else {
-        m_aggregateBegin = m_selectedDate;
-        m_aggregateEnd = m_selectedDate;
+        m_aggregateBegin = m_date;
+        m_aggregateEnd = m_date;
     }
 
     updateAggregateCount();

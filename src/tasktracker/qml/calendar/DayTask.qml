@@ -18,7 +18,7 @@ Control {
     TaskCount {
         id: taskSelectedDate
         task: root.task
-        selectedDate: model.date
+        date: model.date
     }
 
     ColumnLayout {
