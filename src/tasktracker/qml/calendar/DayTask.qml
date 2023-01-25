@@ -112,6 +112,10 @@ Control {
             }
         }
 
+        DurationEditorPopup {
+            id: durationEditoPopup
+        }
+
         ListView {
             Layout.fillWidth: true
 
@@ -129,15 +133,17 @@ Control {
                 RowLayout {
                     anchors.fill: parent
                     ThemedLabel {
-                        text: qsTr("%1 → %2").arg(startTime).arg(stopTime)
+                        text: qsTr("%1 → %2   +%3 sec").arg(startTime).arg(stopTime).arg(seconds)
                         font.family: fixedFont.family
-                    }
 
-                    ThemedLabel {
-                        Layout.preferredWidth: 80
-                        horizontalAlignment: Text.AlignRight
-                        text: qsTr("+%1 sec").arg(seconds)
-                        font.family: fixedFont.family
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                durationEditoPopup.start = start
+                                durationEditoPopup.stop = stop
+                                durationEditoPopup.open()
+                            }
+                        }
                     }
 
                     Item { Layout.fillWidth: true }
