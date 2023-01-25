@@ -31,6 +31,7 @@ Item {
         footer: Item { implicitHeight: 10 }
 
         delegate: DayTask {
+            date: model.date
             width: ListView.view.width
         }
     }
