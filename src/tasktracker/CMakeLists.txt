@@ -22,9 +22,11 @@ qt_add_qml_module(${APP_NAME}
         qml/AppHeader.qml
         qml/LogsComponent.qml
         qml/calendar/CalendarPage.qml
+        qml/calendar/DurationEditorPopup.qml
         qml/calendar/DayTask.qml
         qml/calendar/DayTasks.qml
         qml/calendar/DayView.qml
+        qml/calendar/TimeEditor.qml
         qml/calendar/WeekView.qml
         qml/config/ConfigDataFolderLocationSelectionPage.qml
         qml/config/ConfigMainPage.qml
