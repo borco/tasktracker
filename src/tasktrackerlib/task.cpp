@@ -4,6 +4,8 @@
 
 #include "task.h"
 
+#include "taskdurationsortedlist.h"
+
 #include "qtyamlcppadapter/yamlhelper.h"
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
@@ -26,6 +28,7 @@ namespace tasktrackerlib {
 
 Task::Task(QObject *parent)
     : QObject{parent}
+    , m_sortedDurations(new TaskDurationSortedList(this))
 {
 }
 
@@ -103,6 +106,8 @@ void Task::loadFromYaml(const YAML::Node &node)
 
     loadCounts(node);
     loadDurations(node);
+
+    m_sortedDurations->loadFromYaml(node);
 }
 
 int Task::count(const QDate &date) const
