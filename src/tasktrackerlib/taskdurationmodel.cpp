@@ -91,4 +91,30 @@ int TaskDurationModel::size() const
     return m_durations.size();
 }
 
+Task *TaskDurationModel::task() const
+{
+    return m_task;
+}
+
+void TaskDurationModel::setTask(Task *newTask)
+{
+    if (m_task == newTask)
+        return;
+    m_task = newTask;
+    emit taskChanged();
+}
+
+QDate TaskDurationModel::date() const
+{
+    return m_date;
+}
+
+void TaskDurationModel::setDate(const QDate &newDate)
+{
+    if (m_date == newDate)
+        return;
+    m_date = newDate;
+    emit dateChanged();
+}
+
 } // namespace tasktrackerlib

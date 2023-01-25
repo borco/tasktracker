@@ -12,13 +12,16 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
+class Task;
+
 class TaskDurationModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("TaskDurationModel can be created only in C++")
 
     Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+    Q_PROPERTY(Task* task READ task WRITE setTask NOTIFY taskChanged)
+    Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
 
 public:
     typedef QMap<QTime, int> TimeDurations;
@@ -36,8 +39,16 @@ public:
     void clear();
     void setTimeDurations(const TimeDurations& timeDurations);
 
+    Task *task() const;
+    void setTask(Task *newTask);
+
+    QDate date() const;
+    void setDate(const QDate &newDate);
+
 signals:
     void sizeChanged();
+    void taskChanged();
+    void dateChanged();
 
 private:
     struct Duration {
@@ -46,6 +57,8 @@ private:
     };
 
     QList<Duration> m_durations;
+    Task *m_task = nullptr;
+    QDate m_date;
 };
 
 } // namespace tasktrackerlib
