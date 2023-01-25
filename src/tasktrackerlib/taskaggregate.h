@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE static QString toString(int aggregateMode);
 
     Q_INVOKABLE static QString formattedSeconds(int seconds);
+    Q_INVOKABLE static int secondsBetween(const QDateTime& start, const QDateTime& stop);
 
     static QDate aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);
     static QDate aggregateEnd(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);

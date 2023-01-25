@@ -36,18 +36,26 @@ QString TaskAggregate::formattedSeconds(int seconds)
     if (seconds == 0)
         return tr("-");
 
+    bool is_negative = seconds < 0;
+    QString is_negative_repr = is_negative ? "-" : "";
+    seconds = is_negative ? -seconds : seconds;
     int hours = seconds / 3600;
     int mins = (seconds / 60) % 60;
     seconds = seconds % 60;
     if (hours > 0) {
-        return tr("%1h %2m").arg(hours).arg(mins);
+        return tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins);
     } else if (mins > 0) {
         return seconds > 0
-                ? tr("%1m %2s").arg(mins).arg(seconds)
-                : tr("%1m").arg(mins);
+                ? tr("%1%2m %3s").arg(is_negative_repr).arg(mins).arg(seconds)
+                : tr("%1%2m").arg(is_negative_repr).arg(mins);
     } else {
-        return tr("%1s").arg(seconds);
+        return tr("%1%2s").arg(is_negative_repr).arg(seconds);
     }
+}
+
+int TaskAggregate::secondsBetween(const QDateTime &start, const QDateTime &stop)
+{
+    return start.secsTo(stop);
 }
 
 QDate TaskAggregate::aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate &date)
