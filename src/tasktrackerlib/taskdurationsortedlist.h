@@ -26,6 +26,7 @@ public:
 
     void setSize(int newSize) override;
 
+    TaskDurationSortedList* forDate(const QDate& date);
 signals:
     void sizeChanged();
 };

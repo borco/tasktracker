@@ -56,4 +56,12 @@ void TaskDurationSortedList::setSize(int newSize)
     emit sizeChanged();
 }
 
+TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
+{
+    auto list = new TaskDurationSortedList(nullptr);
+    list->m_items = Items(begin(date), end(date));
+    list->setSize(list->m_items.size());
+    return list;
+}
+
 } // namespace tasktrackerlib
