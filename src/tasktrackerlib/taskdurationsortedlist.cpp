@@ -13,7 +13,8 @@ static const char* DurationsYamlName = "durations";
 namespace tasktrackerlib {
 
 TaskDurationSortedList::TaskDurationSortedList(QObject *parent)
-    : DateSortedList<TaskDuration>{parent}
+    : QObject{parent}
+    , DateSortedList<TaskDuration>(this)
 {
 }
 
@@ -22,19 +23,16 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
     clear();
 
     if (node.IsNull()) {
-        emit sizeChanged();
         return;
     }
 
     auto durations_node = node[DurationsYamlName];
     if (!durations_node) {
-        emit sizeChanged();
         return;
     }
 
     if (!durations_node.IsSequence()) {
         qCritical().nospace() << DurationsYamlName << " is not a sequence";
-        emit sizeChanged();
         return;
     }
 
@@ -48,7 +46,13 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
         duration->loadFromYaml(duration_node);
         insert(duration);
     }
+}
 
+void TaskDurationSortedList::setSize(int newSize)
+{
+    if (m_size == newSize)
+        return;
+    m_size = newSize;
     emit sizeChanged();
 }
 

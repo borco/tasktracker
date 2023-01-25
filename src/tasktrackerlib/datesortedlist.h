@@ -8,40 +8,16 @@
 
 namespace tasktrackerlib {
 
-class ObjectWithSize : public QObject
-{
-    Q_OBJECT
-
-    Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
-
-public:
-    explicit ObjectWithSize(QObject* parent = nullptr) : QObject(parent) {}
-
-    int size() const { return m_size; }
-    void setSize(int newSize) {
-        if (m_size == newSize)
-            return;
-        m_size = newSize;
-        emit sizeChanged();
-    }
-
-signals:
-    void sizeChanged();
-
-protected:
-    int m_size = 0;
-};
-
 template <typename T> requires
 requires (T a) {
     [](T a) -> QObject* { return a.parent(); };
     [](T a, QObject* o) { a.setParent(o); };
     [](T a) -> QDateTime { return a.start(); };
 }
-class DateSortedList: public ObjectWithSize
+class DateSortedList
 {
 public:
-    DateSortedList(QObject* parent = nullptr) : ObjectWithSize(parent) {}
+    DateSortedList(QObject* itemsOwner) : m_itemsOwner{itemsOwner} {}
     ~DateSortedList() { clear(); }
 
     bool insert(T* item) {
@@ -56,7 +32,7 @@ public:
         }
 
         if (!item->parent())
-            item->setParent(this);
+            item->setParent(m_itemsOwner);
 
         auto it = std::upper_bound(
                     m_items.begin(),
@@ -74,7 +50,7 @@ public:
 
     void clear() {
         for (auto item: m_items) {
-            if (item->parent() == this)
+            if (item->parent() == m_itemsOwner)
                 delete item;
         }
         m_items.clear();
@@ -84,7 +60,12 @@ public:
     T* operator[](int i) { return m_items[i]; }
     const T* operator[](int i) const { return m_items[i]; }
 
+    virtual int size() const { return m_size; }
+    virtual void setSize(int newSize) { m_size = newSize; }
+
 protected:
+    QObject* m_itemsOwner;
+    int m_size = 0;
     std::vector<T*> m_items;
 };
 

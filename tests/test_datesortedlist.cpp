@@ -13,6 +13,9 @@ class Event : public QObject
 
 public:
     explicit Event(QObject* parent = nullptr): QObject(parent) {}
+    ~Event() {
+        qDebug() << "~Event:" << m_start.toString(Qt::ISODate) << m_value;
+    }
 
     QDateTime start() const { return m_start; }
 
@@ -39,6 +42,13 @@ signals:
 private:
     QDateTime m_start;
     int m_value = 0;
+};
+
+class EventDateSortedList: public QObject, public DateSortedList<Event>
+{
+public:
+    explicit EventDateSortedList() : DateSortedList<Event>(this) {}
+    ~EventDateSortedList() { qDebug() << "~EventDateSortedList"; }
 };
 
 struct EventData {
@@ -111,7 +121,7 @@ private slots:
         QFETCH(EventDataList, inputData);
         QFETCH(EventDataList, sortedData);
 
-        DateSortedList<Event> sortedEvents;
+        EventDateSortedList sortedEvents;
         for (const auto &data: inputData) {
             auto event = new Event();
             event->setStart(data.start);
