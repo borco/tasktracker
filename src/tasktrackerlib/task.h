@@ -74,7 +74,6 @@ signals:
 
 private:
     void loadCounts(const YAML::Node &node);
-    void loadDurations(const YAML::Node& node);
 
     QString m_name;
     bool m_isEdited = false;
