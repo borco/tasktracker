@@ -87,6 +87,12 @@ public:
         }
     }
 
+    DateSortedList* makeSlice(iterator sliceBegin, iterator sliceEnd) {
+        auto list = new DateSortedList(nullptr);
+        list->m_items = Items(sliceBegin, sliceEnd);
+        return list;
+    }
+
 protected:
     QObject* m_itemsOwner = nullptr;
     int m_size = 0;
