@@ -8,14 +8,24 @@ tasks:
   durations:
   - dateTime: "2023-01-16T00:00.000Z"
     seconds: 16
+    start: "2023-01-16T00:00:00Z"
+    stop: "2023-01-16T00:00:16Z"
   - dateTime: "2023-01-17T00:00.000Z"
     seconds: 17
+    start: "2023-01-17T00:00:00Z"
+    stop: "2023-01-17T00:00:17Z"
   - dateTime: "2023-01-18T00:00.000Z"
     seconds: 18
+    start: "2023-01-18T00:00:00Z"
+    stop: "2023-01-18T00:00:18Z"
   - dateTime: "2023-01-18T00:02.000Z"
     seconds: 20
+    start: "2023-01-18T00:02:00Z"
+    stop: "2023-01-18T00:02:20Z"
   - dateTime: "2023-01-18T00:01.000Z"
     seconds: 10
+    start: "2023-01-18T00:01:00Z"
+    stop: "2023-01-18T00:01:10Z"
 
 - name: archived task
   archived: true
@@ -23,6 +33,8 @@ tasks:
   durations:
   - dateTime: "2023-01-18T00:05.000Z"
     seconds: 50
+    start: "2023-01-18T00:05:00Z"
+    stop: "2023-01-18T00:05:50Z"
 
 - name: weekly task
   aggregate: Weekly
@@ -42,5 +54,9 @@ tasks:
   durations:
   - dateTime: "2023-01-18T00:06.000Z"
     seconds: 120
+    start: "2023-01-18T00:06:00Z"
+    stop: "2023-01-18T00:08:00Z"
   - dateTime: "2023-01-18T00:10.000Z"
     seconds: 600
+    start: "2023-01-18T00:10:00Z"
+    stop: "2023-01-18T00:16:00Z"
