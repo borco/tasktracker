@@ -129,7 +129,7 @@ Control {
                 RowLayout {
                     anchors.fill: parent
                     ThemedLabel {
-                        text: time
+                        text: qsTr("%1 → %2").arg(startTime).arg(stopTime)
                         font.family: fixedFont.family
                     }
 
