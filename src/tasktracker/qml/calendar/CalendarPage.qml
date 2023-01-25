@@ -24,7 +24,7 @@ Item {
         WeekView {
             id: weekView
 
-            selectedDate: dayView.dateForIndex(dayView.currentIndex)
+            date: dayView.dateForIndex(dayView.currentIndex)
             onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)
 
             Layout.fillWidth: true
