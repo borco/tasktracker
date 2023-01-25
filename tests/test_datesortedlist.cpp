@@ -68,51 +68,51 @@ private slots:
         QTest::addColumn<EventDataList>("sortedData");
 
         QTest::newRow("1 value")
-                << (EventDataList() << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 })
-                << (EventDataList() << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 })
+                << (EventDataList() << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 })
+                << (EventDataList() << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 })
                    ;
 
         QTest::newRow("ordered values (same day)")
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 2 }
                     )
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 2 }
                     )
                    ;
 
         QTest::newRow("ordered values (different days)")
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 2 }
                     )
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 2 }
                     )
                    ;
 
         QTest::newRow("unordered values (same day)")
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 200 }
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 2 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
                     )
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 4), QTimeZone::UTC), 2 }
                     )
                    ;
 
         QTest::newRow("unordered values (different days)")
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 200 }
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 2 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
                     )
                 << (EventDataList()
-                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 100 }
-                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 200 }
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 1, 1), QTimeZone::UTC), 2 }
                     )
                    ;
     }
@@ -123,7 +123,7 @@ private slots:
 
         EventDateSortedList sortedEvents;
         for (const auto &data: inputData) {
-            auto event = new Event();
+            auto event = new Event(&sortedEvents);
             event->setStart(data.start);
             event->setValue(data.value);
             sortedEvents.insert(event);
@@ -137,6 +137,64 @@ private slots:
             QCOMPARE(event->start(), data.start);
             QCOMPARE(event->value(), data.value);
         }
+    }
+
+    void test_slice_data() {
+        QTest::addColumn<EventDataList>("inputData");
+        QTest::addColumn<QDate>("date");
+        QTest::addColumn<int>("sliceBeginDistance");
+        QTest::addColumn<int>("sliceEndDistance");
+
+        QTest::newRow("1 value")
+                << (EventDataList() << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 })
+                << QDate(2023, 1, 1)
+                << 0
+                << 1
+                   ;
+
+        QTest::newRow("one value per day")
+                << (EventDataList()
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(1, 2, 3), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(1, 2, 3), QTimeZone::UTC), 2 }
+                    << EventData { QDateTime(QDate(2023, 1, 3), QTime(1, 2, 3), QTimeZone::UTC), 3 }
+                    )
+                << QDate(2023, 1, 2)
+                << 1
+                << 2
+                   ;
+
+        QTest::newRow("multiple values in a day")
+                << (EventDataList()
+                    << EventData { QDateTime(QDate(2023, 1, 1), QTime(0, 0, 1), QTimeZone::UTC), 1 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(0, 0, 2), QTimeZone::UTC), 2 }
+                    << EventData { QDateTime(QDate(2023, 1, 2), QTime(0, 0, 3), QTimeZone::UTC), 3 }
+                    << EventData { QDateTime(QDate(2023, 1, 3), QTime(0, 0, 4), QTimeZone::UTC), 4 }
+                    )
+                << QDate(2023, 1, 2)
+                << 1
+                << 3
+                   ;
+    }
+
+    void test_slice() {
+        QFETCH(EventDataList, inputData);
+        QFETCH(QDate, date);
+        QFETCH(int, sliceBeginDistance);
+        QFETCH(int, sliceEndDistance);
+
+        EventDateSortedList sortedEvents;
+        for (const auto &data: inputData) {
+            auto event = new Event(&sortedEvents);
+            event->setStart(data.start);
+            event->setValue(data.value);
+            sortedEvents.insert(event);
+        };
+
+        auto slice_begin = sortedEvents.sliceBegin(date);
+        auto slice_end = sortedEvents.sliceEnd(date);
+
+        QCOMPARE(sortedEvents.sliceBegin(date) - sortedEvents.begin(), sliceBeginDistance);
+        QCOMPARE(sortedEvents.sliceEnd(date) - sortedEvents.begin(), sliceEndDistance);
     }
 };
 

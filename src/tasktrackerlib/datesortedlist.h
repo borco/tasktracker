@@ -19,29 +19,29 @@ template <ObjectWithStart T>
 class DateSortedList
 {
 public:
+    typedef std::vector<T*> Items;
+    typedef typename Items::iterator iterator;
+
     DateSortedList(QObject* itemsOwner) : m_itemsOwner{itemsOwner} {}
     ~DateSortedList() { clear(); }
 
     bool insert(T* item) {
         if (!item->start().isValid()) {
-            qDebug() << "Date is not valid";
+            qCritical() << "Can't store an item with invalid start";
             return false;
         }
 
         if (std::find(m_items.cbegin(), m_items.cend(), item) != m_items.cend()) {
-            qDebug() << "The list already contains" << item;
+            qCritical() << "The list already contains" << item;
             return false;
         }
-
-        if (!item->parent())
-            item->setParent(m_itemsOwner);
 
         auto it = std::upper_bound(
                     m_items.begin(),
                     m_items.end(),
                     item->start(),
-                    [](const QDateTime& dateTime, const T* duration) {
-            return dateTime < duration->start();
+                    [](const QDateTime& dateTime, const T* item) {
+            return dateTime < item->start();
         });
         m_items.insert(it, item);
 
@@ -51,9 +51,11 @@ public:
     }
 
     void clear() {
-        for (auto item: m_items) {
-            if (item->parent() == m_itemsOwner)
-                delete item;
+        if (!m_itemsOwner) {
+            for (auto item: m_items) {
+                if (item->parent() == m_itemsOwner)
+                    delete item;
+            }
         }
         m_items.clear();
         setSize(0);
@@ -65,10 +67,30 @@ public:
     virtual int size() const { return m_size; }
     virtual void setSize(int newSize) { m_size = newSize; }
 
+    iterator begin() { return m_items.begin(); }
+
+    iterator sliceBegin(const QDate& date) {
+        if (date.isValid()) {
+            return std::lower_bound(m_items.begin(), m_items.end(), date, [](const T* item, const QDate& date) { return item->start().date() < date; });
+        } else {
+            return m_items.begin();
+        }
+    }
+
+    iterator end() { return m_items.end(); }
+
+    iterator sliceEnd(const QDate& date) {
+        if (date.isValid()) {
+            return std::upper_bound(m_items.begin(), m_items.end(), date, [](const QDate& date, const T* item) { return date < item->start().date(); });
+        } else {
+            return m_items.end();
+        }
+    }
+
 protected:
     QObject* m_itemsOwner = nullptr;
     int m_size = 0;
-    std::vector<T*> m_items;
+    Items m_items;
 };
 
 } // tasktrackerlib
