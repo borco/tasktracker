@@ -31,6 +31,25 @@ QString TaskAggregate::toString(int aggregateMode)
     }
 }
 
+QString TaskAggregate::formattedSeconds(int seconds)
+{
+    if (seconds == 0)
+        return tr("-");
+
+    int hours = seconds / 3600;
+    int mins = (seconds / 60) % 60;
+    seconds = seconds % 60;
+    if (hours > 0) {
+        return tr("%1h %2m").arg(hours).arg(mins);
+    } else if (mins > 0) {
+        return seconds > 0
+                ? tr("%1m %2s").arg(mins).arg(seconds)
+                : tr("%1m").arg(mins);
+    } else {
+        return tr("%1s").arg(seconds);
+    }
+}
+
 QDate TaskAggregate::aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate &date)
 {
     switch (aggregateMode) {
