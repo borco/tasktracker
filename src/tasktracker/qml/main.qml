@@ -40,6 +40,17 @@ ApplicationWindow {
         id: taskEditorPopup
     }
 
+    DurationEditorPopup {
+        id: durationEditorPopup
+
+        property var taskDurationModelContext
+
+        onAccepted: (start, stop) => {
+            taskDurationModelContext.start = start
+            taskDurationModelContext.stop = stop
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -100,6 +111,12 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
+                            onEditDuration: (taskDurationModelContext) => {
+                                                durationEditorPopup.taskDurationModelContext = taskDurationModelContext
+                                                durationEditorPopup.start = taskDurationModelContext.start
+                                                durationEditorPopup.stop = taskDurationModelContext.stop
+                                                durationEditorPopup.open()
+                                            }
                         }
                     }
                 }

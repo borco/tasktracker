@@ -17,6 +17,8 @@ Item {
 
     property string title: ""
 
+    signal editDuration(taskDurationModelContext: var)
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -49,6 +51,8 @@ Item {
                         isDoneVisible: header.isDoneVisible
                         isArchivedVisible: header.isArchivedVisible
                     }
+
+                    onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
                 }
             }
         }

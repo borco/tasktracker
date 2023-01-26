@@ -16,6 +16,7 @@ Item {
     property bool editButtonVisible: true
 
     signal edit(dayViewTaskModel: var)
+    signal editDuration(taskDurationModel: var)
 
     implicitHeight: view.implicitHeight
     implicitWidth: view.implicitWidth
@@ -40,6 +41,7 @@ Item {
             task: model.task
             width: ListView.view.width
             onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
+            onEditDuration: (taskDurationModel) => root.editDuration(taskDurationModel)
         }
     }
 }

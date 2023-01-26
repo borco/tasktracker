@@ -17,6 +17,7 @@ Control {
     property bool editButtonVisible: true
 
     signal edit(dayViewTaskModel: var)
+    signal editDuration(taskDurationModelContext: var)
 
     implicitHeight: layout.implicitHeight
     implicitWidth: layout.implicitWidth
@@ -63,7 +64,7 @@ Control {
                         visible: task.trackMode === TaskTrack.Duration
                         text: taskDurationModel.size
                         checkable: true
-//                        checked: true
+                        checked: true
 
                         background: Rectangle {
                             implicitWidth: 30
@@ -137,6 +138,8 @@ Control {
             interactive: false
 
             delegate: Pane {
+                property var taskDurationModelContext: model
+
                 width: ListView.view.width
 
                 background: Rectangle { color: palette.alternateBase }
@@ -149,11 +152,7 @@ Control {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: {
-                                durationEditoPopup.start = start
-                                durationEditoPopup.stop = stop
-                                durationEditoPopup.open()
-                            }
+                            onClicked: editDuration(taskDurationModelContext)
                         }
                     }
 
