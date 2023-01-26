@@ -12,6 +12,7 @@ ThemedPopup {
 
     property date start
     property date stop
+    property bool validDuration: true
 
     property string title: qsTr("Task Editor")
 
@@ -19,8 +20,9 @@ ThemedPopup {
 
     function updateDuration() {
         let seconds = TaskAggregate.secondsBetween(startEditor.editedDate, stopEditor.editedDate)
-        durationLabel.color = seconds > 0 ? root.palette.text : "red"
-        durationLabel.text = qsTr("Duration: %1").arg(TaskAggregate.formattedSeconds(seconds))
+        validDuration = seconds >= 0
+        durationLabel.color = validDuration ? root.palette.text : Theme.ErrorColor
+        durationLabel.text = qsTr("Duration: %1").arg(TaskAggregate.formattedSeconds(seconds, true))
     }
 
     parent: Overlay.overlay
@@ -50,6 +52,7 @@ ThemedPopup {
             leftButton.text: qsTr("Cancel")
             leftButton.onClicked: root.close()
             rightButton.text: qsTr("Save")
+            rightButton.enabled: validDuration
             rightButton.onClicked: {
                 accepted()
                 root.close()
