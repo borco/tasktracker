@@ -6,7 +6,6 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
-import "calendar"
 import "config"
 import "task"
 import "theme"

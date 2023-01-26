@@ -17,11 +17,11 @@ qt_add_resources(${APP_NAME} "dut_qml"
     PREFIX ${URI_NAME}
     BASE ../../src/tasktracker/qml
     FILES
-    ../../src/tasktracker/qml/calendar/DayView.qml
-    ../../src/tasktracker/qml/calendar/WeekView.qml
-    ../../src/tasktracker/qml/theme/ThemedGroupTitle.qml
+    ../../src/tasktracker/qml/task/DayView.qml
+    ../../src/tasktracker/qml/task/WeekView.qml
     ../../src/tasktracker/qml/theme/Theme.js
     ../../src/tasktracker/qml/theme/ThemedButton.qml
+    ../../src/tasktracker/qml/theme/ThemedGroupTitle.qml
     ../../src/tasktracker/qml/theme/ThemedLabel.qml
     ../../src/tasktracker/qml/theme/ThemedSmallLabel.qml
     ../../src/tasktracker/qml/theme/ThemedToolButton.qml

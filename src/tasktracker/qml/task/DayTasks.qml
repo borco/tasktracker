@@ -5,7 +5,6 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "../task"
 import "../theme"
 import "../theme/Theme.js" as Theme
 

@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "calendar"
+import "task"
 import "theme"
 
 Window {
@@ -43,13 +43,13 @@ Window {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                sourceComponent: Component {
+                dayComponent: Component {
                     Rectangle {
                         color: palette.window
 
                         Text {
                             anchors.centerIn: parent
-                            text: "index: %1\ndate: %2".arg(index).arg(date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
+                            text: "index: %1\ndate: %2".arg(model.index).arg(model.date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
                         }
                     }
                 }
