@@ -10,8 +10,13 @@ import "../theme/Theme.js" as Theme
 Control {
     id: root
 
-    required property date date
-    required property Task task
+    property date date
+    property Task task
+    property var dayViewTaskModel
+
+    property bool editButtonVisible: true
+
+    signal edit(dayViewTaskModel: var)
 
     implicitHeight: layout.implicitHeight
     implicitWidth: layout.implicitWidth
@@ -46,6 +51,12 @@ Control {
 
                 RowLayout {
                     Layout.fillWidth: true
+
+                    ThemedToolButton {
+                        visible: root.editButtonVisible
+                        icon.source: "../../icons/task/edit.svg"
+                        onClicked: root.edit(root.dayViewTaskModel)
+                    }
 
                     Button {
                         id: durationDetailsToggle

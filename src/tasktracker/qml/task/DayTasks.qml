@@ -13,6 +13,10 @@ Item {
 
     property alias visibleTasksModel: view.model
 
+    property bool editButtonVisible: true
+
+    signal edit(dayViewTaskModel: var)
+
     implicitHeight: view.implicitHeight
     implicitWidth: view.implicitWidth
 
@@ -30,8 +34,12 @@ Item {
         footer: Item { implicitHeight: 10 }
 
         delegate: DayTask {
+            editButtonVisible: root.editButtonVisible
+            dayViewTaskModel: model
             date: dayViewModel.date
+            task: model.task
             width: ListView.view.width
+            onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
         }
     }
 }

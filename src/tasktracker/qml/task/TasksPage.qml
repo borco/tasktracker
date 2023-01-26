@@ -22,30 +22,27 @@ Item {
     ColumnLayout {
         anchors.fill: parent
 
-        ListView {
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
+        DayTasks {
+            QtObject {
+                id: dayViewModel
+                property date date: new Date()
+            }
+
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: TaskFilterModel {
+
+            editButtonVisible: true
+
+            visibleTasksModel: TaskFilterModel {
                 sourceModel: taskModel
                 isDoneVisible: header.isDoneVisible
                 isArchivedVisible: header.isArchivedVisible
             }
 
-            clip: true
-            spacing: 10
-
-            header: Item { implicitHeight: 10 }
-            footer: Item { implicitHeight: 10 }
-
-            delegate: TaskDelegate {
-                width: ListView.view.width
-                onEdit: {
-                    taskEditorPopup.model = model
-                    taskEditorPopup.open()
-                }
-            }
+            onEdit: (dayViewTaskModel) => {
+                        taskEditorPopup.model = dayViewTaskModel
+                        taskEditorPopup.open()
+                    }
         }
     }
 }

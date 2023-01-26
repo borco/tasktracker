@@ -42,6 +42,8 @@ Item {
 
             dayComponent: Component {
                 DayTasks {
+                    editButtonVisible: false
+
                     visibleTasksModel: TaskFilterModel {
                         sourceModel: taskModel
                         isDoneVisible: header.isDoneVisible
