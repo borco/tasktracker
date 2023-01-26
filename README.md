@@ -8,3 +8,12 @@ Simple task tracker.
   * week
   * month
 * weekly aggregates depend on the week start (week start can be changed in the config dialog)
+
+## Screenshots
+
+<img src="docs/main_wide.png" width=520>
+
+<img src="docs/main_narrow_tasks.png" width=260>
+<img src="docs/main_narrow_calendar.png" width=260>
+<img src="docs/task_editor.png" width=260>
+<img src="docs/settings.png" width=260>
