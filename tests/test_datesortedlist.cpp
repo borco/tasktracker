@@ -190,9 +190,6 @@ private slots:
             sortedEvents.insert(event);
         };
 
-        auto slice_begin = sortedEvents.begin(date);
-        auto slice_end = sortedEvents.end(date);
-
         QCOMPARE(sortedEvents.begin(date) - sortedEvents.begin(), sliceBeginDistance);
         QCOMPARE(sortedEvents.end(date) - sortedEvents.begin(), sliceEndDistance);
     }
