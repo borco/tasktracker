@@ -31,10 +31,10 @@ QString TaskAggregate::toString(int aggregateMode)
     }
 }
 
-QString TaskAggregate::formattedSeconds(int seconds)
+QString TaskAggregate::formattedSeconds(int seconds, bool extended)
 {
     if (seconds == 0)
-        return tr("-");
+        return tr("");
 
     bool is_negative = seconds < 0;
     QString is_negative_repr = is_negative ? "-" : "";
@@ -43,9 +43,13 @@ QString TaskAggregate::formattedSeconds(int seconds)
     int mins = (seconds / 60) % 60;
     seconds = seconds % 60;
     if (hours > 0) {
-        return tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins);
+        return extended
+                ? tr("%1%2h %3m %4s").arg(is_negative_repr).arg(hours).arg(mins).arg(seconds)
+                : (mins > 0
+                   ? tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins)
+                   : tr("%1%2h").arg(is_negative_repr).arg(hours));
     } else if (mins > 0) {
-        return seconds > 0
+        return seconds > 0 || extended
                 ? tr("%1%2m %3s").arg(is_negative_repr).arg(mins).arg(seconds)
                 : tr("%1%2m").arg(is_negative_repr).arg(mins);
     } else {
