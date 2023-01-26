@@ -49,7 +49,7 @@ Window {
 
                         Text {
                             anchors.centerIn: parent
-                            text: "index: %1\ndate: %2".arg(model.index).arg(model.date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
+                            text: "index: %1\ndate: %2".arg(dayViewModel.index).arg(dayViewModel.date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
                         }
                     }
                 }

@@ -33,7 +33,7 @@ Item {
 
             Loader {
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                required property var model
+                property var dayViewModel: model
                 sourceComponent: root.dayComponent
             }
         }
