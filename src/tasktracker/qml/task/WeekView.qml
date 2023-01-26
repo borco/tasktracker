@@ -81,8 +81,6 @@ Control {
                     implicitWidth: root.dayWidth
                     implicitHeight: delegateLayout.implicitHeight
 
-//                    Rectangle { anchors.fill: parent; color: "#40ff0000" }
-
                     ColumnLayout {
                         id: delegateLayout
 
