@@ -18,6 +18,7 @@ Item {
     property string title: ""
 
     signal edit(dayViewTaskModel: var)
+    signal editDuration(taskDurationModelContext: var)
 
     ColumnLayout {
         anchors.fill: parent
@@ -61,6 +62,8 @@ Item {
             }
 
             onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
+
+            onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
         }
     }
 }

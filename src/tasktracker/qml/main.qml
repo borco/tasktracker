@@ -45,6 +45,13 @@ ApplicationWindow {
 
         property var taskDurationModelContext
 
+        function edit(context) {
+            taskDurationModelContext = context
+            start = context.start
+            stop = context.stop
+            open()
+        }
+
         onAccepted: (start, stop) => {
             taskDurationModelContext.start = start
             taskDurationModelContext.stop = stop
@@ -96,6 +103,8 @@ ApplicationWindow {
                                         taskEditorPopup.model = dayViewTaskModel
                                         taskEditorPopup.open()
                                     }
+
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
                         }
                     }
 
@@ -111,12 +120,7 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
-                            onEditDuration: (taskDurationModelContext) => {
-                                                durationEditorPopup.taskDurationModelContext = taskDurationModelContext
-                                                durationEditorPopup.start = taskDurationModelContext.start
-                                                durationEditorPopup.stop = taskDurationModelContext.stop
-                                                durationEditorPopup.open()
-                                            }
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
                         }
                     }
                 }
