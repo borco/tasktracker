@@ -30,7 +30,6 @@ qt_add_qml_module(${APP_NAME}
         qml/task/DayTasks.qml
         qml/task/DayView.qml
         qml/task/DurationEditorPopup.qml
-        qml/task/TaskDelegate.qml
         qml/task/TaskEditorPopup.qml
         qml/task/TasksPage.qml
         qml/task/TimeEditor.qml
