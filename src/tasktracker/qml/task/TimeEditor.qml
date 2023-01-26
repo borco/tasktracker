@@ -16,6 +16,22 @@ Item {
         id: fontMetrics
     }
 
+    function setTumblers() {
+        let hours = date.getHours()
+        hoursTumbler.positionViewAtIndex(hours, Tumbler.Center)
+        hoursTumbler.currentIndex = hours
+
+        let minutes = date.getMinutes()
+        minutesTumbler.positionViewAtIndex(minutes, Tumbler.Center)
+        minutesTumbler.currentIndex = minutes
+
+        let seconds = date.getSeconds()
+        secondsTumbler.positionViewAtIndex(seconds, Tumbler.Center)
+        secondsTumbler.currentIndex = seconds
+
+        updateEditedDate()
+    }
+
     function updateEditedDate() {
         if (date) {
             let d = new Date(date.getTime())
@@ -90,20 +106,6 @@ Item {
             }
 
         }
-    }
-
-    function setTumblers() {
-        let hours = date.getHours()
-        hoursTumbler.positionViewAtIndex(hours, Tumbler.Center)
-        hoursTumbler.currentIndex = hours
-
-        let minutes = date.getMinutes()
-        minutesTumbler.positionViewAtIndex(minutes, Tumbler.Center)
-        minutesTumbler.currentIndex = minutes
-
-        let seconds = date.getSeconds()
-        secondsTumbler.positionViewAtIndex(seconds, Tumbler.Center)
-        secondsTumbler.currentIndex = seconds
     }
 
     onDateChanged: setTumblers()
