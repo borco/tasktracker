@@ -36,6 +36,10 @@ ApplicationWindow {
         id: configPopup
     }
 
+    TaskEditorPopup {
+        id: taskEditorPopup
+    }
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -76,6 +80,11 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
+
+                            onEdit: (dayViewTaskModel) => {
+                                        taskEditorPopup.model = dayViewTaskModel
+                                        taskEditorPopup.open()
+                                    }
                         }
                     }
 

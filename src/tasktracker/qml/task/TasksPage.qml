@@ -17,9 +17,7 @@ Item {
 
     property string title: ""
 
-    TaskEditorPopup {
-        id: taskEditorPopup
-    }
+    signal edit(dayViewTaskModel: var)
 
     ColumnLayout {
         anchors.fill: parent
@@ -62,10 +60,7 @@ Item {
                 isArchivedVisible: header.isArchivedVisible
             }
 
-            onEdit: (dayViewTaskModel) => {
-                        taskEditorPopup.model = dayViewTaskModel
-                        taskEditorPopup.open()
-                    }
+            onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
         }
     }
 }
