@@ -6,6 +6,8 @@ import QtQuick.Layouts
 import TaskTrackerLib
 
 import ".."
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Item {
     id: root
@@ -22,9 +24,30 @@ Item {
     ColumnLayout {
         anchors.fill: parent
 
+        RowLayout {
+            Layout.topMargin: Theme.ContentTopMargin
+            Layout.leftMargin: Theme.ContentLeftMargin
+            Layout.rightMargin: Theme.ContentRightMargin
+
+            ThemedLabel {
+                text: dayTasks.dayViewModel.date.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+                font.pointSize: Theme.SmallLabelSize
+                font.bold: true
+
+                Layout.fillWidth: true
+            }
+
+            ThemedButton {
+                text: qsTr("Today")
+                highlighted: false
+                onClicked: dayTasks.dayViewModel.date = new Date()
+            }
+        }
+
         DayTasks {
-            QtObject {
-                id: dayViewModel
+            id: dayTasks
+
+            property var dayViewModel: QtObject {
                 property date date: new Date()
             }
 

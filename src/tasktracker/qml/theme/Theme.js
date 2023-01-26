@@ -31,6 +31,7 @@ const ToolButtonSize = 32
 const ToolButtonPadding = 4
 const ToolButtonCheckedRadius = 4
 
+const ContentTopMargin = 12
 const ContentLeftMargin = 16
 const ContentRightMargin = 16
 
