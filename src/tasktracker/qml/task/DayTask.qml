@@ -144,7 +144,7 @@ Control {
                 RowLayout {
                     anchors.fill: parent
                     ThemedLabel {
-                        text: qsTr("%1 → %2   +%3 sec").arg(startTime).arg(stopTime).arg(seconds)
+                        text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
                         font.family: fixedFont.family
 
                         MouseArea {
