@@ -34,7 +34,7 @@ QString TaskAggregate::toString(int aggregateMode)
 QString TaskAggregate::formattedSeconds(int seconds, bool extended)
 {
     if (seconds == 0)
-        return tr("");
+        return extended ? tr("0s") : tr("");
 
     bool is_negative = seconds < 0;
     QString is_negative_repr = is_negative ? "-" : "";

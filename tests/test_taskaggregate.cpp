@@ -83,7 +83,7 @@ private slots:
         QTest::addColumn<QString>("formattedSeconds");
 
         QTest::newRow("0") << false << 0 << "";
-        QTest::newRow("0") << true << 0 << "";
+        QTest::newRow("0") << true << 0 << "0s";
 
         QTest::newRow("10") << false << 10 << "10s";
         QTest::newRow("10") << true << 10 << "10s";
