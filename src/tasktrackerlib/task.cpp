@@ -4,6 +4,8 @@
 
 #include "task.h"
 
+#include "taskdurationsortedlist.h"
+
 #include "qtyamlcppadapter/yamlhelper.h"
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
@@ -16,9 +18,6 @@ static const char* TrackModeYamlName = "track";
 static const char* CountsYamlName = "counts";
 static const char* CountsDateYamlName = "date";
 static const char* CountsCountYamlName = "count";
-static const char* DurationsYamlName = "durations";
-static const char* DurationsDateTimeYamlName = "dateTime";
-static const char* DurationsSecondsYamlName = "seconds";
 
 }
 
@@ -26,6 +25,7 @@ namespace tasktrackerlib {
 
 Task::Task(QObject *parent)
     : QObject{parent}
+    , m_sortedDurations(new TaskDurationSortedList(this))
 {
 }
 
@@ -102,7 +102,8 @@ void Task::loadFromYaml(const YAML::Node &node)
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
     loadCounts(node);
-    loadDurations(node);
+
+    m_sortedDurations->loadFromYaml(node);
 }
 
 int Task::count(const QDate &date) const
@@ -142,42 +143,6 @@ void Task::loadCounts(const YAML::Node &node)
         m_counts[count_date] =
                 (m_counts.contains(count_date) ? m_counts[count_date] : 0)
                 + qtyamlcppadapter::intFromYaml(count, CountsCountYamlName, 0);
-    }
-}
-
-void Task::loadDurations(const YAML::Node &node)
-{
-    m_durations.clear();
-
-    if (node.IsNull()) {
-        return;
-    }
-
-    auto durations_node = node[DurationsYamlName];
-    if (!durations_node) {
-        return;
-    }
-
-    if (!durations_node.IsSequence()) {
-        qCritical().nospace() << DurationsYamlName << " is not a sequence";
-        return;
-    }
-
-    for (unsigned int i = 0; i < durations_node.size(); ++i) {
-        auto duration = durations_node[i];
-        if (!duration.IsMap()) {
-            qCritical().nospace() << DurationsYamlName << "[" << i << "] is not a dictionary";
-            continue;
-        }
-        auto duration_date_time = qtyamlcppadapter::dateTimeFromYaml(duration, DurationsDateTimeYamlName, QDateTime());
-        if (!duration_date_time.isValid()) {
-            qCritical().nospace() << DurationsYamlName << "[" << i << "]["<< DurationsDateTimeYamlName << "] is not a valid datetime";
-            continue;
-        }
-        auto duration_date = duration_date_time.date();
-        auto duration_time = duration_date_time.time();
-        auto seconds = qtyamlcppadapter::intFromYaml(duration, DurationsSecondsYamlName, 0);
-        m_durations[duration_date][duration_time] = seconds;
     }
 }
 

@@ -45,7 +45,7 @@ QVariant WeekModel::data(const QModelIndex &index, int role) const
     case Date:
         return day.date;
     case IsSelectedDate:
-        return day.date.daysTo(m_selectedDate) == 0;
+        return day.date.daysTo(m_date) == 0;
     }
 
     return QVariant();
@@ -85,24 +85,24 @@ void WeekModel::setWeekStart(Qt::DayOfWeek newWeekStart)
     emit weekStartChanged();
 }
 
-QDate WeekModel::selectedDate() const
+QDate WeekModel::date() const
 {
-    return m_selectedDate;
+    return m_date;
 }
 
-void WeekModel::setSelectedDate(const QDate &newSelectedDate)
+void WeekModel::setDate(const QDate &newDate)
 {
-    if (m_selectedDate == newSelectedDate)
+    if (m_date == newDate)
         return;
-    m_selectedDate = newSelectedDate;
+    m_date = newDate;
 
     updateDays();
-    emit selectedDateChanged();
+    emit dateChanged();
 }
 
 void WeekModel::addDays(int days)
 {
-    setSelectedDate(m_selectedDate.addDays(days));
+    setDate(m_date.addDays(days));
 }
 
 void WeekModel::updateDays()
@@ -115,12 +115,12 @@ void WeekModel::updateDays()
         m_days << Qt::DayOfWeek((m_weekStart - 1 + i) % days_in_week + 1);
     }
 
-    auto day_of_week = m_selectedDate.dayOfWeek();
+    auto day_of_week = m_date.dayOfWeek();
     auto it = std::find_if(m_days.begin(), m_days.end(), [&](const Day& d) { return d.dayOfWeek == day_of_week; });
     auto index = it - m_days.begin();
 
     for (int i = 0; i < m_days.size(); ++i) {
-        m_days[i].date = m_selectedDate.addDays(i - index);
+        m_days[i].date = m_date.addDays(i - index);
     }
 
     endResetModel();

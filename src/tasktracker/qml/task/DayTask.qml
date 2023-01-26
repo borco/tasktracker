@@ -10,15 +10,28 @@ import "../theme/Theme.js" as Theme
 Control {
     id: root
 
-    required property Task task
+    property date date
+    property Task task
+    property var dayViewTaskModel
+
+    property bool editButtonVisible: true
+
+    signal edit(dayViewTaskModel: var)
+    signal editDuration(taskDurationModelContext: var)
 
     implicitHeight: layout.implicitHeight
     implicitWidth: layout.implicitWidth
 
-    TaskSelectedDate {
-        id: taskSelectedDate
+    TaskCount {
+        id: taskCount
         task: root.task
-        selectedDate: date
+        date: root.date
+    }
+
+    TaskDurationModel {
+        id: taskDurationModel
+        task: root.task
+        date: root.date
     }
 
     ColumnLayout {
@@ -40,12 +53,18 @@ Control {
                 RowLayout {
                     Layout.fillWidth: true
 
+                    ThemedToolButton {
+                        visible: root.editButtonVisible
+                        icon.source: "../../icons/task/edit.svg"
+                        onClicked: root.edit(root.dayViewTaskModel)
+                    }
+
                     Button {
                         id: durationDetailsToggle
                         visible: task.trackMode === TaskTrack.Duration
-                        text: taskSelectedDate.durations.size
+                        text: taskDurationModel.size
                         checkable: true
-//                        checked: true
+                        checked: true
 
                         background: Rectangle {
                             implicitWidth: 30
@@ -76,13 +95,13 @@ Control {
                         ThemedSmallLabel {
                             visible: task.trackMode === TaskTrack.Count
                             text: task.aggregateMode === TaskAggregate.Daily
-                                  ? qsTr("%1").arg(taskSelectedDate.count)
-                                  : qsTr("%1 / %2: %3").arg(taskSelectedDate.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskSelectedDate.aggregateCount)
+                                  ? qsTr("%1").arg(taskCount.count)
+                                  : qsTr("%1 / %2: %3").arg(taskCount.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskCount.aggregateCount)
                         }
 
                         ThemedSmallLabel {
-                            property string formattedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.seconds)
-                            property string formattedAggregatedSeconds: taskSelectedDate.formattedSeconds(taskSelectedDate.aggregateSeconds)
+                            property string formattedSeconds: TaskAggregate.formattedSeconds(taskDurationModel.seconds)
+                            property string formattedAggregatedSeconds: TaskAggregate.formattedSeconds(taskDurationModel.aggregateSeconds)
                             visible: task.trackMode === TaskTrack.Duration
                             text: task.aggregateMode === TaskAggregate.Daily
                                   ? qsTr("%1").arg(formattedSeconds)
@@ -92,29 +111,35 @@ Control {
 
                     ThemedToolButton {
                         icon.source: "../../icons/task/decrement.svg"
-                        visible: task.trackMode === TaskTrack.Count && taskSelectedDate.count > 0
-                        onClicked: --taskSelectedDate.count
+                        visible: task.trackMode === TaskTrack.Count && taskCount.count > 0
+                        onClicked: --taskCount.count
                     }
 
                     ThemedToolButton {
                         icon.source: "../../icons/task/increment.svg"
                         visible: task.trackMode === TaskTrack.Count
-                        onClicked: ++taskSelectedDate.count
+                        onClicked: ++taskCount.count
                     }
                 }
             }
+        }
+
+        DurationEditorPopup {
+            id: durationEditoPopup
         }
 
         ListView {
             Layout.fillWidth: true
 
             visible: task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
-            model: taskSelectedDate.durations
+            model: taskDurationModel
 
             implicitHeight: contentHeight
             interactive: false
 
             delegate: Pane {
+                property var taskDurationModelContext: model
+
                 width: ListView.view.width
 
                 background: Rectangle { color: palette.alternateBase }
@@ -122,15 +147,13 @@ Control {
                 RowLayout {
                     anchors.fill: parent
                     ThemedLabel {
-                        text: time
+                        text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
                         font.family: fixedFont.family
-                    }
 
-                    ThemedLabel {
-                        Layout.preferredWidth: 80
-                        horizontalAlignment: Text.AlignRight
-                        text: qsTr("+%1 sec").arg(seconds)
-                        font.family: fixedFont.family
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: editDuration(taskDurationModelContext)
+                        }
                     }
 
                     Item { Layout.fillWidth: true }

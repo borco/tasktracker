@@ -176,57 +176,6 @@ counts:
             QCOMPARE(task.count(count.date), count.count);
         }
     }
-
-    void test_load_durations_data() {
-        QTest::addColumn<QString>("data");
-        QTest::addColumn<QDate>("date");
-        QTest::addColumn<DurationList>("durations");
-
-        QTest::newRow("Empty") << R"(
-)" << QDate() << DurationList();
-
-        QTest::newRow("Empty") << R"(
-durations: []
-)" << QDate() << DurationList();
-
-        QTest::newRow("One Value") << R"(
-durations:
-- dateTime: 2023-01-01T00:01:02Z
-  seconds: 20
-)" << QDate(2023, 1, 1) << (DurationList() << Duration {"00:01:02", 20});
-
-        QTest::newRow("Unordered") << R"(
-durations:
-- dateTime: 2023-01-02T02:20:02Z
-  seconds: 20
-- dateTime: 2023-01-02T01:10:01Z
-  seconds: 10
-- dateTime: 2023-01-02T03:30:03Z
-  seconds: 30
-)" << QDate(2023, 1, 2) << (DurationList()
-        << Duration {"01:10:01", 10}
-        << Duration {"02:20:02", 20}
-        << Duration {"03:30:03", 30}
-        );
-    }
-
-    void test_load_durations() {
-        QFETCH(QString, data);
-        QFETCH(QDate, date);
-        QFETCH(DurationList, durations);
-
-        Task task;
-        task.loadFromData(data.toUtf8());
-        auto task_durations = task.timeDurations(date);
-        QCOMPARE(task_durations.size(), durations.size());
-        qDebug() << "durations:" << task_durations;
-        for(int i = 0; i < durations.size(); ++i) {
-            auto time = durations[i].time();
-            auto seconds = durations[i].seconds;
-            QVERIFY(task_durations.contains(time));
-            QCOMPARE(task_durations[time], seconds);
-        }
-    }
 };
 
 QTEST_MAIN(TestTask)

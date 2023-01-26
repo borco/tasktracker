@@ -31,6 +31,37 @@ QString TaskAggregate::toString(int aggregateMode)
     }
 }
 
+QString TaskAggregate::formattedSeconds(int seconds, bool extended)
+{
+    if (seconds == 0)
+        return extended ? tr("0s") : tr("");
+
+    bool is_negative = seconds < 0;
+    QString is_negative_repr = is_negative ? "-" : "";
+    seconds = is_negative ? -seconds : seconds;
+    int hours = seconds / 3600;
+    int mins = (seconds / 60) % 60;
+    seconds = seconds % 60;
+    if (hours > 0) {
+        return extended
+                ? tr("%1%2h %3m %4s").arg(is_negative_repr).arg(hours).arg(mins).arg(seconds)
+                : (mins > 0
+                   ? tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins)
+                   : tr("%1%2h").arg(is_negative_repr).arg(hours));
+    } else if (mins > 0) {
+        return seconds > 0 || extended
+                ? tr("%1%2m %3s").arg(is_negative_repr).arg(mins).arg(seconds)
+                : tr("%1%2m").arg(is_negative_repr).arg(mins);
+    } else {
+        return tr("%1%2s").arg(is_negative_repr).arg(seconds);
+    }
+}
+
+int TaskAggregate::secondsBetween(const QDateTime &start, const QDateTime &stop)
+{
+    return start.secsTo(stop);
+}
+
 QDate TaskAggregate::aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate &date)
 {
     switch (aggregateMode) {

@@ -17,6 +17,8 @@ Item {
 
     property string title: ""
 
+    signal editDuration(taskDurationModelContext: var)
+
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -24,7 +26,7 @@ Item {
         WeekView {
             id: weekView
 
-            selectedDate: dayView.dateForIndex(dayView.currentIndex)
+            date: dayView.dateForIndex(dayView.currentIndex)
             onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)
 
             Layout.fillWidth: true
@@ -40,13 +42,17 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            sourceComponent: Component {
-                DayHistory {
+            dayComponent: Component {
+                DayTasks {
+                    editButtonVisible: false
+
                     visibleTasksModel: TaskFilterModel {
                         sourceModel: taskModel
                         isDoneVisible: header.isDoneVisible
                         isArchivedVisible: header.isArchivedVisible
                     }
+
+                    onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
                 }
             }
         }

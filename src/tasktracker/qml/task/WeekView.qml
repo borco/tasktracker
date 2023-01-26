@@ -11,7 +11,7 @@ Control {
     id: root
 
     property date today: new Date()
-    property alias selectedDate: weekModel.selectedDate
+    property alias date: weekModel.date
 
     property int daysSpacing: 10
     property int dayCircleDiameter: 30
@@ -38,7 +38,7 @@ Control {
     WeekModel {
         id: weekModel
         weekStart: Config.weekStart
-        selectedDate: today
+        date: today
     }
 
     ColumnLayout {
@@ -52,7 +52,7 @@ Control {
 
         RowLayout {
             ThemedLabel {
-                text: weekModel.selectedDate.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+                text: weekModel.date.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
                 font.pointSize: Theme.SmallLabelSize
                 font.bold: true
                 Layout.fillWidth: true
@@ -80,8 +80,6 @@ Control {
                 delegate: Item {
                     implicitWidth: root.dayWidth
                     implicitHeight: delegateLayout.implicitHeight
-
-//                    Rectangle { anchors.fill: parent; color: "#40ff0000" }
 
                     ColumnLayout {
                         id: delegateLayout

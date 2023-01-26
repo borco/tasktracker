@@ -5,7 +5,7 @@ import QtQuick.Layouts
 
 import TaskTrackerLib
 
-import "calendar"
+import "task"
 import "theme"
 
 Window {
@@ -27,7 +27,7 @@ Window {
             anchors.fill: parent
 
             WeekView {
-                selectedDate: dayView.dateForIndex(dayView.currentIndex)
+                date: dayView.dateForIndex(dayView.currentIndex)
                 Layout.fillWidth: true
                 topPadding: 10
                 onTodayClicked: dayView.currentIndex = dayView.indexForDate(today)
@@ -43,13 +43,13 @@ Window {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                sourceComponent: Component {
+                dayComponent: Component {
                     Rectangle {
                         color: palette.window
 
                         Text {
                             anchors.centerIn: parent
-                            text: "index: %1\ndate: %2".arg(index).arg(date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
+                            text: "index: %1\ndate: %2".arg(dayViewModel.index).arg(dayViewModel.date.toLocaleString(Qt.locale(), "MMM dd, yyyy"))
                         }
                     }
                 }

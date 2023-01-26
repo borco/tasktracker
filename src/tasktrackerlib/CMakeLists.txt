@@ -13,6 +13,7 @@ qt_add_qml_module(${LIB_NAME}
     SOURCES
         config.cpp
         config.h
+        datesortedlist.h
         daymodel.cpp
         daymodel.h
         foldercreator.cpp
@@ -25,20 +26,26 @@ qt_add_qml_module(${LIB_NAME}
         task.h
         taskaggregate.cpp
         taskaggregate.h
+        taskcount.cpp
+        taskcount.h
+        taskduration.cpp
+        taskduration.h
         taskdurationmodel.cpp
         taskdurationmodel.h
+        taskdurationsortedlist.cpp
+        taskdurationsortedlist.h
         taskfiltermodel.cpp
         taskfiltermodel.h
         taskmodel.cpp
         taskmodel.h
-        taskselecteddate.cpp
-        taskselecteddate.h
         tasktrack.cpp
         tasktrack.h
         togglproxy.cpp
         togglproxy.h
         weekmodel.cpp
         weekmodel.h
+        yamlbackingstore.cpp
+        yamlbackingstore.h
 )
 
 target_link_libraries(${LIB_NAME} PUBLIC

@@ -1,9 +1,11 @@
 foreach(TEST_NAME IN ITEMS
+        datesortedlist
         foldercreator
         task
         taskaggregate
+        taskduration
+        taskdurationsortedlist
         taskmodel
-        taskselecteddate
     )
 
     qt_add_executable(test_${TEST_NAME}

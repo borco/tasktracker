@@ -13,6 +13,8 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
+class TaskDurationSortedList;
+
 class Task : public QObject
 {
     Q_OBJECT
@@ -58,6 +60,8 @@ public:
 
     TimeDurations timeDurations(const QDate& date) const;
 
+    TaskDurationSortedList* sortedDurations() const { return m_sortedDurations; }
+
 signals:
     void nameChanged();
     void isEditedChanged();
@@ -70,7 +74,6 @@ signals:
 
 private:
     void loadCounts(const YAML::Node &node);
-    void loadDurations(const YAML::Node& node);
 
     QString m_name;
     bool m_isEdited = false;
@@ -81,6 +84,7 @@ private:
 
     QMap<QDate, int> m_counts;
     DateTimeDurations m_durations;
+    TaskDurationSortedList* m_sortedDurations = nullptr;
 };
 
 }

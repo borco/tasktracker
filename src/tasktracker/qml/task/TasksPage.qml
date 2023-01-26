@@ -6,6 +6,8 @@ import QtQuick.Layouts
 import TaskTrackerLib
 
 import ".."
+import "../theme"
+import "../theme/Theme.js" as Theme
 
 Item {
     id: root
@@ -15,37 +17,53 @@ Item {
 
     property string title: ""
 
-    TaskEditorPopup {
-        id: taskEditorPopup
-    }
+    signal edit(dayViewTaskModel: var)
+    signal editDuration(taskDurationModelContext: var)
 
     ColumnLayout {
         anchors.fill: parent
 
-        ListView {
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
+        RowLayout {
+            Layout.topMargin: Theme.ContentTopMargin
+            Layout.leftMargin: Theme.ContentLeftMargin
+            Layout.rightMargin: Theme.ContentRightMargin
+
+            ThemedLabel {
+                text: dayTasks.dayViewModel.date.toLocaleString(Qt.locale(), qsTr("dddd, MMM d, yyyy"))
+                font.pointSize: Theme.SmallLabelSize
+                font.bold: true
+
+                Layout.fillWidth: true
+            }
+
+            ThemedButton {
+                text: qsTr("Today")
+                highlighted: false
+                onClicked: dayTasks.dayViewModel.date = new Date()
+            }
+        }
+
+        DayTasks {
+            id: dayTasks
+
+            property var dayViewModel: QtObject {
+                property date date: new Date()
+            }
+
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: TaskFilterModel {
+
+            editButtonVisible: true
+
+            visibleTasksModel: TaskFilterModel {
                 sourceModel: taskModel
                 isDoneVisible: header.isDoneVisible
                 isArchivedVisible: header.isArchivedVisible
             }
 
-            clip: true
-            spacing: 10
+            onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
 
-            header: Item { implicitHeight: 10 }
-            footer: Item { implicitHeight: 10 }
-
-            delegate: TaskDelegate {
-                width: ListView.view.width
-                onEdit: {
-                    taskEditorPopup.model = model
-                    taskEditorPopup.open()
-                }
-            }
+            onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
         }
     }
 }

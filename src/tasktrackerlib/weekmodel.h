@@ -16,7 +16,7 @@ class WeekModel : public QAbstractListModel
     QML_ELEMENT
 
     Q_PROPERTY(Qt::DayOfWeek weekStart READ weekStart WRITE setWeekStart NOTIFY weekStartChanged)
-    Q_PROPERTY(QDate selectedDate READ selectedDate WRITE setSelectedDate NOTIFY selectedDateChanged)
+    Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
 
 public:
     explicit WeekModel(QObject *parent = nullptr);
@@ -29,13 +29,13 @@ public:
     Qt::DayOfWeek weekStart() const;
     void setWeekStart(Qt::DayOfWeek newWeekStart);
 
-    QDate selectedDate() const;
-    void setSelectedDate(const QDate &newSelectedDate);
+    QDate date() const;
+    void setDate(const QDate &newDate);
 
     Q_INVOKABLE void addDays(int days);
 
 signals:
-    void selectedDateChanged();
+    void dateChanged();
 
     void weekStartChanged();
 
@@ -51,7 +51,7 @@ private:
     void updateDays();
 
     Qt::DayOfWeek m_weekStart = Qt::Sunday;
-    QDate m_selectedDate;
+    QDate m_date;
 
     QList<Day> m_days;
 };

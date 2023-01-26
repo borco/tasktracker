@@ -21,18 +21,19 @@ qt_add_qml_module(${APP_NAME}
     QML_FILES
         qml/AppHeader.qml
         qml/LogsComponent.qml
-        qml/calendar/CalendarPage.qml
-        qml/calendar/DayHistory.qml
-        qml/calendar/DayHistoryDelegate.qml
-        qml/calendar/DayView.qml
-        qml/calendar/WeekView.qml
         qml/config/ConfigDataFolderLocationSelectionPage.qml
         qml/config/ConfigMainPage.qml
         qml/config/ConfigPopup.qml
         qml/main.qml
-        qml/task/TaskDelegate.qml
+        qml/task/CalendarPage.qml
+        qml/task/DayTask.qml
+        qml/task/DayTasks.qml
+        qml/task/DayView.qml
+        qml/task/DurationEditorPopup.qml
         qml/task/TaskEditorPopup.qml
         qml/task/TasksPage.qml
+        qml/task/TimeEditor.qml
+        qml/task/WeekView.qml
         qml/theme/BottomSeparator.qml
         qml/theme/DockToolBar.qml
         qml/theme/InputDialog.qml

@@ -12,17 +12,22 @@ namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
+class Task;
+class TaskDurationSortedList;
+
 class TaskDurationModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_UNCREATABLE("TaskDurationModel can be created only in C++")
 
     Q_PROPERTY(int size READ size NOTIFY sizeChanged)
+    Q_PROPERTY(Task* task READ task WRITE setTask NOTIFY taskChanged)
+    Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY dateChanged)
+
+    Q_PROPERTY(int seconds READ seconds WRITE setSeconds NOTIFY secondsChanged)
+    Q_PROPERTY(int aggregateSeconds READ aggregateSeconds WRITE setAggregateSeconds NOTIFY aggregateSecondsChanged)
 
 public:
-    typedef QMap<QTime, int> TimeDurations;
-
     explicit TaskDurationModel(QObject *parent = nullptr);
     ~TaskDurationModel() override;
 
@@ -33,19 +38,33 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
-    void clear();
-    void setTimeDurations(const TimeDurations& timeDurations);
+    Task *task() const;
+    void setTask(Task *newTask);
+
+    QDate date() const;
+    void setDate(const QDate &newDate);
+
+    int seconds() const;
+    void setSeconds(int newSeconds);
+
+    int aggregateSeconds() const;
+    void setAggregateSeconds(int newAggregateSeconds);
 
 signals:
     void sizeChanged();
+    void taskChanged();
+    void dateChanged();
+    void secondsChanged();
+    void aggregateSecondsChanged();
 
 private:
-    struct Duration {
-        QTime time;
-        int seconds;
-    };
+    void updateDurations();
 
-    QList<Duration> m_durations;
+    Task *m_task = nullptr;
+    QDate m_date;
+    TaskDurationSortedList* m_durations = nullptr;
+    int m_seconds = 0;
+    int m_aggregateSeconds = 0;
 };
 
 } // namespace tasktrackerlib

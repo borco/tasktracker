@@ -6,7 +6,6 @@ import QtQuick.Window
 
 import TaskTrackerLib
 
-import "calendar"
 import "config"
 import "task"
 import "theme"
@@ -35,6 +34,25 @@ ApplicationWindow {
 
     ConfigPopup {
         id: configPopup
+    }
+
+    TaskEditorPopup {
+        id: taskEditorPopup
+    }
+
+    DurationEditorPopup {
+        id: durationEditorPopup
+
+        property var taskDurationModelContext
+
+        function edit(context) {
+            taskDurationModelContext = context
+            start = context.start
+            stop = context.stop
+            open()
+        }
+
+        onAccepted: taskDurationModelContext.duration = editedDuration
     }
 
     ColumnLayout {
@@ -77,6 +95,13 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
+
+                            onEdit: (dayViewTaskModel) => {
+                                        taskEditorPopup.model = dayViewTaskModel
+                                        taskEditorPopup.open()
+                                    }
+
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
                         }
                     }
 
@@ -92,6 +117,7 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
                         }
                     }
                 }
