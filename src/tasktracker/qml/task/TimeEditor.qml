@@ -16,6 +16,14 @@ Item {
         id: fontMetrics
     }
 
+    function updateEditedDate() {
+        if (date) {
+            let d = new Date(date.getTime())
+            d.setHours(hoursTumbler.currentIndex, minutesTumbler.currentIndex, secondsTumbler.currentIndex)
+            editedDate = d
+        }
+    }
+
     component TumblerDelegate: Label {
         text: modelData
         opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
@@ -36,37 +44,51 @@ Item {
 
             Tumbler {
                 id: hoursTumbler
+
                 model: 24
-                delegate: TumblerDelegate {
-                    color: minimumDate && minimumDate.getHours() > modelData ? "red" : root.palette.text
-                }
                 wrap: false
-                onCurrentIndexChanged: {
-                    if (date) {
-                        let d = new Date(date.getTime())
-                        d.setHours(hoursTumbler.currentIndex, minutesTumbler.currentIndex)
-                        editedDate = d
-                    }
+
+                delegate: TumblerDelegate {
+                    color: minimumDate && (minimumDate.getHours() > modelData) ? "red" : root.palette.text
                 }
+
+                onCurrentIndexChanged: updateEditedDate()
             }
 
             Tumbler {
                 id: minutesTumbler
+
                 model: 60
+                wrap: false
+
                 delegate: TumblerDelegate {
                     color: minimumDate
                            && ((minimumDate.getHours() === hoursTumbler.currentIndex && minimumDate.getMinutes() > modelData)
                                || (minimumDate.getHours() > hoursTumbler.currentIndex)) ? "red" : root.palette.text
                 }
-                wrap: false
-                onCurrentIndexChanged: {
-                    if (date) {
-                        let d = new Date(date.getTime())
-                        d.setHours(hoursTumbler.currentIndex, minutesTumbler.currentIndex)
-                        editedDate = d
-                    }
-                }
+
+                onCurrentIndexChanged: updateEditedDate()
             }
+
+            Tumbler {
+                id: secondsTumbler
+
+                model: 60
+                wrap: false
+
+                delegate: TumblerDelegate {
+                    color: minimumDate
+                           && ((minimumDate.getHours() === hoursTumbler.currentIndex
+                                && minimumDate.getMinutes() === minutesTumbler.currentIndex
+                                && minimumDate.getSeconds() > modelData)
+                               || (minimumDate.getHours() === hoursTumbler.currentIndex
+                                   && minimumDate.getHours() > hoursTumbler.currentIndex)
+                               || (minimumDate.getHours() > hoursTumbler.currentIndex)) ? "red" : root.palette.text
+                }
+
+                onCurrentIndexChanged: updateEditedDate()
+            }
+
         }
     }
 
@@ -78,6 +100,10 @@ Item {
         let minutes = date.getMinutes()
         minutesTumbler.positionViewAtIndex(minutes, Tumbler.Center)
         minutesTumbler.currentIndex = minutes
+
+        let seconds = date.getSeconds()
+        secondsTumbler.positionViewAtIndex(seconds, Tumbler.Center)
+        secondsTumbler.currentIndex = seconds
     }
 
     onDateChanged: setTumblers()
