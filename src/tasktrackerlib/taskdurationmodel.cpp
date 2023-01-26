@@ -16,6 +16,7 @@ enum Roles {
     Stop,
     StopTime,
     Seconds,
+    Duration, // for modifying start & stop at the same time!
 };
 }
 
@@ -49,6 +50,7 @@ QHash<int, QByteArray> TaskDurationModel::roleNames() const
         { Stop, "stop" },
         { StopTime, "stopTime" },
         { Seconds, "seconds" },
+        { Duration, "duration" },
     };
 }
 
@@ -80,10 +82,16 @@ QVariant TaskDurationModel::data(const QModelIndex &index, int role) const
 
 bool TaskDurationModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
-        emit dataChanged(index, index, {role});
-        return true;
+    if (index.isValid() && role == Duration) {
+        auto newDuration = value.value<TaskDuration*>();
+        if (newDuration) {
+//            qDebug() << "trying to set duration:" << newDuration->start() << newDuration->stop();
+            auto duration = (*m_durations)[index.row()];
+            duration->setStart(newDuration->start());
+            duration->setStop(newDuration->stop());
+            emit dataChanged(index, index, QList<int>() << Start << Stop << StartTime << StopTime << Seconds);
+            return true;
+        }
     }
     return false;
 }

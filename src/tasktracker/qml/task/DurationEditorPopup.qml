@@ -17,7 +17,9 @@ ThemedPopup {
 
     property string title: qsTr("Task Editor")
 
-    signal accepted(start: date, stop: date)
+    property TaskDuration editedDuration: TaskDuration {}
+
+    signal accepted()
 
     function updateDuration() {
         let seconds = TaskAggregate.secondsBetween(startEditor.editedDate, stopEditor.editedDate)
@@ -55,7 +57,9 @@ ThemedPopup {
             rightButton.text: qsTr("Save")
             rightButton.enabled: validDuration
             rightButton.onClicked: {
-                accepted(startEditor.editedDate, stopEditor.editedDate)
+                editedDuration.start = startEditor.editedDate
+                editedDuration.stop = stopEditor.editedDate
+                accepted()
                 root.close()
             }
         }

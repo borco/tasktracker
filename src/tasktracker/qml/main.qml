@@ -52,10 +52,7 @@ ApplicationWindow {
             open()
         }
 
-        onAccepted: (start, stop) => {
-            taskDurationModelContext.start = start
-            taskDurationModelContext.stop = stop
-        }
+        onAccepted: taskDurationModelContext.duration = editedDuration
     }
 
     ColumnLayout {
