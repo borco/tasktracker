@@ -119,6 +119,7 @@ Control {
                 width: ListView.view.width
                 background: Rectangle { color: palette.alternateBase }
                 implicitHeight: 40
+                font.family: fixedFont.family
 
                 Rectangle {
                     anchors.bottom: parent.bottom
@@ -137,7 +138,7 @@ Control {
             interactive: false
 
             footer: Delegate {
-                icon.source: "../../icons/task/increment.svg"
+                text: qsTr("＋")
                 onClicked: root.addDuration(taskDurationModel)
             }
 
@@ -145,7 +146,6 @@ Control {
                 property var taskDurationModelContext: model
                 text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
                 onClicked: editDuration(taskDurationModelContext)
-                font.family: fixedFont.family
             }
         }
     }
