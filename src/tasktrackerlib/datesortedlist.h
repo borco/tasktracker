@@ -64,14 +64,17 @@ public:
     T* operator[](int i) { return m_items[i]; }
     const T* operator[](int i) const { return m_items[i]; }
 
+    T* last() { return m_items.size() > 0 ? m_items[m_items.size() - 1] : nullptr; }
+    const T* last() const { return m_items.size() > 0 ? m_items[m_items.size() - 1] : nullptr; }
+
     virtual int size() const { return m_size; }
     virtual void setSize(int newSize) { m_size = newSize; }
 
     iterator begin() { return m_items.begin(); }
 
-    iterator begin(const QDate& date) {
+    iterator localTimeBegin(const QDate& date) {
         if (date.isValid()) {
-            return std::lower_bound(m_items.begin(), m_items.end(), date, [](const T* item, const QDate& date) { return item->start().date() < date; });
+            return std::lower_bound(m_items.begin(), m_items.end(), date, [](const T* item, const QDate& date) { return item->start().toLocalTime().date() < date; });
         } else {
             return m_items.begin();
         }
@@ -79,9 +82,9 @@ public:
 
     iterator end() { return m_items.end(); }
 
-    iterator end(const QDate& date) {
+    iterator localTimeEnd(const QDate& date) {
         if (date.isValid()) {
-            return std::upper_bound(m_items.begin(), m_items.end(), date, [](const QDate& date, const T* item) { return date < item->start().date(); });
+            return std::upper_bound(m_items.begin(), m_items.end(), date, [](const QDate& date, const T* item) { return date < item->start().toLocalTime().date(); });
         } else {
             return m_items.end();
         }

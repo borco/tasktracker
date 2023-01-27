@@ -59,7 +59,7 @@ void TaskDurationSortedList::setSize(int newSize)
 TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
 {
     auto list = new TaskDurationSortedList(nullptr);
-    list->m_items = Items(begin(date), end(date));
+    list->m_items = Items(localTimeBegin(date), localTimeEnd(date));
     list->setSize(list->m_items.size());
     return list;
 }
