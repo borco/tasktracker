@@ -59,28 +59,28 @@ Control {
                         onClicked: root.edit(root.dayViewTaskModel)
                     }
 
-                    Button {
+                    ThemedRoundButton {
                         id: durationDetailsToggle
                         visible: task.trackMode === TaskTrack.Duration
                         text: taskDurationModel.size
                         checkable: true
                         checked: true
 
-                        background: Rectangle {
-                            implicitWidth: 30
-                            implicitHeight: 30
-                            radius: width
-                            color : durationDetailsToggle.checked ? root.palette.button : "transparent"
-                            border.color: root.palette.button
-                            border.width: 1
-                        }
+//                        background: Rectangle {
+//                            implicitWidth: 30
+//                            implicitHeight: 30
+//                            radius: width
+//                            color : durationDetailsToggle.checked ? root.palette.button : "transparent"
+//                            border.color: root.palette.button
+//                            border.width: 1
+//                        }
 
-                        contentItem: Text {
-                            text: durationDetailsToggle.text
-                            color : durationDetailsToggle.checked ? root.palette.buttonText : root.palette.button
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                        }
+//                        contentItem: Text {
+//                            text: durationDetailsToggle.text
+//                            color : durationDetailsToggle.checked ? root.palette.buttonText : root.palette.button
+//                            horizontalAlignment: Text.AlignHCenter
+//                            verticalAlignment: Text.AlignVCenter
+//                        }
                     }
 
                     ColumnLayout {

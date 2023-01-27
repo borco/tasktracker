@@ -14,8 +14,7 @@ Control {
     property alias date: weekModel.date
 
     property int daysSpacing: 10
-    property int dayCircleDiameter: 30
-    property real dayWidth: Math.max(dayCircleDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
+    property real dayWidth: Math.max(Theme.RoundLabelDiameter, (width - 6 * daysSpacing - leftPadding - rightPadding) / 7)
 
     signal todayClicked()
 
@@ -95,22 +94,11 @@ Control {
                             horizontalAlignment: Text.AlignHCenter
                         }
 
-                        Rectangle {
-                            property bool isToday: root.isToday(date)
-                            color: isSelectedDate ? palette.highlight : "transparent"
-                            border.color: isToday ? palette.dark : "transparent"
-                            border.width: 2
+                        ThemedRoundLabel {
+                            text: date.getDate()
+                            checked: isSelectedDate
+                            borderVisible: isToday(date)
                             Layout.alignment: Qt.AlignHCenter
-                            width: root.dayCircleDiameter
-                            height: width
-                            radius: width / 2
-
-                            ThemedLabel {
-                                anchors.centerIn: parent
-                                text: date.getDate()
-                                font.pointSize: Theme.SmallLabelSize
-                                font.bold: isSelectedDate
-                            }
                         }
                     }
                 }

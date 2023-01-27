@@ -73,3 +73,6 @@ const SplitViewHitAreaPadding = 4
 const PopupContentBottomPadding = 12
 const PopupItemTopMargin = 8
 const PopupItemBottomMargin = 8
+
+const RoundLabelDiameter = 30
+const RoundLabelBorderWidth = 2

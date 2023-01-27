@@ -50,6 +50,8 @@ qt_add_qml_module(${APP_NAME}
         qml/theme/ThemedMessageBox.qml
         qml/theme/ThemedPopup.qml
         qml/theme/ThemedRadioDelegate.qml
+        qml/theme/ThemedRoundButton.qml
+        qml/theme/ThemedRoundLabel.qml
         qml/theme/ThemedSmallLabel.qml
         qml/theme/ThemedSplitView.qml
         qml/theme/ThemedSwitchDelegate.qml
