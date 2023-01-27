@@ -38,21 +38,42 @@ ApplicationWindow {
 
     TaskEditorPopup {
         id: taskEditorPopup
+
+        function editTask(context) {
+            model = context
+            open()
+        }
     }
 
     DurationEditorPopup {
         id: durationEditorPopup
 
-        property var taskDurationModelContext
+        property var taskDurationModelContext: null
+        property var taskDurationModel: null
 
-        function edit(context) {
+        function editDuration(context) {
             taskDurationModelContext = context
+            taskDurationModel = null
             start = context.start
             stop = context.stop
             open()
         }
 
-        onAccepted: taskDurationModelContext.duration = editedDuration
+        function addDuration(model) {
+            taskDurationModelContext = null
+            taskDurationModel = model
+            start = taskDurationModel.nextFreeLocalTime()
+            stop = taskDurationModel.nextFreeLocalTime()
+            open()
+        }
+
+        onAccepted: {
+            if (taskDurationModelContext) {
+                taskDurationModelContext.duration = editedDuration
+            } else if (taskDurationModel) {
+                taskDurationModel.addDuration(editedDuration)
+            }
+        }
     }
 
     ColumnLayout {
@@ -96,12 +117,9 @@ ApplicationWindow {
                             anchors.fill: parent
                             taskModel: root.taskModel
 
-                            onEdit: (dayViewTaskModel) => {
-                                        taskEditorPopup.model = dayViewTaskModel
-                                        taskEditorPopup.open()
-                                    }
-
-                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
+                            onEditTask: (dayViewTaskModelContext) => taskEditorPopup.editTask(dayViewTaskModelContext)
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
+                            onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
                         }
                     }
 
@@ -117,7 +135,8 @@ ApplicationWindow {
                             header: appHeader
                             anchors.fill: parent
                             taskModel: root.taskModel
-                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.edit(taskDurationModelContext)
+                            onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
+                            onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
                         }
                     }
                 }

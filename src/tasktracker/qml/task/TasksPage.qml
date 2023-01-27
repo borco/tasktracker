@@ -17,8 +17,9 @@ Item {
 
     property string title: ""
 
-    signal edit(dayViewTaskModel: var)
+    signal editTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
+    signal addDuration(taskDurationModel: var)
 
     ColumnLayout {
         anchors.fill: parent
@@ -61,9 +62,9 @@ Item {
                 isArchivedVisible: header.isArchivedVisible
             }
 
-            onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
-
+            onEditTask: (dayViewTaskModelContext) => root.edit(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
+            onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }
     }
 }

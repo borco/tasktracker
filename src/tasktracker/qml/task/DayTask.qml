@@ -12,12 +12,13 @@ Control {
 
     property date date
     property Task task
-    property var dayViewTaskModel
+    property var dayViewTaskModelContext
 
     property bool editButtonVisible: true
 
-    signal edit(dayViewTaskModel: var)
+    signal editTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
+    signal addDuration(taskDurationModel: var)
 
     implicitHeight: layout.implicitHeight
     implicitWidth: layout.implicitWidth
@@ -56,7 +57,7 @@ Control {
                     ThemedToolButton {
                         visible: root.editButtonVisible
                         icon.source: "../../icons/task/edit.svg"
-                        onClicked: root.edit(root.dayViewTaskModel)
+                        onClicked: root.editTask(root.dayViewTaskModelContext)
                     }
 
                     ThemedRoundButton {
@@ -120,6 +121,15 @@ Control {
 
             implicitHeight: contentHeight
             interactive: false
+
+            footer: ItemDelegate {
+                width: ListView.view.width
+                background: Rectangle { color: palette.alternateBase }
+                icon.source: "../../icons/task/increment.svg"
+                icon.width: 24
+                icon.height: 24
+                onClicked: root.addDuration(taskDurationModel)
+            }
 
             delegate: Pane {
                 property var taskDurationModelContext: model

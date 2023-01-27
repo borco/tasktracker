@@ -15,8 +15,9 @@ Item {
 
     property bool editButtonVisible: true
 
-    signal edit(dayViewTaskModel: var)
-    signal editDuration(taskDurationModel: var)
+    signal editTask(dayViewTaskModelContext: var)
+    signal editDuration(taskDurationModelContext: var)
+    signal addDuration(taskDurationModel: var)
 
     implicitHeight: view.implicitHeight
     implicitWidth: view.implicitWidth
@@ -36,12 +37,13 @@ Item {
 
         delegate: DayTask {
             editButtonVisible: root.editButtonVisible
-            dayViewTaskModel: model
+            dayViewTaskModelContext: model
             date: dayViewModel.date
             task: model.task
             width: ListView.view.width
-            onEdit: (dayViewTaskModel) => root.edit(dayViewTaskModel)
-            onEditDuration: (taskDurationModel) => root.editDuration(taskDurationModel)
+            onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
+            onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
+            onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }
     }
 }
