@@ -114,6 +114,20 @@ Control {
         }
 
         ListView {
+
+            component Delegate: ItemDelegate {
+                width: ListView.view.width
+                background: Rectangle { color: palette.alternateBase }
+                implicitHeight: 40
+
+                Rectangle {
+                    anchors.bottom: parent.bottom
+                    color: root.palette.base
+                    width: parent.width
+                    height: 1
+                }
+            }
+
             Layout.fillWidth: true
 
             visible: task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
@@ -122,36 +136,16 @@ Control {
             implicitHeight: contentHeight
             interactive: false
 
-            footer: ItemDelegate {
-                width: ListView.view.width
-                background: Rectangle { color: palette.alternateBase }
+            footer: Delegate {
                 icon.source: "../../icons/task/increment.svg"
-                icon.width: 24
-                icon.height: 24
                 onClicked: root.addDuration(taskDurationModel)
             }
 
-            delegate: Pane {
+            delegate: Delegate {
                 property var taskDurationModelContext: model
-
-                width: ListView.view.width
-
-                background: Rectangle { color: palette.alternateBase }
-
-                RowLayout {
-                    anchors.fill: parent
-                    ThemedLabel {
-                        text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
-                        font.family: fixedFont.family
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: editDuration(taskDurationModelContext)
-                        }
-                    }
-
-                    Item { Layout.fillWidth: true }
-                }
+                text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
+                onClicked: editDuration(taskDurationModelContext)
+                font.family: fixedFont.family
             }
         }
     }
