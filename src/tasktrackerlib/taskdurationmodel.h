@@ -50,6 +50,9 @@ public:
     int aggregateSeconds() const;
     void setAggregateSeconds(int newAggregateSeconds);
 
+    Q_INVOKABLE void addDuration(const QVariant& value);
+    Q_INVOKABLE QDateTime nextFreeLocalTime() const;
+
 signals:
     void sizeChanged();
     void taskChanged();

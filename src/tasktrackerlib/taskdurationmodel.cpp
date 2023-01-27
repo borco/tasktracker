@@ -7,6 +7,8 @@
 #include "task.h"
 #include "taskdurationsortedlist.h"
 
+#include <QTimeZone>
+
 namespace {
 static const char* DurationsYamlNode = "durations";
 
@@ -153,6 +155,33 @@ void TaskDurationModel::setAggregateSeconds(int newAggregateSeconds)
         return;
     m_aggregateSeconds = newAggregateSeconds;
     emit aggregateSecondsChanged();
+}
+
+void TaskDurationModel::addDuration(const QVariant &value)
+{
+    // TODO
+    auto newDuration = value.value<TaskDuration*>();
+    if (newDuration) {
+        qDebug() << "trying to add duration:" << newDuration->start() << newDuration->stop();
+    } else {
+        qCritical() << value << "is not a TaskDuration";
+    }
+
+}
+
+QDateTime TaskDurationModel::nextFreeLocalTime() const
+{
+    QDateTime ret(m_date, QTime(), QTimeZone::UTC);
+    ret.setTimeZone(QTimeZone::LocalTime);
+
+    auto last = m_durations->last();
+    if (last && last->stop().isValid()) {
+        ret.setTime(last->stop().toLocalTime().time());
+    } else {
+        ret.setTime(QTime(0, 0, 0));
+    }
+
+    return ret;
 }
 
 void TaskDurationModel::updateDurations()
