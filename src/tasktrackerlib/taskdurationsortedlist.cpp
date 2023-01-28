@@ -58,16 +58,38 @@ void TaskDurationSortedList::setSize(int newSize)
 
 void TaskDurationSortedList::sort()
 {
-    DateSortedList<TaskDuration>::sort();
-    emit sorted();
+    DateSortedList<TaskDuration>::sort(m_items.begin(), m_items.end());
+
+    if (m_source) {
+        m_source->sort(this, m_date);
+    } else {
+        emit sorted(this, QDate());
+    }
 }
 
 TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
 {
     auto list = new TaskDurationSortedList(nullptr);
+    list->m_source = this;
+    list->m_date = date;
     list->m_items = Items(localTimeBegin(date), localTimeEnd(date));
     list->setSize(list->m_items.size());
+    connect(this, &TaskDurationSortedList::sorted, list, &TaskDurationSortedList::onOtherSorted);
     return list;
+}
+
+void TaskDurationSortedList::sort(TaskDurationSortedList * source, const QDate &date)
+{
+    DateSortedList<TaskDuration>::sort(localTimeBegin(date), localTimeEnd(date));
+    emit sorted(source, m_date);
+}
+
+void TaskDurationSortedList::onOtherSorted(TaskDurationSortedList *source, const QDate &date)
+{
+    if (this == source || (date.isValid() && date != m_date))
+        return;
+
+    DateSortedList<TaskDuration>::sort(m_items.begin(), m_items.end());
 }
 
 } // namespace tasktrackerlib
