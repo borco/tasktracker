@@ -82,16 +82,43 @@ QVariant TaskDurationModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+const TaskDuration *TaskDurationModel::duration(int row) const
+{
+    return (*m_durations)[row];
+}
+
+void TaskDurationModel::setDuration(int row, const TaskDuration *newDuration)
+{
+    auto duration = (*m_durations)[row];
+
+    const auto& old_start = duration->start();
+    const auto& new_start = newDuration->start();
+
+    duration->setStart(newDuration->start());
+    duration->setStop(newDuration->stop());
+
+    auto prev_duration = row > 0 ? (*m_durations)[row-1] : nullptr;
+    auto next_duration = row < m_durations->size() - 1 ? (*m_durations)[row+1] : nullptr;
+
+    if (old_start == new_start
+            || (prev_duration == nullptr && new_start < old_start)
+            || (next_duration == nullptr && new_start > old_start)
+            ) {
+        emit dataChanged(index(row), index(row), QList<int>() << Start << Stop << StartTime << StopTime << Seconds);
+        return;
+    }
+
+    beginResetModel();
+    m_durations->sort();
+    endResetModel();
+}
+
 bool TaskDurationModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Duration) {
         auto newDuration = value.value<TaskDuration*>();
         if (newDuration) {
-//            qDebug() << "trying to set duration:" << newDuration->start() << newDuration->stop();
-            auto duration = (*m_durations)[index.row()];
-            duration->setStart(newDuration->start());
-            duration->setStop(newDuration->stop());
-            emit dataChanged(index, index, QList<int>() << Start << Stop << StartTime << StopTime << Seconds);
+            setDuration(index.row(), newDuration);
             return true;
         }
     }

@@ -13,6 +13,7 @@ namespace YAML { class Node; }
 namespace tasktrackerlib {
 
 class Task;
+class TaskDuration;
 class TaskDurationSortedList;
 
 class TaskDurationModel : public QAbstractListModel
@@ -49,6 +50,9 @@ public:
 
     int aggregateSeconds() const;
     void setAggregateSeconds(int newAggregateSeconds);
+
+    const TaskDuration* duration(int row) const;
+    void setDuration(int row, const TaskDuration* newDuration);
 
     Q_INVOKABLE void addDuration(const QVariant& value);
     Q_INVOKABLE QDateTime nextFreeLocalTime() const;
