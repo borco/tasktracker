@@ -144,7 +144,7 @@ Control {
 
             delegate: Delegate {
                 property var taskDurationModelContext: model
-                text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds))
+                text: qsTr("%1 → %2   %3").arg(startTime).arg(stopTime).arg(TaskAggregate.formattedSeconds(seconds, true))
                 onClicked: editDuration(taskDurationModelContext)
             }
         }
