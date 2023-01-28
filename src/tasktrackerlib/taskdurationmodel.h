@@ -66,6 +66,7 @@ signals:
 
 private:
     void updateDurations();
+    void onSorted();
 
     Task *m_task = nullptr;
     QDate m_date;

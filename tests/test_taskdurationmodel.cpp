@@ -3,6 +3,7 @@
 #include "tasktrackerlib/taskdurationmodel.h"
 #include "tasktrackerlib/taskdurationsortedlist.h"
 
+#include <QSignalSpy>
 #include <QTest>
 
 using namespace tasktrackerlib;
@@ -100,11 +101,17 @@ durations:
         auto start = QDateTime(QDate(2023, 1, 2), QTime(11, 0, 0), QTimeZone::UTC);
         auto stop = QDateTime(QDate(2023, 1, 2), QTime(11, 10, 0), QTimeZone::UTC);
 
+        QSignalSpy spy1(&model1, &TaskDurationModel::modelReset);
+        QSignalSpy spy2(&model2, &TaskDurationModel::modelReset);
+
         TaskDuration new_duration(start, stop);
         model1.setDuration(1, &new_duration);
 
         QCOMPARE(model2.duration(0)->start(), start);
         QCOMPARE(model2.duration(0)->stop(), stop);
+
+        QCOMPARE(spy1.count(), 1);
+        QCOMPARE(spy2.count(), 1);
     }
 };
 

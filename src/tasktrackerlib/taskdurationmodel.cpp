@@ -216,6 +216,7 @@ void TaskDurationModel::updateDurations()
     beginResetModel();
 
     if (m_durations) {
+        m_durations->disconnect(this);
         delete m_durations;
         m_durations = nullptr;
     }
@@ -223,9 +224,19 @@ void TaskDurationModel::updateDurations()
     if (m_task && m_date.isValid()) {
         auto sorted_durations = m_task->sortedDurations();
         m_durations = sorted_durations->forDate(m_date);
+        connect(m_durations,
+                qOverload<>(&TaskDurationSortedList::sorted),
+                this,
+                &TaskDurationModel::onSorted);
     }
 
     emit sizeChanged();
+    endResetModel();
+}
+
+void TaskDurationModel::onSorted()
+{
+    beginResetModel();
     endResetModel();
 }
 
