@@ -43,13 +43,10 @@ int main(int argc, char *argv[])
 
     qtkeychainadapter::KeyChainService keychain_service("tasktracker.app");
 
-    QGuiApplication::setOrganizationName("Ioan Calin");
-    QGuiApplication::setOrganizationDomain("com.github.borco");
-    QGuiApplication::setApplicationName("tasktracker");
-
     QGuiApplication app(argc, argv);
     app.setWindowIcon(QIcon(":/TaskTracker/icons/app.svg"));
 
+    static const char* AppNameCommandLineOption = "appname";
     static const char* QuickStyleCommandLineOption = "style";
     static const char* UseProxyCommandLineOption = "use-proxy";
     static const char* ProxyHostCommandLineOption = "proxy-host";
@@ -61,8 +58,14 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addOptions({
                           {
+                              AppNameCommandLineOption,
+                              QCoreApplication::translate("main", "Set application name to <NAME>; controls the name of the .ini settings file (default: tasktracker)."),
+                              QCoreApplication::translate("main", "NAME"),
+                              "tasktracker"
+                          },
+                          {
                               UseProxyCommandLineOption,
-                              QCoreApplication::translate("main", "Use a proxy for HTTPS connections."),
+                              QCoreApplication::translate("main", "Use a proxy for HTTPS connections (default: false)."),
                           },
                           {
                               ProxyHostCommandLineOption,
@@ -78,6 +81,10 @@ int main(int argc, char *argv[])
                           },
                       });
     parser.process(app);
+
+    QGuiApplication::setOrganizationName("Ioan Calin");
+    QGuiApplication::setOrganizationDomain("com.github.borco");
+    QGuiApplication::setApplicationName(parser.value(AppNameCommandLineOption));
 
     QNetworkProxy network_proxy;
 
