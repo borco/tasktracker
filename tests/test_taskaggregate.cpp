@@ -83,34 +83,37 @@ private slots:
         QTest::addColumn<QString>("formattedSeconds");
 
         QTest::newRow("0") << false << 0 << "";
-        QTest::newRow("0") << true << 0 << "0s";
+        QTest::newRow("0") << true << 0 << "00:00:00";
 
         QTest::newRow("10") << false << 10 << "10s";
-        QTest::newRow("10") << true << 10 << "10s";
+        QTest::newRow("10") << true << 10 << "+00:00:10";
 
         QTest::newRow("-10") << false << -10 << "-10s";
-        QTest::newRow("-10") << true << -10 << "-10s";
+        QTest::newRow("-10") << true << -10 << "-00:00:10";
 
         QTest::newRow("60") << false << 60 << "1m";
-        QTest::newRow("60") << true << 60 << "1m 0s";
+        QTest::newRow("60") << true << 60 << "+00:01:00";
 
         QTest::newRow("-60") << false << -60 << "-1m";
-        QTest::newRow("-60") << true << -60 << "-1m 0s";
+        QTest::newRow("-60") << true << -60 << "-00:01:00";
 
         QTest::newRow("61") << false << 61 << "1m 1s";
-        QTest::newRow("61") << true << 61 << "1m 1s";
+        QTest::newRow("61") << true << 61 << "+00:01:01";
 
         QTest::newRow("3600") << false << 3600 << "1h";
-        QTest::newRow("3600") << true << 3600 << "1h 0m 0s";
+        QTest::newRow("3600") << true << 3600 << "+01:00:00";
 
         QTest::newRow("3601") << false << 3601 << "1h";
-        QTest::newRow("3601") << true << 3601 << "1h 0m 1s";
+        QTest::newRow("3601") << true << 3601 << "+01:00:01";
 
         QTest::newRow("3661") << false << 3661 << "1h 1m";
-        QTest::newRow("3661") << true << 3661 << "1h 1m 1s";
+        QTest::newRow("3661") << true << 3661 << "+01:01:01";
 
         QTest::newRow("3719") << false << 3719 << "1h 1m";
-        QTest::newRow("3719") << true << 3719 << "1h 1m 59s";
+        QTest::newRow("3719") << true << 3719 << "+01:01:59";
+
+        QTest::newRow("108061") << false << 108061 << "30h 1m";
+        QTest::newRow("108061") << true << 108061 << "+30:01:01";
     }
 
     void test_formatted_seconds() {

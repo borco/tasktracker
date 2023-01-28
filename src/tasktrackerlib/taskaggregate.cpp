@@ -31,29 +31,33 @@ QString TaskAggregate::toString(int aggregateMode)
     }
 }
 
-QString TaskAggregate::formattedSeconds(int seconds, bool extended)
+QString TaskAggregate::formattedSeconds(int seconds, bool isoFormat)
 {
     if (seconds == 0)
-        return extended ? tr("0s") : tr("");
+        return isoFormat ? tr("00:00:00") : tr("");
 
     bool is_negative = seconds < 0;
-    QString is_negative_repr = is_negative ? "-" : "";
     seconds = is_negative ? -seconds : seconds;
     int hours = seconds / 3600;
     int mins = (seconds / 60) % 60;
     seconds = seconds % 60;
-    if (hours > 0) {
-        return extended
-                ? tr("%1%2h %3m %4s").arg(is_negative_repr).arg(hours).arg(mins).arg(seconds)
-                : (mins > 0
-                   ? tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins)
-                   : tr("%1%2h").arg(is_negative_repr).arg(hours));
-    } else if (mins > 0) {
-        return seconds > 0 || extended
-                ? tr("%1%2m %3s").arg(is_negative_repr).arg(mins).arg(seconds)
-                : tr("%1%2m").arg(is_negative_repr).arg(mins);
+
+    if (isoFormat) {
+        QString is_negative_repr = is_negative ? "-" : "+";
+        return tr("%1%2:%3:%4").arg(is_negative_repr).arg(hours, 2, 10, QChar('0')).arg(mins, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
     } else {
-        return tr("%1%2s").arg(is_negative_repr).arg(seconds);
+        QString is_negative_repr = is_negative ? "-" : "";
+        if (hours > 0) {
+            return mins > 0
+                    ? tr("%1%2h %3m").arg(is_negative_repr).arg(hours).arg(mins)
+                    : tr("%1%2h").arg(is_negative_repr).arg(hours);
+        } else if (mins > 0) {
+            return seconds > 0
+                    ? tr("%1%2m %3s").arg(is_negative_repr).arg(mins).arg(seconds)
+                    : tr("%1%2m").arg(is_negative_repr).arg(mins);
+        } else {
+            return tr("%1%2s").arg(is_negative_repr).arg(seconds);
+        }
     }
 }
 
