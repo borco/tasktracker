@@ -26,9 +26,13 @@ public:
 
     void setSize(int newSize) override;
 
+    void sort() override;
+
     TaskDurationSortedList* forDate(const QDate& date);
+
 signals:
     void sizeChanged();
+    void sorted();
 };
 
 } // namespace tasktrackerlib

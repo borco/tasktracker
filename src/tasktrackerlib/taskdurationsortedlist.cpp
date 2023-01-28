@@ -56,6 +56,12 @@ void TaskDurationSortedList::setSize(int newSize)
     emit sizeChanged();
 }
 
+void TaskDurationSortedList::sort()
+{
+    DateSortedList<TaskDuration>::sort();
+    emit sorted();
+}
+
 TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
 {
     auto list = new TaskDurationSortedList(nullptr);

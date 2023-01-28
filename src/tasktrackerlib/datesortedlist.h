@@ -90,6 +90,10 @@ public:
         }
     }
 
+    virtual void sort() {
+        std::sort(m_items.begin(), m_items.end(), [](const T* item1, const T* item2) { return item1->start() < item2->start(); });
+    }
+
 protected:
     QObject* m_itemsOwner = nullptr;
     int m_size = 0;
