@@ -32,11 +32,12 @@ public:
 
 signals:
     void sizeChanged();
-    void sorted(tasktrackerlib::TaskDurationSortedList* source, const QDate& date);
+    void sorted();
+    void sorted(tasktrackerlib::TaskDurationSortedList* source, const QDate& date, QPrivateSignal);
 
 private:
     void sort(TaskDurationSortedList* source, const QDate& date);
-    void onOtherSorted(TaskDurationSortedList* source, const QDate& date);
+    void onOtherSorted(TaskDurationSortedList* source, const QDate& date, QPrivateSignal);
 
     TaskDurationSortedList* m_source = nullptr;
     QDate m_date;

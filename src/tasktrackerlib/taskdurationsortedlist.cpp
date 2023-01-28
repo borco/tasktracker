@@ -56,17 +56,6 @@ void TaskDurationSortedList::setSize(int newSize)
     emit sizeChanged();
 }
 
-void TaskDurationSortedList::sort()
-{
-    DateSortedList<TaskDuration>::sort(m_items.begin(), m_items.end());
-
-    if (m_source) {
-        m_source->sort(this, m_date);
-    } else {
-        emit sorted(this, QDate());
-    }
-}
-
 TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
 {
     auto list = new TaskDurationSortedList(nullptr);
@@ -74,22 +63,37 @@ TaskDurationSortedList *TaskDurationSortedList::forDate(const QDate &date)
     list->m_date = date;
     list->m_items = Items(localTimeBegin(date), localTimeEnd(date));
     list->setSize(list->m_items.size());
-    connect(this, &TaskDurationSortedList::sorted, list, &TaskDurationSortedList::onOtherSorted);
+    connect(this,
+            qOverload<TaskDurationSortedList *, const QDate &, QPrivateSignal>(&TaskDurationSortedList::sorted),
+            list,
+            &TaskDurationSortedList::onOtherSorted);
     return list;
+}
+
+void TaskDurationSortedList::sort()
+{
+    DateSortedList<TaskDuration>::sort(m_items.begin(), m_items.end());
+
+    if (m_source) {
+        m_source->sort(this, m_date);
+    } else {
+        emit sorted();
+    }
 }
 
 void TaskDurationSortedList::sort(TaskDurationSortedList * source, const QDate &date)
 {
     DateSortedList<TaskDuration>::sort(localTimeBegin(date), localTimeEnd(date));
-    emit sorted(source, m_date);
+    emit sorted(source, date, QPrivateSignal());
 }
 
-void TaskDurationSortedList::onOtherSorted(TaskDurationSortedList *source, const QDate &date)
+void TaskDurationSortedList::onOtherSorted(TaskDurationSortedList *source, const QDate &date, QPrivateSignal)
 {
-    if (this == source || (date.isValid() && date != m_date))
+    if (this == source || !date.isValid() || date != m_date)
         return;
 
     DateSortedList<TaskDuration>::sort(m_items.begin(), m_items.end());
+    emit sorted();
 }
 
 } // namespace tasktrackerlib
