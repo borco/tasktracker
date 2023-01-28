@@ -4,6 +4,7 @@ foreach(TEST_NAME IN ITEMS
         task
         taskaggregate
         taskduration
+        taskdurationmodel
         taskdurationsortedlist
         taskmodel
     )
