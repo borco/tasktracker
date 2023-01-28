@@ -22,6 +22,16 @@ private slots:
         QTest::addColumn<StartStopList>("startStopList");
 
         QTest::newRow("empty") << "" << StartStopList();
+
+        QTest::newRow("start == stop") << R"(
+durations:
+- start: 2023-01-02T01:10:01Z
+  stop:  2023-01-02T01:10:01Z
+)" << (StartStopList()
+        << StartStop { QDateTime(QDate(2023, 1, 2), QTime(1, 10, 1), QTimeZone::UTC),
+                       QDateTime(QDate(2023, 1, 2), QTime(1, 10, 1), QTimeZone::UTC) }
+        );
+
         QTest::newRow("unordered") << R"(
 durations:
 - start: 2023-01-02T02:20:02Z
