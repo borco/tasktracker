@@ -172,7 +172,20 @@ void Task::loadCounts(const YAML::Node &node)
 
 void Task::saveCounts(YAML::Emitter &out) const
 {
+    using namespace qtyamlcppadapter;
 
+    if (m_counts.size() == 0)
+        return;
+
+    out << YAML::Key << CountsYamlName;
+    out << YAML::Value << YAML::BeginSeq;
+    for (auto it = m_counts.constBegin(); it != m_counts.constEnd(); ++it) {
+        out << YAML::Value << YAML::BeginMap;
+        emitYaml(out, CountsDateYamlName, it.key());
+        emitYaml(out, CountsCountYamlName, it.value());
+        out << YAML::EndMap;
+    }
+    out << YAML::EndSeq;
 }
 
 void Task::setCount(const QDate &date, int count)

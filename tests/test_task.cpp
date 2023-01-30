@@ -179,51 +179,58 @@ counts:
         }
     }
 
-    void test_save_data() {
-        QTest::addColumn<QString>("name");
-        QTest::addColumn<bool>("isArchived");
-        QTest::addColumn<TaskAggregate::Mode>("aggregateMode");
-        QTest::addColumn<TaskTrack::Mode>("trackMode");
-        QTest::addColumn<QString>("output");
-
-        QTest::newRow("all defaults")
-                << "Foo Bar" << false << TaskAggregate::DefaultMode << TaskTrack::DefaultMode
-                << R"(name: Foo Bar)";
-
-        QTest::newRow("archived")
-                << "foo bar" << true << TaskAggregate::DefaultMode << TaskTrack::DefaultMode
-                << R"(name: foo bar
-archived: true)";
-
-        QTest::newRow("aggregate weekly")
-                << "foo bar" << false << TaskAggregate::Weekly << TaskTrack::DefaultMode
-                << R"(name: foo bar
-aggregate: Weekly)";
-
-        QTest::newRow("track durations")
-                << "foo bar" << false << TaskAggregate::DefaultMode << TaskTrack::Duration
-                << R"(name: foo bar
-track: Duration)";
-    }
-
-    void test_save() {
-        QFETCH(QString, name);
-        QFETCH(bool, isArchived);
-        QFETCH(TaskAggregate::Mode, aggregateMode);
-        QFETCH(TaskTrack::Mode, trackMode);
-        QFETCH(QString, output);
-
+    void test_save_name() {
         Task task;
-        task.setName(name);
-        task.setIsArchived(isArchived);
-        task.setAggregateMode(aggregateMode);
-        task.setTrackMode(trackMode);
+        task.setName("Foo");
 
         YAML::Emitter out;
-
         task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), "name: Foo");
+    }
 
-        QCOMPARE(QString(out.c_str()), output);
+    void test_save_archived() {
+        Task task;
+        task.setIsArchived(true);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+archived: true)");
+    }
+
+    void test_save_aggregate_weekly() {
+        Task task;
+        task.setAggregateMode(TaskAggregate::Weekly);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+aggregate: Weekly)");
+    }
+
+    void test_save_track_duration() {
+        Task task;
+        task.setTrackMode(TaskTrack::Duration);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+track: Duration)");
+    }
+
+    void test_save_track_counts() {
+        Task task;
+        task.setCount(QDate(2023, 1, 1), 10);
+        task.setCount(QDate(2023, 1, 2), 1);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+counts:
+  - date: 2023-01-01
+    count: 10
+  - date: 2023-01-02
+    count: 1)");
     }
 };
 
