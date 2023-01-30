@@ -6,16 +6,15 @@
 
 #include "taskaggregate.h"
 #include "tasktrack.h"
+#include "yamlbackingstore.h"
 
 #include <QDateTime>
-
-namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
 class TaskDurationSortedList;
 
-class Task : public QObject
+class Task : public QObject, public YamlBackingStore
 {
     Q_OBJECT
     QML_ELEMENT
@@ -28,9 +27,6 @@ class Task : public QObject
     Q_PROPERTY(TaskTrack::Mode trackMode READ trackMode WRITE setTrackMode NOTIFY trackModeChanged)
 
 public:
-    typedef QMap<QTime, int> TimeDurations;
-    typedef QMap<QDate, TimeDurations> DateTimeDurations;
-
     explicit Task(QObject *parent = nullptr);
     ~Task() override;
 
@@ -52,14 +48,11 @@ public:
     TaskTrack::Mode trackMode() const { return m_trackMode; }
     void setTrackMode(TaskTrack::Mode newTrackMode);
 
-    void loadFromData(const QByteArray& data);
-    void loadFromYaml(const YAML::Node &node);
+    void loadFromYaml(const YAML::Node &node) override;
+    void saveToYaml(YAML::Emitter& out) const override;
 
-    Q_INVOKABLE int count(const QDate& date) const;
+    int count(const QDate& date) const;
     void setCount(const QDate& date, int count);
-
-    TimeDurations timeDurations(const QDate& date) const;
-
     TaskDurationSortedList* sortedDurations() const { return m_sortedDurations; }
 
 signals:
@@ -70,10 +63,10 @@ signals:
     void aggregateModeChanged();
     void trackModeChanged();
     void countChanged(const QDate& date, int count);
-    void durationsChanged(const QDate& date);
 
 private:
     void loadCounts(const YAML::Node &node);
+    void saveCounts(YAML::Emitter& out) const;
 
     QString m_name;
     bool m_isEdited = false;
@@ -83,7 +76,6 @@ private:
     TaskTrack::Mode m_trackMode = TaskTrack::DefaultMode;
 
     QMap<QDate, int> m_counts;
-    DateTimeDurations m_durations;
     TaskDurationSortedList* m_sortedDurations = nullptr;
 };
 

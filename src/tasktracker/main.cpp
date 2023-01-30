@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
 
     int index = raw_arguments.indexOf("--style");
     if (index >= 0 && (index + 1) < raw_arguments.size()) {
-        qDebug() << "Main: style set on command line to:" << raw_arguments[index + 1];
+        qDebug() << "Style set on command line to:" << raw_arguments[index + 1];
     } else {
-        qDebug() << "Main: style set to default style:" << DefaultQuickStyle;
+        qDebug() << "Style set to default style:" << DefaultQuickStyle;
         QQuickStyle::setStyle(DefaultQuickStyle);
     }
 
@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
         auto proxy_host = parser.value(ProxyHostCommandLineOption);
         auto proxy_port = parser.value(ProxyPortCommandLineOption).toUShort();
 
-        qWarning().nospace().noquote() << "Main: using custom network proxy: " << proxy_host << ":" << proxy_port;
+        qWarning().nospace().noquote() << "Using custom network proxy: " << proxy_host << ":" << proxy_port;
 
         network_proxy.setType(QNetworkProxy::HttpProxy);
         network_proxy.setHostName(proxy_host);
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     }
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
-    qInfo() << "Main: settings file:" << QSettings().fileName();
+    qInfo() << "Settings file:" << QSettings().fileName();
 
     tasktrackerlib::Config::get()->load();
     tasktrackerlib::TogglProxy::get()->load();

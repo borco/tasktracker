@@ -11,6 +11,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <fstream>
+
 namespace {
 static const char* TasksYamlNode = "tasks";
 
@@ -128,13 +130,12 @@ void TaskModel::setSize(int newSize)
     emit sizeChanged();
 }
 
-void TaskModel::loadFromData(const QByteArray &data)
+void TaskModel::loadFromYaml(const YAML::Node &node)
 {
-    YAML::Node node = YAML::Load(data.toStdString());
     auto tasks_node = node[TasksYamlNode];
     if (tasks_node) {
         if (!tasks_node.IsSequence()) {
-            qCritical().nospace() << "TaskModel: '" << TasksYamlNode << "' is not a list";
+            qCritical() << TasksYamlNode << "is not a list";
         } else {
             loadTasks(tasks_node);
         }
@@ -159,31 +160,48 @@ void TaskModel::loadTasks(const YAML::Node &node)
     endResetModel();
 }
 
-QByteArray TaskModel::saveToData() const
-{
-    return QByteArray();
-}
-
 void TaskModel::load(const QString &path, const QString &fileName)
 {
     auto dir = QDir(path);
     auto info = QFileInfo(dir.filePath(fileName));
     auto absolute_file_path = info.absoluteFilePath();
     if (info.exists()) {
-        qInfo() << "TaskModel: loading tasks from:" << absolute_file_path;
+        qInfo() << "Loading tasks from:" << absolute_file_path;
         auto file = QFile(absolute_file_path);
         file.open(QIODeviceBase::ReadOnly);
         loadFromData(file.readAll());
     } else {
-        qInfo() << "TaskModel: tasks file not found:" << absolute_file_path;
+        qCritical() << "Tasks file not found:" << absolute_file_path;
     }
+}
+
+void TaskModel::saveToYaml(YAML::Emitter& out) const
+{
+    out << YAML::BeginMap;
+    out << YAML::Key << TasksYamlNode;
+    out << YAML::Value << YAML::BeginSeq;
+    for (const auto& task: m_tasks) {
+        task->saveToYaml(out);
+    }
+    out << YAML::EndSeq;
+    out << YAML::EndMap;
 }
 
 void TaskModel::save(const QString &path, const QString &fileName)
 {
     QDir dir(path);
     QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
-    qInfo() << "TaskModel: saving tasks to:" << absolute_file_path;
+
+    std::ofstream ofs;
+    ofs.open(absolute_file_path.toStdString(), std::ofstream::out | std::ofstream::trunc);
+
+    if (ofs) {
+        qInfo() << "Saving tasks to:" << absolute_file_path;
+        YAML::Emitter out(ofs);
+        saveToYaml(out);
+    } else {
+        qCritical() << "Counld not open file for writing:" << absolute_file_path;
+    }
 }
 
 } // tasktrackerlib

@@ -25,6 +25,7 @@ public:
     explicit TaskDuration(QObject *parent = nullptr);
 
     void loadFromYaml(const YAML::Node &node) override;
+    void saveToYaml(YAML::Emitter& out) const override;
 
     QDateTime start() const;
     void setStart(const QDateTime& time);

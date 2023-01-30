@@ -48,6 +48,30 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
     }
 }
 
+void TaskDurationSortedList::saveToYaml(YAML::Emitter &out) const
+{
+    saveToYaml(out, false);
+}
+
+void TaskDurationSortedList::saveToYaml(YAML::Emitter &out, bool asMapValue) const
+{
+    if (m_items.empty())
+        return;
+
+    if (asMapValue) {
+        out << YAML::Key << DurationsYamlName << YAML::Value << YAML::BeginSeq;
+    } else {
+        out << YAML::BeginSeq;
+    }
+
+    for (auto it = m_items.cbegin(); it != m_items.cend(); ++it) {
+        const auto& duration = **it;
+        duration.saveToYaml(out);
+    }
+
+    out << YAML::EndSeq;
+}
+
 void TaskDurationSortedList::setSize(int newSize)
 {
     if (m_size == newSize)

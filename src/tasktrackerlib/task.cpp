@@ -9,6 +9,8 @@
 #include "qtyamlcppadapter/yamlhelper.h"
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
+#include <QIODevice>
+
 namespace {
 
 static const char* TaskYamlName = "name";
@@ -81,12 +83,6 @@ void Task::setTrackMode(TaskTrack::Mode newTrackMode)
     emit trackModeChanged();
 }
 
-void Task::loadFromData(const QByteArray &data)
-{
-    YAML::Node node = YAML::Load(data.toStdString());
-    loadFromYaml(node);
-}
-
 void Task::loadFromYaml(const YAML::Node &node)
 {
     using namespace qtyamlcppadapter;
@@ -104,6 +100,30 @@ void Task::loadFromYaml(const YAML::Node &node)
     loadCounts(node);
 
     m_sortedDurations->loadFromYaml(node);
+}
+
+void Task::saveToYaml(YAML::Emitter &out) const
+{
+    using namespace qtyamlcppadapter;
+
+    out << YAML::BeginMap;
+
+    emitYaml(out, TaskYamlName, m_name);
+
+    if (m_isArchived)
+        emitYaml(out, IsArchivedYamlName, m_isArchived);
+
+    if (m_aggregateMode != TaskAggregate::DefaultMode)
+        emitYaml(out, AggregateModeYamlName, m_aggregateMode);
+
+    if (m_trackMode != TaskTrack::DefaultMode)
+        emitYaml(out, TrackModeYamlName, m_trackMode);
+
+    saveCounts(out);
+
+    m_sortedDurations->saveToYaml(out, true);
+
+    out << YAML::EndMap;
 }
 
 int Task::count(const QDate &date) const
@@ -146,17 +166,30 @@ void Task::loadCounts(const YAML::Node &node)
     }
 }
 
+void Task::saveCounts(YAML::Emitter &out) const
+{
+    using namespace qtyamlcppadapter;
+
+    if (m_counts.empty())
+        return;
+
+    out << YAML::Key << CountsYamlName;
+    out << YAML::Value << YAML::BeginSeq;
+    for (auto it = m_counts.constBegin(); it != m_counts.constEnd(); ++it) {
+        out << YAML::Value << YAML::BeginMap;
+        emitYaml(out, CountsDateYamlName, it.key());
+        emitYaml(out, CountsCountYamlName, it.value());
+        out << YAML::EndMap;
+    }
+    out << YAML::EndSeq;
+}
+
 void Task::setCount(const QDate &date, int count)
 {
     if (m_counts[date] == count && !date.isValid())
         return;
     m_counts[date] = count;
     emit countChanged(date, count);
-}
-
-Task::TimeDurations Task::timeDurations(const QDate &date) const
-{
-    return m_durations[date];
 }
 
 } // tasktrackerlib

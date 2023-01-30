@@ -4,16 +4,16 @@
 
 #pragma once
 
+#include "yamlbackingstore.h"
+
 #include <QQmlEngine>
 #include <QAbstractListModel>
-
-namespace YAML { class Node; }
 
 namespace tasktrackerlib {
 
 class Task;
 
-class TaskModel : public QAbstractListModel
+class TaskModel : public QAbstractListModel, public YamlBackingStore
 {
     Q_OBJECT
     QML_ELEMENT
@@ -32,19 +32,18 @@ public:
     int size() const { return m_size; }
     void setSize(int newSize);
 
-    void loadFromData(const QByteArray& data);
-    QByteArray saveToData() const;
+    void loadFromYaml(const YAML::Node &node) override;
+    void saveToYaml(YAML::Emitter& out) const override;
 
     const Task* get(int row) const { return m_tasks[row]; }
 
+    Q_INVOKABLE void load(const QString& path, const QString& fileName = DefaultFileName);
+    Q_INVOKABLE void save(const QString& path, const QString& fileName = DefaultFileName);
+
+    Q_INVOKABLE tasktrackerlib::Task* prependTask();
+
 signals:
     void sizeChanged();
-
-public slots:
-    void load(const QString& path, const QString& fileName = DefaultFileName);
-    void save(const QString& path, const QString& fileName = DefaultFileName);
-
-    tasktrackerlib::Task* prependTask();
 
 private:
     void loadTasks(const YAML::Node& node);

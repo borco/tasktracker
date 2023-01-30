@@ -1,6 +1,10 @@
-#include <QTest>
-
 #include "tasktrackerlib/task.h"
+#include "tasktrackerlib/taskduration.h"
+#include "tasktrackerlib/taskdurationsortedlist.h"
+
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
+#include <QTest>
 
 using namespace tasktrackerlib;
 
@@ -175,6 +179,78 @@ counts:
             auto count = counts[i];
             QCOMPARE(task.count(count.date), count.count);
         }
+    }
+
+    void test_save_name() {
+        Task task;
+        task.setName("Foo");
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), "name: Foo");
+    }
+
+    void test_save_archived() {
+        Task task;
+        task.setIsArchived(true);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+archived: true)");
+    }
+
+    void test_save_aggregate_weekly() {
+        Task task;
+        task.setAggregateMode(TaskAggregate::Weekly);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+aggregate: Weekly)");
+    }
+
+    void test_save_track_duration() {
+        Task task;
+        task.setTrackMode(TaskTrack::Duration);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+track: Duration)");
+    }
+
+    void test_save_counts() {
+        Task task;
+        task.setCount(QDate(2023, 1, 1), 10);
+        task.setCount(QDate(2023, 1, 2), 1);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+counts:
+  - date: 2023-01-01
+    count: 10
+  - date: 2023-01-02
+    count: 1)");
+    }
+
+    void test_save_durations() {
+        Task task;
+
+        TaskDuration td;
+        td.setStart(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 3), QTimeZone::UTC));
+        td.setStop(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 4), QTimeZone::UTC));
+
+        auto durations = task.sortedDurations();
+        durations->insert(&td);
+
+        YAML::Emitter out;
+        task.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(name: ""
+durations:
+  - start: 2021-02-03T01:02:03Z
+    stop: 2021-02-03T01:02:04Z)");
     }
 };
 
