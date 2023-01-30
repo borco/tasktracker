@@ -24,6 +24,7 @@ public:
 
     void loadFromYaml(const YAML::Node &node) override;
     void saveToYaml(YAML::Emitter& out) const override;
+    void saveToYaml(YAML::Emitter& out, bool asMapValue) const;
 
     void setSize(int newSize) override;
 

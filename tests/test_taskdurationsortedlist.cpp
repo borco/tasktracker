@@ -1,6 +1,8 @@
 #include "tasktrackerlib/taskduration.h"
 #include "tasktrackerlib/taskdurationsortedlist.h"
 
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
 #include <QTest>
 
 using namespace tasktrackerlib;
@@ -65,6 +67,38 @@ durations:
             QCOMPARE(duration->stop(), startStopList[i].stop);
         }
     }
+
+    void test_save_as_sequence() {
+        TaskDuration td;
+        td.setStart(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 3), QTimeZone::UTC));
+        td.setStop(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 4), QTimeZone::UTC));
+
+        TaskDurationSortedList list;
+        list.insert(&td);
+
+        YAML::Emitter out;
+        list.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(- start: 2021-02-03T01:02:03Z
+  stop: 2021-02-03T01:02:04Z)");
+    }
+
+    void test_save_as_map_value() {
+        TaskDuration td;
+        td.setStart(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 3), QTimeZone::UTC));
+        td.setStop(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 4), QTimeZone::UTC));
+
+        TaskDurationSortedList list;
+        list.insert(&td);
+
+        YAML::Emitter out;
+        out << YAML::BeginMap;
+        list.saveToYaml(out, true);
+        out << YAML::EndMap;
+        QCOMPARE(QString(out.c_str()), R"(durations:
+  - start: 2021-02-03T01:02:03Z
+    stop: 2021-02-03T01:02:04Z)");
+    }
+
 };
 
 QTEST_MAIN(TestTaskDurationSortedList)
