@@ -1,6 +1,8 @@
-#include <QTest>
-
 #include "tasktrackerlib/task.h"
+
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
+#include <QTest>
 
 using namespace tasktrackerlib;
 
@@ -175,6 +177,53 @@ counts:
             auto count = counts[i];
             QCOMPARE(task.count(count.date), count.count);
         }
+    }
+
+    void test_save_data() {
+        QTest::addColumn<QString>("name");
+        QTest::addColumn<bool>("isArchived");
+        QTest::addColumn<TaskAggregate::Mode>("aggregateMode");
+        QTest::addColumn<TaskTrack::Mode>("trackMode");
+        QTest::addColumn<QString>("output");
+
+        QTest::newRow("all defaults")
+                << "Foo Bar" << false << TaskAggregate::DefaultMode << TaskTrack::DefaultMode
+                << R"(name: Foo Bar)";
+
+        QTest::newRow("archived")
+                << "foo bar" << true << TaskAggregate::DefaultMode << TaskTrack::DefaultMode
+                << R"(name: foo bar
+archived: true)";
+
+        QTest::newRow("aggregate weekly")
+                << "foo bar" << false << TaskAggregate::Weekly << TaskTrack::DefaultMode
+                << R"(name: foo bar
+aggregate: Weekly)";
+
+        QTest::newRow("track durations")
+                << "foo bar" << false << TaskAggregate::DefaultMode << TaskTrack::Duration
+                << R"(name: foo bar
+track: Duration)";
+    }
+
+    void test_save() {
+        QFETCH(QString, name);
+        QFETCH(bool, isArchived);
+        QFETCH(TaskAggregate::Mode, aggregateMode);
+        QFETCH(TaskTrack::Mode, trackMode);
+        QFETCH(QString, output);
+
+        Task task;
+        task.setName(name);
+        task.setIsArchived(isArchived);
+        task.setAggregateMode(aggregateMode);
+        task.setTrackMode(trackMode);
+
+        YAML::Emitter out;
+
+        task.saveToYaml(out);
+
+        QCOMPARE(QString(out.c_str()), output);
     }
 };
 

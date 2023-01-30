@@ -11,6 +11,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <fstream>
+
 namespace {
 static const char* TasksYamlNode = "tasks";
 
@@ -159,11 +161,6 @@ void TaskModel::loadTasks(const YAML::Node &node)
     endResetModel();
 }
 
-QByteArray TaskModel::saveToData() const
-{
-    return QByteArray();
-}
-
 void TaskModel::load(const QString &path, const QString &fileName)
 {
     auto dir = QDir(path);
@@ -179,14 +176,30 @@ void TaskModel::load(const QString &path, const QString &fileName)
     }
 }
 
+void TaskModel::saveToYaml(YAML::Emitter& out) const
+{
+    out << YAML::BeginMap;
+    out << YAML::Key << TasksYamlNode;
+    out << YAML::Value << YAML::BeginSeq;
+    for (const auto& task: m_tasks) {
+        task->saveToYaml(out);
+    }
+    out << YAML::EndSeq;
+    out << YAML::EndMap;
+}
+
 void TaskModel::save(const QString &path, const QString &fileName)
 {
     QDir dir(path);
     QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
-    auto file = QFile(absolute_file_path);
-    if (file.open(QIODeviceBase::WriteOnly)) {
+
+    std::ofstream ofs;
+    ofs.open(absolute_file_path.toStdString(), std::ofstream::out | std::ofstream::trunc);
+
+    if (ofs) {
         qInfo() << "Saving tasks to:" << absolute_file_path;
-        file.write(saveToData());
+        YAML::Emitter out(ofs);
+        saveToYaml(out);
     } else {
         qCritical() << "Counld not open file for writing:" << absolute_file_path;
     }

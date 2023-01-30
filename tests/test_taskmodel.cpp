@@ -1,7 +1,9 @@
-#include <QTest>
-
 #include "tasktrackerlib/task.h"
 #include "tasktrackerlib/taskmodel.h"
+
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
+#include <QTest>
 
 using namespace tasktrackerlib;
 
@@ -34,6 +36,30 @@ tasks: []
         }
     }
 
+    void test_save_to_yaml_no_tasks() {
+        TaskModel model;
+        YAML::Emitter out;
+        model.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(tasks:
+  [])");
+    }
+
+    void test_save_to_yaml_some_task() {
+        TaskModel model;
+        model.loadFromData(R"(tasks:
+- name: Foo Bar
+- name: foo bar
+- name: Foo bar
+- name: foo Bar
+)");
+        YAML::Emitter out;
+        model.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(tasks:
+  - name: Foo Bar
+  - name: foo bar
+  - name: Foo bar
+  - name: foo Bar)");
+    }
 };
 
 QTEST_MAIN(TestTaskModel)

@@ -9,6 +9,8 @@
 #include "qtyamlcppadapter/yamlhelper.h"
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
+#include <QIODevice>
+
 namespace {
 
 static const char* TaskYamlName = "name";
@@ -106,6 +108,28 @@ void Task::loadFromYaml(const YAML::Node &node)
     m_sortedDurations->loadFromYaml(node);
 }
 
+void Task::saveToYaml(YAML::Emitter &out) const
+{
+    using namespace qtyamlcppadapter;
+
+    out << YAML::BeginMap;
+
+    emitYaml(out, TaskYamlName, m_name);
+
+    if (m_isArchived)
+        emitYaml(out, IsArchivedYamlName, m_isArchived);
+
+    if (m_aggregateMode != TaskAggregate::DefaultMode)
+        emitYaml(out, AggregateModeYamlName, m_aggregateMode);
+
+    if (m_trackMode != TaskTrack::DefaultMode)
+        emitYaml(out, TrackModeYamlName, m_trackMode);
+
+    saveCounts(out);
+
+    out << YAML::EndMap;
+}
+
 int Task::count(const QDate &date) const
 {
     return m_counts[date];
@@ -146,17 +170,17 @@ void Task::loadCounts(const YAML::Node &node)
     }
 }
 
+void Task::saveCounts(YAML::Emitter &out) const
+{
+
+}
+
 void Task::setCount(const QDate &date, int count)
 {
     if (m_counts[date] == count && !date.isValid())
         return;
     m_counts[date] = count;
     emit countChanged(date, count);
-}
-
-Task::TimeDurations Task::timeDurations(const QDate &date) const
-{
-    return m_durations[date];
 }
 
 } // tasktrackerlib

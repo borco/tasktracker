@@ -7,7 +7,10 @@
 #include <QQmlEngine>
 #include <QAbstractListModel>
 
-namespace YAML { class Node; }
+namespace YAML {
+class Emitter;
+class Node;
+}
 
 namespace tasktrackerlib {
 
@@ -33,7 +36,7 @@ public:
     void setSize(int newSize);
 
     void loadFromData(const QByteArray& data);
-    QByteArray saveToData() const;
+    void saveToYaml(YAML::Emitter& out) const;
 
     const Task* get(int row) const { return m_tasks[row]; }
 
