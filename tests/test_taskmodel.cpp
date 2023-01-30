@@ -48,7 +48,15 @@ tasks: []
         TaskModel model;
         model.loadFromData(R"(tasks:
 - name: Foo Bar
+  durations:
+  - start: 2021-02-03T01:02:03Z
+    stop: 2021-02-03T01:02:04Z
 - name: foo bar
+  counts:
+  - date: 2023-01-01
+    count: 10
+  - date: 2023-01-02
+    count: 1
 - name: Foo bar
 - name: foo Bar
 )");
@@ -56,7 +64,15 @@ tasks: []
         model.saveToYaml(out);
         QCOMPARE(QString(out.c_str()), R"(tasks:
   - name: Foo Bar
+    durations:
+      - start: 2021-02-03T01:02:03Z
+        stop: 2021-02-03T01:02:04Z
   - name: foo bar
+    counts:
+      - date: 2023-01-01
+        count: 10
+      - date: 2023-01-02
+        count: 1
   - name: Foo bar
   - name: foo Bar)");
     }

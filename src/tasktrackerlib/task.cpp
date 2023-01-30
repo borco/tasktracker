@@ -121,6 +121,8 @@ void Task::saveToYaml(YAML::Emitter &out) const
 
     saveCounts(out);
 
+    m_sortedDurations->saveToYaml(out, true);
+
     out << YAML::EndMap;
 }
 
@@ -168,7 +170,7 @@ void Task::saveCounts(YAML::Emitter &out) const
 {
     using namespace qtyamlcppadapter;
 
-    if (m_counts.size() == 0)
+    if (m_counts.empty())
         return;
 
     out << YAML::Key << CountsYamlName;
