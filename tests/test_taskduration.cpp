@@ -1,5 +1,7 @@
 #include "tasktrackerlib/taskduration.h"
 
+#include "yaml-cpp/yaml.h" // IWYU pragma: keep
+
 #include <QTest>
 
 using namespace tasktrackerlib;
@@ -64,6 +66,17 @@ stop: 2021-02-03T04:05:06.000Z
         td.loadFromData(data.toUtf8());
         QCOMPARE(td.start(), start);
         QCOMPARE(td.stop(), stop);
+    }
+
+    void test_save() {
+        TaskDuration td;
+        td.setStart(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 3), QTimeZone::UTC));
+        td.setStop(QDateTime(QDate(2021, 2, 3), QTime(1, 2, 4), QTimeZone::UTC));
+
+        YAML::Emitter out;
+        td.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(start: 2021-02-03T01:02:03Z
+stop: 2021-02-03T01:02:04Z)");
     }
 };
 

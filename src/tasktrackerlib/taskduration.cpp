@@ -47,7 +47,12 @@ void TaskDuration::loadFromYaml(const YAML::Node &node)
 
 void TaskDuration::saveToYaml(YAML::Emitter &out) const
 {
+    using namespace  qtyamlcppadapter;
 
+    out << YAML::BeginMap;
+    emitYaml(out, StartTimeYamlName, m_start);
+    emitYaml(out, StopTimeYamlName, m_stop);
+    out << YAML::EndMap;
 }
 
 QDateTime TaskDuration::start() const
