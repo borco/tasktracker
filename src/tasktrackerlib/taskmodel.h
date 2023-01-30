@@ -37,14 +37,13 @@ public:
 
     const Task* get(int row) const { return m_tasks[row]; }
 
+    Q_INVOKABLE void load(const QString& path, const QString& fileName = DefaultFileName);
+    Q_INVOKABLE void save(const QString& path, const QString& fileName = DefaultFileName);
+
+    Q_INVOKABLE tasktrackerlib::Task* prependTask();
+
 signals:
     void sizeChanged();
-
-public slots:
-    void load(const QString& path, const QString& fileName = DefaultFileName);
-    void save(const QString& path, const QString& fileName = DefaultFileName);
-
-    tasktrackerlib::Task* prependTask();
 
 private:
     void loadTasks(const YAML::Node& node);
