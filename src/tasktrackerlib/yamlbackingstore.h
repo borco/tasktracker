@@ -6,7 +6,10 @@
 
 #include <QByteArray>
 
-namespace YAML { class Node; }
+namespace YAML {
+class Emitter;
+class Node;
+}
 
 namespace tasktrackerlib {
 
@@ -15,6 +18,7 @@ class YamlBackingStore
 public:
     void loadFromData(const QByteArray& data);
     virtual void loadFromYaml(const YAML::Node &node) = 0;
+    virtual void saveToYaml(YAML::Emitter& out) const = 0;
 
 protected:
     YamlBackingStore();

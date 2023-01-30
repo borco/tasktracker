@@ -83,12 +83,6 @@ void Task::setTrackMode(TaskTrack::Mode newTrackMode)
     emit trackModeChanged();
 }
 
-void Task::loadFromData(const QByteArray &data)
-{
-    YAML::Node node = YAML::Load(data.toStdString());
-    loadFromYaml(node);
-}
-
 void Task::loadFromYaml(const YAML::Node &node)
 {
     using namespace qtyamlcppadapter;

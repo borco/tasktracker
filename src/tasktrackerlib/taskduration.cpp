@@ -45,6 +45,11 @@ void TaskDuration::loadFromYaml(const YAML::Node &node)
     setStop(dateTimeFromYaml(node, StopTimeYamlName));
 }
 
+void TaskDuration::saveToYaml(YAML::Emitter &out) const
+{
+
+}
+
 QDateTime TaskDuration::start() const
 {
     return m_start;

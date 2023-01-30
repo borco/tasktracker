@@ -23,6 +23,7 @@ public:
     explicit TaskDurationSortedList(QObject *parent = nullptr);
 
     void loadFromYaml(const YAML::Node &node) override;
+    void saveToYaml(YAML::Emitter& out) const override;
 
     void setSize(int newSize) override;
 

@@ -48,6 +48,11 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
     }
 }
 
+void TaskDurationSortedList::saveToYaml(YAML::Emitter &out) const
+{
+
+}
+
 void TaskDurationSortedList::setSize(int newSize)
 {
     if (m_size == newSize)

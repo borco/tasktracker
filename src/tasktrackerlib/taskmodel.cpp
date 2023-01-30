@@ -130,9 +130,8 @@ void TaskModel::setSize(int newSize)
     emit sizeChanged();
 }
 
-void TaskModel::loadFromData(const QByteArray &data)
+void TaskModel::loadFromYaml(const YAML::Node &node)
 {
-    YAML::Node node = YAML::Load(data.toStdString());
     auto tasks_node = node[TasksYamlNode];
     if (tasks_node) {
         if (!tasks_node.IsSequence()) {

@@ -6,19 +6,15 @@
 
 #include "taskaggregate.h"
 #include "tasktrack.h"
+#include "yamlbackingstore.h"
 
 #include <QDateTime>
-
-namespace YAML {
-class Emitter;
-class Node;
-}
 
 namespace tasktrackerlib {
 
 class TaskDurationSortedList;
 
-class Task : public QObject
+class Task : public QObject, public YamlBackingStore
 {
     Q_OBJECT
     QML_ELEMENT
@@ -52,9 +48,8 @@ public:
     TaskTrack::Mode trackMode() const { return m_trackMode; }
     void setTrackMode(TaskTrack::Mode newTrackMode);
 
-    void loadFromData(const QByteArray& data);
-    void loadFromYaml(const YAML::Node &node);
-    void saveToYaml(YAML::Emitter& out) const;
+    void loadFromYaml(const YAML::Node &node) override;
+    void saveToYaml(YAML::Emitter& out) const override;
 
     int count(const QDate& date) const;
     void setCount(const QDate& date, int count);
