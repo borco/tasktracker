@@ -134,7 +134,7 @@ void TaskModel::loadFromData(const QByteArray &data)
     auto tasks_node = node[TasksYamlNode];
     if (tasks_node) {
         if (!tasks_node.IsSequence()) {
-            qCritical().nospace() << "TaskModel: '" << TasksYamlNode << "' is not a list";
+            qCritical() << TasksYamlNode << "is not a list";
         } else {
             loadTasks(tasks_node);
         }
@@ -170,12 +170,12 @@ void TaskModel::load(const QString &path, const QString &fileName)
     auto info = QFileInfo(dir.filePath(fileName));
     auto absolute_file_path = info.absoluteFilePath();
     if (info.exists()) {
-        qInfo() << "TaskModel: loading tasks from:" << absolute_file_path;
+        qInfo() << "Loading tasks from:" << absolute_file_path;
         auto file = QFile(absolute_file_path);
         file.open(QIODeviceBase::ReadOnly);
         loadFromData(file.readAll());
     } else {
-        qInfo() << "TaskModel: tasks file not found:" << absolute_file_path;
+        qCritical() << "Tasks file not found:" << absolute_file_path;
     }
 }
 
@@ -183,7 +183,13 @@ void TaskModel::save(const QString &path, const QString &fileName)
 {
     QDir dir(path);
     QString absolute_file_path = QFileInfo(dir.filePath(fileName)).absoluteFilePath();
-    qInfo() << "TaskModel: saving tasks to:" << absolute_file_path;
+    auto file = QFile(absolute_file_path);
+    if (file.open(QIODeviceBase::WriteOnly)) {
+        qInfo() << "Saving tasks to:" << absolute_file_path;
+        file.write(saveToData());
+    } else {
+        qCritical() << "Counld not open file for writing:" << absolute_file_path;
+    }
 }
 
 } // tasktrackerlib
