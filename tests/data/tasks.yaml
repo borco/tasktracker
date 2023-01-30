@@ -4,51 +4,50 @@ tasks:
     aggregate: Monthly
     track: Duration
     durations:
-    - start: "2023-01-16T00:00:00Z"
-      stop: "2023-01-16T00:00:16Z"
-    - start: "2023-01-17T00:00:00Z"
-      stop: "2023-01-17T00:00:17Z"
-    - start: "2023-01-18T00:30:00Z"
-      stop: "2023-01-18T00:30:30Z"
-    - start: "2023-01-18T00:20:00Z"
-      stop: "2023-01-18T00:20:20Z"
-    - start: "2023-01-18T00:10:00Z"
-      stop: "2023-01-18T00:10:10Z"
+      - start: 2023-01-16T00:00:00Z
+        stop: 2023-01-16T00:00:16Z
+      - start: 2023-01-17T00:00:00Z
+        stop: 2023-01-17T00:00:17Z
+      - start: 2023-01-18T00:10:00Z
+        stop: 2023-01-18T00:10:10Z
+      - start: 2023-01-18T00:20:00Z
+        stop: 2023-01-18T00:20:20Z
+      - start: 2023-01-18T00:30:00Z
+        stop: 2023-01-18T00:30:30Z
   - name: archived task
     archived: true
     track: Duration
     durations:
-    - start: "2023-01-18T00:05:00Z"
-      stop: "2023-01-18T00:05:50Z"
+      - start: 2023-01-18T00:05:00Z
+        stop: 2023-01-18T00:05:50Z
   - name: weekly task
     aggregate: Weekly
   - name: count repeats task
     aggregate: Monthly
-    track: Count
     counts:
-    - date: "2023-01-17"
-      count: 2
-    - date: "2023-01-18"
-      count: 4
+      - date: 2023-01-17
+        count: 2
+      - date: 2023-01-18
+        count: 4
   - name: weekly maximum duration task
     aggregate: Weekly
     track: Duration
     durations:
-    - start: "2023-01-18T00:06:00Z"
-      stop: "2023-01-18T00:08:00Z"
-    - start: "2023-01-18T00:10:00Z"
-      stop: "2023-01-18T00:20:00Z"
-    - start: "2023-01-26T00:00:00Z"
-      stop: "2023-01-26T00:00:01Z"
-    - start: "2023-01-26T22:22:00Z"
-      stop: "2023-01-26T22:22:22Z"
-    - start: "2023-01-26T23:23:00Z"
-      stop: "2023-01-26T23:23:23Z"
-    - start: "2023-01-27T00:10:00Z"
-      stop: "2023-01-27T00:20:00Z"
-    - start: "2023-01-28T12:00:00Z"
-      stop: "2023-01-28T12:00:00Z"
-    - start: "2023-01-28T13:10:00Z"
-      stop: "2023-01-28T13:10:00Z"
-    - start: "2023-01-28T14:20:00Z"
-      stop: "2023-01-28T14:20:00Z"
+      - start: 2023-01-18T00:06:00Z
+        stop: 2023-01-18T00:08:00Z
+      - start: 2023-01-18T00:10:00Z
+        stop: 2023-01-18T00:20:00Z
+      - start: 2023-01-26T00:00:00Z
+        stop: 2023-01-26T00:00:01Z
+      - start: 2023-01-26T22:22:00Z
+        stop: 2023-01-26T22:22:22Z
+      - start: 2023-01-26T23:23:00Z
+        stop: 2023-01-26T23:23:23Z
+      - start: 2023-01-27T00:10:00Z
+        stop: 2023-01-27T00:20:00Z
+      - start: 2023-01-28T12:00:00Z
+        stop: 2023-01-28T12:00:00Z
+      - start: 2023-01-28T13:10:00Z
+        stop: 2023-01-28T13:10:00Z
+      - start: 2023-01-28T14:20:00Z
+        stop: 2023-01-28T14:20:00Z
