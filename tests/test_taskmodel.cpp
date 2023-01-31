@@ -40,8 +40,7 @@ tasks: []
         TaskModel model;
         YAML::Emitter out;
         model.saveToYaml(out);
-        QCOMPARE(QString(out.c_str()), R"(tasks:
-  [])");
+        QCOMPARE(QString(out.c_str()), "");
     }
 
     void test_save_to_yaml_some_task() {

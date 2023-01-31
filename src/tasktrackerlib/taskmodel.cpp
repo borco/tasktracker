@@ -177,6 +177,9 @@ void TaskModel::load(const QString &path, const QString &fileName)
 
 void TaskModel::saveToYaml(YAML::Emitter& out) const
 {
+    if (m_tasks.empty())
+        return;
+
     out << YAML::BeginMap;
     out << YAML::Key << TasksYamlNode;
     out << YAML::Value << YAML::BeginSeq;
