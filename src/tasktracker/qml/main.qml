@@ -43,6 +43,11 @@ ApplicationWindow {
         color: palette.window
     }
 
+    ConfirmTaskDeletionMessageBox {
+        id: confirmTaskDeletionMessageBox
+        onDeletionAccepted: taskModel.deleteTask(task)
+    }
+
     ConfigPopup {
         id: configPopup
     }
@@ -163,6 +168,7 @@ ApplicationWindow {
                             inEditMode: root.inEditMode
 
                             onAddTask: taskEditorPopup.editTask(null)
+                            onDeleteTask: (dayViewTaskModelContext) => confirmTaskDeletionMessageBox.deleteTask(dayViewTaskModelContext.task)
                             onEditTask: (dayViewTaskModelContext) => taskEditorPopup.editTask(dayViewTaskModelContext)
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
