@@ -18,6 +18,7 @@ Item {
     property string title: ""
 
     signal editTask(dayViewTaskModelContext: var)
+    signal deleteTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
     signal addTask()
@@ -70,6 +71,7 @@ Item {
             visibleTasksModel: taskFilterModel
 
             onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
+            onDeleteTask: (dayViewTaskModelContext) => root.deleteTask(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
             onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }
