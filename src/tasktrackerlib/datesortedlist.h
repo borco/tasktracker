@@ -25,6 +25,8 @@ public:
     DateSortedList(QObject* itemsOwner) : m_itemsOwner{itemsOwner} {}
     ~DateSortedList() { clear(); }
 
+    bool empty() const { return m_items.empty(); }
+
     bool insert(T* item) {
         if (!item->start().isValid()) {
             qCritical() << "Can't store an item with invalid start";
