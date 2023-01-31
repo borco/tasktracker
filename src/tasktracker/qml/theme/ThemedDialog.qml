@@ -36,9 +36,8 @@ Dialog {
 
             ThemedButton {
                 id: leftButton
-                Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.maximumWidth: buttonsRowLayout.width / 2 - 1
+                Layout.preferredWidth: buttonsRowLayout.width / 2 - 1
             }
 
             Rectangle {
