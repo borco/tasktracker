@@ -16,6 +16,7 @@ Item {
     property bool editButtonVisible: true
 
     signal editTask(dayViewTaskModelContext: var)
+    signal deleteTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
 
@@ -41,7 +42,9 @@ Item {
             date: dayViewModel.date
             task: model.task
             width: ListView.view.width
+
             onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
+            onDeleteTask: (dayViewTaskModelContext) => root.deleteTask(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
             onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }

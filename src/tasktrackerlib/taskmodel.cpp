@@ -122,6 +122,23 @@ Task* TaskModel::prependTask()
     return insertTask(0, new Task(this));
 }
 
+void TaskModel::deleteTask(Task *task)
+{
+    if (!task)
+        return;
+
+    auto row = m_tasks.indexOf(task);
+    if (row < 0) {
+        qCritical().nospace() << "Could not find task \"" << task->name() << "\"and delete it";
+        return;
+    }
+
+    beginRemoveRows(QModelIndex(), row, row);
+    m_tasks.removeAt(row);
+    task->deleteLater();
+    endRemoveRows();
+}
+
 void TaskModel::setSize(int newSize)
 {
     if (m_size == newSize)

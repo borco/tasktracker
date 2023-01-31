@@ -26,6 +26,7 @@ qt_add_qml_module(${APP_NAME}
         qml/config/ConfigPopup.qml
         qml/main.qml
         qml/task/CalendarPage.qml
+        qml/task/ConfirmTaskDeletionMessageBox.qml
         qml/task/DayTask.qml
         qml/task/DayTasks.qml
         qml/task/DayView.qml
@@ -72,6 +73,7 @@ qt_add_qml_module(${APP_NAME}
         icons/refresh.svg
         icons/settings.svg
         icons/task/decrement.svg
+        icons/task/delete.svg
         icons/task/done.svg
         icons/task/edit.svg
         icons/task/increment.svg
