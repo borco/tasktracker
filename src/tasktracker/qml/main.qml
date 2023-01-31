@@ -39,9 +39,27 @@ ApplicationWindow {
     TaskEditorPopup {
         id: taskEditorPopup
 
+        property var model
+
         function editTask(context) {
             model = context
+            let task = model.task
+            name = task.name
+            isArchived = task.isArchived
+            aggregateMode = task.aggregateMode
+            trackMode = task.trackMode
             open()
+        }
+
+        onAccepted: {
+            if (!model || !model.task)
+                return
+            let task = model.task
+            task.name = name
+            task.trackMode = trackMode
+            task.aggregateMode = aggregateMode
+            // change the model.isArchived the last, so that they task isn't hidden before setting other properties
+            model.isArchived = isArchived
         }
     }
 
@@ -117,6 +135,7 @@ ApplicationWindow {
                             anchors.fill: parent
                             taskModel: root.taskModel
 
+                            onAddTask: console.log("add task")
                             onEditTask: (dayViewTaskModelContext) => taskEditorPopup.editTask(dayViewTaskModelContext)
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)

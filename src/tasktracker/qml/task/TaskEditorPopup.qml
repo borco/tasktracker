@@ -10,11 +10,16 @@ import "../theme/Theme.js" as Theme
 ThemedPopup {
     id: root
 
-    property var model
+    property string name: ""
+    property bool isArchived: false
+    property int aggregateMode: TaskAggregate.DefaultMode
+    property int trackMode: TaskTrack.DefaultMode
 
     property string title: qsTr("Task Editor")
 
     property int labelWidth: 60
+
+    signal accepted()
 
     component ItemInput: Pane {
         property alias label: inputLabel.text
@@ -70,13 +75,6 @@ ThemedPopup {
     contentHeight: contentLayout.implicitHeight
     contentWidth: contentLayout.implicitWidth
 
-    onOpened: model.isEdited = true
-
-    onClosed: {
-        model.isEdited = false
-        model = null
-    }
-
     ButtonGroup { id: trackModeGroup }
     ButtonGroup { id: repeadModeGroup }
 
@@ -91,11 +89,16 @@ ThemedPopup {
 
             Layout.fillWidth: true
 
-            leftButton.visible: false
+            leftButton.visible: true
+            leftButton.text: qsTr("Cancel")
+            leftButton.onClicked: root.close()
             rightButton.enabled: true
             rightButton.highlighted: true
-            rightButton.text: qsTr("Done")
-            rightButton.onClicked: root.close()
+            rightButton.text: qsTr("Save")
+            rightButton.onClicked: {
+                root.accepted()
+                root.close()
+            }
         }
 
         Flickable {
@@ -114,17 +117,16 @@ ThemedPopup {
 
                 ItemInput {
                     label: qsTr("Name")
-                    text: model ? model.task.name : ""
-                    onTextChanged: if (model) model.task.name = text
+                    text: name
+                    onTextChanged: name = text
                 }
 
                 ThemedSwitchDelegate {
-                    property var model: root.model
                     focus: true
                     text: qsTr("Archived")
                     Layout.fillWidth: true
-                    checked: model ? model.isArchived: false
-                    onCheckedChanged: if (model) model.isArchived = checked
+                    checked: isArchived
+                    onCheckedChanged: isArchived = checked
                 }
 
                 ThemedGroupTitle { text: qsTr("Aggregate") }
@@ -137,8 +139,8 @@ ThemedPopup {
                     ThemedRadioDelegate {
                         text: TaskAggregate.toString(modelData)
                         ButtonGroup.group: repeadModeGroup
-                        checked: root.model ? root.model.task.aggregateMode === modelData : false
-                        onClicked: root.model.task.aggregateMode = modelData
+                        checked: aggregateMode === modelData
+                        onClicked: aggregateMode = modelData
                     }
                 }
 
@@ -151,8 +153,8 @@ ThemedPopup {
                     ThemedRadioDelegate {
                         text: TaskTrack.toString(modelData)
                         ButtonGroup.group: trackModeGroup
-                        checked: root.model ? root.model.task.trackMode === modelData : false
-                        onClicked: root.model.task.trackMode = modelData
+                        checked: trackMode === modelData
+                        onClicked: trackMode = modelData
                     }
                 }
 
