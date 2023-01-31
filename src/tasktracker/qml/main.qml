@@ -15,7 +15,18 @@ ApplicationWindow {
     id: root
 
     property bool inDarkMode: palette.text > palette.base
+
+    property bool inEditMode: appHeader.editChecked
+    property alias isArchivedVisible: appHeader.isArchivedVisible
+    property alias isDoneVisible: appHeader.isDoneVisible
+
     property TaskModel taskModel: TaskModel {}
+
+    property TaskFilterModel taskFilterModel: TaskFilterModel {
+        sourceModel: taskModel
+        isArchivedVisible: root.isArchivedVisible
+        isDoneVisible: root.isDoneVisible
+    }
 
     property string narrowLayoutTitle: ""
 
@@ -39,27 +50,43 @@ ApplicationWindow {
     TaskEditorPopup {
         id: taskEditorPopup
 
-        property var model
+        property var context
 
         function editTask(context) {
-            model = context
-            let task = model.task
-            name = task.name
-            isArchived = task.isArchived
-            aggregateMode = task.aggregateMode
-            trackMode = task.trackMode
+            if (context) {
+                this.context = context
+                let task = context.task
+                name = task.name
+                isArchived = task.isArchived
+                aggregateMode = task.aggregateMode
+                trackMode = task.trackMode
+            } else {
+                name = ""
+                isArchived = false
+                aggregateMode = TaskAggregate.DefaultMode
+                trackMode = TaskTrack.DefaultMode
+            }
+
             open()
         }
 
         onAccepted: {
-            if (!model || !model.task)
-                return
-            let task = model.task
+            let task = context ? context.task : taskModel.prependTask()
             task.name = name
             task.trackMode = trackMode
             task.aggregateMode = aggregateMode
-            // change the model.isArchived the last, so that they task isn't hidden before setting other properties
-            model.isArchived = isArchived
+
+            if (context) {
+                // change the context.isArchived the last, so that
+                // context.task isn't hidden and becomes invalid
+                // before the other changes from the editor are stored in it
+                context.isArchived = isArchived
+            } else {
+                task.isArchived = isArchived
+                if (isArchived) {
+                    taskFilterModel.invalidate()
+                }
+            }
         }
     }
 
@@ -131,11 +158,11 @@ ApplicationWindow {
                         TasksPage {
                             id: tasksPage
                             title: qsTr("Tasks")
-                            header: appHeader
                             anchors.fill: parent
-                            taskModel: root.taskModel
+                            taskFilterModel: root.taskFilterModel
+                            inEditMode: root.inEditMode
 
-                            onAddTask: console.log("add task")
+                            onAddTask: taskEditorPopup.editTask(null)
                             onEditTask: (dayViewTaskModelContext) => taskEditorPopup.editTask(dayViewTaskModelContext)
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
@@ -151,9 +178,9 @@ ApplicationWindow {
                         CalendarPage {
                             id: calendarPage
                             title: qsTr("Calendar")
-                            header: appHeader
                             anchors.fill: parent
-                            taskModel: root.taskModel
+                            taskFilterModel: root.taskFilterModel
+
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
                         }
