@@ -20,6 +20,7 @@ static const char* TrackModeYamlName = "track";
 static const char* CountsYamlName = "counts";
 static const char* CountsDateYamlName = "date";
 static const char* CountsCountYamlName = "count";
+static const char* DurationsYamlName = "durations";
 
 }
 
@@ -98,8 +99,7 @@ void Task::loadFromYaml(const YAML::Node &node)
     setTrackMode(enumFromYaml(node, TrackModeYamlName, TaskTrack::DefaultMode));
 
     loadCounts(node);
-
-    m_sortedDurations->loadFromYaml(node);
+    loadDurations(node);
 }
 
 void Task::saveToYaml(YAML::Emitter &out) const
@@ -120,8 +120,7 @@ void Task::saveToYaml(YAML::Emitter &out) const
         emitYaml(out, TrackModeYamlName, m_trackMode);
 
     saveCounts(out);
-
-    m_sortedDurations->saveToYaml(out, true);
+    saveDurations(out);
 
     out << YAML::EndMap;
 }
@@ -182,6 +181,26 @@ void Task::saveCounts(YAML::Emitter &out) const
         out << YAML::EndMap;
     }
     out << YAML::EndSeq;
+}
+
+void Task::loadDurations(const YAML::Node &node)
+{
+    auto durations_node = node[DurationsYamlName];
+    if (!durations_node) {
+        return;
+    }
+
+    m_sortedDurations->loadFromYaml(durations_node);
+}
+
+void Task::saveDurations(YAML::Emitter &out) const
+{
+    if (m_sortedDurations->empty())
+        return;
+
+    out << YAML::Key << DurationsYamlName;
+
+    m_sortedDurations->saveToYaml(out);
 }
 
 void Task::setCount(const QDate &date, int count)

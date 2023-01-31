@@ -6,10 +6,6 @@
 
 #include "yaml-cpp/yaml.h" // IWYU pragma: keep
 
-namespace {
-static const char* DurationsYamlName = "durations";
-}
-
 namespace tasktrackerlib {
 
 TaskDurationSortedList::TaskDurationSortedList(QObject *parent)
@@ -26,20 +22,15 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
         return;
     }
 
-    auto durations_node = node[DurationsYamlName];
-    if (!durations_node) {
+    if (!node.IsSequence()) {
+        qCritical() << "Node is not a sequence";
         return;
     }
 
-    if (!durations_node.IsSequence()) {
-        qCritical().nospace() << DurationsYamlName << " is not a sequence";
-        return;
-    }
-
-    for (unsigned int i = 0; i < durations_node.size(); ++i) {
-        auto duration_node = durations_node[i];
+    for (unsigned int i = 0; i < node.size(); ++i) {
+        auto duration_node = node[i];
         if (!duration_node.IsMap()) {
-            qCritical().nospace() << DurationsYamlName << "[" << i << "] is not a dictionary";
+            qCritical() << "Node is not a dictionary";
             continue;
         }
         auto duration = new TaskDuration(this);
@@ -50,19 +41,10 @@ void TaskDurationSortedList::loadFromYaml(const YAML::Node &node)
 
 void TaskDurationSortedList::saveToYaml(YAML::Emitter &out) const
 {
-    saveToYaml(out, false);
-}
-
-void TaskDurationSortedList::saveToYaml(YAML::Emitter &out, bool asMapValue) const
-{
     if (m_items.empty())
         return;
 
-    if (asMapValue) {
-        out << YAML::Key << DurationsYamlName << YAML::Value << YAML::BeginSeq;
-    } else {
-        out << YAML::BeginSeq;
-    }
+    out << YAML::BeginSeq;
 
     for (auto it = m_items.cbegin(); it != m_items.cend(); ++it) {
         const auto& duration = **it;

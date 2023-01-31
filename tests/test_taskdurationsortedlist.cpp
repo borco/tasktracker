@@ -26,7 +26,6 @@ private slots:
         QTest::newRow("empty") << "" << StartStopList();
 
         QTest::newRow("start == stop") << R"(
-durations:
 - start: 2023-01-02T01:10:01Z
   stop:  2023-01-02T01:10:01Z
 )" << (StartStopList()
@@ -35,7 +34,6 @@ durations:
         );
 
         QTest::newRow("unordered") << R"(
-durations:
 - start: 2023-01-02T02:20:02Z
   stop:  2023-01-02T02:20:03Z
 - start: 2023-01-02T01:10:01Z
@@ -91,12 +89,9 @@ durations:
         list.insert(&td);
 
         YAML::Emitter out;
-        out << YAML::BeginMap;
-        list.saveToYaml(out, true);
-        out << YAML::EndMap;
-        QCOMPARE(QString(out.c_str()), R"(durations:
-  - start: 2021-02-03T01:02:03Z
-    stop: 2021-02-03T01:02:04Z)");
+        list.saveToYaml(out);
+        QCOMPARE(QString(out.c_str()), R"(- start: 2021-02-03T01:02:03Z
+  stop: 2021-02-03T01:02:04Z)");
     }
 
 };

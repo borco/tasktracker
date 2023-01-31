@@ -68,6 +68,9 @@ private:
     void loadCounts(const YAML::Node &node);
     void saveCounts(YAML::Emitter& out) const;
 
+    void loadDurations(const YAML::Node &node);
+    void saveDurations(YAML::Emitter& out) const;
+
     QString m_name;
     bool m_isEdited = false;
     bool m_isDone = false;
