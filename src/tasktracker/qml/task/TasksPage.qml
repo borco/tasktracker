@@ -54,7 +54,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            editButtonVisible: true
+            editButtonVisible: header.editChecked
 
             visibleTasksModel: TaskFilterModel {
                 sourceModel: taskModel
