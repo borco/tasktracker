@@ -20,6 +20,7 @@ Item {
     signal editTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
+    signal addTask()
 
     ColumnLayout {
         anchors.fill: parent
@@ -44,6 +45,16 @@ Item {
             }
         }
 
+        ThemedButtonDelegate {
+            text: qsTr("＋ Add Task")
+            separatorVisible: false
+            visible: header.editChecked
+            Layout.topMargin: Theme.ContentTopMargin
+            Layout.leftMargin: Theme.ContentLeftMargin
+            Layout.rightMargin: Theme.ContentRightMargin
+            onClicked: root.addTask()
+        }
+
         DayTasks {
             id: dayTasks
 
@@ -62,7 +73,7 @@ Item {
                 isArchivedVisible: header.isArchivedVisible
             }
 
-            onEditTask: (dayViewTaskModelContext) => root.edit(dayViewTaskModelContext)
+            onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
             onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }
