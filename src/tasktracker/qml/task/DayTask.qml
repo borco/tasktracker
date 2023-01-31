@@ -17,6 +17,7 @@ Control {
     property bool editButtonVisible: true
 
     signal editTask(dayViewTaskModelContext: var)
+    signal deleteTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
 
@@ -58,6 +59,13 @@ Control {
                         visible: root.editButtonVisible
                         icon.source: "../../icons/task/edit.svg"
                         onClicked: root.editTask(root.dayViewTaskModelContext)
+                    }
+
+                    ThemedToolButton {
+                        visible: root.editButtonVisible
+                        icon.source: "../../icons/task/delete.svg"
+                        icon.color: Theme.DangerColor
+                        onClicked: root.deleteTask(root.dayViewTaskModelContext)
                     }
 
                     ThemedRoundButton {
