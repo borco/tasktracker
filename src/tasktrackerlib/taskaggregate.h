@@ -18,6 +18,7 @@ public:
     explicit TaskAggregate(QObject *parent = nullptr);
 
     enum Mode {
+        DefaultMode = 0,
         Daily = 0,
         Weekly,
         Monthly,
@@ -31,8 +32,6 @@ public:
 
     static QDate aggregateBegin(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);
     static QDate aggregateEnd(Qt::DayOfWeek weekStart, int aggregateMode, const QDate& date);
-
-    inline const static Mode DefaultMode = Daily;
 };
 
 } // namespace tasktrackerlib

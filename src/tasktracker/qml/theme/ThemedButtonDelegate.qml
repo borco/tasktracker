@@ -7,6 +7,8 @@ import "Theme.js" as Theme
 ItemDelegate {
     id: root
 
+    property alias separatorVisible: separator.visible
+
     Layout.fillWidth: true
 
     contentItem: ThemedLabel {
@@ -25,5 +27,10 @@ ItemDelegate {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    BottomSeparator {}
+    background: Rectangle {
+        implicitHeight: 44
+        color: root.palette.base
+    }
+
+    BottomSeparator { id: separator }
 }

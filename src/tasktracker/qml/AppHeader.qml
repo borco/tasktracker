@@ -10,6 +10,7 @@ Rectangle {
     id: root
 
     property alias title: title.text
+    property alias editChecked: editToggle.checked
     property alias isDoneVisible: isDoneToggle.checked
     property alias isArchivedVisible: isArchivedToggle.checked
 
@@ -36,6 +37,12 @@ Rectangle {
         TogglLoggedStatus {}
 
         Item { Layout.fillWidth: true }
+
+        ThemedToolButton {
+            id: editToggle
+            icon.source: "../icons/task/edit.svg"
+            checkable: true
+        }
 
         ThemedToolButton {
             id: isArchivedToggle

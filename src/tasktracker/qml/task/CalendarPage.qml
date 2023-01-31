@@ -12,8 +12,7 @@ import "../theme/Theme.js" as Theme
 Item {
     id: root
 
-    required property TaskModel taskModel
-    required property AppHeader header
+    required property TaskFilterModel taskFilterModel
 
     property string title: ""
 
@@ -47,12 +46,7 @@ Item {
                 DayTasks {
                     editButtonVisible: false
 
-                    visibleTasksModel: TaskFilterModel {
-                        sourceModel: taskModel
-                        isDoneVisible: header.isDoneVisible
-                        isArchivedVisible: header.isArchivedVisible
-                    }
-
+                    visibleTasksModel: taskFilterModel
                     onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
                     onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
                 }

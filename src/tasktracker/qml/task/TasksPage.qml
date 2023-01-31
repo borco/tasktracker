@@ -12,14 +12,15 @@ import "../theme/Theme.js" as Theme
 Item {
     id: root
 
-    required property TaskModel taskModel
-    required property AppHeader header
+    required property TaskFilterModel taskFilterModel
+    required property bool inEditMode
 
     property string title: ""
 
     signal editTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
+    signal addTask()
 
     ColumnLayout {
         anchors.fill: parent
@@ -44,6 +45,16 @@ Item {
             }
         }
 
+        ThemedButtonDelegate {
+            text: qsTr("＋ Add Task")
+            separatorVisible: false
+            visible: inEditMode
+            Layout.topMargin: Theme.ContentTopMargin
+            Layout.leftMargin: Theme.ContentLeftMargin
+            Layout.rightMargin: Theme.ContentRightMargin
+            onClicked: root.addTask()
+        }
+
         DayTasks {
             id: dayTasks
 
@@ -54,15 +65,11 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            editButtonVisible: true
+            editButtonVisible: inEditMode
 
-            visibleTasksModel: TaskFilterModel {
-                sourceModel: taskModel
-                isDoneVisible: header.isDoneVisible
-                isArchivedVisible: header.isArchivedVisible
-            }
+            visibleTasksModel: taskFilterModel
 
-            onEditTask: (dayViewTaskModelContext) => root.edit(dayViewTaskModelContext)
+            onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
             onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
         }
