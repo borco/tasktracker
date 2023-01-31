@@ -46,7 +46,7 @@ Control {
             Layout.fillWidth: true
 
             background: Rectangle {
-                color: task.isArchived ? palette.alternateBase : palette.base
+                color: task && task.isArchived ? palette.alternateBase : palette.base
             }
 
             ColumnLayout {
@@ -70,7 +70,7 @@ Control {
 
                     ThemedRoundButton {
                         id: durationDetailsToggle
-                        visible: task.trackMode === TaskTrack.Duration
+                        visible: task && task.trackMode === TaskTrack.Duration
                         text: taskDurationModel.size
                         checkable: true
                         checked: true
@@ -78,39 +78,45 @@ Control {
 
                     ColumnLayout {
                         Layout.fillWidth: true
-                        Layout.leftMargin: task.trackMode === TaskTrack.Duration ? 10 : 0
+                        Layout.leftMargin: task && task.trackMode === TaskTrack.Duration ? 10 : 0
 
                         ThemedLabel {
-                            text: task.name
+                            text: task ? task.name : ""
                             Layout.fillWidth: true
                         }
 
                         ThemedSmallLabel {
-                            visible: task.trackMode === TaskTrack.Count
-                            text: task.aggregateMode === TaskAggregate.Daily
-                                  ? qsTr("%1").arg(taskCount.count)
-                                  : qsTr("%1 / %2: %3").arg(taskCount.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskCount.aggregateCount)
+                            visible: task && task.trackMode === TaskTrack.Count
+                            text: task
+                                  ? (task.aggregateMode === TaskAggregate.Daily
+                                     ? qsTr("%1").arg(taskCount.count)
+                                     : qsTr("%1 / %2: %3").arg(taskCount.count).arg(TaskAggregate.toString(task.aggregateMode)).arg(taskCount.aggregateCount)
+                                     )
+                                  : ""
                         }
 
                         ThemedSmallLabel {
                             property string formattedSeconds: TaskAggregate.formattedSeconds(taskDurationModel.seconds)
                             property string formattedAggregatedSeconds: TaskAggregate.formattedSeconds(taskDurationModel.aggregateSeconds)
-                            visible: task.trackMode === TaskTrack.Duration
-                            text: task.aggregateMode === TaskAggregate.Daily
-                                  ? qsTr("%1").arg(formattedSeconds)
-                                  : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
+                            visible: task && task.trackMode === TaskTrack.Duration
+                            text: task
+                                  ? (task.aggregateMode === TaskAggregate.Daily
+                                     ? qsTr("%1").arg(formattedSeconds)
+                                     : qsTr("%1 / %2: %3").arg(formattedSeconds).arg(TaskAggregate.toString(task.aggregateMode)).arg(formattedAggregatedSeconds)
+                                     )
+                                  : ""
                         }
                     }
 
                     ThemedToolButton {
                         icon.source: "../../icons/task/decrement.svg"
-                        visible: task.trackMode === TaskTrack.Count && taskCount.count > 0
+                        visible: task && task.trackMode === TaskTrack.Count && taskCount.count > 0
                         onClicked: --taskCount.count
                     }
 
                     ThemedToolButton {
                         icon.source: "../../icons/task/increment.svg"
-                        visible: task.trackMode === TaskTrack.Count
+                        visible: task && task.trackMode === TaskTrack.Count
                         onClicked: ++taskCount.count
                     }
                 }
@@ -139,7 +145,7 @@ Control {
 
             Layout.fillWidth: true
 
-            visible: task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
+            visible: task && task.trackMode === TaskTrack.Duration && durationDetailsToggle.checked
             model: taskDurationModel
 
             implicitHeight: contentHeight
