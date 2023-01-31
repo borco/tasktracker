@@ -41,6 +41,7 @@ public:
     Q_INVOKABLE void save(const QString& path, const QString& fileName = DefaultFileName);
 
     Q_INVOKABLE tasktrackerlib::Task* prependTask();
+    Q_INVOKABLE void deleteTask(tasktrackerlib::Task* task);
 
 signals:
     void sizeChanged();
