@@ -75,6 +75,7 @@ qt_add_qml_module(${APP_NAME}
         icons/task/decrement.svg
         icons/task/delete.svg
         icons/task/done.svg
+        icons/task/drag.svg
         icons/task/edit.svg
         icons/task/increment.svg
         icons/task/start.svg
