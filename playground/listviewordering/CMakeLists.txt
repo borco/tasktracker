@@ -12,6 +12,7 @@ qt_add_qml_module(${APP_NAME}
     QML_FILES
         Demo1.qml
         Demo2.qml
+        PetDelegate.qml
         PetsModel.qml
         main.qml
 )
