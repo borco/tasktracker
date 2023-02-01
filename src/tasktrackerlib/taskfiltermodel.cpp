@@ -41,4 +41,16 @@ void TaskFilterModel::setIsArchivedVisible(bool newIsArchivedVisible)
     emit isArchivedVisibleChanged();
 }
 
+void TaskFilterModel::moveTask(int oldIndex, int newIndex)
+{
+    auto task_list_model = qobject_cast<TaskModel*>(sourceModel());
+    if (!task_list_model)
+        return;
+
+    auto sourceOldIndex = mapToSource(index(oldIndex, 0));
+    auto sourceNewIndex = mapToSource(index(newIndex, 0));
+
+    task_list_model->moveTask(sourceOldIndex, sourceNewIndex);
+}
+
 }
