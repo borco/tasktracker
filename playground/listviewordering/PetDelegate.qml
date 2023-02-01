@@ -2,7 +2,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Control {
+// MultiEffect docs: https://doc-snapshots.qt.io/qt6-dev/qml-qtquick-effects-multieffect.html
+
+MouseArea {
     id: root
 
     property string name
@@ -10,27 +12,46 @@ Control {
     property string size
     property int age
 
-    implicitHeight: layout.implicitHeight + topPadding + bottomPadding
-    implicitWidth: layout.implicitWidth + leftPadding + rightPadding
+    property bool held: false
+    property Item parentWhenHeld: undefined
 
-    rightPadding: 10
+    signal dropEntered(drag: var, dragArea: var)
 
-    background: Rectangle {
+    onPressed: held = true
+    onReleased: held = false
+
+    drag.target: held ? content : undefined
+    drag.axis: Drag.YAxis
+
+    implicitHeight: content.implicitHeight + content.anchors.topMargin + content.anchors.bottomMargin
+    implicitWidth: content.implicitWidth + content.anchors.leftMargin + content.anchors.rightMargin
+
+    Rectangle {
+        anchors.fill: parent
         color: "#400000ff"
         radius: 16
     }
 
     RowLayout {
-        id: layout
+        id: content
 
-        anchors.fill: parent
-        anchors.topMargin: topPadding
-        anchors.bottomMargin: bottomPadding
-        anchors.leftMargin: leftPadding
-        anchors.rightMargin: rightPadding
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
 
-        Image {
-            source: "../icons/task/drag.svg"
+        width: root.width
+        height: root.height
+
+        Drag.active: root.held
+        Drag.source: root
+        Drag.hotSpot.x: width / 2
+        Drag.hotSpot.y: height / 2
+
+        Button {
+            id: dragButton
+            icon.source: "../icons/task/drag.svg"
+            icon.color: "red"
+            background: null
+            enabled: false
         }
 
         Pane {
@@ -41,7 +62,7 @@ Control {
             Layout.fillWidth: true
 
             background: Rectangle {
-                color: "#40ff0000"
+                color: root.palette.base
                 radius: 16
             }
 
@@ -54,5 +75,33 @@ Control {
                 Text { text: 'Height:' + root.height }
             }
         }
+
+        states: [
+            State {
+                when: held
+
+                ParentChange {
+                    target: content
+                    parent: parentWhenHeld
+                }
+
+                PropertyChanges {
+                    dragButton.icon.color: "blue"
+                }
+
+                AnchorChanges {
+                    target: content
+                    anchors.horizontalCenter: undefined
+                    anchors.verticalCenter: undefined
+                }
+            }
+        ]
+    }
+
+    DropArea {
+        anchors.fill: parent
+        anchors.margins: 10
+
+        onEntered: (drag) => dropEntered(drag, root)
     }
 }
