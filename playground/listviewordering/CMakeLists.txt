@@ -17,6 +17,13 @@ qt_add_qml_module(${APP_NAME}
         main.qml
 )
 
+qt_add_resources(${APP_NAME} "dut_icons"
+    PREFIX /
+    BASE ../../src/tasktracker/
+    FILES
+    ../../src/tasktracker/icons/task/drag.svg
+)
+
 set_target_properties(${APP_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER borco.tasktracker.playground.${URI_NAME}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}

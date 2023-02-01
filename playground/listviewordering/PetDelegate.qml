@@ -1,28 +1,58 @@
 import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-Rectangle {
-    id: content
+Control {
+    id: root
 
-    required property string name
-    required property string type
-    required property string size
-    required property int age
+    property string name
+    property string type
+    property string size
+    property int age
 
-    width: view.width
-    height: column.implicitHeight + 4
+    implicitHeight: layout.implicitHeight + topPadding + bottomPadding
+    implicitWidth: layout.implicitWidth + leftPadding + rightPadding
 
-    border.width: 1
-    border.color: "lightsteelblue"
+    rightPadding: 10
 
-    radius: 2
+    background: Rectangle {
+        color: "#400000ff"
+        radius: 16
+    }
 
-    Column {
-        id: column
-        anchors { fill: parent; margins: 2 }
+    RowLayout {
+        id: layout
 
-        Text { text: 'Name: ' + name }
-        Text { text: 'Type: ' + type }
-        Text { text: 'Age: ' + age }
-        Text { text: 'Size: ' + size }
+        anchors.fill: parent
+        anchors.topMargin: topPadding
+        anchors.bottomMargin: bottomPadding
+        anchors.leftMargin: leftPadding
+        anchors.rightMargin: rightPadding
+
+        Image {
+            source: "../icons/task/drag.svg"
+        }
+
+        Pane {
+            id: innerControl
+
+            topInset: 0
+            bottomInset: 0
+            Layout.fillWidth: true
+
+            background: Rectangle {
+                color: "#40ff0000"
+                radius: 16
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                Text { text: 'Name: ' + name }
+                Text { text: 'Type: ' + type }
+                Text { text: 'Age: ' + age }
+                Text { text: 'Size: ' + size }
+                Text { text: 'Height:' + root.height }
+            }
+        }
     }
 }
