@@ -11,7 +11,7 @@ import "../theme/Theme.js" as Theme
 Item {
     id: root
 
-    property alias visibleTasksModel: view.model
+    property alias taskModel: visualModel.model
 
     property bool editButtonVisible: true
 
@@ -19,9 +19,32 @@ Item {
     signal deleteTask(dayViewTaskModelContext: var)
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
+    signal moveTask(oldIndex: int, newIndex: int)
 
     implicitHeight: view.implicitHeight
     implicitWidth: view.implicitWidth
+
+    DelegateModel {
+        id: visualModel
+
+        delegate: DayTask {
+            taskMovingEnabled: root.editButtonVisible
+            editButtonVisible: root.editButtonVisible
+            dayViewTaskModelContext: model
+            contentParentWhenHeld: root
+            contentXWhenHeld: view.x + 4
+            date: dayViewModel.date
+            task: model.task
+            width: ListView.view.width
+
+            onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
+            onDeleteTask: (dayViewTaskModelContext) => root.deleteTask(dayViewTaskModelContext)
+            onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
+            onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
+
+            onMoveTask: (oldIndex, newIndex) => root.moveTask(oldIndex, newIndex)
+        }
+    }
 
     ListView {
         id: view
@@ -36,17 +59,8 @@ Item {
         header: Item { implicitHeight: 10 }
         footer: Item { implicitHeight: 10 }
 
-        delegate: DayTask {
-            editButtonVisible: root.editButtonVisible
-            dayViewTaskModelContext: model
-            date: dayViewModel.date
-            task: model.task
-            width: ListView.view.width
+        model: visualModel
 
-            onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
-            onDeleteTask: (dayViewTaskModelContext) => root.deleteTask(dayViewTaskModelContext)
-            onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
-            onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
-        }
+        cacheBuffer: 50
     }
 }
