@@ -12,8 +12,7 @@ import "../theme/Theme.js" as Theme
 Item {
     id: root
 
-    required property TaskFilterModel taskFilterModel
-
+    required property AbstractItemModel taskModel
     property string title: ""
 
     signal editDuration(taskDurationModelContext: var)
@@ -46,7 +45,7 @@ Item {
                 DayTasks {
                     editButtonVisible: false
 
-                    visibleTasksModel: taskFilterModel
+                    taskModel: root.taskModel
                     onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
                     onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
                 }

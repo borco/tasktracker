@@ -164,7 +164,7 @@ ApplicationWindow {
                             id: tasksPage
                             title: qsTr("Tasks")
                             anchors.fill: parent
-                            taskFilterModel: root.taskFilterModel
+                            taskModel: inEditMode ? root.taskModel : root.taskFilterModel
                             inEditMode: root.inEditMode
 
                             onAddTask: taskEditorPopup.editTask(null)
@@ -172,6 +172,10 @@ ApplicationWindow {
                             onEditTask: (dayViewTaskModelContext) => taskEditorPopup.editTask(dayViewTaskModelContext)
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)
+
+                            onMoveTask: (oldIndex, newIndex) => {
+                                            taskModel.moveTask(oldIndex, newIndex)
+                                        }
                         }
                     }
 
@@ -185,7 +189,7 @@ ApplicationWindow {
                             id: calendarPage
                             title: qsTr("Calendar")
                             anchors.fill: parent
-                            taskFilterModel: root.taskFilterModel
+                            taskModel: root.taskFilterModel
 
                             onEditDuration: (taskDurationModelContext) => durationEditorPopup.editDuration(taskDurationModelContext)
                             onAddDuration: (taskDurationModel) => durationEditorPopup.addDuration(taskDurationModel)

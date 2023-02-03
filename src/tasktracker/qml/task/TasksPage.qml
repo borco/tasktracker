@@ -12,7 +12,7 @@ import "../theme/Theme.js" as Theme
 Item {
     id: root
 
-    required property TaskFilterModel taskFilterModel
+    property alias taskModel: dayTasks.taskModel
     required property bool inEditMode
 
     property string title: ""
@@ -22,6 +22,7 @@ Item {
     signal editDuration(taskDurationModelContext: var)
     signal addDuration(taskDurationModel: var)
     signal addTask()
+    signal moveTask(oldIndex: int, newIndex: int)
 
     ColumnLayout {
         anchors.fill: parent
@@ -68,12 +69,11 @@ Item {
 
             editButtonVisible: inEditMode
 
-            visibleTasksModel: taskFilterModel
-
             onEditTask: (dayViewTaskModelContext) => root.editTask(dayViewTaskModelContext)
             onDeleteTask: (dayViewTaskModelContext) => root.deleteTask(dayViewTaskModelContext)
             onEditDuration: (taskDurationModelContext) => root.editDuration(taskDurationModelContext)
             onAddDuration: (taskDurationModel) => root.addDuration(taskDurationModel)
+            onMoveTask: (oldIndex, newIndex) => root.moveTask(oldIndex, newIndex)
         }
     }
 }

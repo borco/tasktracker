@@ -37,6 +37,8 @@ public:
 
     const Task* get(int row) const { return m_tasks[row]; }
 
+    Q_INVOKABLE void moveTask(int oldRow, const int newRow);
+
     Q_INVOKABLE void load(const QString& path, const QString& fileName = DefaultFileName);
     Q_INVOKABLE void save(const QString& path, const QString& fileName = DefaultFileName);
 
