@@ -151,7 +151,7 @@ Item {
                     visible: task && task.trackMode === TaskTrack.Duration
                     text: taskDurationModel.size
                     checkable: true
-                    checked: true
+//                    checked: true
                 }
 
                 ColumnLayout {
