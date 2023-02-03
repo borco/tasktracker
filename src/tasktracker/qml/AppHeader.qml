@@ -34,7 +34,9 @@ Rectangle {
             font.weight: Theme.PageHeaderTitleWeight
         }
 
-        TogglLoggedStatus {}
+        TogglLoggedStatus {
+            visible: false // TODO: enable when implementing Toggl
+        }
 
         Item { Layout.fillWidth: true }
 

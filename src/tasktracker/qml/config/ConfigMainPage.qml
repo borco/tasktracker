@@ -82,6 +82,7 @@ Page {
 
             ThemedSwitchDelegate {
                 id: storeSecretsInKeychain
+                visible: false // TODO: enable when implementing Toggl
                 text: qsTr('Store sensitive data in key-chain')
                 checked: Config.storeSecretsInKeychain
                 onCheckedChanged: Config.storeSecretsInKeychain = checked
@@ -103,10 +104,12 @@ Page {
             }
 
             ThemedGroupTitle {
+                visible: false // TODO: enable when implementing Toggl
                 text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Toggl | <b>%1</b>").arg(TogglProxy.username) : qsTr("Toggl")
             }
 
             ThemedButtonDelegate {
+                visible: false // TODO: enable when implementing Toggl
                 text: TogglProxy.loggedStatus === TogglProxy.LoggedIn ? qsTr("Sign Out") : qsTr("Sign In")
                 enabled: TogglProxy.loggedStatus !== TogglProxy.LoggedUnknown
                 onClicked: {
