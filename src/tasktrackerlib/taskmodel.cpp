@@ -139,11 +139,9 @@ void TaskModel::deleteTask(Task *task)
     endRemoveRows();
 }
 
-void TaskModel::moveTask(const QModelIndex& oldIndex, const QModelIndex& newIndex)
+void TaskModel::moveTask(int oldRow, const int newRow)
 {
-    int oldRow = oldIndex.row();
-    int newRow = newIndex.row();
-    beginMoveRows(QModelIndex(), oldRow, oldRow, QModelIndex(), newRow);
+    beginMoveRows(QModelIndex(), oldRow, oldRow, QModelIndex(), oldRow < newRow ? newRow + 1: newRow);
     m_tasks.move(oldRow, newRow);
     endMoveRows();
 }

@@ -28,8 +28,6 @@ public:
     bool isArchivedVisible() const { return m_isArchivedVisible; }
     void setIsArchivedVisible(bool newIsArchivedVisible);
 
-    Q_INVOKABLE void moveTask(int oldIndex, int newIndex);
-
 signals:
     void isDoneVisibleChanged();
     void isArchivedVisibleChanged();
