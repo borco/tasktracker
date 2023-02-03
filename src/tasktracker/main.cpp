@@ -47,7 +47,6 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(":/TaskTracker/icons/app.svg"));
 
     static const char* AppNameCommandLineOption = "appname";
-    static const char* QuickStyleCommandLineOption = "style";
     static const char* UseProxyCommandLineOption = "use-proxy";
     static const char* ProxyHostCommandLineOption = "proxy-host";
     static const char* ProxyPortCommandLineOption = "proxy-port";
