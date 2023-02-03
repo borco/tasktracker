@@ -4,13 +4,11 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QSettings>
+#include <QQuickStyle>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication::setOrganizationName("Ioan Calin");
-    QGuiApplication::setOrganizationDomain("com.github.borco");
-    QGuiApplication::setApplicationName("tasktracker_listviewordering");
+    QQuickStyle::setStyle("iOS");
 
     QGuiApplication app(argc, argv);
 

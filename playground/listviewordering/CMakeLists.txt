@@ -10,8 +10,6 @@ qt_add_qml_module(${APP_NAME}
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
-        Demo1.qml
-        Demo2.qml
         PetDelegate.qml
         PetsModel.qml
         main.qml
@@ -34,4 +32,5 @@ set_target_properties(${APP_NAME} PROPERTIES
 
 target_link_libraries(${APP_NAME} PRIVATE
     Qt6::Quick
+    Qt6::QuickControls2
 )

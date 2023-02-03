@@ -6,7 +6,7 @@ ListModel {
         type: "Parrot"
         age: 12
         size: "Small"
-        height: 220
+        height: 20
     }
 
     ListElement {
@@ -14,7 +14,7 @@ ListModel {
         type: "Turtle"
         age: 4
         size: "Small"
-        height: 160
+        height: 60
     }
 
     ListElement {
@@ -22,7 +22,7 @@ ListModel {
         type: "Rabbit"
         age: 2
         size: "Small"
-        height: 200
+        height: 100
     }
 
     ListElement {
@@ -30,7 +30,7 @@ ListModel {
         type: "Dog"
         age: 9
         size: "Medium"
-        height: 140
+        height: 40
     }
 
     ListElement {
@@ -38,7 +38,7 @@ ListModel {
         type: "Cat"
         age: 2
         size: "Medium"
-        height: 160
+        height: 60
     }
 
     ListElement {
@@ -46,7 +46,7 @@ ListModel {
         type: "Kangaroo"
         age: 1
         size: "Medium"
-        height: 140
+        height: 40
     }
 
     ListElement {
@@ -54,7 +54,7 @@ ListModel {
         type: "Bunny"
         age: 65
         size: "Large"
-        height: 180
+        height: 80
     }
 
     ListElement {
@@ -62,7 +62,7 @@ ListModel {
         type: "Dog"
         age: 5
         size: "Large"
-        height: 160
+        height: 60
     }
 
     ListElement {
@@ -70,6 +70,6 @@ ListModel {
         type: "Elephant"
         age: 15
         size: "Large"
-        height: 220
+        height: 120
     }
 }

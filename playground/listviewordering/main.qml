@@ -9,32 +9,39 @@ ApplicationWindow {
     height: 800
     visible: true
 
-    ColumnLayout {
-        anchors.fill: parent
-        StackLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            currentIndex: tabBar.currentIndex
-            Demo1 {}
-            Demo2 {}
-        }
+    DelegateModel {
+        id: visualModel
 
-        TabBar {
-            id: tabBar
+        model: PetsModel {}
 
-            Layout.fillWidth: true
+        delegate: PetDelegate {
+            name: model.name
+            type: model.type
+            size: model.size
+            age: model.age
+            extraPadding: model.height
 
-            TabButton {
-                text: qsTr("Demo1")
-            }
+            width: ListView.view.width
+            parentWhenHeld: view
 
-            TabButton {
-                text: qsTr("Demo2")
-            }
+            onDropEntered: (drag, dragArea) => {
+                               console.log("dropped")
+                               visualModel.items.move(
+                                   drag.source.DelegateModel.itemsIndex,
+                                   dragArea.DelegateModel.itemsIndex)
+                           }
         }
     }
 
-    Settings {
-        property alias tabBarCurrentIndex: tabBar.currentIndex
+    ListView {
+        id: view
+
+        anchors.fill: parent
+        anchors.margins: 10
+        spacing: 10
+
+        model: visualModel
+
+        cacheBuffer: 50
     }
 }

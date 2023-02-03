@@ -4,98 +4,105 @@ import QtQuick.Layouts
 
 // MultiEffect docs: https://doc-snapshots.qt.io/qt6-dev/qml-qtquick-effects-multieffect.html
 
-MouseArea {
+Control {
     id: root
 
     property string name
     property string type
     property string size
     property int age
+    property int extraPadding
 
     property bool held: false
     property Item parentWhenHeld: undefined
 
     signal dropEntered(drag: var, dragArea: var)
 
-    onPressed: held = true
-    onReleased: held = false
+    topPadding: 8
+    bottomPadding: 8
 
-    drag.target: held ? content : undefined
-    drag.axis: Drag.YAxis
+    implicitHeight: content.implicitHeight + bottomPadding + topPadding
+    implicitWidth: content.implicitWidth + leftPadding + rightPadding
 
-    implicitHeight: content.implicitHeight + content.anchors.topMargin + content.anchors.bottomMargin
-    implicitWidth: content.implicitWidth + content.anchors.leftMargin + content.anchors.rightMargin
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+
+        onPressed: held = true
+        onReleased: held = false
+
+        drag.axis: Drag.YAxis
+    }
 
     Rectangle {
         anchors.fill: parent
-        color: "#400000ff"
-        radius: 16
+        anchors.leftMargin: root.leftInset
+        anchors.rightMargin: root.rightInset
+        anchors.topMargin: root.topInset
+        anchors.bottomMargin: root.bottomInset
+        color: root.palette.mid
     }
 
-    RowLayout {
+    Rectangle {
         id: content
+
+        color: palette.base
+        border.width: 0
+        border.color: root.palette.highlight
 
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: root.leftPadding
+        anchors.rightMargin: root.rightPadding
+        anchors.topMargin: root.topPadding
+        anchors.bottomMargin: root.bottomPadding
 
         width: root.width
         height: root.height
+
+        implicitWidth: contentLayout.implicitWidth
+        implicitHeight: contentLayout.implicitHeight
 
         Drag.active: root.held
         Drag.source: root
         Drag.hotSpot.x: width / 2
         Drag.hotSpot.y: height / 2
 
-        Button {
-            id: dragButton
-            icon.source: "../icons/task/drag.svg"
-            icon.color: "red"
-            background: null
-            enabled: false
+        RowLayout {
+            id: contentLayout
+
+            anchors.fill: parent
+
+            Button {
+                icon.source: "../icons/task/drag.svg"
+                icon.color: root.palette.button
+                background: null
+                enabled: false
+            }
+
+            Item {
+                id: innerControl
+
+                Layout.fillWidth: true
+
+                implicitHeight: innerLayout.implicitHeight
+
+                ColumnLayout {
+                    id: innerLayout
+                    anchors.fill: parent
+                    Text { text: 'Name: ' + name }
+                    Text { text: 'Type: ' + type }
+                    Text { text: 'Age: ' + age }
+                    Text { text: 'Size: ' + size }
+                    Text {
+                        text: "..."
+                        Layout.fillWidth: true
+                        Layout.minimumHeight: root.extraPadding
+                        verticalAlignment: Text.AlignBottom
+                    }
+                }
+            }
         }
-
-        Pane {
-            id: innerControl
-
-            topInset: 0
-            bottomInset: 0
-            Layout.fillWidth: true
-
-            background: Rectangle {
-                color: root.palette.base
-                radius: 16
-            }
-
-            ColumnLayout {
-                anchors.fill: parent
-                Text { text: 'Name: ' + name }
-                Text { text: 'Type: ' + type }
-                Text { text: 'Age: ' + age }
-                Text { text: 'Size: ' + size }
-                Text { text: 'Height:' + root.height }
-            }
-        }
-
-        states: [
-            State {
-                when: held
-
-                ParentChange {
-                    target: content
-                    parent: parentWhenHeld
-                }
-
-                PropertyChanges {
-                    dragButton.icon.color: "blue"
-                }
-
-                AnchorChanges {
-                    target: content
-                    anchors.horizontalCenter: undefined
-                    anchors.verticalCenter: undefined
-                }
-            }
-        ]
     }
 
     DropArea {
@@ -104,4 +111,33 @@ MouseArea {
 
         onEntered: (drag) => dropEntered(drag, root)
     }
+
+    states: [
+        State {
+            when: held
+
+            ParentChange {
+                target: content
+                parent: parentWhenHeld
+            }
+
+            AnchorChanges {
+                target: content
+                anchors.horizontalCenter: undefined
+                anchors.verticalCenter: undefined
+            }
+
+            PropertyChanges {
+                target: content
+                border.width: 1
+                x: 8
+            }
+
+
+            PropertyChanges {
+                target: mouseArea
+                drag.target: content
+            }
+        }
+    ]
 }
