@@ -7,3 +7,6 @@
 [submodule "src/qtyamlcppadapter"]
 	path = src/qtyamlcppadapter
 	url = git@github.com:borco/qtyamlcppadapter.git
+[submodule "src/iborcocpputils"]
+	path = src/iborcocpputils
+	url = git@github.com:borco/iborcocpputils.git
