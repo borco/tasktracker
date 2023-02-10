@@ -1,3 +1,4 @@
+add_subdirectory(iborcocpputils)
 add_subdirectory(qtkeychainadapter)
 add_subdirectory(qtplogadapter)
 add_subdirectory(qtyamlcppadapter)
